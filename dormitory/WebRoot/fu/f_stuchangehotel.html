@@ -14,56 +14,50 @@
 <script type="text/javascript">
     //获取登录辅导员的信息
 	$(document).ready(function(){
-		$.get("teacherInfo/findTeacher.do",function(data){
-		    var tecNum=data.tecNum
-            $.post('studentInfo/findStudentByCondition.do',{"tecNum":tecNum},function(data){
-               if(data){
-			     $("#tab1").datagrid({
-				    data:data,
-				    width:'700px',
-				    height:'250px',
-					rownumbers:'true',
-					striped:true,//斑马线
-					fitColumns:true,//适应宽度
-					nowrap:false,//自动换行 
-						columns:[[
-					    {field : 'academy',title : '学院',width : 200,align : 'center',
-				        	formatter:function(value){
-							 	return value.name;
-							 }
-				        },
-				        {field:'teacher',title:'辅导员',width:100,align:'center',
-				            formatter:function(value){
-							 	return value.name;
-							 }
-					     },
-				        {field:'classNum',title:'班级',width:100,align:'center'},
-				        {field:'stuNum',title:'学号',width:100,align:'center'},
-				        {field:'name',title:'姓名',width:100,align:'center'},
-				        {field:'sex',title:'性别',width:80,align:'center'},     
-						{field:'dormitory',title:'新寝室号',width:100,align:'center'},
-						{field:'roomNum',title:'原寝室号',width:100,align:'center'}
-					]],
-					singleSelect:true,
-					saveUrl:'server.php',
-					updateUrl:'server.php',
-					destroyUrl:'server.php',
-					pagination:true	,
-					pageNumber:1,
-					pageSize:5,
-					pageList:[1,5,10,15,20] 
-				});
-				var pager = $("#tab1").datagrid().datagrid('getPager');// get the pager of datagrid
-				pager.pagination({
-					beforePageText:"第",
-					afterPageText:"共{pages}页",
-					displayMsg:"显示{from}到{to},共{total}条记录"
-				});
-				$(".hid").show();
-		    }else{
-			    $.messager.alert("提示","经查询无数据","info");
+	     $("#tab1").datagrid({
+		    width:'700px',
+		    height:'250px',
+			rownumbers:'true',
+			url:'studentInfo/findStudentByCondition.do',
+			striped:true,//斑马线
+			fitColumns:true,//适应宽度
+			nowrap:false,//自动换行 
+			pagination:true,
+			columns:[[
+			    {field : 'academy',title : '学院',width : 200,align : 'center',
+		        	formatter:function(value){
+					 	return value.name;
+					 }
+		        },
+		        {field:'teacher',title:'辅导员',width:100,align:'center',
+		            formatter:function(value){
+					 	return value.name;
+					 }
+			     },
+		        {field:'classNum',title:'班级',width:100,align:'center'},
+		        {field:'stuNum',title:'学号',width:100,align:'center'},
+		        {field:'name',title:'姓名',width:100,align:'center'},
+		        {field:'sex',title:'性别',width:80,align:'center'},     
+				{field:'dormitory',title:'新寝室号',width:100,align:'center'},
+				{field:'room',title:'寝室号',width: 100,align:'center',
+						formatter:function(value,row){
+							if(row.room){
+								return row.room.roomNum;
+							}else{
+								return 'null';
+							}
+				        }
+				}
+			]],
+			onLoadError:function(){
+					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");			
+			},
+			onLoadSuccess:function(data){
+				if(data.rows.length==0){
+					$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+				}
 			}
-	    });
-     });
+		});
+	   $(".hid").show();
 });
 </script>

@@ -4,7 +4,7 @@
 <div class="right_contain">
        <div class="editor" style="float:left;width:700px">
             <p>请上传您调整后的寝室调配情况:</p>
-            <form name="form1" enctype="multipart/form-data" method="post" action="excel/addExcel.do">
+            <form id="form1" enctype="multipart/form-data">
                  <input name="file" type="file" size="35" onchange="fileChange(this);">
                  <input name="submit" type="submit" class="btn_grey" value="提交">
 	        </form>
@@ -15,39 +15,7 @@
       </div>
 </div>
 <script type="text/javascript">
-       $.getJSON( 'json/get/s_diaohuanyijian_xinxi.json',function(data){
-		   if(data.total>0){
-			   $('.table_two').datagrid(
-				{
-					width : '700px',
-					height : '250px',
-					data: data,
-					rownumbers:'true',
-					striped:true,//斑马线
-					fitColumns:true,//适应宽度
-					nowrap:false,//自动换行
-					columns : [ [
-							{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
-							{field : 'teaname',title : '姓名',width : 100,align : 'center'},
-							{field : 'mgrade',title : '年级',width : 100,align : 'center'},
-							{field : 'college',title : '学院',width : 200,align : 'center'},
-							{field : 'shenhe',title : '审核',width : 100,align : 'center'}
-							 ] ],
-					pagination : true,
-					pageNumber : 1,
-					pageSize : 2,
-					pageList : [ 1, 2, 3 ]
-				});
-				var pager = $('.table_two').datagrid().datagrid('getPager');// get the pager of datagrid
-				pager.pagination({
-					beforePageText : "第",
-					afterPageText : "共{pages}页",
-					displayMsg : "显示{from}到{to},共{total}条记录"
-				});
-		   }else{
-				 $.messager.alert("提示","经查询无数据","info");
-			 }
-	   });
+       var able = false;
 	   var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
 	   function fileChange(target,id) { 
 			var fileSize = 0; 
@@ -97,5 +65,47 @@
 				target.value =""; 
 				return false; 
 			} 
+			able=true;
 	  } 
+	  $('input[name="submit"]').click(function(){
+	        if(able == true){
+	            $.post('findExcelInfoByTecNum.do',function(data){
+	                 if(data.status==1){
+				        $.messager.alert("提示","上传成功");
+				     }else{
+				        $.messager.alert("提示","上传失败");
+			         }
+	              });
+	           }
+	           else{
+	             $.messager.alert("提示","请选择文件");
+	             return false;
+	          }
+	       });
+	   $(".table_two").datagrid({
+				width:'950px',
+				height:'330px',
+				url:'json/get/s_diaohuanyijian_xinxi.json',
+				rownumbers:'true',
+				fitColumns:'true',
+				striped:'true',//斑马线
+				nowrap:'false',
+				pagination:'true',
+				columns : [ [
+							{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
+							{field : 'teaname',title : '姓名',width : 100,align : 'center'},
+							{field : 'mgrade',title : '年级',width : 100,align : 'center'},
+							{field : 'college',title : '学院',width : 200,align : 'center'},
+							{field : 'shenhe',title : '审核',width : 100,align : 'center'}
+				] ],
+				onLoadError:function(){
+					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+
+				},
+				onLoadSuccess:function(data){
+					if(data.rows.length==0){
+						$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+					}
+				}
+			}); 
 </script>
