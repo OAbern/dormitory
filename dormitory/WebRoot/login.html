@@ -21,8 +21,7 @@ $(document).ready(function(){
 			alert("请选择身份信息");
 			return false;
 		} else {
-			//return true;
-			$.post("loginCheck.do",$('#form1').serializeArray(),function(data){ 
+				$.post("loginCheck.do",$('#form1').serializeArray(),function(data){ 
 	        });
 		}
 	});

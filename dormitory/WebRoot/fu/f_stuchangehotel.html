@@ -10,9 +10,8 @@
        <p style="float:left;font-size:13px;color:#FF7F00;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>        
 </div>
 <script type="text/javascript">
-    var tecNum = data.tecNum;
     $.post('studentInfo/findStudentByCondition.do',{"tecNum":tecNum},function(data){
-		if(data.total>0){
+		if(data){
 			$("#tab1").datagrid({
 						data:data,
 						width:'700px',

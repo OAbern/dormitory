@@ -43,11 +43,9 @@
 		$('select[name="major"]','select[name="classNum"]').empty();
 		$('select[name="major"]','select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		$.post('teacherInfo/findMajor.do',function(data){
-			$.each(data.rows,function(index, item) {
-				for(var i=0;i<item.major.length;i++){
-					$('select[name="major"]').append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
+				for(var i=0;i<data.length;i++){
+					$('select[name="major"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
 				}
-			});
 		});
 	});
 	//选择专业，请求班级
@@ -55,12 +53,10 @@
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		major=$('select[name="major"] option:selected').val();
-		$.post('studentInfo/findCascadingInfo.do',{"major":major},function(data){
-			$.each(data.rows,function(index, item) {
-				for(var i=0;i<item.classNum.length;i++){
-					$('select[name="classNum"]').append("<option value='" + item.classNum[i] + "'>" + item.classNum[i] + "</option>");
-				}
-			});
+		$.post('studentInfo/findCascadingInfo.do',{"major":major,"target":"classNum"},function(data){
+			for(var i=0;i<data.length;i++){
+					$('select[name="classNum"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+			}
 		});
 	});
 	//选择班级
@@ -78,7 +74,7 @@
 	});
 	function showData(){
 		$.post("studentInfo/findStudentByCondition.do",{"major":major,"classNum":classNum},function(data){
-			if(data.total>0){
+			if(data){
 				$("#tab1").datagrid({
 						data:data,
 						width:'720px',
