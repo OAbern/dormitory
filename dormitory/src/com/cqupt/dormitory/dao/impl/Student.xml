@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dormitory.model.Student">
+	<!-- 结果集 studentResult -->
+	<resultMap type="com.cqupt.dormitory.model.Student" id="studentResult">
+		<id property="id" column="id"/>
+		<result property="sex" column="sex"/>
+		<result property="liveSatus" column="live_satus"/>
+		<result property="academyId" column="academy_id"/>
+		<result property="grade" column="grade"/>
+		<result property="classNum" column="class_num"/>
+		<result property="major" column="major"/>
+		<result property="stuNum" column="stu_num"/>
+		<result property="name" column="name"/>
+		<result property="birthPlace" column="birthplace"/>
+		<result property="nation" column="nation"/>
+		<result property="identity" column="identity"/>
+		<result property="phone" column="phone"/>
+		<result property="outAddress" column="out_address"/>
+		<result property="birth" column="birth"/>
+		<result property="inTime" column="in_time"/>
+		<result property="outTime" column="out_time"/>
+		
+		<association property="teacher" column="tec_id" resultMap="com.cqupt.dormitory.model.Teacher.teacherResult"></association>
+		<association property="room" column="room_id" resultMap="com.cqupt.dormitory.model.Room.roomResult"></association>
+	</resultMap>
+	
+	<!-- 添加学生 -->
+	<insert id="addStudent" parameterType="com.cqupt.dormitory.model.Student" useGeneratedKeys="true">
+			INSERT INTO `student` (
+				`academy_id`, `grade`, `class`, 
+			 	`major`, `stu_num`, `sex`, 
+			 	`name`, `birth`, `birthplace`, 
+			 	`nation`, `identity`, `phone`, 
+			 	`in_time`, `tec_id`, `room_id`, 
+			 	`out_time`, `out_address`, `live_status`,
+			 	`education`
+			) VALUES (
+				#{academyId,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
+				#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+				#{name,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{birthplace,jdbcType=VARCHAR}, 
+				#{nation,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+				#{inTime,jdbcType=DATE}, #{teacher.tecNum,jdbcType=VARCHAR}, #{room.room_id,jdbcType=VARCHAR}, 
+				#{outTime,jdbcType=DATE}, #{outAddress,jdbcType=VARCHAR}, #{liveSatus,jdbcType=INTEGER},
+				#{education,jdbcType=VARCHAR}
+			);
+	</insert>
+	
+	<!-- 根据条件查找学生集合 -->
+	<select id="findStudentByFactor" parameterType="list" resultMap="studentResult" statementType="STATEMENT">
+		SELECT * FROM `student` WHERE
+			<foreach collection="list" item="f" separator=" AND ">
+				${f.name} = '${f.value}'
+			</foreach>
+	</select>
+	
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dormitory.model.Teacher">
+	<!-- 结果集 teacherResult -->
+	<resultMap type="com.cqupt.dormitory.model.Teacher" id="teacherResult">
+		<id column="id" property="id"/>
+		<result property="sex" column="sex"/>
+		<result property="academyId" column="academy_id"/>
+		<result property="tecNum" column="tec_num"/>
+		<result property="password" column="password"/>
+		<result property="name" column="name"/>
+		<result property="phone" column="phone"/>
+	</resultMap>
+
+	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
+		SELECT * FROM `teacher` WHERE `name`=#{name} AND `academy_id`=#{academyId}
+	</select>
+
+</mapper>

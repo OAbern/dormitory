@@ -34,20 +34,20 @@ input[type='text'] {
 </div>
 <div class="right_contain"> 
   <!-- 添加单个学生信息 -->
-  <form id="addStudent" action="post.jsp">
+  <form id="addStudent" action="studentInfo/addStudent.do" method="post">
     <div class="liform">
       <p class="item"><span>姓名:</span>
         <input type="text" name="name">
         <br />
       </p>
       <p class="item"><span>学号:</span>
-        <input type="text" name="studentId">
+        <input type="text" name="stuNum">
         <br />
       </p>
       <p class="item"><span>性别:</span>
-        <select name="sex">
-          <option value="male" selected="selected">男</option>
-          <option value="female">女</option>
+         <select name="sex">
+          <option value="0" selected="selected">男</option>
+          <option value="1">女</option>
         </select>
         <br />
       </p>
@@ -56,7 +56,7 @@ input[type='text'] {
         <br />
       </p>
       <p class="item"><span>班级:</span>
-        <input type="text" name="classes">
+        <input type="text" name="classNum">
         <br />
       </p>
       <p class="item"><span>专业:</span>
@@ -68,15 +68,19 @@ input[type='text'] {
         <br />
       </p>
       <p class="item"><span>辅导员:</span>
-        <input type="text" name="teacher">
+        <input type="text" name="teacher.name">
         <br />
       </p>
       <p class="item"><span>籍贯:</span>
-        <input type="text" name="home">
+        <input type="text" name="birthplace">
+        <br />
+      </p>
+      <p class="item"><span>身份证:</span>
+        <input type="text" name="identity">
         <br />
       </p>
       <p class="item"><span>出生年月:</span>
-        <input type="text" name="birthday">
+        <input type="text" name="birth">
         <br />
       </p>
       <p class="item"><span>民族:</span>
@@ -84,14 +88,14 @@ input[type='text'] {
         <br />
       </p>
       <p class="item"><span>寝室号:</span>
-        <input type="text" name="roomNumber">
+        <input type="text" name="room.roomId">
         <br />
       </p>
       <p class="item"><span>学历:</span>
         <select name="education">
-          <option value="0" selected="selected">本科在读</option>
-          <option value="1">研究生在读</option>
-          <option value="2">博士生在读</option>
+          <option value="本科在读" selected="selected">本科在读</option>
+          <option value="研究生在读">研究生在读</option>
+          <option value="博士生在读">博士生在读</option>
         </select>
         <br />
       </p>
@@ -105,7 +109,7 @@ input[type='text'] {
 </div>
 <script type="text/javascript">
 	//出生年月日历设置
-	$("input[name='birthday']").datebox();
+	$("input[name='birth']").datebox();
 		$("#addStudent").validate({
 			rules : {
 				name : {
@@ -197,4 +201,4 @@ input[type='text'] {
         }
 			}
 	});
-</script> 
+</script>

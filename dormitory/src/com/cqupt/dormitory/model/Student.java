@@ -12,18 +12,19 @@ public class Student {
 	private int id;	//逻辑主键 自增id	
 	private int sex;	//性别 ：0为男,1为女	
 	private int liveSatus;	//住宿状态：在住:0,退宿：1，外宿：2	
+	private int academyId;	//学院Id	
 	
-	private String academy;	//学院	
 	private String grade;	//年级	
 	private String classNum;	//班级号	
 	private String major;	//专业	
 	private String stuNum;	//学号	
 	private String name;	//姓名	
-	private String birthPlace;	//籍贯	
+	private String birthplace;	//籍贯	
 	private String nation;	//民族	
 	private String identity;	//身份证	
 	private String phone;	//电话
 	private String outAddress;	//外住地点
+	private String education;	//学历
 	
 	private Date birth;	//生日
 	private Date inTime;	//入住时间
@@ -32,6 +33,10 @@ public class Student {
 	private Teacher teacher;	//辅导员
 	private Room room;	//所住房间
 	
+	@Override
+	public String toString() {
+		return "学生id："+id+",	学号："+stuNum+",		姓名："+name;
+	}
 	
 	public int getId() {
 		return id;
@@ -51,11 +56,11 @@ public class Student {
 	public void setLiveSatus(int liveSatus) {
 		this.liveSatus = liveSatus;
 	}
-	public String getAcademy() {
-		return academy;
+	public int getAcademyId() {
+		return academyId;
 	}
-	public void setAcademy(String academy) {
-		this.academy = academy;
+	public void setAcademyId(int academyId) {
+		this.academyId = academyId;
 	}
 	public String getGrade() {
 		return grade;
@@ -87,11 +92,11 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBirthPlace() {
-		return birthPlace;
+	public String getBirthplace() {
+		return birthplace;
 	}
-	public void setBirthPlace(String birthPlace) {
-		this.birthPlace = birthPlace;
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
 	}
 	public String getNation() {
 		return nation;
@@ -146,6 +151,12 @@ public class Student {
 	}
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	public String getEducation() {
+		return education;
+	}
+	public void setEducation(String education) {
+		this.education = education;
 	}
 	
 }

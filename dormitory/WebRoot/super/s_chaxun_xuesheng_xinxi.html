@@ -16,20 +16,21 @@
   <div id="searchBar"> 学院:
     <select name="academy" id="academy">
       <option value="0">未选择</option>
-      <option value="01">通信</option>
-      <option value="02">经管</option>
-      <option value="03">计算机</option>
+      <option value="1">通信</option>
+      <option value="3">经管</option>
+      <option value="4">计算机</option>
     </select>
     年级:
     <select name="grade" id="grade">
       <option value="0">未选择</option>
+      <option value="2013">2013</option>
       <option value="2012">2012</option>
       <option value="2011">2011</option>
       <option value="2010">2010</option>
     </select>
     学历:
     <select name="education" id="education">
-      <option value="1" selected="selected">本科生</option>
+      <option value="" selected="selected">本科生</option>
       <option value="2">研究生</option>
       <option value="3">博士生</option>
     </select>
@@ -48,7 +49,8 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 		showTable.datagrid({
 			width:'900px',
 			height:'330px',
-			url:'json/get/s_chaxun_xuesheng_xinxi.json',
+//			url:'json/get/s_chaxun_xuesheng_xinxi.json',
+			url:'studentInfo/findStudent.do',
 			rownumbers:'true',
 			fitColumns:'true',
 			queryParams:{
