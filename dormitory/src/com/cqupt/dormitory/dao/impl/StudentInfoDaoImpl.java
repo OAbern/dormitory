@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.cqupt.dormitory.dao.StudentInfoDao;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.ClassAndMajor;
 
 /**
  * 处理学生信息的Dao实现类
@@ -67,6 +68,17 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<ClassAndMajor> findClassAndMajor() {
+		List<ClassAndMajor> list = null;
+		try {
+			list = getSqlSession().selectList("com.cqupt.dormitory.model.Student.findClassAndMajor");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }

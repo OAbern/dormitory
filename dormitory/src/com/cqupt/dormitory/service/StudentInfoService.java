@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.ClassAndMajor;
 
 /**
  * 处理学生信息业务的接口
@@ -37,4 +38,10 @@ public interface StudentInfoService {
 	 * @return 返回操作结果
 	 */
 	public boolean deleteStudentByStuId(List<String> idList);
+	
+	/**
+	 * 查询所有的班级和专业、学院信息
+	 * @return
+	 */
+	public List<ClassAndMajor> findClassAndMajor();
 }

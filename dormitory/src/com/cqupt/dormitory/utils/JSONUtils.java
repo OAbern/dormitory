@@ -56,8 +56,10 @@ public class JSONUtils {
 	}
 
 	/**
+	 * 将对象转化成json，并用response输出
 	 * 这个方法只能在action方法里面调用一次!
-	 * @param o
+	 * @param o 要进行转化的对象
+	 * @param response HttpServletResponse
 	 */
 	public static void toJSON(Object o, HttpServletResponse response) {
 		try {
@@ -76,7 +78,12 @@ public class JSONUtils {
 			}
 		}
 	}
-
+	
+	/**
+	 * 将对象转成json字符串
+	 * @param o 要进行转换的对象
+	 * @return json字符串
+	 */
 	public static String toJSONString(Object o) {
 		try {
 			return JSONMapper.toJSON(o).render(true);

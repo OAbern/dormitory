@@ -3,7 +3,9 @@ package com.cqupt.dormitory.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +25,9 @@ import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.service.TeacherInfoService;
-import com.cqupt.dormitory.utils.ErrorInfo;
 import com.cqupt.dormitory.utils.Factor;
 import com.cqupt.dormitory.utils.JSONUtils;
-import com.sdicons.json.model.JSONObject;
+import com.cqupt.dormitory.vo.ResultMessage;
 
 /**
  * 处理学生信息的控制器 
@@ -52,19 +53,24 @@ public class StudentInfoController {
 	@RequestMapping("/addStudent")
 	public ModelAndView addStudent(@ModelAttribute("student")Student student) {
 		boolean result = false;
+		ResultMessage resultMessage = new ResultMessage();
 		/*检查辅导员是否存在*/
 		ModelAndView modelAndView = new ModelAndView();
+		//TODO 根据班级加载辅导员信息
 		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getName(), student.getAcademy().getId());
 		if(teacher == null) {
-			ErrorInfo errorInfo = new ErrorInfo();
-			errorInfo.setErrorInfo("辅导员不存在！");
-			modelAndView.addObject(ERRORINFO, errorInfo);
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("添加学生失败！");
+			resultMessage.setError("辅导员不存在！");
+			modelAndView.addObject(ERRORINFO, resultMessage);
 			modelAndView.setViewName("failed");
 			return modelAndView;
 		}
 		result = studentInfoService.addStudent(student);
 		
 		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("添加学生成功！");
 			modelAndView.setViewName("success");
 		} else {
 			modelAndView.setViewName("failed");
@@ -76,9 +82,9 @@ public class StudentInfoController {
 	 * 根据条件查找学生
 	 * @param request
 	 * @return 
-	 */
+	 
 	@RequestMapping("/findStudent")
-	public void findByfactory(HttpServletRequest request, HttpServletResponse response) {
+	public void findByfactor(HttpServletRequest request, HttpServletResponse response) {
 		String academyId = request.getParameter("academy");
 		String grade = request.getParameter("grade");
 		String education = request.getParameter("education");
@@ -99,65 +105,75 @@ public class StudentInfoController {
 			Factor factor = new Factor();
 			factor.setName("education");
 			factor.setValue(education);
-//			factorLists.add(factor);
+			factorLists.add(factor);
 		}
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
-//		String json = JSONUtils.toJSONString(studentList);
-//		StringBuilder builder = new StringBuilder(json);
-//		builder.insert(0, "{\"total\":\"68\",\"rows\":");
-//		builder.append("}");
-//		String s = new String(builder);
-//		try {
-//			response.getWriter().print(s);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println(builder);
 		JSONUtils.toJSON(studentList, response);
 	}
+	*/
+	
 	
 	/**
 	 * 更新学生信息
 	 */
 	@RequestMapping("/updateStudent")
-	public ModelAndView updateStudent(@RequestBody Student student) {
+	public void updateStudent(@RequestBody Student student, HttpServletResponse response) {
 		boolean result = false;
+		ResultMessage resultMessage = new ResultMessage();
 		/*检查辅导员是否存在*/
-		ModelAndView modelAndView = new ModelAndView();
 		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getTeacher().getName(), student.getAcademy().getId());
 		if(teacher == null) {
-			ErrorInfo errorInfo = new ErrorInfo();
-			errorInfo.setErrorInfo("辅导员不存在！");
-			modelAndView.addObject(ERRORINFO, errorInfo);
-			modelAndView.setViewName("failed");
-			return modelAndView;
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("更新学生失败！");
+			resultMessage.setError("辅导员不存在！");
+			JSONUtils.toJSON(resultMessage, response);
+			return;
 		}
 		result = studentInfoService.updateStudent(student);
 		
-		if(!result) {
-			modelAndView.setViewName("failed");
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("添加学生成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("添加学生失败！");
 		}
-		return null;
+		JSONUtils.toJSON(resultMessage, response);
 	}
 	
 	/**
 	 * 删除学生信息
 	 */
 	@RequestMapping("/deleteStudent")
-	public ModelAndView deleteStudent(@RequestParam("delRowsIdArray[]")String []delRowsIdArray) {
+	public void deleteStudent(@RequestParam("delRowsIdArray[]") String []delRowsIdArray, HttpServletResponse response) {
 		List<String> idList = new ArrayList<String>();
-		ModelAndView modelAndView = new ModelAndView();
+		ResultMessage resultMessage = new ResultMessage();
 		for(String id : delRowsIdArray){
 			idList.add(id);
 		}
 		boolean result = studentInfoService.deleteStudentByStuId(idList);
 		if(result) {
-			return null;
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("删除学生信息成功！"); 
 		}else {
-			modelAndView.setViewName("failed");
-			modelAndView.addObject("error", "删除失败！");
-			return modelAndView;
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("删除学生信息失败！");
 		}
+		System.out.println(JSONUtils.toJSONString(resultMessage));
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 根据条件查找学生
+	 * @param json 前台传入factor的json数组
+	 * @param response HttpServletResponse
+	 */
+	@RequestMapping("/findStudent")
+	public void findByFactor(String json, HttpServletResponse response) {
+		@SuppressWarnings("unchecked")
+		List<Factor> factors = (List<Factor>) JSONUtils.json2Obj(json, Factor.class);
+		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
+		JSONUtils.toJSON(studentList, response);
 	}
 
 	

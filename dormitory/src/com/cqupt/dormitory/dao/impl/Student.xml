@@ -28,6 +28,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<association property="room" column="room_id" resultMap="com.cqupt.dormitory.model.Room.roomResult"></association>
 	</resultMap>
 	
+	<!-- 结果集classAndMajorResult -->
+	<resultMap type="com.cqupt.dormitory.vo.ClassAndMajor" id="classAndMajorResult">
+		<result property="classNum" column="class"/>
+		<result property="academyId" column="academy_id"/>
+		<result property="academyName" column="academy_name"/>
+		<result property="education" column="education"/>
+		<result property="major" column="major"/>
+	</resultMap>
+	
 	<!-- 所有字段(不包含逻辑主键) -->
 	<sql id="fields">
 		`academy_id`, `grade`, `class`, 
@@ -93,8 +102,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</delete>
 	
-	
-	
+	<!-- 查询班级、专业、学院信息 -->
+	<select id="findClassAndMajor" resultMap="classAndMajorResult">
+		SELECT DISTINCT(s.`class`),s.`academy_id`, a.`academy_name`, s.`education`, s.`major`
+			FROM `student` s,`academy` a
+			WHERE s.academy_id = a.academy_id 
+			ORDER BY 2,5
+	</select>
 	
 	
 	
