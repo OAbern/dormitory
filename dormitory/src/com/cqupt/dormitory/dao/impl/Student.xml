@@ -203,5 +203,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 			WHERE `stu_num` = #{stuNum}
 	</update>
+	
+	<!-- 查找已进行住宿分配的学生 -->
+	<select id="findStudentDeploy" parameterType="String" resultMap="studentResult" statementType="STATEMENT">
+		SELECT * FROM `student` s
+			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
+			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
+			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
+			WHERE s.`room_id` IS NOT NULL AND s.`old_roomNum` IS NOT NULL 
+				AND s.`live_status` = 4 AND t.`tec_num` = '${_parameter}'
+	</select>
 		
 </mapper>

@@ -242,7 +242,7 @@ public class StudentInfoController {
 	 */
 	@RequestMapping("/addStudnetByExcel")
 	public void addStudentByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
-		//TODO
+		studentInfoService.addStudentByExcel(file);
 	}
 	
 	/**
@@ -344,6 +344,21 @@ public class StudentInfoController {
 	}
 	
 	/**
+	 * 查看学生已进行住宿调配（辅导员已登录）
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/findStudentDeploy")
+	public void findStudentDeploy(HttpServletRequest request, HttpServletResponse response) {
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if(teacher == null) {
+			return;
+		}
+		List<Student> list = studentInfoService.findStudentDeploy(teacher.getTecNum());
+		this.formatAndWrite(list, response);
+	}
+	
+	/**
 	 * 表单提交的时间转换器
 	 */
 	@InitBinder    
@@ -362,7 +377,7 @@ public class StudentInfoController {
 	public void formatAndWrite(List<Student> students, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int total = SystemContext.getTotal();
-		if(total <= 0) {
+		if(total<=0 && students!=null) {
 			total = students.size();
 		}
 		map.put("total", total);

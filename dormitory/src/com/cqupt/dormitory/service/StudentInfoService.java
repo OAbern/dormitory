@@ -2,6 +2,8 @@ package com.cqupt.dormitory.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
@@ -139,4 +141,18 @@ public interface StudentInfoService {
 	 * @since  1.0.0
 	 */
 	public void updateOutOfRoom(List<String> studentNums);
+	
+	/**
+	 * 批量添加学生信息
+	 * @param file
+	 * @return
+	 */
+	public boolean addStudentByExcel(MultipartFile file);
+	
+	/**
+	 * 查找已进行住宿分配的页面
+	 * @param tecNum
+	 * @return
+	 */
+	public List<Student> findStudentDeploy(String tecNum);
 }

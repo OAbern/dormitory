@@ -113,5 +113,12 @@ public interface StudentInfoDao {
 	 * @return
 	 */
 	public List<Student> findStudentByCondition(Condition condition);
+	
+	/**
+	 * 查找已进行住宿分配的页面
+	 * @param tecNum
+	 * @return
+	 */
+	public List<Student> findStudentDeploy(String tecNum);
 
 }

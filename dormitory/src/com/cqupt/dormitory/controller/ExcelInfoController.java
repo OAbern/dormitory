@@ -119,7 +119,7 @@ public class ExcelInfoController {
 	}
 	
 	/**
-	 * 根据教工号查找其所提交的excel
+	 * 根据教工号查找其所提交的excel(已登录)
 	 */
 	@RequestMapping("/findExcelInfoByTecNum")
 	public void findExcelInfoByTecNum(HttpServletRequest request, HttpServletResponse response) {

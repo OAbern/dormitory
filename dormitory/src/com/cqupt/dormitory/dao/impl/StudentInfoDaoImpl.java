@@ -188,5 +188,16 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		}
 		return students;
 	}
+
+	@Override
+	public List<Student> findStudentDeploy(String tecNum) {
+		List<Student> students = null;
+		try{
+			students = getSqlSession().selectList("findStudentDeploy", tecNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
 	
 }
