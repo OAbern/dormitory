@@ -38,8 +38,8 @@ $(function(){
 	$('.stuInfo span[name="sex"]').append(stuSex);
 	
 	$.post("json/get/s_area.json",{"sex":stuSex},function(data){
-		var area="<option value='-1'>请选择</option><option value=''>全部</option>";
-		$.each(data,function(index,item){
+		var area="<option value='-1'>请选择</option>";
+		$.each(data,function(item){
 			 area+="<option value="+item+">"+item+"</option>";
 		});
 		$('.area').append(area);		
@@ -50,8 +50,8 @@ $(function(){
 		var area=$('select option:selected').val();
 		if(area!='-1'){
 			$.post("json/get/s_buildingid.json",{"area":area,"sex":stuSex},function(data){
-				var buildingid="<option value='-1'>请选择</option><option value=''>全部</option>";
-				$.each(data,function(index,item){
+				var buildingid="<option value='-1'>请选择</option>";
+				$.each(data,function(item){
 					buildingid+="<option value="+item+">"+item+"</option>";
 				});
 				$('.building').append(buildingid);

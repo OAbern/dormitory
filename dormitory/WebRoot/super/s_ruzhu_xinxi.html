@@ -86,7 +86,7 @@ $(function(){
 			columns:[[    
 			    {field:'room',title:'寝室号',width: 100,align:'center',
 					formatter:function(value,row){
-				        return row.room.floor.id;
+				        return row.room.roomNumber;
 				    }
 					
 				},
@@ -117,9 +117,9 @@ $(function(){
 			]],
 		singleSelect:true,
 		onLoadSuccess:function(data){
-			if(data.rows.length==0){
+			/* if(data.rows.length==0){
 				$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
-			}
+			} */
 		},
 		onLoadError:function(){
 			$.messager.alert("error","远程加载数据出错","warning");
@@ -140,7 +140,8 @@ $(function(){
 		$('input[name="stuNum"]').focusout(function(){
 			var stuNum=$('input[name="stuNum"]').val();
 			if(stuNum!=''){
-				$.post("",{"stuNum":stuNum},function(data){
+		/* 	var param={};param.name=stuNum;param.name */
+				$.post("studentInfo/findStudentByFactor.do",{"stuNum":stuNum},function(data){
 					if(data.status==0){//有这个学生
 						$('input[name="name"]').text(data.name);
 						ok_1=true;
