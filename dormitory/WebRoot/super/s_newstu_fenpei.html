@@ -118,7 +118,11 @@
 					width : '835px',
 					height : '330px',
 					columns : [ [
-					        {field : 'academy',title : '学院',width : 200,align : 'center'}, 
+					        {field : 'academy',title : '学院',width : 200,align : 'center',
+					        	formatter:function(value){
+								 	return value.name;
+								 }
+					        }, 
 							{field : 'major',title : '专业',width : 150,align : 'center'},
 							{field : 'classNum',title : '班级',width : 100,align : 'center'}, 
 							{field : 'stuNum',title : '学号',width : 100,align : 'center'}, 

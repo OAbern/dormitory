@@ -118,14 +118,22 @@
 					width : '752px',
 					height : '250px',
 					columns : [ [
-					 {field : 'academy.name',title : '学院',width : 130,align : 'center'}, 
+					 {field : 'academy',title : '学院',width : 130,align : 'center',
+					 formatter:function(value){
+						 return value.name;
+					 }
+					 }, 
 					 {field : 'major',title : '专业',width : 150,align : 'center'}, 
 					 {field : 'classNum',title : '班级',width : 80,align : 'center'}, 
 					 {field : 'stuNum',title : '学号',width : 90,align : 'center'}, 
 					 {field : 'name',title : '姓名',width : 100,align : 'center'},
 					 {field : 'sex',title : '性别',width : 40,align : 'center'},
 					 {field : 'education',title : '学历',width : 80,align : 'center'},
-					 {field : 'room',title : '寝室号',width : 80,align : 'center'}
+					 {field : 'room',title : '寝室号',width : 80,align : 'center',
+						 formatter:function(value){
+							 return value.roomNum;
+						 }
+					 }
 					] ],
 					pagination : true
 				});
