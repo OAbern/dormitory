@@ -1,18 +1,36 @@
-
 {
  "total":"2",
  "columnmax":"5",
-	"rows":[
-	{
+	"rows":[{
 		"area":"A区",
-		"buildingid":["1","2","3","4"],
-		"kong":["100","200","300","400"]
+		"building_kong":[{
+					"buildingid":"1",
+					"kong":"100"
+				},{
+					"buildingid":"2",
+					"kong":"200"
+				},{
+					"buildingid":"4",
+					"kong":"400"
+				}]
 	
-	},
-	{
+	},{
 		"area":"B区",
-		"buildingid":["19","18","17","16","15"],
-		"kong":["100","200","300","400","500"]
-	}
-]
+		"building_kong":[{
+					"buildingid":"11",
+					"kong":"5"
+				},{
+					"buildingid":"12",
+					"kong":"8"
+				},{
+					"buildingid":"13",
+					"kong":"100"
+				},{
+					"buildingid":"14",
+					"kong":"100"
+				},{
+					"buildingid":"15",
+					"kong":"100"
+				}]
+	}]
 }

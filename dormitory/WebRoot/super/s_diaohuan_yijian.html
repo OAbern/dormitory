@@ -1,7 +1,12 @@
 <script type="text/javascript" src="js/s_fenpei_right.js"></script>
 <div class="tb"> 
   <!--tool bar--> 
-  <span><a href="javascript:void(0)" class="add agree">同意</a> <a href="javascript:void(0)" class="noagree">不同意</a> <a href="javascript:void(0)" class="delete">删除</a></span> </div>
+  <span>
+      <a href="javascript:void(0)" class="add agree">同意</a> 
+      <a href="javascript:void(0)" class="noagree">不同意</a> 
+      <!--<a href="javascript:void(0)" class="delete">删除</a>-->
+  </span> 
+ </div>
 <!--得到调换结果名单-->
 <div class="table_two"></div>
 <script type="text/javascript">
@@ -19,8 +24,8 @@
 					{field : 'ck',align : 'center',checkbox : true},
 					{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
 					{field : 'teaname',title : '姓名',width : 100,align : 'center'},
-					{field : 'mgrade',title : '年级',width : 100,align : 'center'},
-					{field : 'college',title : '学院',width : 200,align : 'center'},
+					{field : 'grade',title : '年级',width : 100,align : 'center'},
+					{field : 'academy',title : '学院',width : 200,align : 'center'},
 					{field : 'xgqk',title : '下载',width : 60,align : 'center',
 						formatter : function(value, row, index) {
 							var d = '<a href="Download/360打分(姓名+学号)1.xlsx" class="xiazai" onclick="xiazai(this)">下载</a>';
@@ -28,12 +33,12 @@
 						}
 					},
 					{field : 'shenhe',title : '审核',width : 100,align : 'center'},
-					{field : 'delete',title : '删除',width : 60,align : 'center',
+					/*{field : 'delete',title : '删除',width : 60,align : 'center',
 						formatter : function(value, row, index) {
 							var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="del(\''+ index + '\')">删除</a>';
 							return d;
 						}
-					} ] ],
+					}*/ ] ],
 			pagination : true,
 			pageNumber : 1,
 			pageSize : 2,
@@ -45,7 +50,7 @@
 		afterPageText : "共{pages}页",
 		displayMsg : "显示{from}到{to},共{total}条记录"
 	});
-	//删除学院请求意见
+/*	//操作过后（同意或者不同意）同时删除学院请求意见
 	function del(index) { //删除操作  
 		$.messager.confirm('确认', '确认删除?', function(row) {
 			if (row) {
@@ -56,8 +61,9 @@
 				$('.table_two').datagrid('deleteRow', index);
 			}
 		});
-	}
-	$('.agree').click(function() {
+	}*/
+	//点击同意
+/*	$('.agree').click(function() {
 				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
 				if (rows.length > 0) {
 					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
@@ -69,13 +75,14 @@
 											shenhe : '已同意'
 										}
 								});
+								$('.table_two').datagrid('getRowIndex', rows[i])
 								$.post('json/post/s_jijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : rows[i].shenhe});
 							}
 						}
 					});
 				}
-			});
-	$('.noagree').click(
+			});*/
+	/*$('.noagree').click(
 			function() {
 				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
 				//循环所选的行
@@ -94,21 +101,47 @@
 						}
 					});
 				}
-			});
-	$('.delete').click(
-			function() {
-				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
-				//循环所选的行
-				if (rows.length > 0) {
-					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
-						if (r) {
-							for ( var i = 0; i < rows.length; i++) {
-								var index = $('.table_two').datagrid('getRowIndex', rows[i]);//获取某行的行号
-								$.post('json/post/s_delete_yijian.json', {"teaNum" : rows[i].teaNum});
-								$('.table_two').datagrid('deleteRow', index);//通过行号移除该行
-							}
-						}
-					});
+			});	*/
+	//同意，同时要删除那一行
+	$('.agree').click(function() {
+		var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
+		if (rows.length > 0) {
+			$.messager.confirm('提示', '确认后将无法修改，您确定要“同意”通过审核吗? ', function(r) {
+				if (r) {
+					for ( var i = 0; i < rows.length; i++) {//循环所选的行
+						$.post('json/post/s_yijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : "同意"},function(data){
+								if(data.status=="1"){
+									$.messager.alert("提示","同意操作成功！");
+									var index=$('.table_two').datagrid('getRowIndex', rows[i]);
+									$('.table_two').datagrid('deleteRow', index);
+								}else{
+									$.messager.alert("提示","操作失败请重试！原因："+data.info);
+								}
+						});
+					}
 				}
 			});
+		}
+	});
+	//不同意
+	$('.noagree').click(function() {
+		var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
+		if (rows.length > 0) {
+			$.messager.confirm('提示', '确认后将无法修改，您确定“不同意”通过审核吗? ', function(r) {
+				if (r) {
+					for ( var i = 0; i < rows.length; i++) {//循环所选的行
+						$.post('json/post/s_yijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : "不同意"},function(data){
+								if(data.status=="1"){
+									$.messager.alert("提示","未同意操作成功！");
+									var index=$('.table_two').datagrid('getRowIndex', rows[i]);
+									$('.table_two').datagrid('deleteRow', index);
+								}else{
+									$.messager.alert("提示","操作失败请重试！原因："+data.info);
+								}
+						});
+					}
+				}
+			});
+		}
+	});
 </script>

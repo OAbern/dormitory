@@ -1,4 +1,4 @@
-/*Ã¿¸öÓÒ±ßÒ³ÃæµÄÉÏ·½*/
+ï»¿/*æ¯ä¸ªå³è¾¹é¡µé¢çš„ä¸Šæ–¹*/
 .right_top {
 	padding-top:5px;
 	background-color:#fbfbfb;
@@ -29,7 +29,7 @@
 	color:#2A3F55;
 	font-weight:bold;
 }
-/*ÓÒ±ßÓĞ¶à¸öÒ³ÃæÊ±*/
+/*å³è¾¹æœ‰å¤šä¸ªé¡µé¢æ—¶*/
 .right_ul {
 	list-style: none;
 	padding: 0 60px 0 50px;
@@ -69,7 +69,7 @@
 .right_ul li a.editornav :hover {
 	border-color: #ccc;
 }
-/*ÇŞÊÒÑ¡Ôñs_qin_shixuanze.html  s_atuo_qinshi_xuanze.html*/
+/*å¯å®¤é€‰æ‹©s_qin_shixuanze.html  s_atuo_qinshi_xuanze.html*/
 .xuanze_qinshi table {
 	border-collapse: collapse;
 	border:1px solid #95b8e7;
@@ -89,20 +89,51 @@
 .sure_fenpei {
 	display:none;
 }
-/*¼¶ÁªÇŞÊÒ·ÖÅä*/
+/*çº§è”å¯å®¤åˆ†é…*/
 .jilian {
 	display:inline-block;
+	float:left;
+	/*width:650px;*/
 }
 .jilian select {
 	margin-right:20px;
+	margin-top:20px;
 }
 .jilian_sure {
-	display:inline;
-	margin-left:10px;
 	overflow:hidden;
+	float:left;
+	display:block;
+	margin-top:55px;
 }
 .stu_xuanze {
 	margin-bottom:30px;
+	width:850px;
+	height:80px;
+	
+}
+.stu_xuanze .jilian .academy{
+	width:180px;
+	overflow:hidden;
+}
+.stu_xuanze .jilian .education{
+	width:90px;
+	overflow:hidden;
+}
+.stu_xuanze .jilian .grade{
+	width:65px;
+	overflow:hidden;
+}
+.stu_xuanze .jilian .major{
+	width:180px;
+	overflow:hidden;
+	margin-right:60px;
+}
+.stu_xuanze .jilian .classNum{
+	width:180px;
+	overflow:hidden;
+}
+.stu_xuanze .jilian .sex{
+	width:65px;
 }
 .diaohuan_txt {
 	margin-bottom:30px;
@@ -113,4 +144,7 @@
 .fenpei_txt {
 	margin-top:20px;
 	display:none;
+}
+.option_sum{
+	color:#69F;/*é€‰æ‹©äººæ•°çš„é¢œè‰²*/
 }

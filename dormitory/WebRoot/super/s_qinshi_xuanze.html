@@ -1,57 +1,87 @@
-<div class="xuanze_qinshi"></div>
-<br />
-<input type="button" name="sure_fenpei" class="sure_fenpei" value="确定" />
+<style type="text/css">
+.new_ldtxt {
+	margin-bottom:30px;
+}
+</style>
+<div>
+  <div class="new_ldtxt">您已经选择分配<strong><span class='option_sum'>0</span></strong>人，请选择调换到的新楼栋：</div>
+  <div class="xuanze_qinshi"></div>
+  <br />
+  <input type="button" name="sure_fenpei" class="sure_fenpei" value="确定" />
+</div>
 <script type="text/javascript">
-	$(function() {
-		$.getJSON("json/get/s_sushe_kong.json",{"sex" : stuSex},function(data) {
-			var html = "<table>";
-			$.each(data.rows,function(index, item) {
-				html += "<tr><td class='area'>"+ item["area"]+ "</td>";
-				for (i = 0; i < data.columnmax; i++) {
-					if (item.buildingid[i]&& item.kong[i]) {
-						html += "<td><input type='checkbox' name='checkbox_kong' class='checkbox_kong' value="+item.kong[i]+" />"+ "<span class='buildingid'>"+ item.buildingid[i]+ "</span>"+ "("+ item.kong[i]+ ")" + "</td>";
-					} else {
-						html += "<td></td>";
-					}
-				}
-				html += "</tr>";
-			});
-			html += "</table>";
-			$(".xuanze_qinshi").html(html);
-			$(".sure_fenpei").show();
+var building=[];
+$(function(){
+		$(".option_sum").html(sum_fenpei);
+		$(".xuanze_qinshi").bind("table_load",function(){//编写自定义事件
+			//打开文件，通过回掉函数处理获取的数据
+			$.post("json/get/s_sushe_kong.json",{"sex":fenpei_sure.sex},function(data){			
+				var html="<table>";
+				$.each(data.rows,function(index,item){
+				  html +="<tr><td class='area'>"+item["area"]+"</td>";
+				  //for(i=0;i<data.columnmax;i++){
+					  var j=item.building_kong.length;
+					  if(j--){
+						  $.each(item.building_kong,function(index,items){
+						 	 html += "<td><input type='checkbox' name='checkbox_kong' class='checkbox_kong' value="+items["buildingid"]+" />" +"<span class='buildingid'>"+items["buildingid"]+"</span>" +"(<span class='kong'>"+items["kong"] +"</span>)"+"</td>";
+						  });
+					  }
+					  else{
+						  html += "<td></td>";
+					  }
+				 // }
+				  html += "</tr>";
+				});
+				html += "</table>";
+				$(".xuanze_qinshi").html(html);	
+				$(".sure_fenpei").show();	
+			});	
 		});
-		$(".sure_fenpei").click(function() {
-			var buildingid = {};
-			var kong = {};
-			var i = 0;
-			$(".checkbox_kong").each(function() {
-				if ($(this).is(":checked")) {
-					var num = parseInt($(this).val());
-					sum_newstu_kong=parseInt(sum_newstu_kong)+num;
-					buildingid[i] = parseInt($(this).parent().children(".buildingid").text());
-					kong[i] = parseInt($(this).val());
-					i++;
-				}
-			});
-			$.post('json/post/s_loudong_havexz.json', {"buildingid" : buildingid,"kong" : kong});
-			//点击确定时会生成表格，不知道怎么写生成表格，把表格放在DOwnload文件夹
-			if (sum_newfenpei == 0) {
-				 $.messager.alert("警告","你还没有选择调换人员，无法分配！","warning");
-			} else if (sum_newstu_kong == 0) {
-				 $.messager.alert("警告","你还没有选择空床位，无法分配！","warning");
-			} else if (sum_newstu_kong < sum_newfenpei) {
-				 $.messager.alert("提示","选择分配" + sum_newfenpei + "人，选择空床位" + sum_newstu_kong
-						+ "个，无法分配！请点击确定重新选择！","info");
-			} else if (sum_newstu_kong >= sum_newfenpei) {//弹框确认分配人数和空床位数的大小
-					$.messager.confirm("提示:","选择分配" + sum_newfenpei + "人，选择空床位" + sum_newstu_kong+ "个，可以分配，将把自动分配结果发送给学院辅导员，请等待学院辅导员意见！",function(event){   
-						if(event){   
-							$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
-				            $(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");  
+	$(".xuanze_qinshi").trigger("table_load");
+	$(".sure_fenpei").click(function(){
+		building=[];
+		sum_newstu_kong=0;//点击确认空床位时，把之前的空床位置空
+		var i=0;
+		$(".checkbox_kong").each(function(){
+			if($(this).is(":checked")){ 
+				var num = parseInt($(this).parent().find("span.kong").text());
+				sum_newstu_kong =parseInt(sum_newstu_kong)+num; 
+				kong=num;
+				i++;
+				building.push(parseInt($(this).val()));
+			}
+	    });                
+        if(sum_fenpei==0){
+		   $.messager.alert("警告","你还没有选择调换人员，无法分配！","warning"); 
+	    }
+	    else if(sum_newstu_kong==0){
+		   $.messager.alert("警告","你还没有选择空床位，无法分配！","warning"); 
+		}
+		else if(sum_newstu_kong<sum_fenpei){
+		   $.messager.alert("提示","选择分配"+sum_fenpei+"人，选择空床位"+sum_newstu_kong+"个，无法分配！请点击确定重新选择！","info");
+		}
+		else if(sum_newstu_kong>=sum_fenpei){//弹框确认分配人数和空床位数的大小
+		    	$.messager.confirm("提示:","选择分配"+sum_fenpei+"人，选择空床位"+sum_newstu_kong+"个，系统将自动分配，并将结果发送给辅导员，请等待辅导员意见！！",function(event){   
+						if(event){ 
+							$.post('json/get/s_sure_fenpei.json',{"building":building},function(data){//把选中的空床位发给后台
+								if(data.status=="1"){
+									sum_fenpei=0;
+									sum_newstu_kong=0;
+									fenpei={};
+									fenpei['fenpei_major']=[];
+									fenpei['fenpei_classes']=[];
+									fenpei_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
+									$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
+									$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
+								}else{
+									$.messager.alert("提示","分配失败！原因:"+data.info);  
+								}
+							});
 						}else{   
 						  $.messager.alert("提示","请重新选择！");   
 						}   
-				    });    
+				    });   
 			}
-		});
 	});
+});
 </script> 

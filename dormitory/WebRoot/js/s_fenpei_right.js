@@ -1,21 +1,26 @@
-	/*luoqin*/
-	/*ĞÂÉú·ÖÅä²½×àÌø×ª*/
+ï»¿	//luoqin
+	//æ–°ç”Ÿåˆ†é…æ­¥å¥è·³è½¬
+$(function(){
 	$(".right_ul_newfenpei li:first-child").click(function(){
 		$("#base_right").empty().load("super/s_newstu_fenpei.html");
 	});
 	$(".right_ul_newfenpei li:nth-child(2)").click(function(){
-		if(sum_newfenpei>0){
+		if(sum_fenpei>0){
 		$(".right_contain").empty().load("super/s_qinshi_xuanze.html");
-		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");/*¸øÏÂÒ»²½Ìí¼ÓÑùÊ½*/
+		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");/*ç»™ä¸‹ä¸€æ­¥æ·»åŠ æ ·å¼*/
+		}else{
+			 $.messager.alert("è­¦å‘Š","è¯·å…ˆé€‰æ‹©å­¦ç”Ÿ!","info");
 		}
 	});
 	$(".right_ul_newfenpei li:nth-child(3)").click(function(){
 		if(sum_newstu_kong>0){
 		$(".right_contain").empty().load("super/s_fenpei_finish.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
+		}else{
+			 $.messager.alert("è­¦å‘Š","è¯·å…ˆé€‰æ‹©åºŠä½ï¼","info");
 		}
 	});
-	/*ÇŞÊÒµ÷»»Ìø×ª*/
+//	å¯å®¤è°ƒæ¢è·³è½¬
 $(".right_ul_diaohuan li:first-child").click(function(){
 		$("#base_right").empty().load("super/s_qinshi_diaohuan.html");
 	});
@@ -24,32 +29,39 @@ $(".right_ul_diaohuan li:first-child").click(function(){
 		$(".right_contain").empty().load("super/s_atuo_qsxuanze.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 		}
+		else{
+			 $.messager.alert("è­¦å‘Š","è¯·å…ˆé€‰æ‹©å­¦ç”Ÿ!","warning");
+		}
 	});
 	$(".right_ul_diaohuan li:nth-child(3)").click(function(){
 		if(sum_dhstu_kong>0){
 		$(".right_contain").empty().load("super/s_fenpei_finish.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 		}
+		else{
+			 $.messager.alert("è­¦å‘Š","è¯·å…ˆé€‰æ‹©åºŠä½ï¼","warning");
+		}
 	});
 	$(".right_ul_diaohuan li:nth-child(4)").click(function(){
 		$(".right_contain").empty().load("super/s_diaohuan_yijian.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
-	/*³¬¼¶¹ÜÀíÔ±Ìí¼ÓÑ§ÉúĞÅÏ¢Ä£¿éÌø×ª*/
-	$(".right_ul_tianjia li:first-child").click(function(){//Ìí¼ÓÑ§Éú
+//	è¶…çº§ç®¡ç†å‘˜æ·»åŠ å­¦ç”Ÿä¿¡æ¯æ¨¡å—è·³è½¬
+	$(".right_ul_tianjia li:first-child").click(function(){//æ·»åŠ å­¦ç”Ÿ
 		$("#base_right").empty().load("super/s_tianjia_xuesheng_xinxi.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
-	$(".right_ul_tianjia li:nth-child(2)").click(function(){//ÅúÁ¿Ìí¼ÓÑ§Éú
+	$(".right_ul_tianjia li:nth-child(2)").click(function(){//æ‰¹é‡æ·»åŠ å­¦ç”Ÿ
 		$(".right_contain").empty().load("super/s_piliang_daoru.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
-	/*Ğ£Íâ×¡ËŞ¹ÜÀíÄ£¿éÌø×ª*/
-	$(".right_ul_xiaowai li:first-child").click(function(){//Ğ£Íâ×¡ËŞ¹ÜÀíÌø×ª
+//	æ ¡å¤–ä½å®¿ç®¡ç†æ¨¡å—è·³è½¬
+	$(".right_ul_xiaowai li:first-child").click(function(){//æ ¡å¤–ä½å®¿ç®¡ç†è·³è½¬
 		$("#base_right").empty().load("super/s_xiaowai_zhusu_guanli.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
-	$(".right_ul_xiaowai li:nth-child(2)").click(function(){//Ìí¼ÓĞ£Íâ×¡ËŞ¹ÜÀíÌø×ª
+	$(".right_ul_xiaowai li:nth-child(2)").click(function(){//æ·»åŠ æ ¡å¤–ä½å®¿ç®¡ç†è·³è½¬
 		$(".right_contain").empty().load("super/s_tianjia_xiaowai.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
+});
