@@ -4,12 +4,15 @@ input[type='submit'], input[type='botton'] {
 }
 input[type='text'] {
 	margin-right:30px;
+	border:#CCC solid 1px;
+	border-radius: 5px;
 }
 .add {
 	margin-bottom:5px;
-	display:none;
+	
 }
 .error{
+	
 	height:20px;
 	weight:30px;
 	color:#F00;
@@ -25,9 +28,9 @@ input[type='text'] {
     <h4>添加入住学生</h4>
     <form class="add" id="abc">
       学号:
-      <input type="text" name="stuNum" />
+      <input type="text" name="stuNum"  />
       姓名:
-      <input type="text" name="stuName" />
+      <input type="text" name="stuName"  />
       <input type="hidden" name="susheid" value=""/>
       <input type="button"  value="确定" />
       <input type="reset"  value="重置" />
@@ -42,20 +45,25 @@ $('.return').click(function(){
 	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
 	})
 $(function(){
-	if(person<contains){
-	$('.add').show();
-	$('.add input[type="hidden"]').attr('value',susheid);
-	}
+		$('.add input[type="hidden"]').attr('value',susheid);
+		
 	});
-
+	$('input[type="text"]').focus(function(){
+		if(person==contains){
+			$('.add input[type="text"]').attr("disabled","disabled");	
+			$.messager.alert("提示","该宿舍床位已满，不能添加学生","info");
+			}
+		});
 	$('#tb a:eq(0)').linkbutton({
 		iconCls:'icon-edit'
 	});
 	$('#tb a:eq(1)').linkbutton({
 		iconCls:'icon-remove'
 	});
-	$('#student').datagrid({
-			url:'json/get/s_studentInfo.json',
+	//datagrid start
+	$.getJSON("json/get/s_studentInfo.json",function(data){
+		$('#student').datagrid({
+			data:data,
 			width:'1005px',
 			title:susheid+'号寝室入住情况',
 			height:'330px',
@@ -71,7 +79,7 @@ $(function(){
 				{field:'classes',title:'班级',width:100,align:'center'},
 				{field:'delete',width:60,align:'center',
 					formatter:function(value,row,index){
-					  var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="deleterow(this)">删除</a>';
+					  var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="deleterow(this)">退宿</a>';
 							return d;
 						}
 				},
@@ -89,7 +97,8 @@ $(function(){
 		pageSize:5,
 		pageList:[3,5,7]
 		
-		});
+		});//datagrid end
+	});
 		var pager = $('#student').datagrid().datagrid('getPager');// get the pager of datagrid
 	    pager.pagination({
 		beforePageText:"第",
@@ -106,11 +115,23 @@ $(function(){
 	   
 	    function deleterow(target){
 			
-			$.messager.confirm('Confirm','Are you sure?',function(r){
+			$.messager.confirm('提示','确定退宿么?',function(r){
 				if (r){
 					var index=parseInt(getRowIndex(target));
-					$.post('json/post/s_delete_student.json',{"stuNum":stuNum});
 					$('#student').datagrid('deleteRow',index);
+					$.post('json/post/s_delete_student.json',{"stuNum":stuNum},function(data){
+						if(data.status==1){
+							/*$.messager.alert("提示","删除成功","info");*/
+							$('#student').datagrid('deleteRow',index);
+							person--;
+							console.log(person);
+							$('.add input[type="text"]').removeAttr("disabled");	
+							}else{
+								$.messager.alert("提示","删除失败","info");					
+							}
+						
+						});
+					
 				}
 			});
 	    }
@@ -133,10 +154,10 @@ $(function(){
 							$('.error').html("");
 							$.post("json/post/add_student_to_sushe.json",$('.add').serialize(),function(data){
 								var status=data.status;
-								if(status==0){
+								if(status==1){
 									$.messager.alert("提示","添加成功","info");
 									}	
-									else if(status==1){
+									else if(status==0){
 										$.messager.alert("提示","添加失败，可能的原因有姓名与学号不匹配，学号输入错误","info");
 										}
 								});
@@ -148,7 +169,19 @@ $(function(){
 			  action="modifysushe";//修改单个宿舍信息
 			 $("#base_right").empty().load("super/s_sushe_detail.html");
 			});
-			
+		$('.delete').click(function(){
+			if(person==0){
+				$.post("url",{"susheid":susheid},function(data){
+					if(data.status==1){
+						$.messager.alert("提示","删除成功","info");
+					}else if(data.status==0){
+						$.messager.alert("提示","删除失败","info");				
+						}
+				});
+			}else{
+				$.messager.alert("提示","该宿舍目前有学生住宿，不能删除","info");
+				}
+		});
 	   function change(target){
 			var tr = $(target).closest('tr.datagrid-row');
 			var index=parseInt(tr.attr('datagrid-row-index'));

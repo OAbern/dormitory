@@ -16,6 +16,9 @@ $(function(){
 	$("#managerInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("super/s_chaxun_xinxi.html");
 	});
+	$("#managerInfo li:eq(1)").click(function(event) {
+		$("#base_right").empty().load("super/s_personInfo_modify.html");
+	});
 	//-----------------------------tdg
 	//---------------------------luoqin
 	//左边宿舍分配与调整管理模块跳转

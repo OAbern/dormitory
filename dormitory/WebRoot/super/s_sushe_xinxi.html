@@ -1,16 +1,16 @@
 <div class="right_top btm">
-  <div class="rheader"><span class="pageName"><b><span class="building"></span>栋住宿情况</b></span><span class="shuoming">您可以查看该栋的住宿情况并修改</span></div>
+  <div class="rheader"><span class="pageName"><b><span class="building"></span>栋住宿情况</b></span><span class="shuoming">您可以查看该栋的住宿情况，寝室情况并修改</span></div>
 </div>
 <div class="right_contain">
     <div id="tb"><!--tool bar-->
           <span>
                  <a href="javascript:void(0)" class="add">添加寝室</a>&nbsp;
-                 <a href="javascript:void(0)" class="modify">修改寝室信息</a>&nbsp;
+                 <a href="javascript:void(0)" class="modify">修改楼层信息</a>&nbsp;
                  <a href="javascript:void(0)" class="delete">删除楼层</a>&nbsp;
           </span>
     </div>   
     <div id="dormitory"></div>
-    <h5>提示：点击单元格可查看寝室入住人员信息,3/4表示该寝室可住4人，实住3人</h5>
+    <h5>提示：点击单元格可查看寝室入住人员信息和修改宿舍信息,3/4表示该寝室可住4人，实住3人</h5>
 </div> 
 <script type="text/javascript">
 
@@ -45,9 +45,8 @@ $(function(){
 			else{
 				contains=parseInt(value[12]);
 				person=parseInt(value[10]);
-				
-				$("#base_right").empty().load("super/s_ruzhu_xinxi.html");
-				}
+				$("#base_right").load("super/s_ruzhu_xinxi.html");
+			}
 		}
 		}
 		var s="[[";
@@ -115,22 +114,34 @@ $(function(){
 	});
 		
 	$('.delete').click(function(){	
-		var checkedItems = $('#dormitory').datagrid('getSelections');	
-		var floors = [];	
-   		$.each(checkedItems, function(index, item){
-			floors.push(item.floorid);
-		});  
-		$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors});
-		
-		var rows=$('#dormitory').datagrid('getSelections');
-		for(var i=0;i<rows.length;i++){
-			var index = $('#dormitory').datagrid('getRowIndex',rows[i]);//获取某行的行号
-		    $('#dormitory').datagrid('deleteRow',index);	//通过行号移除该行
-
-		}
-			           
-		
-	});
+		$.messager.confirm("提示","确定删除所选内容么？",function(r){
+			if(r){
+				var checkedItems = $('#dormitory').datagrid('getSelections');	
+				var floors = [];
+				var floorname="";	
+   				$.each(checkedItems, function(index, item){
+					floors.push(item.floorid);
+				});  
+				$.each(floors, function(index, value){
+					 floorname+=value+",";
+					
+				});
+				floorname=floorname.substring(0,floorname.length-1);
+				$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
+					if(data.status==1){
+						$.messager.alert("提示","删除成功","info");
+						var rows=$('#dormitory').datagrid('getSelections');
+						for(var i=0;i<rows.length;i++){
+							var index = $('#dormitory').datagrid('getRowIndex',rows[i]);//获取某行的行号
+		    				$('#dormitory').datagrid('deleteRow',index);
+						}	//通过行号移除该行
+					}else{
+						$.messager.alert("提示","删除失败","info");
+						}
+				});//post结束
+			}
+		});//messager end
+	});//delete end
 	
 	
 });

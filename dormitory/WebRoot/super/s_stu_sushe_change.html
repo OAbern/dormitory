@@ -1,10 +1,10 @@
 <style type="text/css">
 .stuInfo h3 span {
-	margin-right:10px;
+	margin-right:15px;
 	margin-left:10px;
 	color:#69F;
 }
-.jiliantwo select {
+ select {
 	width:260px;
 	margin-right:20px;
 	margin-bottom:30px;
@@ -18,25 +18,51 @@
     <h3>您将要调换的学生学号：<span name="stuNum"></span>姓名:<span name="name"></span>性别:<span name="sex"></span></h3>
   </div>
   <form >
-    <span class="jiliantwo"></span>
+    片区<select class="area">
+    	
+    </select>
+   楼栋 <select class="building">
+    	
+    </select>
     <input type="button" value="查询" />
   </form>
   <div class="empty"> </div>
 </div>
 <script type="text/javascript">
-
-$('.return').click(function(){
+$(function(){
+	$('.return').click(function(){
 	 $("#base_right").empty().load("super/s_ruzhu_xinxi.html");
 	})
 	$('.stuInfo span[name="stuNum"]').append(stuNum);
 	$('.stuInfo span[name="name"]').append(stuName);
 	$('.stuInfo span[name="sex"]').append(stuSex);
-	$(".jiliantwo").cascade_two({
-		url:"json/get/s_loudong_jilian.json"
-    });
+	
+	$.post("json/get/s_area.json",{"sex":stuSex},function(data){
+		var area="<option value=''>请选择</option>";
+		$.each(data.rows,function(index,item){
+			 area+="<option value="+item.area+">"+item.area+"</option>";
+		});
+		$('.area').append(area);		
+	});//post end
+});//$(function() end
+	
+	$('.area').change(function(){
+		var area=$('select option:selected').val();
+		if(area!=''){
+			$.post("json/get/s_buildingid.json",{"area":area},function(data){
+				var buildingid="<option value=''>请选择</option>";
+				$.each(data.rows,function(index,item){
+					buildingid+="<option value="+item.buildingid+">"+item.buildingid+"</option>";
+				});
+				$('.building').append(buildingid);
+		    });	
+		}	
+	});
 	$('input[type="button"]').click(function(){
-		buildingid=$('select[name="building"]').val();
-			$.getJSON("json/get/s_sushe_xinxi_empty.json",{"buildingid":buildingid},function(data){
+		var area=$('.area').val();
+		var name=$('.building').val();
+		if(name!='' && area!=''){
+					$.post("json/get/s_sushe_xinxi_empty.json",{"buildingid":name},function(data){
 				var options={
 					data:data,
 					width:'1000px',
@@ -77,8 +103,12 @@ $('.return').click(function(){
 				options.columns=eval(s);
 				$('.empty').datagrid(options);
 				$('.empty').datagrid('reload');
-			});
+			});//post end
+		}else{
+			$.messager.alert("提示","请选择片区和楼栋","info");
+			}
 	});		
+	
 	function cellStyler(value,row,index){
 	  if(value){
 		  if (value[10]< value[12]){
