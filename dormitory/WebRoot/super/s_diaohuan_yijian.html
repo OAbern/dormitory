@@ -1,23 +1,33 @@
 <script type="text/javascript" src="js/s_fenpei_right.js"></script>
-<div class="tb"> 
-  <!--tool bar--> 
+<!-- <div class="tb"> 
+  tool bar 
   <span>
       <a href="javascript:void(0)" class="add agree">同意</a> 
       <a href="javascript:void(0)" class="noagree">不同意</a> 
-      <!--<a href="javascript:void(0)" class="delete">删除</a>-->
+      <a href="javascript:void(0)" class="delete">删除</a>
   </span> 
- </div>
+ </div> -->
 <!--得到调换结果名单-->
 <div class="table_two"></div>
 <script type="text/javascript">
-	$('.tb a:eq(0)').linkbutton({});
+	/* $('.tb a:eq(0)').linkbutton({});
 	$('.tb a:eq(1)').linkbutton({});
-	$('.tb a:eq(2)').linkbutton({});
+	$('.tb a:eq(2)').linkbutton({}); */
 	$('.table_two').datagrid(
 		{
 			width : '750px',
 			height : '330px',
-			toolbar : '.tb',
+			toolbar :[
+			{
+				id:'agree',
+				text:'同意',
+				handler:agree
+			},
+			{
+				id:'agree',
+				text:'不同意',
+				handler:noagree	
+			}],
 			nowrap : false,
 			url : 'excel/findAllExcel.do',
 			columns : [ [
@@ -135,7 +145,7 @@
 				}
 			});	*/
 	//同意，同时要删除那一行
-	$('.agree').click(function() {
+	function agree() {
 		var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
 		if (rows.length > 0) {
 			$.messager.confirm('提示', '确认后将无法修改，您确定要“同意”通过审核吗? ', function(r) {
@@ -154,9 +164,10 @@
 				}
 			});
 		}
-	});
+	}
+	
 	//不同意
-	$('.noagree').click(function() {
+	function noagree() {
 		var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
 		if (rows.length > 0) {
 			$.messager.confirm('提示', '确认后将无法修改，您确定“不同意”通过审核吗? ', function(r) {
@@ -175,5 +186,6 @@
 				}
 			});
 		}
-	});
+	}
+	
 </script>
