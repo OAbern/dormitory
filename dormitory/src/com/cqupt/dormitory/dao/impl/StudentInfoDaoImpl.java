@@ -92,5 +92,20 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		}
 		return list;
 	}
+
+	@Override
+	public boolean stuNumIsExist(String stuNum) {
+		Student student = null;
+		try {
+			student = getSqlSession().selectOne("stuNumIsExist", stuNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(student == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 	
 }

@@ -1,6 +1,7 @@
 package com.cqupt.dormitory.dao.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,43 @@ public class TeacherInfoDaoImpl extends BaseDaoSupport implements TeacherInfoDao
 			e.printStackTrace();
 		}
 		return teacher;
+	}
+
+	@Override
+	public Teacher findTeacherByTecNum(String tecNum) {
+		Teacher teacher = null;
+		try {
+			teacher = getSqlSession().selectOne("findTeacherByTecNum", tecNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return teacher;
+	}
+
+	@Override
+	public boolean updateTeacherInfo(Teacher teacher) {
+		int result = -1;
+		try {
+			result =  getSqlSession().update("updateTeacherInfo", teacher);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public List<String> findMajorByTecId(int tecId) {
+		List<String> majors = null;
+		try {
+			majors = getSqlSession().selectList("findMajorByTecId", tecId);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return majors;
 	}
 
 	

@@ -42,7 +42,9 @@ public class LoginController {
 				modelAndView.setViewName("login");
 				modelAndView.addObject("error", "用户名或密码错误！");
 			}else {
-				modelAndView.setViewName("f_index");
+				modelAndView.setViewName("redirect:f_index");
+				request.getSession().setAttribute("teacherPw", teacher.getPassword());
+				teacher.setPassword("");	//置空密码
 				request.getSession().setAttribute("teacher", teacher);
 			}
 		}else if(level == 1) {	//管理员
@@ -51,14 +53,26 @@ public class LoginController {
 			a.setPassword(pw);
 			Admin admin = adminDao.findAdminByNumAndPw(a);
 			if(admin == null) {
-				modelAndView.setViewName("login");
+				modelAndView.setViewName("redirect:login");
 				modelAndView.addObject("error", "用户名或密码错误！");
 			}else {
 				modelAndView.setViewName("index");
+				request.getSession().setAttribute("adminPw", admin.getPassword());
+				admin.setPassword("");		//置空密码
 				request.getSession().setAttribute("admin", admin);
 			}
 		}
-		
+		return modelAndView;
+	}
+	
+	/**
+	 * 退出登录
+	 * @return
+	 */
+	public ModelAndView logOut(HttpServletRequest request) {
+		request.getSession().invalidate();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:login");
 		return modelAndView;
 	}
 

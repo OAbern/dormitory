@@ -52,5 +52,12 @@ public interface StudentInfoDao {
 	 * @return 
 	 */
 	public List<String> findCascadingInfo(Condition condition);
+	
+	/**
+	 * 校验学号是否存在
+	 * @param stuNum 学号
+	 * @return 存在返回true，否则返回false
+	 */
+	public boolean stuNumIsExist(String stuNum);
 
 }

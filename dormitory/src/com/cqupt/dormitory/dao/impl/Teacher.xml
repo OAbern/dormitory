@@ -17,12 +17,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 根据教师名字和学院id查找教师 -->
 	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
-		SELECT * FROM `teacher` WHERE `tec_name`=#{name} AND `academy_id`=#{academyId}
+		SELECT * FROM `teacher` t
+			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
+			WHERE t.`tec_name`=#{name} AND t.`academy_id`=#{academyId}
 	</select>
 
 	<!-- 根据教师名字和密码查找教师 -->
 	<select id="findTeacherByNumAndPw" parameterType="com.cqupt.dormitory.model.Teacher" resultMap="teacherResult">
-		SELECT * FROM `teacher` WHERE `tec_num`=#{tecNum} AND `password`=#{password}
+		SELECT * FROM `teacher` t
+			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id` 
+			WHERE t.`tec_num`=#{tecNum} AND t.`password`=#{password}
+	</select>
+	
+	<!-- 根据教工号查找教师信息 -->
+	<select id="findTeacherByTecNum" parameterType="String" resultMap="teacherResult">
+		SELECT * FROM `teacher` t
+			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
+			WHERE t.`tec_num` = #{tecNum}
+	</select>
+	
+	<!-- 更新教师信息 -->
+	<update id="updateTeacherInfo" parameterType="com.cqupt.dormitory.model.Teacher">
+		UPDATE `teacher` 
+		<set>
+			<if test="sex!=null">`tec_sex` = #{sex}</if>
+			<if test="phone!=null">`phone` = #{phone}</if>
+			<if test="name!=null">`tec_name` = #{name}</if>
+			<if test="password">`password` = #{password}</if>		
+		</set> 
+			WHERE `tec_num` = #{tecNum}
+	</update>
+	
+	<!-- 根据教师id查找所管理的专业 -->
+	<select id="findMajorByTecId" parameterType="String" resultType="String" statementType="STATEMENT">
+		SELECT DISTINCT(major) FROM `student` 
+			WHERE `tec_id` = ${tecId}
 	</select>
 	
 	

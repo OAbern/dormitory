@@ -1,5 +1,7 @@
 package com.cqupt.dormitory.dao;
 
+import java.util.List;
+
 import com.cqupt.dormitory.model.Teacher;
 
 /**
@@ -9,7 +11,7 @@ import com.cqupt.dormitory.model.Teacher;
  */
 public interface TeacherInfoDao {
 	/**
-	 * 根据教师名字学院id查找教师
+	 * 根据教师名字和学院id查找教师
 	 * @param name 教师名字
 	 * @return 教师信息
 	 */
@@ -22,4 +24,24 @@ public interface TeacherInfoDao {
 	 */
 	public Teacher findTeacherByNumAndPw(Teacher teacher);
 	
+	/**
+	 * 根据教工号查找教师信息
+	 * @param tecNum
+	 * @return
+	 */
+	public Teacher findTeacherByTecNum(String tecNum);
+	
+	/**
+	 * 更新教师信息
+	 * @param teacher
+	 * @return
+	 */
+	public boolean updateTeacherInfo(Teacher teacher);
+	
+	/**
+	 * 根据教师id查找专业
+	 * @param tecId 教师id
+	 * @return 
+	 */
+	public List<String> findMajorByTecId(int tecId);
 }

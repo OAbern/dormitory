@@ -119,15 +119,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) FROM `student` s
 			<where>
 				<if test="academy!=null">s.`academy_id` = ${academy}</if>
-				<if test="education!=null">AND s.`education` = #{education}</if>
-				<if test="major!=null">AND s.`major` = #{major}</if>
-				<if test="grade!=null">AND s.`grade` = #{grade}</if>
-				<if test="sex!=null">AND s.`sex` = #{sex}</if>
+				<if test="education!=null">AND s.`education` = '${education}'</if>
+				<if test="major!=null">AND s.`major` = '${major}'</if>
+				<if test="grade!=null">AND s.`grade` = '${grade}'</if>
+				<if test="sex!=null">AND s.`sex` = '${sex}'</if>
 			</where>
 	</select>
 	
-	
-	
+	<!-- 校验指定学号的信息是否存在 -->
+	<select id="stuNumIsExist" parameterType="String" resultType="com.cqupt.dormitory.model.Student">
+		SELECT * FROM `student` WHERE `stu_num` = #{stuNum}
+	</select>
 	
 	
 	

@@ -173,7 +173,10 @@ public class StudentInfoController {
 		@SuppressWarnings("unchecked")
 		List<Factor> factors = (List<Factor>) JSONUtils.json2Obj(json, Factor.class);
 		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
-		JSONUtils.toJSON(studentList, response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", studentList.size());
+		map.put("rows", studentList);
+		JSONUtils.toJSON(map, response);
 	}
 	
 	/**
@@ -199,7 +202,10 @@ public class StudentInfoController {
 	@RequestMapping("/findStudentByCondition")
 	public void findStudentByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
-		JSONUtils.toJSON(students, response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", students.size());
+		map.put("rows", students);
+		JSONUtils.toJSON(map, response);
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package com.cqupt.dormitory.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -21,6 +23,26 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 	public Teacher findTeacherByNameAndAcademyId(String name, int academyId) {
 		Teacher teacher = teacherInfoDao.findTeacherByNameAndAcademyId(name, academyId);
 		return teacher;
+	}
+
+	@Override
+	public Teacher findTeacherByTecNum(String tecNum) {
+		return teacherInfoDao.findTeacherByTecNum(tecNum);
+	}
+
+	@Override
+	public Teacher findTeacherByNumAndPw(Teacher teacher) {
+		return teacherInfoDao.findTeacherByNumAndPw(teacher);
+	}
+
+	@Override
+	public boolean updateTeacherInfo(Teacher teacher) {
+		return teacherInfoDao.updateTeacherInfo(teacher);
+	}
+
+	@Override
+	public List<String> findMajorByTecId(int tecId) {
+		return teacherInfoDao.findMajorByTecId(tecId);
 	}
 
 }
