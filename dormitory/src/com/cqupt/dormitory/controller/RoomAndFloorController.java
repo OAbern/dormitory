@@ -1,6 +1,9 @@
 package com.cqupt.dormitory.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,7 +296,18 @@ public class RoomAndFloorController {
 		JSONUtils.toJSON(map, response);
 	}
 	
+	@RequestMapping("/downLoadExcel")
 	public void downLoadExcel(@ModelAttribute Condition condition,HttpServletResponse response){
-		
+		//重新加载所有的student出来.
+		condition.setLivingStatus(4);
+		List<Student> students = studentInfoService.findStudentByCondition(condition);
+		try {
+			response.setHeader("Content-Type", "application/vnd.ms-excel; charset=utf-8");
+		    String filename = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());  
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.toString().concat(".xls").getBytes(),"iso-8859-1"));  
+            roomService.getExcelForDistribute(students).write(response.getOutputStream());   
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

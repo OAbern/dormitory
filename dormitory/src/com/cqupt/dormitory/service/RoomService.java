@@ -1,6 +1,9 @@
 package com.cqupt.dormitory.service;
 
+import java.io.OutputStream;
 import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.cqupt.dormitory.model.Room;
 import com.cqupt.dormitory.model.Student;
@@ -160,4 +163,15 @@ public interface RoomService {
 	 * @since  1.0.0
 	 */
 	public boolean updateDistributeRoom(List<String> studentNums,String[] buildingNum);
+	
+	
+	/**
+	 * getExcelForDistribute 返回一个流文件
+	 * @param students
+	 * @return 
+	 *OutputStream
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public HSSFWorkbook getExcelForDistribute(List<Student> students);
 }

@@ -24,8 +24,11 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 
 	@Override
 	public int findBuildingEmptyBed(int buildingId) {
-		int totalBed = getSqlSession().selectOne(Building.class.getName()+".find_all_building_totalbed",buildingId);
-		int emptyBed =  getSqlSession().selectOne(Building.class.getName()+".find_building_emptybed",buildingId);
+		Integer totalBed = getSqlSession().selectOne(Building.class.getName()+".find_all_building_totalbed",buildingId);
+		Integer emptyBed =  getSqlSession().selectOne(Building.class.getName()+".find_building_emptybed",buildingId);
+		if(totalBed==null || emptyBed==null){
+			return 0;
+		}
 		return totalBed-emptyBed;
 	}
 
@@ -76,6 +79,7 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		if(!isBuildingExist(b.getBuildingNum())){
 			getSqlSession().insert(Building.class.getName()+".add",b);
 		}
+		//throw new RuntimeException("有重复的building");//添加
 		return this.findBuildingByNum(b.getBuildingNum());
 	}
 

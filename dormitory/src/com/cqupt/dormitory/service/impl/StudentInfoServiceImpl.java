@@ -132,8 +132,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public void updateOutOfRoom(List<String> studentNums) {
-		String[] a ={};
-		a = studentNums.toArray(a);
+		String[] a = new String[studentNums.size()];
+		studentNums.toArray(a);
+		if(a.length<1){
+			a[0] = "null";
+		}
 		this.updateOutOfRoom(a);
 	}
 

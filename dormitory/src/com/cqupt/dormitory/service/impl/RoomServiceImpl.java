@@ -1,5 +1,9 @@
 package com.cqupt.dormitory.service.impl;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +11,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.cqupt.dormitory.dao.BuildingDao;
@@ -303,5 +311,66 @@ public class RoomServiceImpl implements RoomService{
 		}
 		return true;
 		
+	}
+
+
+	@Override
+	public HSSFWorkbook getExcelForDistribute(List<Student> students) {
+		HSSFWorkbook workbook = new HSSFWorkbook();                     // 创建工作簿对象  
+	     try {
+			FileOutputStream fos = new FileOutputStream("test.xls");        // 创建.xls文件  
+			HSSFSheet sheet = workbook.createSheet();                       // 创建工作表  
+			
+		    HSSFRow row1 = sheet.createRow((short)0);               // 在索引0的位置创建行(最顶端的行)  
+            HSSFCell cell1 = null;                                  // 在索引0的位置创建单元格(左上
+			
+            String[] label = {"寝室号","学院","专业","班级","学号","姓名","性别"};
+            for(int i = 0;i<label.length;i++){
+            	cell1 = row1.createCell(i);     
+            	cell1.setCellValue(label[i]);
+            }
+			
+            for(int i = 0;i<students.size();i++){
+            	HSSFRow rows = sheet.createRow((short)i+1);
+            	HSSFCell cells = null;
+            	Student s = students.get(i);
+	        	for(int j = 0;j<label.length;j++){
+	        		cells = rows.createCell(j);     
+	             	cells.setCellValue(getCellValue(s,j));
+	            }  
+            }
+            
+            
+            workbook.write(fos);// 将workbook对象输出到文件test.xls  
+            fos.flush();        // 缓冲  
+            fos.close();        // 关闭流(养成好的习惯打开了就别忘记关闭)  
+			 
+			 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return workbook;
+	}
+	
+	
+	public String getCellValue(Student s ,int i){
+		if(i == 0){
+			return s.getRoom().getRoomNum();
+		}else if(i==1){
+			return s.getAcademy().getName();
+		}else if(i==2){
+			return s.getMajor();
+		}else if(i==3){
+			return s.getClassNum();
+		}else if(i==4){
+			return s.getStuNum();
+		}else if(i==5){
+			return s.getName();
+		}else if(i==6){
+			return s.getSex();
+		}else 
+			return "无";
 	}
 }

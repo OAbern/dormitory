@@ -77,7 +77,7 @@ a.xz_fenpeijg {
 	$(".xz_fenpeijg").click(function(){
 		$.messager.confirm('确认', '确认下载?', function(row) {
 			if (row) {
-				$.post('fenpeijieguoxiazai', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
+				$.get('roomInfo/downLoadExcel.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
 		}
 	});
 	});
