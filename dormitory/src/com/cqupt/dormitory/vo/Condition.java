@@ -13,6 +13,7 @@ public class Condition {
 	private String sex; 	//性别
 	private String classNum;	//班级
 	private String buildingNum;		//楼栋号
+	private int livingStatus;		//住宿状态》退宿：1，外宿：2，未分配寝室：3，在住：4
 	
 	public String getTarget() {
 		return target;
@@ -62,5 +63,12 @@ public class Condition {
 	public void setBuildingNum(String buildingNum) {
 		this.buildingNum = buildingNum;
 	}
+	public int getLivingStatus() {
+		return livingStatus;
+	}
+	public void setLivingStatus(int livingStatus) {
+		this.livingStatus = livingStatus;
+	}
+	
 	
 }

@@ -60,9 +60,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 根据教师id查找所管理的专业 -->
-	<select id="findMajorByTecId" parameterType="String" resultType="String" statementType="STATEMENT">
+	<select id="findMajorByTecId" parameterType="Integer" resultType="String">
 		SELECT DISTINCT(major) FROM `student` 
-			WHERE `tec_id` = ${tecId}
+			WHERE `tec_id` = #{tecId}
 	</select>
 	
 	<!-- 根据班级代号加载教师信息 -->

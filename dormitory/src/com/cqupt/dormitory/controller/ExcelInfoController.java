@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.naming.spi.DirStateFactory.Result;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cqupt.dormitory.model.ExcelInfo;
 import com.cqupt.dormitory.model.Teacher;
@@ -51,7 +49,7 @@ public class ExcelInfoController {
 		ModelAndView modelAndView = new ModelAndView();
 		Teacher teacherInSession = (Teacher) request.getSession().getAttribute("teacher");
 		if(teacherInSession == null) {
-			modelAndView.setView("/fu/f_stuchangehotel");
+			modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
 			return modelAndView;
 		}
 		String originalFilename = file.getOriginalFilename();	//获取原始的文件名
@@ -78,7 +76,7 @@ public class ExcelInfoController {
 		if(result1) {
 			result2 = excelInfoService.addExcel(excelInfo);
 		}
-		modelAndView.setView("/fu/f_stuchangehotel");
+		modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
 		return modelAndView;
 	}
 	
@@ -124,7 +122,7 @@ public class ExcelInfoController {
 	 */
 	@RequestMapping("/findExcelInfoByTecNum")
 	public void findExcelInfoByTecNum(HttpServletRequest request, HttpServletResponse response) {
-		Teacher teacher = (Teacher) request.getAttribute("teacher");
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
 		if(teacher == null) {
 			return;
 		}

@@ -10,7 +10,7 @@ import java.util.Date;
 public class Student {
 	
 	private int id;	//逻辑主键 自增id	
-	private int liveStatus;	//住宿状态：在住:0,退宿：1，外宿：2	
+	private int liveStatus;	//住宿状态》退宿：1，外宿：2，未分配寝室：3，在住：4
 	
 	private String sex;	//性别 ：0为男,1为女	
 	private String grade;	//年级	
