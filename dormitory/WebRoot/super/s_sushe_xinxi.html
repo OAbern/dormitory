@@ -25,7 +25,7 @@ $(function(){
 	$('#tb a:eq(2)').linkbutton({
 		iconCls:'icon-remove'
 	});
-	$.getJSON("json/get/s_sushe_xinxi.json",{"buildingid":buildingid},function(data){
+	$.getJSON("roomInfo/findAllRoom.do",{"buildingNum":buildingid},function(data){
 		var options={
 		data:data,
 		width:'880px',
