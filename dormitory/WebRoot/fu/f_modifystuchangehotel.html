@@ -4,7 +4,7 @@
 <div class="right_contain">
        <div class="editor" style="float:left;width:700px">
             <p>请上传您调整后的寝室调配情况:</p>
-            <form id="form1" enctype="multipart/form-data">
+            <form id="form1" enctype="multipart/form-data" action="excel/addExcel.do" onsubmit="check()">
                  <input name="file" type="file" size="35" onchange="fileChange(this);">
                  <input name="submit" type="submit" class="btn_grey" value="提交">
 	        </form>
@@ -67,7 +67,16 @@
 			} 
 			able=true;
 	  } 
-	  $('input[name="submit"]').click(function(){
+	  function check(){
+	     if(able == true){
+	       return true;
+	     }
+	     else{
+	       $.messager.alert("提示","请选择文件");
+	       return false;
+	     }
+	  }
+	 /*   $('input[name="submit"]').click(function(){
 	        if(able == true){
 	            $.post('excel/addExcel.do',function(data){
 	                 if(data.status==1){
@@ -81,9 +90,9 @@
 	             $.messager.alert("提示","请选择文件");
 	             return false;
 	          }
-	       });
+	       }); */
 	   $(".table_two").datagrid({
-				width:'950px',
+				width:'750px',
 				height:'330px',
 				url:'excel/findExcelInfoByTecNum.do',
 				rownumbers:'true',
@@ -92,11 +101,18 @@
 				nowrap:'false',
 				pagination:'true',
 				columns : [ [
-							{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
-							{field : 'teaname',title : '姓名',width : 100,align : 'center'},
-							{field : 'mgrade',title : '年级',width : 100,align : 'center'},
-							{field : 'college',title : '学院',width : 200,align : 'center'},
-							{field : 'shenhe',title : '审核',width : 100,align : 'center'}
+				           {field : 'academy',title : '学院',width : 200,align : 'center',
+						        	formatter:function(value,row){
+									 	return row.submitTeacher.academy.name;
+									 }
+						    },
+						    {field : 'teacher',title : '上传教师',width : 200,align : 'center',
+							          formatter:function(value,row){
+					 	                    return row.submitTeacher.name;
+					                  }
+							},
+				            {field : 'name',title : '上传文件名',width : 250,align : 'center'},
+							{field : 'status',title : '审核',width : 100,align : 'center'}
 				] ],
 				onLoadError:function(){
 					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
