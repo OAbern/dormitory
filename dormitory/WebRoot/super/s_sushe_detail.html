@@ -72,6 +72,8 @@ h3 span {
 <script type="text/javascript">
 var ok_c=false;
 var ok_f=false;
+var url="";
+var param={};
 $('.return').click(function(){
 	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
 	})
@@ -98,9 +100,12 @@ $('.return').click(function(){
 		$('select[name="fee"]').append(str);
 	});
 	$('.select').click(function(){
-		var cata=$('select[name="cata"] ').val();
-		var fee=$('select[name="fee"] ').val();
-		$.post("json/post/s_sushe_detail.json",{"buildingid":buildingid,"floorid":floorid,"susheid":susheid,"cata":cata,"fee":fee},function(data){
+		var tem1=$('select[name="cata"] ').val();
+		var tem2=$('select[name="fee"] ').val();
+		cata=tem1.substring(0,tem1.length-2);
+		fee=tem2.substring(0,tem2.length-3);
+		getPostParam(action);
+		$.post(url,param,function(data){
 			if(data.status==1){
 			 $.messager.alert("提示","保存成功","info"); 
 			 $('#base_right').empty().load("super/s_sushe_xinxi.html");
@@ -108,6 +113,7 @@ $('.return').click(function(){
 				$.messager.alert("提示","保存失败","info"); 
 				}
 		});
+		url="";param={};
 	});
 	//校验
     $('input[name="cata"]').focusout(function(){
@@ -134,8 +140,8 @@ $('.return').click(function(){
 	});	
 	
 	$('.new').click(function(){	
-		var cata= $('input[name="cata"]').val();
-		var fee= $('input[name="fee"]').val();
+		 cata= $('input[name="cata"]').val();
+		 fee= $('input[name="fee"]').val();
 		var str="请输入数字";
 		if(cata==''){
 			$('input[name="cata"]').next().html(str);
@@ -144,8 +150,8 @@ $('.return').click(function(){
 			$('input[name="fee"]').next().html(str);
 			}
 		if(ok_c && ok_f){
-			
-			$.post("json/post/s_add_dormitory.json",{"buildingid":buildingid,                        "cata":cata,"fee":fee},function(data){
+			getPostParam(action);
+			$.post(url,param,function(data){
 				if(data.status==1){
 					$.messager.alert("提示","添加成功","info"); 
 					$('#base_right').empty().load("super/s_sushe_xinxi.html");
@@ -157,4 +163,27 @@ $('.return').click(function(){
 			 $.messager.alert("提示","请输入正确的信息","info");
 			 }
 	});
+	function getPostParam(action){
+		
+		if(action=="add"){
+			url="json/post/s_sushe_detail.json";//添加新寝室的地址
+			param.buildingNum=buildingid;
+			param.floorNum=floorid;
+			param.cata=cata;
+			param.fee=fee;
+			}
+		if(action=="modifyfloor"){
+			url="json/post/s_sushe_detail.json";//修改某层楼的宿舍信息
+			param.buildingNum=buildingid;
+			param.floorNum=floorid;
+			param.cata=cata;
+			param.fee=fee;
+			}
+		if(action=="modifysushe"){
+			url="json/post/s_sushe_detail.json";//修改单个寝室的宿舍信息
+			param.roomNum=susheid;
+			param.cata=cata;
+			param.fee=fee;
+			}
+		}
 </script>

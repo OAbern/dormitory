@@ -119,7 +119,7 @@ $(function(){
 				if (r){
 					var index=parseInt(getRowIndex(target));
 					$('#student').datagrid('deleteRow',index);
-					$.post('json/post/s_delete_student.json',{"stuNum":stuNum},function(data){
+					$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"roomNum":susheid},function(data){
 						if(data.status==1){
 							/*$.messager.alert("提示","删除成功","info");*/
 							$('#student').datagrid('deleteRow',index);
