@@ -61,10 +61,12 @@ $("#filter").click(function(event) {//点击筛选展示数据
 	  showTable.datagrid({
 		  width:'710px',
 		  height:'330px',
-		  url:'',
+		  url:'teacherInfo/findTeacherByFactor.do',
 		  rownumbers:'true',
 		  fitColumns:'true',
-		  queryParams:{
+		  striped:'true',//斑马线
+			nowrap:'false',//自动换行
+		  queryParams:{                                                                    
 			  academy:academyText,
 			  grade:grade
 		  },
@@ -138,9 +140,9 @@ function saverow(target) {
   delete(row.editing);
 	$.ajax({ 
     type:"POST", 
-    url:"", 
+    url:"teacherInfo/updateTeacher.do", 
     dataType:"json",      
-    contentType:"application/json",               
+    //contentType:"application/json",               
     data:JSON.stringify(row),
     success: function(data){
 	    if(data.status=='0'){

@@ -63,7 +63,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 	showTable.datagrid({
 		width:'980px',
 		height:'330px',
-		url:'json/get/s_xiaowai_zhusu_guanli.json',
+		url:'studentInfo/findStudentOutLiving.do',
 		rownumbers:'true',
 		fitColumns:'true',
 		queryParams:{
@@ -108,7 +108,7 @@ function deleterow() {
 			//var index=showTable.datagrid('getRowIndex',selections[i]);
 			//showTable.datagrid('deleteRow',index);
 		}
-		$.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
+		$.post('studentInfo/findStudentOutLiving.do',{'delRowsIdArray':delRowsIdArray},function(data){
 			if(data.status=='0'){
 				alert(data.info);
 			}else if(data.status=='1'){

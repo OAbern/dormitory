@@ -57,8 +57,8 @@ sex.change(function(){
 	bui.find('option:gt(1)').remove();
 	flo.find('option:gt(1)').remove();
 	room.find('option:gt(1)').remove();
-	$.post('',{
-			target:'building',
+	$.post('areaInfo/findBuildingNumBySex.do',{
+			//target:'building',
 			sex:GLOBAL.getSex()
 		},
 		function(data){
@@ -72,9 +72,9 @@ sex.change(function(){
 bui.change(function(){
 	flo.find('option:gt(1)').remove();
 	room.find('option:gt(1)').remove();
-	$.post('',{
-			target:'floor',
-			sex:GLOBAL.getSex(),
+	$.post('roomInfo/findFloorNumByBuildingNum.do',{
+			//target:'floor',
+			//sex:GLOBAL.getSex(),
 			building:GLOBAL.getBuilding()
 		},
 		function(data){
@@ -87,7 +87,7 @@ bui.change(function(){
 //楼层改变
 flo.change(function(){
 	room.find('option:gt(1)').remove();
-	$.post('',{
+	$.post('roomInfo/findRoomNumByBuildingNumAndFloor.do',{
 			target:'floor',
 			sex:GLOBAL.getSex(),
 			building:GLOBAL.getBuilding(),
@@ -187,6 +187,7 @@ function saverow(target) {
 		if(data.status=='0'){
 			alert(data.info);
 		}    
+	});
 }
 //取消操作
 function cancelrow(target) {
