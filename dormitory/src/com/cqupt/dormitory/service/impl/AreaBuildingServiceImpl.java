@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -219,7 +220,8 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 			if(lastName.equals(".xls")){
 				wb = new HSSFWorkbook(fs);
 			}else if(lastName.equals(".xlsx")){
-				wb = new XSSFWorkbook(fs);
+				OPCPackage docPackage = OPCPackage.open(fs);
+				wb = new XSSFWorkbook(docPackage);
 			}else{
 				throw  new RuntimeException();
 			}
@@ -227,7 +229,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 			//第一行直接忽略
 			Sheet sheet1 = wb.getSheetAt(0);
 			
-			for (int j=1;j<sheet1.getLastRowNum();j++) {
+			for (int j=1;j<sheet1.getLastRowNum()+1;j++) {
 				Row row = sheet1.getRow(j);
 				
 				rows++;

@@ -292,4 +292,8 @@ public class RoomAndFloorController {
 		}
 		JSONUtils.toJSON(map, response);
 	}
+	
+	public void downLoadExcel(@ModelAttribute Condition condition,HttpServletResponse response){
+		
+	}
 }

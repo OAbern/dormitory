@@ -26,6 +26,9 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 	@Override
 	public List<Room> findAllRoomByBuildingNumAndFloor(String buildingNum,String floorNum) {
 		Map<String,Object> map = new HashMap<String,Object>();
+		if(buildingNum.length()<2){
+			buildingNum = "0"+buildingNum;
+		}
 		buildingNum += "%";
 		map.put("buildingNum", buildingNum);
 		map.put("floorNum", floorNum);
