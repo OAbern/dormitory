@@ -105,9 +105,11 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		showTable.datagrid({
 			width:'650px',
 			height:'330px',
-			url:'json/get/s_tuisu_guanli.json',
+			url:'studentInfo/findStudentCheckOut.do',
 			rownumbers:'true',
-			fitColumns:'true',
+		  fitColumns:'true',
+		  striped:'true',
+			nowrap:'false',
 			queryParams:{
 				target:'building',
 				sex:GLOBAL.getSex(),
@@ -145,12 +147,12 @@ function deleterow() {
 			//var index=showTable.datagrid('getRowIndex',selections[i]);
 			//showTable.datagrid('deleteRow',index);
 		}
-		$.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
+		$.post('studentInfo/checkOutStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
 			if(data.status=='0'){
-				alert(data.info);
+				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
 				showTable.datagrid('reload');
-				alert('删除成功');
+				$.messager.alert('操作提示', '删除成功！');
 			}
 		});
 	}

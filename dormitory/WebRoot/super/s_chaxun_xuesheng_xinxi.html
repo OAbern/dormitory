@@ -43,55 +43,50 @@ GLOBAL.showAcademy();
 GLOBAL.showGrade();
 var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
 	$("#filter").click(function() {//点击筛选展示数据
-		//定义三个变量获取筛选的条件
-		var academyText=$("#academy").val(),
-			grade=$("#grade").val(),
-			education=$("#education").val();
-		if(academyText=='-1'||grade=='-1'||education=='-1'){
-			alert('请选择筛选条件');
-		}else{
+		if(GLOBAL.notSelected()){
 			showTable.datagrid({
 				width:'950px',
-			height:'330px',
-//			url:'json/get/s_chaxun_xuesheng_xinxi.json',
-			url:'studentInfo/findStudentByCondition.do',
-			rownumbers:'true',
-			fitColumns:'true',
-			striped:true,//斑马线
-			queryParams:{
-				academy:academyText,
-				grade:grade,
-				education:education
-			},
-			pagination:'true',
-			columns:[[    
-				{field:'ck',checkbox:true},    
-				{field:'stuNum',title:'学号',width:100,align:'center'},    
-				{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
-				{field:'sex',title:'性别',width: 60,align:'center'}, 
-				{field:'birth',title:'出生年月',width: 100,align:'center',editor:'datebox'},    
-				{field:'academy',title:'学院',width: 200,align:'center',
-					formatter:function(value,row){
-				        return row.academy.name;
-				    }
+				height:'330px',
+	//			url:'json/get/s_chaxun_xuesheng_xinxi.json',
+				url:'studentInfo/findStudentByCondition.do',
+				rownumbers:'true',
+				fitColumns:'true',
+				striped:'true',//斑马线
+				nowrap:'false',
+				queryParams:{
+					academy:GLOBAL.getAcademy(),
+					grade:GLOBAL.getGrade(),
+					education:GLOBAL.getEducation()
 				},
-				{field:'major',title:'专业',width: 150,align:'center'},
-				{field:'grade',title:'年级',width: 120,align:'center'},
-				{field:'classNum',title:'班级',width: 100,align:'center'},    
-				{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
-				{field:'nation',title:'民族',width: 60,align:'center'},
-				{field:'education',title:'学历',width: 120,align:'center'},    
-				{field:'room',title:'寝室号',width: 100,align:'center'},
-				]],
-				onLoadError:function(){
-					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+				pagination:'true',
+				columns:[[    
+					{field:'ck',checkbox:true},    
+					{field:'stuNum',title:'学号',width:100,align:'center'},    
+					{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
+					{field:'sex',title:'性别',width: 60,align:'center'}, 
+					{field:'birth',title:'出生年月',width: 100,align:'center',editor:'datebox'},    
+					{field:'academy',title:'学院',width: 200,align:'center',
+						formatter:function(value,row){
+					        return row.academy.name;
+					    }
+					},
+					{field:'major',title:'专业',width: 150,align:'center'},
+					{field:'grade',title:'年级',width: 120,align:'center'},
+					{field:'classNum',title:'班级',width: 100,align:'center'},    
+					{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
+					{field:'nation',title:'民族',width: 60,align:'center'},
+					{field:'education',title:'学历',width: 120,align:'center'},    
+					{field:'room',title:'寝室号',width: 100,align:'center'},
+					]],
+					onLoadError:function(){
+						$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
 
-				},
-				onLoadSuccess:function(data){
-					if(data.rows.length==0){
-						$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
-					}
-				},
+					},
+					onLoadSuccess:function(data){
+						if(data.rows.length==0){
+							$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+						}
+					},
 			}); 
 			showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
 		}

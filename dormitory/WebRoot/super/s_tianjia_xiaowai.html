@@ -1,17 +1,28 @@
 <style type="text/css">
 .item {
 	height:25px;
-	margin-top:3px;
 }
-.item span {
+.preInfo{
 	display:inline-block;
 	margin-right:10px;
 	text-align:right;
 	padding-right:0;
-	width:100px;
+	width:120px;
+}
+.validInfo{
+  display:inline-block;
+  width: 200px;
+  height: 20px;
+  color: red;
+  /* background: red; */
+  /* background-image: url('images/reg_succ.png') ; */
+  background-repeat: no-repeat;
 }
 .help {
 	margin-top:10px;
+}
+.status{
+  background-image:url("images/reg_succ.png");
 }
 input[type='submit'] {
 	margin-left:150px;
@@ -25,75 +36,124 @@ input[type='text'] {
 }
 </style>
 <div class="addxw">
-  <form id="addStudent" action="post.jsp">
+  <form id="addStudent" action="studentInfo/addStudentOutLiving.do">
     <div class="liform">
-      <p class="item"><span>姓名:</span>
+      <p class="item">
+        <span class="preInfo">姓名:</span>
         <input type="text" name="name">
+        <span class="validInfo"></span>
         <br />
       </p>
-      <p class="item"><span>学号:</span>
-        <input type="text" name="studentId">
+      <p class="item">
+        <span class="preInfo">学号:</span>
+        <input type="text" name="stuNum">
+        <span class="validInfo"></span>
         <br />
       </p>
-      <p class="item"><span>外出住宿时间:</span>
-        <input id="outTime" type="text" name="outTime">
+      <p class="item">
+        <span class="preInfo">外出住宿时间:</span>
+        <input type="text" name="outTime">
+        <span class="validInfo birthValidInfo"></span>
         <br />
       </p>
-      <p class="item"><span>校外住宿地址:</span>
+      <p class="item">
+        <span class="preInfo">校外住宿地址:</span>
         <input type="text" name="outAddress">
-        <br/>
+        <span class="validInfo"></span>
+        <br />
       </p>
     </div>
     <div class="help">
-      <input type="submit" value="添加">
+      <input type="submit" value="添加" id="submit">
       <input type="reset" value="重置">
     </div>
   </form>
 </div>
 <script type="text/javascript">
-	//外出时间日历
-	$("input[name='outTime']").datebox({
-		required:true,
-	});
-	//表单验证
-		$("#addStudent").validate({
-			rules : {
-				name : {
-					required : true,
-					minlength : 2,
-				}, 
-				studentId : {
-					required : true,
-					digits:true,
-					rangelength : [10, 10],
-				},
-				outTime : {
-					required : true,
-				}, 
-				outAddress : {
-					required : true
-				}  
-			},
-			messages : {
-			    name : {
-							required : '帐号不得为空！',
-							minlength : '帐号不得小于2位！',
-						},
-		        studentId : {
-			        required : '帐号不得为空！',
-			        digits:'请输入整数',
-			        rangelength : jQuery.format('账号必须为{0}位数字'),
-		        }, 
-		        /*outTime : {
-		          required : '外出住宿时间不得为空！',
-		        },*/
-		        outAddress : {
-		          required : '校外住宿地址不得为空！',
-		        },
-			},
-			submitHandler:function(form) {//表单提交
-				$.post('json/post/post.jsp',$('#addStudent').serialize());
-			},
-	
-	});
+$.ajaxSettings.async = false;
+//外出时间日历
+var bir=$("input[name='outTime']");
+bir.datebox({
+  required:true,
+  onSelect: function(date){
+      $('.birthValidInfo').addClass('status');
+  }
+});
+$('input[name="name"]').blur(inputValid);
+$('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);
+$('input[name="outAddress"]').blur(inputValid);
+function inputValid(event) {
+  var val=$(this).val();
+  var name=$(this).attr('name'); 
+  var dataObj=new Object();
+  dataObj[name]=val;
+  var nextSpan=$(this).next();
+  var code=0;
+  var prompt="输入不正确";
+  var prompt1="数据库校验错误";
+  //非空验证
+  if(!!val){
+    code=1;
+    //select框未选择
+    if(val==-1){
+      code=4;
+    }
+    //指定模式验证
+    if(!!event.data){
+      code=2;
+      prompt=event.data[1];
+      if(!!val.match(event.data[0])){
+        code=1;
+         //数据库验证
+        if(event.data[2]==true){
+            code=3;
+          $.post('vaildate/vaildateStuNumAndName.do',{
+	          	stuNum:$('input[name="stuNum"]').val(),
+	          	name:$('input[name="name"]').val()
+	          },
+	          function(data){
+	            if(data.status=='1'){
+	              code=1;
+	            }else{
+	              prompt1=data.info;
+	            }
+	          }
+	        );
+        }
+      } 
+    }
+  }
+  //校验后的提示信息
+  switch(code){
+    //case 0:nextSpan.css('background-image','none').html('请输入');
+    //优化
+    case 0:nextSpan.removeClass('status').html('请输入');
+      break;
+    case 1:nextSpan.empty().addClass('status');
+      break;
+    case 2:nextSpan.removeClass('status').html(prompt);
+      break;
+    case 3:nextSpan.removeClass('status').html(prompt1);
+      break;
+    case 4:nextSpan.removeClass('status').html('请选择');
+      break;
+  }
+}
+//表单提交
+$('#submit').click(function(){
+  if(!bir.datebox('getValue')){
+    $('.birthValidInfo').removeClass('status');
+  }
+  var success=true;
+  $('.validInfo').each(function(){
+    if($(this).css('background-image')=='none'){
+      success=false;
+      return;
+    }
+  });
+  if(success==false){
+    $.messager.alert('操作提示', '请完善表单');
+  }
+  return success;
+});
 </script>

@@ -17,7 +17,7 @@ $.get('academyInfo/getAll.do',function(data){
 //展示学院选项
 GLOBAL.showAcademy=function(){
 	if(!GLOBAL.academy){
-		alert('加载学院数据失败,请刷新重试');
+		$.messager.alert("提示","加载学院数据失败,请刷新重试","error");
 	}else{
 		$.each(GLOBAL.academy,function(i,v){
 			$('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
@@ -33,7 +33,7 @@ GLOBAL.showGrade=function(){
 //用于判断筛选条件是否选择
 GLOBAL.notSelected=function(){
 	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'||GLOBAL.getFloor()=='-1'||GLOBAL.getRoom()=='-1'){
-		alert('请完善选择框');
+		$.messager.alert("提示","请完善选择框！","warning");
 		return false;
 	}else{
 		return true;

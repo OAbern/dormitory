@@ -53,24 +53,18 @@ GLOBAL.showAcademy();
 GLOBAL.showGrade();
 var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
 $("#filter").click(function(event) {//点击筛选展示数据
-  var academyText=$("#academy").val(),
-	  grade=$("#grade").val();
-  if(academyText=='-1'||grade=='-1'){
-		alert('请选择筛选条件');
-	}else{
+  if(GLOBAL.notSelected()){
 	  showTable.datagrid({
 		  width:'710px',
 		  height:'330px',
 		  url:'teacherInfo/findTeacherByFactor.do',
 		  rownumbers:'true',
 		  fitColumns:'true',
-
 		  striped:'true',//斑马线
 			nowrap:'false',//自动换行
 		  queryParams:{                                                                    
-
-			  academy:academyText,
-			  grade:grade
+			  academy:GLOBAL.getAcademy(),
+			  grade:GLOBAL.getGrade()
 		  },
 		  pagination:'true',
 		  toolbar:[{
@@ -81,11 +75,15 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		  }],
 		  columns:[[    
 			  {field:'ck',checkbox:true},    
-			  {field:'teacherId',title:'教工号',width:100,align:'center'},    
-			  {field:'academy',title:'学院',width:200,align:'center'},
-			  {field:'manageGrade',title:'负责年级',width:120,align:'center'}, 
+			  {field:'tecNum',title:'教工号',width:100,align:'center'},    
+			  {field:'academy',title:'学院',width: 200,align:'center',
+					formatter:function(value,row){
+		        return row.academy.name;
+			    }
+				},
+			  /*{field:'manageGrade',title:'负责年级',width:120,align:'center'},*/ 
 			  {field:'name',title:'用户姓名',width:100,align:'center',editor:'text'},    
-			  {field:'role',title:'用户角色',width:100,align:'center'},
+			  /*{field:'role',title:'用户角色',width:100,align:'center'},*/
 			  {field:'action',title:'操作',align:'center',width:100,
 				  formatter: function(value,row,index){
 					  if (row.editing){
@@ -112,8 +110,14 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			  updateActions(index);
 		  },
 		  onLoadError:function(){
-				alert('载入远程数据出错！');
-			}
+				$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+
+			},
+			onLoadSuccess:function(data){
+				if(data.rows.length==0){
+					$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+				}
+			},
 	  });
 		showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容 
 	}
@@ -171,13 +175,15 @@ function deleterow() {
 		for(var i=0;i<selections.length;i++){
 			delRowsIdArray[i]=selections[i].id;//教师的逻辑主键
 		}
-		$.post('',{'delRowsIdArray':delRowsIdArray},function(data){
-			if(data.status=='0'){
-				alert(data.info);
-			}else if(data.status=='1'){
-				showTable.datagrid('reload');
-				alert('删除成功');
-			}
+		$.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (data) {
+			$.post('teacherInfo/deleteTeacher.do',{'delRowsIdArray':delRowsIdArray},function(data){
+				if(data.status=='0'){
+					$.messager.alert('操作提示', data.info);
+				}else if(data.status=='1'){
+					showTable.datagrid('reload');
+					$.messager.alert('操作提示', '删除成功');
+				}
+			});
 		});
 	}
 }

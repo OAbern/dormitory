@@ -88,9 +88,9 @@ bui.change(function(){
 flo.change(function(){
 	room.find('option:gt(1)').remove();
 	$.post('roomInfo/findRoomNumByBuildingNumAndFloor.do',{
-			target:'floor',
-			sex:GLOBAL.getSex(),
-			building:GLOBAL.getBuilding(),
+			//target:'floor',
+			//sex:GLOBAL.getSex(),
+			//building:GLOBAL.getBuilding(),
 			floor:GLOBAL.getFloor()
 		},
 		function(data){
@@ -107,7 +107,9 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			height:'330px',
 			url:'json/get/s_sushe_xinxi_chaxun.json',
 			rownumbers:'true',
-			fitColumns:'true',
+		  fitColumns:'true',
+		  striped:'true',
+			nowrap:'false',
 			queryParams:{
 				sex:GLOBAL.getSex(),
 				building:GLOBAL.getBuilding(),
@@ -118,19 +120,9 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			columns:[[      
 				{field:'building',title:'楼栋号',width:100,align:'center'},    
 				{field:'sex',title:'所住人员性别',width:100,align:'center'},
-				{field:'roomId',title:'寝室号',width:120,align:'center'}, 
-				{field:'roomType',title:'寝室类型(人/间)',width:120,align:'center',editor:'numberbox'/*,
-					editor:{
-						type:'combobox',
-						options:{
-							data:[],
-							valueField: "value",
-							textField: "text"
-						}
-					}*/
-				},    
-				{field:'roomCost',title:'寝室资费(元/学年)',width:150,align:'center',editor:'numberbox'
-				},
+				{field:'room',title:'寝室号',width:120,align:'center'}, 
+				{field:'roomType',title:'寝室类型(人/间)',width:120,align:'center',editor:'numberbox'},    
+				{field:'roomCost',title:'寝室资费(元/学年)',width:150,align:'center',editor:'numberbox'},
 				{field:'action',title:'操作',align:'center',width:100,
 					formatter: function(value,row,index){
 						if (row.editing){
@@ -185,7 +177,7 @@ function saverow(target) {
 	var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
 	$.post('',row,function(data){
 		if(data.status=='0'){
-			alert(data.info);
+			$.messager.alert('操作提示',data.info);
 		}    
 	});
 }
