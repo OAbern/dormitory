@@ -119,11 +119,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="target!='academy' and target!='classNum'">${target}</if>
 		) FROM `student` s
 			<where>
-				<if test="academy!=null">s.`academy_id` = ${academy}</if>
-				<if test="education!=null">AND s.`education` = '${education}'</if>
-				<if test="major!=null">AND s.`major` = '${major}'</if>
-				<if test="grade!=null">AND s.`grade` = '${grade}'</if>
-				<if test="sex!=null">AND s.`sex` = '${sex}'</if>
+				<if test="academy!=null and academy!=''">s.`academy_id` = ${academy}</if>
+				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
+				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
+				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
+				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
 			</where>
 	</select>
 	
