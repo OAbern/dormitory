@@ -8,7 +8,7 @@ public class Room {
 	private int id;	//逻辑主键，自增id
 	private int totalBed;	//总共床数
 	private int cost;	//费用 元\年
-	private String roomId;	//房间id
+	private String roomNum;	//房间id
 	private Floor floor;	//所属楼层
 	
 	
@@ -30,11 +30,11 @@ public class Room {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	public String getRoomId() {
-		return roomId;
+	public String getRoomNum() {
+		return roomNum;
 	}
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
+	public void setRoomNum(String roomNum) {
+		this.roomNum = roomNum;
 	}
 	public Floor getFloor() {
 		return floor;

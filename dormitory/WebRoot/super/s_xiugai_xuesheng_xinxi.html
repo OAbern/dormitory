@@ -13,20 +13,21 @@
   <div id="searchBar"> 学院:
     <select name="academy" id="academy">
       <option value="0">未选择</option>
-      <option value="01">通信</option>
-      <option value="02">经管</option>
-      <option value="03">计算机</option>
+      <option value="1">通信</option>
+      <option value="3">经管</option>
+      <option value="4">计算机</option>
     </select>
     年级:
     <select name="grade" id="grade">
       <option value="0">未选择</option>
+      <option value="2013">2013</option>
       <option value="2012">2012</option>
       <option value="2011">2011</option>
       <option value="2010">2010</option>
     </select>
     学历:
-    <select name="education" id="education" class="xgstusel">
-      <option value="1" selected="selected">本科生</option>
+    <select name="education" id="education">
+      <option value="" selected="selected">本科生</option>
       <option value="2">研究生</option>
       <option value="3">博士生</option>
     </select>
@@ -46,7 +47,8 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 		showTable.datagrid({
 			width:'950px',
 			height:'330px',
-			url:'json/get/s_chaxun_xuesheng_xinxi.json',
+//			url:'json/get/s_chaxun_xuesheng_xinxi.json',
+			url:'studentInfo/findStudent.do',
 			rownumbers:'true',
 			fitColumns:'true',
 			queryParams:{
@@ -78,7 +80,7 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 			}],
 			columns:[[    
 				{field:'ck',checkbox:true},    
-				{field:'studentId',title:'学号',width:100,align:'center',editor:'text'},    
+				{field:'stuNum',title:'学号',width:100,align:'center',editor:'text'},    
 				{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
 				{field:'sex',title:'性别',width: 60,align:'center',
 					editor:{
@@ -103,8 +105,8 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 				},
 				{field:'major',title:'专业',width: 150,align:'center',editor:'text'},
 				{field:'grade',title:'年级',width: 120,align:'center',editor:'text'},
-				{field:'classes',title:'班级',width: 100,align:'center',editor:'text'},    
-				{field:'home',title:'籍贯',width: 100,align:'center',editor:'text'},
+				{field:'classNum',title:'班级',width: 100,align:'center',editor:'text'},    
+				{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
 				{field:'nation',title:'民族',width: 60,align:'center',editor:'text'},
 				{field:'education',title:'学历',width: 120,align:'center',
 					editor:{

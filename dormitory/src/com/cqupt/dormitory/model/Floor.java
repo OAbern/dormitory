@@ -6,7 +6,7 @@ package com.cqupt.dormitory.model;
  */
 public class Floor {
 	private int id;	//逻辑主键，自增id
-	private String floorId;	//楼层id，业务主键，复合形式（1901）
+	private String floorNum;	//楼层id，业务主键，复合形式（1901）
 	private Building building;	//所属楼栋
 	
 	
@@ -16,11 +16,11 @@ public class Floor {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getFloorId() {
-		return floorId;
+	public String getFloorNum() {
+		return floorNum;
 	}
-	public void setFloorId(String floorId) {
-		this.floorId = floorId;
+	public void setFloorNum(String floorNum) {
+		this.floorNum = floorNum;
 	}
 	public Building getBuilding() {
 		return building;

@@ -12,7 +12,6 @@ public class Student {
 	private int id;	//逻辑主键 自增id	
 	private int sex;	//性别 ：0为男,1为女	
 	private int liveSatus;	//住宿状态：在住:0,退宿：1，外宿：2	
-	private int academyId;	//学院Id	
 	
 	private String grade;	//年级	
 	private String classNum;	//班级号	
@@ -30,6 +29,7 @@ public class Student {
 	private Date inTime;	//入住时间
 	private Date outTime;	//外住时间
 	
+	private Academy academy;
 	private Teacher teacher;	//辅导员
 	private Room room;	//所住房间
 	
@@ -56,11 +56,11 @@ public class Student {
 	public void setLiveSatus(int liveSatus) {
 		this.liveSatus = liveSatus;
 	}
-	public int getAcademyId() {
-		return academyId;
+	public Academy getAcademy() {
+		return academy;
 	}
-	public void setAcademyId(int academyId) {
-		this.academyId = academyId;
+	public void setAcademy(Academy academy) {
+		this.academy = academy;
 	}
 	public String getGrade() {
 		return grade;

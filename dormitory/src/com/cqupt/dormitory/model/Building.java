@@ -6,7 +6,7 @@ package com.cqupt.dormitory.model;
  */
 public class Building {
 	private int id;	//逻辑主键，自增id
-	private String buildingId;	//楼栋id
+	private String buildingNum;	//楼栋id
 	private Area area;	//所属区域
 	
 	
@@ -16,11 +16,11 @@ public class Building {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getBuildingId() {
-		return buildingId;
+	public String getBuildingNum() {
+		return buildingNum;
 	}
-	public void setBuildingId(String buildingId) {
-		this.buildingId = buildingId;
+	public void setBuildingNum(String buildingNum) {
+		this.buildingNum = buildingNum;
 	}
 	public Area getArea() {
 		return area;

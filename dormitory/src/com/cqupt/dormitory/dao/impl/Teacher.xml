@@ -5,17 +5,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.cqupt.dormitory.model.Teacher">
 	<!-- 结果集 teacherResult -->
 	<resultMap type="com.cqupt.dormitory.model.Teacher" id="teacherResult">
-		<id column="id" property="id"/>
-		<result property="sex" column="sex"/>
-		<result property="academyId" column="academy_id"/>
+		<id property="id" column="tec_id"/>
+		<result property="sex" column="tec_sex"/>
 		<result property="tecNum" column="tec_num"/>
 		<result property="password" column="password"/>
-		<result property="name" column="name"/>
-		<result property="phone" column="phone"/>
+		<result property="name" column="tec_name"/>
+		<result property="phone" column="tec_phone"/>
+		
+		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
 	</resultMap>
 
 	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
-		SELECT * FROM `teacher` WHERE `name`=#{name} AND `academy_id`=#{academyId}
+		SELECT * FROM `teacher` WHERE `tec_name`=#{name} AND `academy_id`=#{academy.id}
 	</select>
 
 </mapper>

@@ -4,10 +4,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqupt.dormitory.model.Building">
 	<resultMap type="com.cqupt.dormitory.model.Building" id="buildingResult">
-		<id column="id" property="id"/>
-		<result column="building_id" property="buildingId"/>
-		<association column="area" property="area" resultMap="com.cqupt.dormitory.model.Area.areaResult"/>
+		<id property="id" column="building_id"/>
+		<result property="buildingNum" column="bilding_num"/>
+		<association property="area" column="area_id" resultMap="com.cqupt.dormitory.model.Area.areaResult"/>
 	</resultMap>
-
+	
+	<select id="findAllBuilding" resultMap="buildingResult">
+		SELECT * FROM `building` 
+	</select>
 
 </mapper>

@@ -4,14 +4,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqupt.dormitory.model.Room">
 	<resultMap type="com.cqupt.dormitory.model.Room" id="roomResult">
-		<id column="id" property="id"/>
-		<result column="room_id" property="roomId"/>
-		<result column="total_bed" property="totalBed"/>
-		<result column="cost" property="cost"/>
+		<id property="id" column="room_id"/>
+		<result property="roomNum" column="room_num"/>
+		<result property="totalBed" column="total_bed"/>
+		<result property="cost" column="cost"/>
+		
+		<association property="floor" column="floor_id" resultMap="com.cqupt.dormitory.model.Floor.floorResult"></association>
 	</resultMap>
 	
 	<select id="findByRoomId" resultMap="roomResult" parameterType="String">
-		SELECT * FROM `room` WHERE room_id = #{roomId}
+		SELECT * FROM `room` WHERE room_num = #{roomNum}
 	</select>
 
 </mapper>

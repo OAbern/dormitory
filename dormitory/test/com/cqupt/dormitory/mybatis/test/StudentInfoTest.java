@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
+import com.cqupt.dormitory.model.Academy;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.utils.Factor;
 
@@ -41,7 +42,9 @@ public class StudentInfoTest {
 	public void addStudentTest() {
 		StudentInfoDao studentInfoDao = (StudentInfoDao) context.getBean("studentInfoDaoImpl");
 		Student student = new Student();
-		student.setAcademyId(3);
+		Academy academy = new Academy();
+		academy.setId(3);
+		student.setAcademy(academy);
 		student.setGrade("2012");
 		student.setClassNum("0311201");
 		student.setMajor("信息管理与信息系统");

@@ -4,13 +4,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqupt.dormitory.model.Admin">
 	<resultMap type="com.cqupt.dormitory.model.Admin" id="adminResult">
-		<id column="id" property="id"/>
-		<result column="sex" property="sex"/>
-		<result column="admin_num" property="adminNum"/>
-		<result column="password" property="password"/>
-		<result column="name" property="name"/>
-		<result column="post" property="post"/>
+		<id property="id" column="admin_id"/>
+		<result property="sex" column="admin_sex"/>
+		<result property="adminNum" column="admin_num"/>
+		<result property="password" column="password"/>
+		<result property="name" column="admin_name"/>
+		<result property="post" column="admin_post"/>
 	</resultMap>
-
+	
+	<select id="findAllAdmin" resultMap="adminResult">
+		SELECT * FROM `admin` 
+	</select>
 
 </mapper>

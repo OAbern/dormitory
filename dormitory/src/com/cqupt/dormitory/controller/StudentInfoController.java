@@ -53,7 +53,7 @@ public class StudentInfoController {
 		boolean result = false;
 		/*检查辅导员是否存在*/
 		ModelAndView modelAndView = new ModelAndView();
-		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getName(), student.getAcademyId());
+		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getName(), student.getAcademy().getId());
 		if(teacher == null) {
 			ErrorInfo errorInfo = new ErrorInfo();
 			errorInfo.setErrorInfo("辅导员不存在！");
@@ -102,7 +102,7 @@ public class StudentInfoController {
 		}
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
 		String json = JSONUtils.toJSONString(studentList);
-		System.out.println(json);
+//		System.out.println(json);
 		JSONUtils.toJSON(studentList, response);
 		return null;
 	}

@@ -5,24 +5,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.cqupt.dormitory.model.Student">
 	<!-- 结果集 studentResult -->
 	<resultMap type="com.cqupt.dormitory.model.Student" id="studentResult">
-		<id property="id" column="id"/>
-		<result property="sex" column="sex"/>
+		<id property="id" column="stu_id"/>
+		<result property="sex" column="stu_sex"/>
 		<result property="liveSatus" column="live_satus"/>
-		<result property="academyId" column="academy_id"/>
 		<result property="grade" column="grade"/>
-		<result property="classNum" column="class_num"/>
+		<result property="classNum" column="class"/>
 		<result property="major" column="major"/>
 		<result property="stuNum" column="stu_num"/>
-		<result property="name" column="name"/>
-		<result property="birthPlace" column="birthplace"/>
+		<result property="name" column="stu_name"/>
+		<result property="birthplace" column="birthplace"/>
 		<result property="nation" column="nation"/>
 		<result property="identity" column="identity"/>
-		<result property="phone" column="phone"/>
+		<result property="phone" column="stu_phone"/>
 		<result property="outAddress" column="out_address"/>
 		<result property="birth" column="birth"/>
 		<result property="inTime" column="in_time"/>
 		<result property="outTime" column="out_time"/>
+		<result property="education" column="education"/>
 		
+		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
 		<association property="teacher" column="tec_id" resultMap="com.cqupt.dormitory.model.Teacher.teacherResult"></association>
 		<association property="room" column="room_id" resultMap="com.cqupt.dormitory.model.Room.roomResult"></association>
 	</resultMap>
@@ -38,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 	`out_time`, `out_address`, `live_status`,
 			 	`education`
 			) VALUES (
-				#{academyId,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
+				#{academy.id,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
 				#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
 				#{name,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{birthplace,jdbcType=VARCHAR}, 
 				#{nation,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 

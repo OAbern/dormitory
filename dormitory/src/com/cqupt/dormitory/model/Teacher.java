@@ -8,12 +8,13 @@ package com.cqupt.dormitory.model;
 public class Teacher {
 	private int id;	//逻辑主键，自增id
 	private int sex;	//性别：0为男，1为女
-	private int academyId;	//学院id
-	
+
 	private String tecNum;	//教工号（登录用户名）
 	private String password;	//密码
 	private String name;	//名字
 	private String phone;	//电话
+	
+	private Academy academy;
 	
 	
 	public int getId() {
@@ -28,11 +29,11 @@ public class Teacher {
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
-	public int getAcademyId() {
-		return academyId;
+	public Academy getAcademy() {
+		return academy;
 	}
-	public void setAcademyId(int academyId) {
-		this.academyId = academyId;
+	public void setAcademyId(Academy academy) {
+		this.academy = academy;
 	}
 	public String getTecNum() {
 		return tecNum;
