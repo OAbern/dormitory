@@ -63,6 +63,7 @@ public class RoomServiceImpl implements RoomService{
 					rows.add(everyFloorRoom);
 				}
 				everyFloorRoom = new HashMap<String,String>();
+				everyFloorRoom.put("item1", thisFloor.getFloorNum());
 			}
 			//this.putIntoMapString(everyFloorRoom,i,r,emtpyStatus);
 			
@@ -70,9 +71,9 @@ public class RoomServiceImpl implements RoomService{
 				//不需要展示.直接返回 不需要展示空寝室 
 			}else{
 				//需要展示空寝室
-				everyFloorRoom.put(""+i, this.roomNumHandler(r));
+				i++;
+				everyFloorRoom.put("item"+i, this.roomNumHandler(r));
 			}
-			i++;
 			
 		}
 		rows.add(everyFloorRoom);//最后一大堆.
