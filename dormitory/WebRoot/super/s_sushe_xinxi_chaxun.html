@@ -194,7 +194,8 @@ function saverow(target) {
 	delete(row.editing);
 	$.ajax({ 
     type:"POST", 
-    url:"roomInfo/updateRoom.do", 
+    contentType:'application/json',  
+    url:"roomInfo/updateRoomCostAndFee.do", 
     dataType:"json",      
     //contentType:"application/json",               
     data:JSON.stringify(row),
