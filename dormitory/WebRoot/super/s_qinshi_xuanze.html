@@ -72,18 +72,19 @@ $(function(){
 									$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
 									$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 								}else{
-									$.messager.alert("提示","分配失败！原因:"+data.info,"info");  
+									  
 								}
 							}); */
 							$('#base_right .right_contain').html('<img src="images/add_loudong.jpg" />');
 							$.ajax({
 							    type:'POST',
-							    
 							    async:false,
-							    
+							    url:'roomInfo/distributeRoom.do',
 							    data:{"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"building":building},
 							    dataType:'json',
-							   /*  error:'',*/
+							    error:function(){
+							    	$.messager.alert("提示","分配失败！原因:"+data.info,"info");
+							    },
 							    success:function(data){
 							    			if(data.status=="1"){
 												fenpei={};
@@ -95,10 +96,8 @@ $(function(){
 											}else{
 												$.messager.alert("提示","分配失败！原因:"+data.info,"info");  
 											}
-							    		}, 
-								url:'roomInfo/distributeRoom.do',
-								
-							})
+							    		}
+							});
 						}else{   
 						  $.messager.alert("提示","请重新选择！");   
 						}   

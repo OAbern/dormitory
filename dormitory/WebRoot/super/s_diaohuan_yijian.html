@@ -22,25 +22,45 @@
 			url : 'excel/findAllExcel.do',
 			columns : [ [
 					{field : 'ck',align : 'center',checkbox : true},
-					{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
-					{field : 'teaname',title : '姓名',width : 100,align : 'center'},
-					{field : 'grade',title : '年级',width : 100,align : 'center'},
-					{field : 'academy',title : '学院',width : 200,align : 'center',
-					        	formatter:function(value){
-								 	return value.name;
-								 }
+					{field:'tecNum',title:'教师号',width: 100,align:'center',
+						formatter:function(value,row){
+					        return row.submitTeacher.tecNum;
+					    }
+					
 					},
-					{field : 'xgqk',title : '下载',width : 60,align : 'center',
+					{field : 'teaname',title : '姓名',width : 100,align : 'center',
+						formatter:function(value,row){
+					        return row.submitTeacher.name;
+					    }
+					},
+					{field : 'academy',title : '学院',width : 200,align : 'center',
+						formatter:function(value,row){
+					        return row.submitTeacher.academy.name;
+					    }
+					},
+					{field : 'name',title : '下载',width : 60,align : 'center',
 						formatter : function(value, row, index) {
-							var d = '<a href="#" class="xiazai" onclick="yijianDownLoad(\''+ index + '\')">下载</a>';
+							var d = '<a href='+row.path+' class="xiazai" >下载</a>';
+						
 							return d;
 						}
 					},
-					{field : 'shenhe',title : '审核',width : 100,align : 'center'},
+					{field : 'status',title : '审核',width : 100,align : 'center',
+						formatter : function(value, row, index) {
+							var status="";
+							if(row.status==0){
+								status="未通过";
+							}else{
+								status="已通过";
+							}
+							return status;
+						}
+					},
 					/*{field : 'delete',title : '删除',width : 60,align : 'center',
 						formatter : function(value, row, index) {
 							var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="del(\''+ index + '\')">删除</a>';
 							return d;
+								/* var d = '<a href='+row.path+' class="xiazai" onclick="yijianDownLoad(\''+ index + '\')">下载</a>';/*  
 						}
 					}*/ ] ],
 			pagination : true,
@@ -60,7 +80,7 @@
 			if (row) {
 				if ($('.table_two').datagrid('getSelected')) {//当勾选了本行时，否则就是直接点击删除
 					var row = $('.table_two').datagrid('getSelected');//获取你选择的行
-					$.post('excel/findAllExcel.do', {"teaNum" : row.teaNum});//选中行  
+					/* $.post('excel/findAllExcel.do', {"teaNum" : row.teaNum});//选中行   */
 				}
 			}
 		});
