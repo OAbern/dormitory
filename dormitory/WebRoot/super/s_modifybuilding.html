@@ -94,6 +94,7 @@ $('.return').click(function(){
 		if(s=='' || !reg.test(s)){
 			var str="请输入数字";
 			$(this).next().html(str);
+			ok_c=false;
 			}else{
 				$(this).next().html("<img src='images/reg_succ.png' />");
 				ok_c=true;
@@ -105,6 +106,7 @@ $('.return').click(function(){
 		if(s=='' || !reg.test(s)){
 			var str="请输入数字";
 			$(this).next().html(str);
+			ok_f=false;
 			}else{
 				$(this).next().html("<img src='images/reg_succ.png' />");
 				ok_f=true;
@@ -124,7 +126,7 @@ $('.return').click(function(){
 		if(ok_c && ok_f){
 			var param={};
 			param.buildingId=buildingid;
-			param.sex=$('select').val();console.log(param.sex);
+			param.sex=$('select').val();
 			param.cata=$('input[name="cata"]').val();
 			param.fee=$('input[name="fee"]').val();
 			$.post("areaInfo/updateBuilding.do",param,function(data){
@@ -137,9 +139,9 @@ $('.return').click(function(){
 					 $.messager.alert("提示","发生错误","info"); 
 				}
 			 });
-	     }else{
+	     }/* else{
 			 $.messager.alert("提示","请输入正确的信息","info");
-			 }
+			 } */
 	});
 	
 </script>
