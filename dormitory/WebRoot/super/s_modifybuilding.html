@@ -70,6 +70,10 @@ form.info p label{
       	<option value="男" selected="selected">男</option>
         <option value="女">女</option>
       </select></p>
+       <p ><label>所属片区:</label>
+       <select class="area">
+      	
+      </select></p>
      <p class="item"><input type="button" class="new" value="确定" id="sure"/></p>
     </form>
   </div>
@@ -81,6 +85,13 @@ var url="";
 var param={};
 $(function(){
 	$('.buildingid').append(buildingid);
+	$.post("areaInfo/findAllArea.do",function(data){
+		var area="";
+		$.each(data,function(index,item){
+			 area+="<option value="+item+">"+item+"</option>";
+		});
+		$('.area').append(area);		
+	});
 })
 
 $('.return').click(function(){
@@ -127,6 +138,7 @@ $('.return').click(function(){
 			var param={};
 			param.buildingId=buildingid;
 			param.sex=$('select').val();
+			param.area=$('.area').val();
 			param.cata=$('input[name="cata"]').val();
 			param.fee=$('input[name="fee"]').val();
 			$.post("areaInfo/updateBuilding.do",param,function(data){

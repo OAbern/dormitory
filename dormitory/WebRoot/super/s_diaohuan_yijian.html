@@ -19,7 +19,7 @@
 			height : '330px',
 			toolbar : '.tb',
 			nowrap : false,
-			url : 'json/get/s_diaohuanyijian_xinxi.json',
+			url : 'excel/findAllExcel.do',
 			columns : [ [
 					{field : 'ck',align : 'center',checkbox : true},
 					{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
@@ -124,7 +124,7 @@
 			$.messager.confirm('提示', '确认后将无法修改，您确定要“同意”通过审核吗? ', function(r) {
 				if (r) {
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
-						$.post('json/post/s_yijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : "同意"},function(data){
+						$.post('excel/approved.do', {"teaNum" : rows[i].teaNum,"shenhe" : "同意"},function(data){
 								if(data.status=="1"){
 									$.messager.alert("提示","同意操作成功！");
 									var index=$('.table_two').datagrid('getRowIndex', rows[i]);
@@ -145,7 +145,7 @@
 			$.messager.confirm('提示', '确认后将无法修改，您确定“不同意”通过审核吗? ', function(r) {
 				if (r) {
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
-						$.post('json/post/s_yijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : "不同意"},function(data){
+						$.post('excel/refuse.do', {"teaNum" : rows[i].teaNum,"shenhe" : "不同意"},function(data){
 								if(data.status=="1"){
 									$.messager.alert("提示","未同意操作成功！");
 									var index=$('.table_two').datagrid('getRowIndex', rows[i]);
