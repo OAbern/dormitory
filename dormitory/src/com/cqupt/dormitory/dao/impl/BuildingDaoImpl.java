@@ -62,4 +62,11 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		return getSqlSession().selectList(Building.class.getName()+".find_building_by_sex_area",map);
 	}
 
+	@Override
+	public List<String> findBuildingByStudents(List<String> studentNums) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("studentNums", studentNums);
+		return getSqlSession().selectList(Building.class.getName()+".find_building_student_numbers",map);
+	}
+
 }

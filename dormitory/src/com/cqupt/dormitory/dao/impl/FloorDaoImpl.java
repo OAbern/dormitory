@@ -28,5 +28,14 @@ public class FloorDaoImpl extends BaseDaoSupport implements FloorDao {
 	public void delFloor(int floorId) {
 		getSqlSession().delete(Floor.class.getName()+".del_floor",floorId);
 	}
+	
+	
+	public boolean isPeopleInFloor(int floorId){
+		int result = getSqlSession().selectOne(Floor.class.getName()+".find_floor_people",floorId);
+		if(result<1){
+			return true;
+		}
+		return false;
+	}
 
 }

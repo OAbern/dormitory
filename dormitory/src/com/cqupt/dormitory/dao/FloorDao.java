@@ -34,4 +34,14 @@ public interface FloorDao {
 	 * @since  1.0.0
 	 */
 	public void delFloor(int floorId);
+	
+	/**
+	 * isPeopleInFloor 判断是否有人存在.
+	 * @param floorId
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean isPeopleInFloor(int floorId);
 }

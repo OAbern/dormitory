@@ -75,4 +75,14 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	List<Building> findBuildingBySexAndArea(String area, String sex);
+
+	/**
+	 * findBuildingByStudents 根据一大坨人名来找到他自己的楼栋号
+	 * @param studentNums
+	 * @return 
+	 *List<String>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	List<String> findBuildingByStudents(List<String> studentNums);
 }

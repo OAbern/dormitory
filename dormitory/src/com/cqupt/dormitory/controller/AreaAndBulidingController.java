@@ -10,13 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
+import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.AreaBuildingService;
+import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.utils.JSONUtils;
+import com.cqupt.dormitory.vo.Condition;
 
 
 @Controller
@@ -24,6 +28,9 @@ import com.cqupt.dormitory.utils.JSONUtils;
 public class AreaAndBulidingController {
 	@Resource(name="areaBuildingService")
 	private AreaBuildingService areaBuildingService;
+	
+	@Resource(name="studentInfoServiceImpl")
+	private StudentInfoService studentInfoService;
 	
 	/**
 	 * findAreaAndBuilding 查询出vo对象 用来展示tree
@@ -50,12 +57,14 @@ public class AreaAndBulidingController {
 	}
 	
 	@RequestMapping("/findBuildingByManyField")
-	public void findBuilding(HttpServletResponse response){
-		List<String> shit = new ArrayList<String>();
-		shit.add("15");
-		shit.add("1");
-		shit.add("18");
-		JSONUtils.toJSON(shit, response);
+	public void findBuilding(@ModelAttribute Condition condition,HttpServletResponse response){
+		List<Student> students = studentInfoService.findStudentByCondition(condition);
+		List<String> studentNums = new ArrayList<String>();
+		for(Student s:students){
+			studentNums.add(s.getStuNum());
+		}
+		List<String> buildingNums = areaBuildingService.findBuildingByStudents(studentNums);
+		JSONUtils.toJSON(buildingNums, response);
 	}
 	
 	
@@ -83,7 +92,10 @@ public class AreaAndBulidingController {
 	 */
 	@RequestMapping("/addBuildingByExcel")
 	public void addBuildingByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
-		//TODO
+		System.out.println(file.getName());
+		System.out.println(file.getOriginalFilename());
+		System.out.println(file.getContentType());
+		
 	}
 
 	

@@ -41,8 +41,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="is_change_sex" parameterType="map" resultType="int">
 		SELECT COUNT(*) FROM building WHERE building.`building_num` LIKE #{buildingNum} AND building.`sex`=#{sex}
 	</select>
+	
+	
 	<select id="find_building_by_sex_area" parameterType="map" resultMap="buildingResult">
 		SELECT * FROM building LEFT JOIN AREA ON(building.`area_id`=area.`area_id`) WHERE area.`area_name` LIKE #{area} AND sex LIKE #{sex}
 	</select>
 	
+	<select id="find_building_student_numbers"  parameterType="map" resultType="string">
+		SELECT DISTINCT(building_num) FROM student LEFT JOIN 
+		(
+		SELECT room.`room_id`,building_num FROM room LEFT JOIN 
+		(SELECT floor.`floor_id`,building.`building_num` FROM building LEFT JOIN FLOOR ON(building.`building_id` = floor.`building_id`) )b 
+		ON (room.`floor_id` = b.floor_id)
+		) r
+		ON(student.`room_id` = r.room_id)
+		WHERE student.`stu_num` IN
+		<foreach item="item" index="index" collection="studentNums"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND student.`room_id` IS NOT NULL 
+		GROUP BY student.`room_id`
+	</select>
 </mapper>

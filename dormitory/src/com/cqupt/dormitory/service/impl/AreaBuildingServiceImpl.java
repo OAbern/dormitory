@@ -140,9 +140,9 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 
 	@Override
 	public boolean updateBuildingMessage(String buildingNum,String sex, String fee, String cata) {
+		
 		//先要判断一下有没有人住 再修改
-		if(buildDao.isBuildingSexChange(buildingNum, sex)){
-			if(buildDao.isBuildingStayPerson(buildingNum)){
+		if(buildDao.isBuildingStayPerson(buildingNum)){
 				Building b = new Building();
 				b.setBuildingNum(buildingNum);
 				b.setSex(sex);
@@ -154,6 +154,15 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 				}
 				roomDao.updateRoom(floorsId, fee, cata);
 				return true;
+		}else{
+			if(buildDao.isBuildingSexChange(buildingNum, sex)){
+				List<Floor> floor = floorDao.findFloorByBuildingNum(buildingNum);
+				List<Integer> floorsId = new ArrayList<Integer>();
+				for(Floor f : floor){
+					floorsId.add(f.getId());
+				}
+				roomDao.updateRoom(floorsId, fee, null);
+				return true;
 			}
 		}
 		return false;
@@ -162,5 +171,10 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 	@Override
 	public List<Building> findBuildingBySexAndArea(String area, String sex) {
 		return buildDao.findBuildingBySexAndArea(area,sex);
+	}
+
+	@Override
+	public List<String> findBuildingByStudents(List<String> studentNums) {
+		return buildDao.findBuildingByStudents(studentNums);
 	}
 }

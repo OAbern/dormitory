@@ -21,9 +21,16 @@ public class FloorServiceImpl implements FloorService {
 	public boolean updateFloor(String buildingNum,String floorNum,int cata,int fee){
 		try {
 			int floorId = floorDao.findFloorId(buildingNum, floorNum);
-			List<Integer> floorIds = new ArrayList<Integer>();
-			floorIds.add(floorId);
-			roomDao.updateRoom(floorIds, fee+"", cata+"");
+			if(floorDao.isPeopleInFloor(floorId)){
+				List<Integer> floorIds = new ArrayList<Integer>();
+				floorIds.add(floorId);
+				roomDao.updateRoom(floorIds, fee+"", cata+"");
+			}else{
+				List<Integer> floorIds = new ArrayList<Integer>();
+				floorIds.add(floorId);
+				roomDao.updateRoom(floorIds, fee+"", null);
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -36,7 +43,11 @@ public class FloorServiceImpl implements FloorService {
 		try {
 			for(String strF : floorNum){
 				int floorId = floorDao.findFloorId(buildingNum, strF);
-				floorDao.delFloor(floorId);
+				if(floorDao.isPeopleInFloor(floorId)){
+					floorDao.delFloor(floorId);
+				}else{
+					return false;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

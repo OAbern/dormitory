@@ -208,4 +208,32 @@ public class RoomAndFloorController {
 		JSONUtils.toJSON(map, response);
 	}
 	
+	
+	@RequestMapping("/findRoomDetail")
+	public void findRoomDetail(String sex,String buildingNum,String floorNum,String roomNum,HttpServletResponse response){
+		System.out.println(sex);
+		System.out.println(buildingNum);
+		System.out.println(floorNum);
+		System.out.println(roomNum);
+		
+		if(sex == null || "".equals(sex)){
+			sex = "%";
+		}
+		
+		if(buildingNum == null || "".equals(buildingNum)){
+			buildingNum = "%";
+		}
+		
+		if(floorNum == null || "".equals(floorNum)){
+			floorNum = "%";
+		}
+		
+		if(roomNum == null || "".equals(roomNum)){
+			roomNum = "%";
+		}
+		
+		List<Room> rooms = roomDao.findRoomByAnyField(sex,buildingNum,floorNum,roomNum);
+		JSONUtils.toJSON(rooms, response);
+	}
+	
 }

@@ -117,4 +117,17 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public void updateStudentRoom(String studentNum, int roomId);
+
+	/**
+	 * findRoomByAnyField 宿舍信息查询里面的全部条件查询相应的宿舍
+	 * @param sex
+	 * @param buildingNum
+	 * @param floorNum
+	 * @param roomNum 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<Room> findRoomByAnyField(String sex, String buildingNum,
+			String floorNum, String roomNum);
 }

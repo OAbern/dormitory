@@ -26,4 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM  `floor` WHERE floor_id=#{floorId}
 	</delete>
 	
+	<select id="find_floor_people" parameterType="int" resultType="int">
+		SELECT 
+		COUNT(student.`stu_id`) 
+		FROM student 
+		RIGHT JOIN (SELECT room_id FROM room LEFT JOIN FLOOR ON(floor.`floor_id` = room.`floor_id`) WHERE floor.`floor_id` = #{floorId}) f 
+		ON(student.`room_id` = f.room_id) 
+	</select>
+	
 </mapper>

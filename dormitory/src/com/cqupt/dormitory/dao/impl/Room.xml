@@ -50,7 +50,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update_room_by_floorids" parameterType="map">
-		update room set cost=#{fee}, total_bed=#{cata} where floor_id in
+		update room set cost=#{fee}
+			 <if test="cata != null">
+				 ,total_bed=#{cata} 
+			 </if>
+			 where floor_id in
 	 	<foreach item="item" index="index" collection="floorIds"  open="(" separator="," close=")">
                        #{item}
         </foreach> 
@@ -84,4 +88,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE `student` SET `room_id` = #{roomId} WHERE stu_num =#{studentNum} 
 	</update>
 	
+	<select id="find_room_by_many_field" parameterType="map" resultMap="roomResult">
+			SELECT room.*,f.* FROM room RIGHT JOIN 
+			(
+			SELECT floor.`floor_id`,building.`building_id`,building.`building_num`,building.`sex` FROM FLOOR LEFT JOIN building ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num` LIKE #{buildingNum} AND 
+			floor.`floor_num` LIKE #{floorNum}  AND building.`sex` LIKE #{sex}
+			) f ON(room.`floor_id` = f.floor_id) WHERE room.`room_num` LIKE #{roomNum}
+	</select>
 </mapper>
