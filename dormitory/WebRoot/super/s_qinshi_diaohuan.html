@@ -116,7 +116,7 @@
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		$.post('json/get/s_stu_diaohuan.json', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+		$.post('studentInfo/findStudentByCondition.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
 			$(".table_one").datagrid({
 				data : data,
 				width : '752px',
@@ -151,7 +151,7 @@
 	//点击下一步时
 	$(".nextStep").click(function() {
 			if (sum_diaohuan > 0) {
-				$.post('json/get/s_check_info.json', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+				$.post('test/getResult.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
 					if(data.status=="1"){
 						$("#base_right .right_contain").empty().load("super/s_atuo_qsxuanze.html");
 						$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
@@ -214,7 +214,7 @@
 		var str="";
 		str=$('select[name="academy.id"] option:selected').val();
 		diaohuan_sure.academy=str;
-		$.post('json/get/s_major_jilian.json',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy},function(data){
+		$.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy},function(data){
 			$.each(data.rows,function(index, item) {
 				diaohuan['diaohuan_major']=item.major;
 				for(var i=0;i<item.major.length;i++){
@@ -230,7 +230,7 @@
 		var str="";
 		str=$('select[name="major"] option:selected').val();
 		diaohuan_sure.major=str;
-		$.post('json/get/s_classNum_jilian.json',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"major":diaohuan_sure.major},function(data){
+		$.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"major":diaohuan_sure.major},function(data){
 			$.each(data.rows,function(index, item) {
 				diaohuan['diaohuan_classNum']=item.classNum;
 				for(var i=0;i<item.classNum.length;i++){
