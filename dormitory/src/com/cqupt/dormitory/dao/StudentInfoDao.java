@@ -61,6 +61,14 @@ public interface StudentInfoDao {
 	public Student findStudentByStuNum(String stuNum);
 	
 	/**
+	 * 根据学号和姓名查找学生信息
+	 * @param stuNum
+	 * @param name
+	 * @return
+	 */
+	public Student findStudentByStuNumAndName(String stuNum, String name);
+	
+	/**
 	 * 根据条件查找外出住宿的学生信息
 	 * @param condition
 	 * @return

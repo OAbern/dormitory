@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.PUT;
+
 import org.springframework.stereotype.Repository;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
@@ -176,6 +178,20 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		}else {
 			return false;
 		}
+	}
+
+	@Override
+	public Student findStudentByStuNumAndName(String stuNum, String name) {
+		Student student = null;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("stuNum", stuNum);
+		map.put("name", name);
+		try {
+			student = getSqlSession().selectOne("findStudentByStuNumAndName", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return student;
 	}
 	
 }

@@ -132,6 +132,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `student` WHERE `stu_num` = #{stuNum}
 	</select>
 	
+	<!-- 根据学号和姓名查找学生 -->
+	<select id="findStudentByStuNumAndName" parameterType="map" resultMap="studentResult">
+		SELECT * FROM `student` WHERE `stu_num` = #{stuNum} AND `stu_name` = #{name}
+	</select>
+	
 	<!-- 根据条件查找外出住宿的学生 -->
 	<select id="findStutentOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
 		SELECT * FROM `student` s
@@ -180,7 +185,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</where>
 	</select>
 	
-<<<<<<< .mine
 	<update id="update_out_of_room" parameterType="map">
 		UPDATE `student` SET `room_id` = NULL ,`live_status` = '1' WHERE student.`stu_num` IN
 		<foreach item="item" index="index" collection="studentNum"  open="(" separator="," close=")">

@@ -41,5 +41,24 @@ public class VaildateController {
 		JSONUtils.toJSON(resultMessage, response);
 	}
 	
+	/**
+	 * 根据学号和名字校验学生信息
+	 * @param stuNum
+	 * @param stuName
+	 * @param response
+	 */
+	@RequestMapping("/vaildateStuNumAndName")
+	public void vaildateStuNumAndName(String stuNum, String stuName, HttpServletResponse response) {
+		Student student = studentInfoDao.findStudentByStuNumAndName(stuNum, stuName);
+		ResultMessage resultMessage = new ResultMessage();
+		if(student != null) {	
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+		}else {		
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("学号或姓名错误！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
 	
 }
