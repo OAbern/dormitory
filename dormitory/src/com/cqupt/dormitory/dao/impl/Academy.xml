@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="name" column="academy_name"/>
 	</resultMap>
 	
+	<!-- 查找所有的学院信息 -->
 	<select id="findAllAcademy" resultMap="academyResult">
 		SELECT * FROM `academy`
 	</select>

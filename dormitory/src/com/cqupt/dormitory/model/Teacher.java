@@ -7,8 +7,8 @@ package com.cqupt.dormitory.model;
  */
 public class Teacher {
 	private int id;	//逻辑主键，自增id
-	private int sex;	//性别：0为男，1为女
-
+	
+	private String sex;	//性别
 	private String tecNum;	//教工号（登录用户名）
 	private String password;	//密码
 	private String name;	//名字
@@ -23,10 +23,10 @@ public class Teacher {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getSex() {
+	public String getSex() {
 		return sex;
 	}
-	public void setSex(int sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 	public Academy getAcademy() {

@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 所有字段的值(不包含逻辑主键) 要求parameterType必须为Student -->
 	<sql id="fieldsValue">
 		#{academy.id,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
-		#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+		#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
 		#{name,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{birthplace,jdbcType=VARCHAR}, 
 		#{nation,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
 		#{inTime,jdbcType=DATE}, #{teacher.tecNum,jdbcType=VARCHAR}, #{room.roomNum,jdbcType=VARCHAR}, 

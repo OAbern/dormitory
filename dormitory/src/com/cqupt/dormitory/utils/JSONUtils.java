@@ -64,6 +64,7 @@ public class JSONUtils {
 	public static void toJSON(Object o, HttpServletResponse response) {
 		try {
 			String str = JSONMapper.toJSON(o).render(false);
+			response.addHeader("Content-Type", "application/json; charset=utf-8");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(str);
 		} catch (MapperException e) {

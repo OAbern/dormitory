@@ -10,9 +10,9 @@ import java.util.Date;
 public class Student {
 	
 	private int id;	//逻辑主键 自增id	
-	private int sex;	//性别 ：0为男,1为女	
 	private int liveStatus;	//住宿状态：在住:0,退宿：1，外宿：2	
 	
+	private String sex;	//性别 ：0为男,1为女	
 	private String grade;	//年级	
 	private String classNum;	//班级号	
 	private String major;	//专业	
@@ -44,10 +44,10 @@ public class Student {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getSex() {
+	public String getSex() {
 		return sex;
 	}
-	public void setSex(int sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 	public int getLiveStatus() {
