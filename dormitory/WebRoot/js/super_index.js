@@ -9,21 +9,25 @@ $.post('academyInfo/getAll.do',function(data){
 	var date=new Date();
 	var year=date.getFullYear();
 	GLOBAL.grade=[];
-	for(i=4;i>=0;i--){
+	for(var i=4;i>=0;i--){
 		GLOBAL.grade.push(year-i);
 	}	
 })();
  //展示学院选项
 function showAcademy(){
-  $.each(GLOBAL.academy,function(i,v){
-    $('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
-  })  
+	$('select[name="academy.id"]').empty();
+	$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+    $.each(GLOBAL.academy,function(i,v){
+    	$('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
+    });  
 }
 //展示年级选项
 function showGrade(){
-  $.each(GLOBAL.grade,function(i,v){
-    $('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
-  })
+	$('select[name="grade"]').empty();
+	$('select[name="grade"]').append("<option value='请选择'>请选择</option>");
+	$.each(GLOBAL.grade,function(i,v){
+	    $('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
+	});
 }
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
