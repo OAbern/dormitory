@@ -60,14 +60,18 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 				},
 				pagination:'true',
 				columns:[[    
-					{field:'ck',checkbox:true},    
+					/*{field:'ck',checkbox:true},*/    
 					{field:'stuNum',title:'学号',width:100,align:'center'},    
 					{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
 					{field:'sex',title:'性别',width: 60,align:'center'}, 
 					{field:'birth',title:'出生年月',width: 100,align:'center',editor:'datebox'},    
 					{field:'academy',title:'学院',width: 200,align:'center',
 						formatter:function(value,row){
+								if(row.academy){
 					        return row.academy.name;
+								}else{
+									return '无数据';
+								}
 					    }
 					},
 					{field:'major',title:'专业',width: 150,align:'center'},
@@ -76,17 +80,25 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 					{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
 					{field:'nation',title:'民族',width: 60,align:'center'},
 					{field:'education',title:'学历',width: 120,align:'center'},    
-					{field:'room',title:'寝室号',width: 100,align:'center'},
-					]],
-					onLoadError:function(){
-						$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+					{field:'room',title:'寝室号',width: 100,align:'center',
+						formatter:function(value,row){
+							if(row.room){
+								return row.room.roomNum;
+							}else{
+								return '无数据';
+							}
+				    }
+					},
+				]],
+				onLoadError:function(){
+					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
 
-					},
-					onLoadSuccess:function(data){
-						if(data.rows.length==0){
-							$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
-						}
-					},
+				},
+				onLoadSuccess:function(data){
+					if(data.rows.length==0){
+						$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+					}
+				},
 			}); 
 			showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
 		}

@@ -128,7 +128,15 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'ck',checkbox:true},    
 				{field:'name',title:'姓名',width:150,align:'center'}, 
 				{field:'stuNum',title:'学号',width:150,align:'center'},    
-				{field:'room',title:'寝室号',width:150,align:'center'},    
+				{field:'room',title:'寝室号',width: 100,align:'center',
+					formatter:function(value,row){
+						if(row.room){
+							return row.room.roomNum;
+						}else{
+							return '无数据';
+						}
+			    }
+				},    
 				{field:'inTime',title:'入住时间',width:200,align:'center'}
 			]]
 		}); 

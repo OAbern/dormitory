@@ -71,7 +71,11 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'birth',title:'出生年月',width: 100,align:'center',editor:'datebox'},    
 				{field:'academy',title:'学院',width: 200,align:'center',
 					formatter:function(value,row){
+							if(row.academy){
 				        return row.academy.name;
+							}else{
+								return '无数据';
+							}
 				    }
 				},
 				{field:'major',title:'专业',width: 150,align:'center'},
@@ -80,7 +84,15 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
 				{field:'nation',title:'民族',width: 60,align:'center'},
 				{field:'education',title:'学历',width: 120,align:'center'},    
-				{field:'room',title:'寝室号',width: 100,align:'center'},
+				{field:'room',title:'寝室号',width: 100,align:'center',
+					formatter:function(value,row){
+						if(row.room){
+							return row.room.roomNum;
+						}else{
+							return '无数据';
+						}
+			    }
+				},
 				{field:'action',title:'操作',align:'center',width:100,
 					formatter: function(value,row,index){
 						if (row.editing){
@@ -175,15 +187,17 @@ function deleterow() {
 			//var index=showTable.datagrid('getRowIndex',selections[i]);
 			//showTable.datagrid('deleteRow',index);
 		}
-		$.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (data) {
-      $.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
-				if(data.status=='0'){
-					alert(data.info);
-				}else if(data.status=='1'){
-					showTable.datagrid('reload');
-					$.messager.alert('操作提示', '删除成功');
-				}
-			});
+		$.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (r) {
+			if(r){
+				$.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
+					if(data.status=='0'){
+						$.messager.alert('操作提示', data.info);
+					}else if(data.status=='1'){
+						showTable.datagrid('reload');
+						$.messager.alert('操作提示', '删除成功');
+					}
+				});
+			}
     });
 		
 	}
