@@ -51,4 +51,19 @@ public interface TeacherInfoDao {
 	 * @return 教师信息
 	 */
 	public Teacher findTeacherByClassNum(String classNum);
+	
+	/**
+	 * 根据学院和年级查找教师信息
+	 * @param academy
+	 * @param grade
+	 * @return
+	 */
+	public List<Teacher> findTeacherByAcademyAndGrade(String academy,String grade);
+	
+	/**
+	 * 根据教工号删除教师信息
+	 * @param list 要删除的教工号列表
+	 * @return 操作结果
+	 */
+	public boolean deleteTeacherByTecNum(List<String> list);
 }

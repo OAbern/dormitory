@@ -61,5 +61,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE t.`tec_id` IN(SELECT tec_id FROM `student` s WHERE s.`class`= #{classNum})
 	</select>
 	
+	<!-- 根据学院和年级查找教师 -->
+	<select id="findTeacherByAcademyAndGrade" parameterType="Map" resultMap="teacherResult" statementType="STATEMENT">
+		SELECT * FROM `teacher` t
+		LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
+			WHERE t.`tec_id` IN (
+				SELECT DISTINCT(s.`tec_id`) FROM `student` s 
+					WHERE s.`academy_id` = ${academy} AND s.`grade` = '${grade}'
+			)
+	</select>
+	
+	<!-- 根据教工号删除教师信息 -->
+	<delete id="deleteTeacherByTecNum" parameterType="list">
+		DELETE FROM `teacher` t
+			WHERE t.`tec_num` IN (
+			<foreach collection="list" item="l" separator=",">
+				#{l}
+			</foreach>
+			)
+	</delete>
 	
 </mapper>

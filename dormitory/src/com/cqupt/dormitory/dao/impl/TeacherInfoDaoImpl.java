@@ -90,5 +90,35 @@ public class TeacherInfoDaoImpl extends BaseDaoSupport implements TeacherInfoDao
 		return teacher;
 	}
 
+	@Override
+	public List<Teacher> findTeacherByAcademyAndGrade(String academy,
+			String grade) {
+		List<Teacher> teachers = null;
+		try {
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("academy", academy);
+			parameter.put("grade", grade);
+			teachers = getSqlSession().selectList("findTeacherByAcademyAndGrade", parameter);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return teachers;
+	}
+
+	@Override
+	public boolean deleteTeacherByTecNum(List<String> list) {
+		int result = -1;
+		try {
+			result = getSqlSession().delete("deleteTeacherByTecNum", list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 	
 }

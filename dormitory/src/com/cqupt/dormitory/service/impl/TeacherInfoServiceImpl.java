@@ -50,4 +50,15 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 		return teacherInfoDao.findTeacherByClassNum(classNum);
 	}
 
+	@Override
+	public List<Teacher> findTeacherByAcademyAndGrade(String academy,
+			String grade) {
+		return teacherInfoDao.findTeacherByAcademyAndGrade(academy, grade);
+	}
+
+	@Override
+	public boolean deleteTeacherByTecNum(List<String> list) {
+		return teacherInfoDao.deleteTeacherByTecNum(list);
+	}
+
 }

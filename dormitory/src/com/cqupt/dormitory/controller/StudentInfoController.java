@@ -112,6 +112,9 @@ public class StudentInfoController {
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
 		Map<String, Object> map = new HashMap<String, Object>();
 		int total = SystemContext.getTotal();
+		if(total <= 0) {
+			total = studentList.size();
+		}
 		map.put("total", total);
 		map.put("rows", studentList);
 		JSONUtils.toJSON(map, response);
@@ -182,6 +185,9 @@ public class StudentInfoController {
 		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
 		Map<String, Object> map = new HashMap<String, Object>();
 		int total = SystemContext.getTotal();
+		if(total <= 0) {
+			total = studentList.size();
+		}
 		map.put("total", total);
 		map.put("rows", studentList);
 		JSONUtils.toJSON(map, response);
