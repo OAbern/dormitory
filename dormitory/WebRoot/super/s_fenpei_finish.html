@@ -7,7 +7,13 @@
 }
 </style>
 <div class="table_one"></div>
-<form action="">
+<form action="roomInfo/downLoadExcel.do">
+<input type="hidden" name="grade" />
+<input type="hidden" name="education" />
+<input type="hidden" name="sex" />
+<input type="hidden" name="academy.id" />
+<input type="hidden" name="major" />
+<input type="hidden" name="classNum" />
 <input type="submit" class="xz_fenpeijg" name="xiazai" value="下载分配结果" />
 </form>
 <script type="text/javascript">
@@ -79,8 +85,13 @@
 	$(".xz_fenpeijg").click(function(){
 		$.messager.confirm('确认', '确认下载?', function(row) {
 			if (row) {
-				$.get('roomInfo/downLoadExcel.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
-		}
+				$('input[name="grade"]').val(grade);
+				$('input[name="education"]').val(education);
+				$('input[name="sex"]').val(sex);
+				$('input[name="academy.id"]').val(academy);
+				$('input[name="major"]').val(major);
+				$('input[name="classNum"]').val(classNum);
+			}
 	});
 	});
 </script>
