@@ -179,7 +179,7 @@ $(function(){
 	    }
 		$('input[type="button"]').click(function(){
 			if(ok_1){
-				$.post("json/post/add_student_to_sushe.json",$('.add').serialize(),function(data){
+				$.post("roomInfo/changeOneRoom.do",$('.add').serialize(),function(data){
 					var status=data.status;
 					if(status==1){
 						$.messager.alert("提示","添加成功","info");
