@@ -42,13 +42,13 @@ $(function(){
 			},
 			{
 				id:'modify',
-				text:'修改寝室信息',
+				text:'修改楼层信息',
 				iconCls:'icon-edit',
 				handler:modify	
 			},
 			{
 				id:'delete',
-				text:'删除寝室',
+				text:'删除楼层',
 				iconCls:'icon-remove',
 				handler:deleteRows
 			}],
@@ -142,29 +142,33 @@ $(function(){
 	function modifyBuilding	(){
 		 $("#base_right").empty().load("super/s_modifybuilding.html");
 	}
-	function deleteRows(){	
-		$.messager.confirm("提示","确定删除所选内容么？",function(r){
-			if(r){
-				var checkedItems = $('#dormitory').datagrid('getSelections');	
-				var floors = [];
-				var floorname="";	
-   				$.each(checkedItems, function(index, item){
-					floors.push(item.item1);
-				});  
-				$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
-					if(data.status==1){
-						$.messager.alert("提示","删除成功","info");
-						var rows=$('#dormitory').datagrid('getSelections');
-						for(var i=0;i<rows.length;i++){
-							var index = $('#dormitory').datagrid('getRowIndex',rows[i]);//获取某行的行号
-		    				$('#dormitory').datagrid('deleteRow',index);
-						}	//通过行号移除该行
-					}else{
-						$.messager.alert("提示","删除失败","info");
-						}
-				});//post结束
+	function deleteRows(){
+			var checkedItems = $('#dormitory').datagrid('getSelections');	
+			var floors = [];
+			var floorname="";	
+   			$.each(checkedItems, function(index, item){
+				floors.push(item.item1);
+			});
+			if(floors.length==0){
+				$.messager.alert("提示","请先选择楼层","info");
+			}else{
+				$.messager.confirm("提示","确定删除所选内容么？",function(r){
+					if(r){  
+						$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
+							if(data.status==1){
+								$.messager.alert("提示","删除成功","info");
+								var rows=$('#dormitory').datagrid('getSelections');
+								for(var i=0;i<rows.length;i++){
+									var index = $('#dormitory').datagrid('getRowIndex',rows[i]);//获取某行的行号
+				    				$('#dormitory').datagrid('deleteRow',index);
+								}	//通过行号移除该行
+							}else{
+								$.messager.alert("提示","删除失败","info");
+								}
+						});//post结束
+					}
+				});
 			}
-		});//messager end
 	}//delete end
 	
 	

@@ -157,7 +157,7 @@ $('.return').click(function(){
 		if(ok_c && ok_f){
 			var param={};
 			param.buildingId=buildingid;
-			param.sex=$('input[name="sex"]').val();
+			param.sex=$('select').val();console.log(param.sex);
 			param.cata=$('input[name="cata"]').val();
 			param.fee=$('input[name="fee"]').val();
 			$.post("",param,function(data){
