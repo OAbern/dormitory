@@ -3,6 +3,7 @@ package com.cqupt.dormitory.dao;
 import java.util.List;
 
 import com.cqupt.dormitory.model.Room;
+import com.cqupt.dormitory.model.Student;
 
 /**
  * 处理房间信息的DAO层接口
@@ -46,4 +47,63 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public List<String> findAllCostOfRoom();
+	
+	/**
+	 * updateRoom 更新房间的基本信息根据楼层的id来更新
+	 * @param floorIds
+	 * @param fee
+	 * @param cata 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateRoom(List<Integer> floorIds , String fee, String cata);
+	
+	
+	/**
+	 * updateRoom 更新某个寝室
+	 * @param r 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateRoom(Room r);
+
+	/**
+	 * findCurrentFloorNum 查找最大的数量值
+	 * @param floorId
+	 * @return 
+	 *int
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public int findCurrentFloorNum(int floorId);
+
+	/**
+	 * add 添加room的方法
+	 * @param r 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void add(Room r);
+
+	/**
+	 * delRoom 删除房间
+	 * @param roomNum 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void delRoom(String roomNum);
+
+	/**
+	 * findAllPersonInRoom 查找所有的
+	 * @param roomNum
+	 * @return 
+	 *List<Student>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<Student> findAllPersonInRoom(String roomNum);
 }

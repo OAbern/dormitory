@@ -160,12 +160,12 @@ $('.return').click(function(){
 			param.sex=$('select').val();console.log(param.sex);
 			param.cata=$('input[name="cata"]').val();
 			param.fee=$('input[name="fee"]').val();
-			$.post("",param,function(data){
+			$.post("areaInfo/updateBuilding.do",param,function(data){
 				if(data.status==1){
 					$.messager.alert("提示","添加成功","info"); 
 					$('#base_right').empty().load("super/s_sushe_xinxi.html");
 				}else if(data.status==0){
-					 $.messager.alert("提示","添加失败","info"); 
+					 $.messager.alert("提示","添加失败,楼栋里面有人!","info"); 
 				}else{
 					 $.messager.alert("提示","发生错误","info"); 
 				}

@@ -14,4 +14,24 @@ public interface FloorDao {
 	 * @since  1.0.0
 	 */
 	public List<Floor> findFloorByBuildingNum(String buildingNum);
+	
+	/**
+	 * findFloorId 根据楼层号,根据楼栋信息来找到相应的楼层外键
+	 * @param buildingNum
+	 * @param floorNum
+	 * @return 
+	 *int
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public int findFloorId(String buildingNum,String floorNum);
+
+	/**
+	 * delFloor 根据id删除楼层
+	 * @param floorId 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void delFloor(int floorId);
 }

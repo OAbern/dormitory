@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cqupt.dormitory.service.AreaBulidingService;
+import com.cqupt.dormitory.service.AreaBuildingService;
 import com.cqupt.dormitory.utils.JSONUtils;
 
 
@@ -19,7 +19,7 @@ import com.cqupt.dormitory.utils.JSONUtils;
 @RequestMapping("/areaInfo")
 public class AreaAndBulidingController {
 	@Resource(name="areaBuildingService")
-	private AreaBulidingService areaBuildingService;
+	private AreaBuildingService areaBuildingService;
 	
 	@RequestMapping("/findAreaAndBuilding")
 	public void findAreaAndBuilding(HttpServletResponse response){
@@ -45,6 +45,36 @@ public class AreaAndBulidingController {
 		shit.add("1");
 		shit.add("18");
 		JSONUtils.toJSON(shit, response);
+	}
+	
+	/**
+	 * updateBuilding 修改整栋楼的资费
+	 * @param buildingId
+	 * @param cata
+	 * @param fee
+	 * @param sex
+	 * @param response 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	@RequestMapping("/updateBuilding")
+	public void updateBuilding(String buildingId,String cata,String fee,String sex,HttpServletResponse response){
+		boolean  result = areaBuildingService.updateBuildingMessage(buildingId, sex, fee, cata);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(result){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
+		JSONUtils.toJSON(map, response);
+	}
+	
+	
+	@RequestMapping("/findBuildingEmptyBed")
+	public void findBuildingEmptyBed(String sex,HttpServletResponse response){
+		Map<String,Object> map  = areaBuildingService.findBuildingAndAreaVoBySex(sex);
+		JSONUtils.toJSON(map, response);
 	}
 
 }

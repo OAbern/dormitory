@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE room.`room_num` LIKE #{buildingNum}) s 
 		    ON (s.room_id = student.`room_id`) 
 		GROUP BY s.room_id 
+		order by s.room_num
 	</select>
 	
 	
@@ -43,8 +44,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT DISTINCT(room.`total_bed`) FROM room 
 	</select>
 	
+	
 	<select id="find_all_cost_room" resultType="string">
 		SELECT DISTINCT(room.`cost`) FROM room 
+	</select>
+	
+	<update id="update_room_by_floorids" parameterType="map">
+		update room set cost=#{fee}, total_bed=#{cata} where floor_id in
+	 	<foreach item="item" index="index" collection="floorIds"  open="(" separator="," close=")">
+                       #{item}
+        </foreach> 
+	</update>
+	
+	<update id="update" parameterType="com.cqupt.dormitory.model.Room">
+		update room set cost=#{cost}, total_bed=#{totalBed} where room_num=#{roomNum}
+	</update>
+	
+	<select id="find_current_room" parameterType="int" resultType="int">
+		SELECT COUNT(room.`room_id`) FROM room WHERE room.`floor_id`=#{floorId}
+	</select>
+	
+	<insert id="add_room" parameterType="com.cqupt.dormitory.model.Room">
+		INSERT INTO `dormitory`.`room` (`room_num`, `floor_id`, `cost`, `total_bed`) VALUES (#{roomNum}, #{floor.id}, #{cost}, #{totalBed}); 
+	</insert>
+	
+	<delete id="delete_room" parameterType="string">
+		delete from room where room_num=#{roomNum}
+	</delete>
+	
+	<select id="find_all_person_room" parameterType="string" resultMap="com.cqupt.dormitory.model.Student.studentResult">
+		SELECT * FROM student 
+		LEFT JOIN room ON(student.`room_id` = room.`room_id`) 
+		LEFT JOIN academy ON(academy.`academy_id`=student.`academy_id`)
+		LEFT JOIN teacher ON (student.`tec_id`=teacher.`tec_id`)
+		WHERE room.`room_num`= #{roomNum}
 	</select>
 	
 </mapper>

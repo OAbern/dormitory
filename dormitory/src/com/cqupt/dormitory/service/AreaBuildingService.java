@@ -1,12 +1,13 @@
 package com.cqupt.dormitory.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
 import com.cqupt.dormitory.vo.AreaBuilding;
 
-public interface AreaBulidingService {
+public interface AreaBuildingService {
 	
 	/**
 	 * findAllArea 查找所有的地区信息
@@ -61,4 +62,27 @@ public interface AreaBulidingService {
 	 * @since  1.0.0
 	 */
 	public List<String> findFloorByBuildingNum(String buildingNum);
+	
+	/**
+	 * findBuildingAndAreaVoBySex 根据性别来直接查询学生的信息
+	 * @param sex
+	 * @return 
+	 *Map<String,Object>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public Map<String,Object> findBuildingAndAreaVoBySex(String sex);
+	
+	/**
+	 * updateBuildingMessage 修改楼栋信息
+	 * @param sex
+	 * @param fee
+	 * @param cata
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateBuildingMessage(String buildingNum,String sex,String fee,String cata);
+	
 }

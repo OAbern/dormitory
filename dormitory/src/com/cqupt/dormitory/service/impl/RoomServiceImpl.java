@@ -9,9 +9,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.cqupt.dormitory.dao.FloorDao;
 import com.cqupt.dormitory.dao.RoomDao;
 import com.cqupt.dormitory.model.Floor;
 import com.cqupt.dormitory.model.Room;
+import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.RoomService;
 import com.cqupt.dormitory.vo.RoomInFloor;
 
@@ -19,7 +21,9 @@ import com.cqupt.dormitory.vo.RoomInFloor;
 public class RoomServiceImpl implements RoomService{
 	@Resource
 	private RoomDao roomDao;
-
+	@Resource
+	private FloorDao floorDao;
+	
 	@Override
 	public RoomInFloor findRoomInFloorForView(String buildingNum) {
 		List<Room> rooms = roomDao.findAllRoomByBuildingNum(buildingNum);
@@ -125,6 +129,107 @@ public class RoomServiceImpl implements RoomService{
 	public List<String> findAllCostOfRoom() {
 		return roomDao.findAllCostOfRoom();
 	}
+
+	@Override
+	public boolean updateCategoryAndCost(int totalBed, int cost,
+			String buildingNum, String floorNum) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delRoomNumOfStudent(String[] studentIds) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delRoomNumOfStudent(String studentId) {
+		String[] students = {studentId};
+		return this.delRoomNumOfStudent(students);
+	}
+
+	@Override
+	public boolean udpateRoom(Room r) {
+		try {
+			roomDao.updateRoom(r);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addRoom(String buildingNum, String floorNum, int cata,int fee) {
+		try {
+			int floorId = floorDao.findFloorId(buildingNum, floorNum);
+			int roomNum = roomDao.findCurrentFloorNum(floorId)+1;
+
+			Floor f = new Floor();
+			f.setId(floorId);
+
+			Room r = new Room();
+			r.setAlreadyStay(0);
+			r.setCost(fee);
+			r.setFloor(f);
+			r.setRoomNum(this.spellTheRoomNum(buildingNum,floorNum,roomNum));
+			r.setTotalBed(cata);
+			roomDao.add(r);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			return true;
+		}
+	}
+	
+	
+	/**
+	 * spellTheRoomNum 拼接字符串的.
+	 * @param buidingNum
+	 * @param floorNum
+	 * @param roomNum
+	 * @return 
+	 *String
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	private String spellTheRoomNum(String buidingNum,String floorNum,int roomNum){
+		StringBuffer strRoomNum = new StringBuffer();
+		if(buidingNum.length()<2){
+			strRoomNum.append("0");
+		}
+		strRoomNum.append(buidingNum);
+		if(floorNum.length()<2){
+			strRoomNum.append("0");
+		}
+		strRoomNum.append(floorNum);
+		if(roomNum<10){
+			strRoomNum.append("0");
+		}
+		strRoomNum.append(""+roomNum);
+		return strRoomNum.toString();
+	}
+
+	@Override
+	public boolean delRoom(String roomNum) {
+		
+		try {
+			roomDao.delRoom(roomNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public List<Student> findAllPersonInRoom(String roomNum) {
+		return roomDao.findAllPersonInRoom(roomNum);
+	}
+	
 	
 	
 }

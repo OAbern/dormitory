@@ -83,7 +83,7 @@ $('.return').click(function(){
 		$('.floorid').append(floorid);
 		$('.susheid').append(susheid);
 	});
-	$.post("json/get/s_sushe_cata.json",function(data){
+	$.post("roomInfo/findRoomCata.do",function(data){
 		var str="";
 		var cata=data.cata;
 		for(i=0;i<cata.length;i++){
@@ -91,7 +91,7 @@ $('.return').click(function(){
 			}
 	    $('select[name="cata"]').append(str);
 	});
-	$.post("json/get/s_sushe_fee.json",function(data){
+	$.post("roomInfo/findRoomFee.do",function(data){
 		var str="";
 		var fee=data.fee;
 		for(i=0;i<fee.length;i++){
@@ -168,21 +168,21 @@ $('.return').click(function(){
 	function getPostParam(action){
 		
 		if(action=="add"){
-			url="json/post/s_sushe_detail.json";//添加新寝室的地址
+			url="roomInfo/addRoom.do";//添加新寝室的地址
 			param.buildingNum=buildingid;
 			param.floorNum=floorid;
 			param.cata=cata;
 			param.fee=fee;
 			}
 		if(action=="modifyfloor"){
-			url="json/post/s_sushe_detail.json";//修改某层楼的宿舍信息
+			url="roomInfo/updateFloor.do";//修改某层楼的宿舍信息
 			param.buildingNum=buildingid;
 			param.floorNum=floorid;
 			param.cata=cata;
 			param.fee=fee;
 			}
 		if(action=="modifysushe"){
-			url="json/post/s_sushe_detail.json";//修改单个寝室的宿舍信息
+			url="roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
 			param.roomNum=susheid;
 			param.cata=cata;
 			param.fee=fee;

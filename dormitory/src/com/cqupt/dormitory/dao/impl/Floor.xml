@@ -17,4 +17,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_floor_by_buildingnum"  parameterType="string" resultType="com.cqupt.dormitory.model.Floor">
 		SELECT floor_id as id,floor_num as floorNum FROM FLOOR LEFT JOIN building  ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num`=#{buildingNum}
 	</select>
+	
+	<select id="find_floorid" parameterType="map" resultType="int">
+		SELECT floor.`floor_id` FROM FLOOR LEFT JOIN building ON(building.`building_id`=floor.`building_id`) WHERE floor.`floor_num`=#{fn} AND building.`building_num`=#{bn}
+	</select>
+	
+	<delete id="del_floor" parameterType="int">
+		DELETE FROM  `floor` WHERE floor_id=#{floorId}
+	</delete>
+	
 </mapper>

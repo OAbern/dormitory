@@ -62,7 +62,7 @@ $(function(){
 		iconCls:'icon-remove'
 	});
 	//datagrid start
-	$.post("json/get/s_studentInfo.json",{"room":susheid},function(data){
+	$.post("roomInfo/findAllPersonInRoom.do",{"roomNum":susheid},function(data){
 		$('#student').datagrid({
 			data:data,
 			width:'1005px',
@@ -226,7 +226,7 @@ $(function(){
 			}
 		function deleteRows(){
 			if(person==0){
-				$.post("url",{"susheid":susheid},function(data){
+				$.post("roomInfo/delRoom.do",{"roomId":susheid},function(data){
 					if(data.status==1){
 						$.messager.alert("提示","删除成功","info");
 					}else if(data.status==0){

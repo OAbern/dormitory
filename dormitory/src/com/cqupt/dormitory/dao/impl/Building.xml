@@ -5,7 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.cqupt.dormitory.model.Building">
 	<resultMap type="com.cqupt.dormitory.model.Building" id="buildingResult">
 		<id property="id" column="building_id"/>
-		<result property="buildingNum" column="bilding_num"/>
+		<result property="buildingNum" column="building_num"/>
+		<result property="sex" column="sex"/>
 		<association property="area" column="area_id" resultMap="com.cqupt.dormitory.model.Area.areaResult"/>
 	</resultMap>
 	
@@ -18,8 +19,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT building.`building_id` as id,building.`building_num` as buildingNum FROM building LEFT JOIN AREA ON(area.`area_id`=building.`area_id`) WHERE area.`area_name`=#{areaName}
 	</select>
 	
-	<select id="find_building_by_sex" parameterType="string" resultType="string">
-		
+	<select id="find_building_by_sex" parameterType="string" resultMap="buildingResult">
+		SELECT building.`area_id`,building.`building_id`,building.`building_num`,building.`sex`,area.`area_id`,area.`area_name` FROM building LEFT JOIN AREA ON(area.`area_id` = building.`area_id`) WHERE building.`sex`=#{sex}
+		ORDER BY area.`area_id`
+	</select>
+	
+	<select id="find_building_emptybed" parameterType="int" resultType="int">
+		SELECT SUM(total_bed)-COUNT(student.`stu_id`) FROM student RIGHT JOIN
+		(SELECT room_id,room.`total_bed` FROM room LEFT JOIN FLOOR ON(room.`floor_id`=floor.`floor_id` )WHERE floor.`building_id`=#{buildingId}) u
+		ON(u.room_id  = student.`room_id`)
+	</select>
+	
+	<update id="update" parameterType="com.cqupt.dormitory.model.Building">
+		update building set sex=#{sex} where building_num=#{buildingNum}
+	</update>
+	
+	<select id="find_building_person" parameterType="string" resultType="int">
+		SELECT COUNT(student.`stu_id`) FROM student RIGHT JOIN room ON(room.`room_id` = student.`room_id`) WHERE room.`room_num` LIKE #{buildingNum}
+	</select>
+	
+	<select id="is_change_sex" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM building WHERE building.`building_num` LIKE #{buildingNum} AND building.`sex`=#{sex}
 	</select>
 	
 </mapper>

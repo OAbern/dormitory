@@ -15,7 +15,7 @@ $(function(){
 		$(".option_sum").html(sum_diaohuan);
 		$(".xuanze_qinshi").bind("table_load",function(){//编写自定义事件
 			//打开文件，通过回掉函数处理获取的数据
-			$.post("json/get/s_sushe_kong.json",{"sex":diaohuan_sure.sex},function(data){			
+			$.post("areaInfo/findBuildingEmptyBed.do",{"sex":diaohuan_sure.sex},function(data){			
 				var html="<table>";
 				$.each(data.rows,function(index,item){
 				  html +="<tr><td class='area'>"+item["area"]+"</td>";

@@ -154,7 +154,7 @@ $(function(){
 			}else{
 				$.messager.confirm("提示","确定删除所选内容么？",function(r){
 					if(r){  
-						$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
+						$.post("roomInfo/delFloor.do",{"buildingNum":buildingid,"floorNum":floors},function(data){
 							if(data.status==1){
 								$.messager.alert("提示","删除成功","info");
 								var rows=$('#dormitory').datagrid('getSelections');
