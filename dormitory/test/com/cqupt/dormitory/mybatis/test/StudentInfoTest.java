@@ -16,7 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.cqupt.dormitory.dao.StudentInfoDao;
 import com.cqupt.dormitory.model.Academy;
 import com.cqupt.dormitory.model.Student;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 
 public class StudentInfoTest {
 	ApplicationContext context;

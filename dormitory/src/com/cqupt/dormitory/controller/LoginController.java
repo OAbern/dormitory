@@ -45,7 +45,7 @@ public class LoginController {
 				modelAndView.setViewName("f_index");
 				request.getSession().setAttribute("teacher", teacher);
 			}
-		}else if(level == 1) {	//辅导员
+		}else if(level == 1) {	//管理员
 			Admin a = new Admin();
 			a.setAdminNum(num);
 			a.setPassword(pw);

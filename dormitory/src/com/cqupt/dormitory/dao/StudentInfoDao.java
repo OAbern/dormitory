@@ -3,8 +3,9 @@ package com.cqupt.dormitory.dao;
 import java.util.List;
 
 import com.cqupt.dormitory.model.Student;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
+import com.cqupt.dormitory.vo.Condition;
 
 /**
  * 处理学生信息Dao的接口
@@ -44,4 +45,12 @@ public interface StudentInfoDao {
 	 * @return
 	 */
 	public List<ClassAndMajor> findClassAndMajor();
+	
+	/**
+	 * 查找级联信息
+	 * @param condition 筛选条件
+	 * @return 
+	 */
+	public List<String> findCascadingInfo(Condition condition);
+
 }

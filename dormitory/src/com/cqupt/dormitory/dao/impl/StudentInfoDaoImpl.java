@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
 import com.cqupt.dormitory.model.Student;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
+import com.cqupt.dormitory.vo.Condition;
 
 /**
  * 处理学生信息的Dao实现类
@@ -75,6 +76,17 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		List<ClassAndMajor> list = null;
 		try {
 			list = getSqlSession().selectList("com.cqupt.dormitory.model.Student.findClassAndMajor");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<String> findCascadingInfo(Condition condition) {
+		List<String> list = null;
+		try {
+			list = getSqlSession().selectList("com.cqupt.dormitory.model.Student.findCascadingInfo", condition);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

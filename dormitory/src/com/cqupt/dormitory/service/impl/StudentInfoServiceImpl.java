@@ -1,9 +1,7 @@
 package com.cqupt.dormitory.service.impl;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -11,8 +9,9 @@ import org.springframework.stereotype.Service;
 import com.cqupt.dormitory.dao.StudentInfoDao;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.StudentInfoService;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
+import com.cqupt.dormitory.vo.Condition;
 
 /**
  * 处理学生信息业务的实现类
@@ -52,14 +51,44 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	}
 
 	@Override
-	public List<ClassAndMajor> findClassAndMajor() {
-		List<ClassAndMajor> majors = studentInfoDao.findClassAndMajor();
-		Map<String,ClassAndMajor> map = new HashMap<String, ClassAndMajor>();
-		for(ClassAndMajor classAndMajor : majors) {
-			
-		}
-		
+	public List<ClassAndMajor> findClassAndMajor() {	
 		return studentInfoDao.findClassAndMajor();
+	}
+
+	@Override
+	public List<String> findCascadingInfo(Condition condition) {
+		return studentInfoDao.findCascadingInfo(condition);
+	}
+
+	@Override
+	public List<Student> findStudentByCondition(Condition condition) {
+		/* 将Condition对象封装成Factor对象集合  */
+		List<Factor> factors = new ArrayList<Factor>();
+		if(condition.getAcademy()!=null && !"".equals(condition.getAcademy())) {
+			Factor factor = new Factor("academy_id",condition.getAcademy());
+			factors.add(factor);
+		}
+		if(condition.getClassNum()!=null && !"".equals(condition.getClassNum())) {
+			Factor factor = new Factor("class", condition.getClassNum());
+			factors.add(factor);
+		}
+		if(condition.getEducation()!=null && !"".equals(condition.getEducation())) {
+			Factor factor = new Factor("education", condition.getEducation());
+			factors.add(factor);	
+		}
+		if(condition.getGrade()!=null && !"".equals(condition.getGrade())) {
+			Factor factor = new Factor("grade", condition.getGrade());
+			factors.add(factor);
+		}
+		if(condition.getMajor()!=null && !"".equals(condition.getMajor())) {
+			Factor factor = new Factor("major", condition.getMajor());
+			factors.add(factor);
+		}
+		if(condition.getSex()!=null && !"".equals(condition.getSex())) {
+			Factor factor = new Factor("stu_sex", condition.getSex());
+			factors.add(factor);
+		}
+		return studentInfoDao.findStudentByFactor(factors);
 	}
 
 }

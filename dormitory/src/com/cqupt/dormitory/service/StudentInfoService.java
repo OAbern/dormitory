@@ -3,8 +3,9 @@ package com.cqupt.dormitory.service;
 import java.util.List;
 
 import com.cqupt.dormitory.model.Student;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
+import com.cqupt.dormitory.vo.Condition;
 
 /**
  * 处理学生信息业务的接口
@@ -44,4 +45,18 @@ public interface StudentInfoService {
 	 * @return
 	 */
 	public List<ClassAndMajor> findClassAndMajor();
+	
+	/**
+	 * 查找级联信息
+	 * @param condition 筛选条件
+	 * @return 
+	 */
+	public List<String> findCascadingInfo(Condition condition);
+	
+	/**
+	 * 根据条件查找学生信息
+	 * @param condition 筛选条件
+	 * @return 符合条件的学生信息
+	 */
+	public List<Student> findStudentByCondition(Condition condition);
 }

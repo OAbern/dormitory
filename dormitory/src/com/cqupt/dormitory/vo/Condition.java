@@ -8,10 +8,10 @@ public class Condition {
 	private String target;	//要筛选的字段
 	private String academy;		//筛选的学院
 	private String education;	//筛选的学历
-	private String classNum;	//班级
 	private String major;	//筛选的专业
 	private String grade;	//筛选的年级
 	private String sex; 	//性别
+	private String classNum;	//班级
 	
 	public String getTarget() {
 		return target;

@@ -73,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
+			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
 			<where>
 				<foreach collection="list" item="f" separator=" AND ">
 					s.${f.name} = '${f.value}'
@@ -110,7 +111,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ORDER BY 2,5
 	</select>
 	
-	
+	<!-- 查询级联信息 -->
+	<select id="findCascadingInfo" parameterType="com.cqupt.dormitory.vo.Condition" resultType="String" statementType="STATEMENT">
+		SELECT DISTINCT(
+		<if test="target=='academy'">academy_id</if>
+		<if test="target!='academy'">${target}</if>
+		) FROM `student` s
+			<where>
+				<if test="academy!=null">s.`academy_id` = ${academy}</if>
+				<if test="education!=null">AND s.`education` = #{education}</if>
+				<if test="major!=null">AND s.`major` = #{major}</if>
+				<if test="grade!=null">AND s.`grade` = #{grade}</if>
+				<if test="sex!=null">AND s.`sex` = #{sex}</if>
+			</where>
+	</select>
 	
 	
 	

@@ -25,8 +25,9 @@ import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.service.TeacherInfoService;
-import com.cqupt.dormitory.utils.Factor;
+import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.utils.JSONUtils;
+import com.cqupt.dormitory.vo.Condition;
 import com.cqupt.dormitory.vo.ResultMessage;
 
 /**
@@ -82,7 +83,7 @@ public class StudentInfoController {
 	 * 根据条件查找学生
 	 * @param request
 	 * @return 
-	 
+	 */
 	@RequestMapping("/findStudent")
 	public void findByfactor(HttpServletRequest request, HttpServletResponse response) {
 		String academyId = request.getParameter("academy");
@@ -110,7 +111,7 @@ public class StudentInfoController {
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
 		JSONUtils.toJSON(studentList, response);
 	}
-	*/
+	
 	
 	
 	/**
@@ -124,7 +125,7 @@ public class StudentInfoController {
 		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getTeacher().getName(), student.getAcademy().getId());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
-			resultMessage.setInfo("更新学生失败！");
+			resultMessage.setInfo("更新学生信息失败！");
 			resultMessage.setError("辅导员不存在！");
 			JSONUtils.toJSON(resultMessage, response);
 			return;
@@ -133,10 +134,10 @@ public class StudentInfoController {
 		
 		if(result) {
 			resultMessage.setStatus(ResultMessage.SUCCESS);
-			resultMessage.setInfo("添加学生成功！");
+			resultMessage.setInfo("更新学生信息成功！");
 		}else {
 			resultMessage.setStatus(ResultMessage.FAILED);
-			resultMessage.setInfo("添加学生失败！");
+			resultMessage.setInfo("更新学生信息失败！");
 		}
 		JSONUtils.toJSON(resultMessage, response);
 	}
@@ -151,7 +152,7 @@ public class StudentInfoController {
 		for(String id : delRowsIdArray){
 			idList.add(id);
 		}
-		boolean result = studentInfoService.deleteStudentByStuId(idList);
+		boolean result = studentInfoService.deleteStudentByStuId(null);
 		if(result) {
 			resultMessage.setStatus(ResultMessage.SUCCESS);
 			resultMessage.setInfo("删除学生信息成功！"); 
@@ -159,7 +160,6 @@ public class StudentInfoController {
 			resultMessage.setStatus(ResultMessage.FAILED);
 			resultMessage.setInfo("删除学生信息失败！");
 		}
-		System.out.println(JSONUtils.toJSONString(resultMessage));
 		JSONUtils.toJSON(resultMessage, response);
 	}
 	
@@ -168,14 +168,39 @@ public class StudentInfoController {
 	 * @param json 前台传入factor的json数组
 	 * @param response HttpServletResponse
 	 */
-	@RequestMapping("/findStudent")
+	@RequestMapping("/findStudentByFactor")
 	public void findByFactor(String json, HttpServletResponse response) {
 		@SuppressWarnings("unchecked")
 		List<Factor> factors = (List<Factor>) JSONUtils.json2Obj(json, Factor.class);
 		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
 		JSONUtils.toJSON(studentList, response);
 	}
+	
+	/**
+	 * caozuo 查找级联信息
+	 * @param Condition 筛选条件（视图对象）
+	 * @param response HttpServletResponse
+	 */
+	@RequestMapping("/findCascadingInfo")
+	public void findByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
+		if(condition.getTarget() == null) {
+			JSONUtils.toJSON(null, response);
+			return;
+		}
+		List<String> list = studentInfoService.findCascadingInfo(condition);
+		JSONUtils.toJSON(list, response);
+	}
 
+	/**
+	 * 根据条件查找学生信息
+	 * @param Condition 筛选条件（视图对象）
+	 * @param response HttpServletResponse
+	 */
+	@RequestMapping("/findStudentByCondition")
+	public void findStudentByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
+		List<Student> students = studentInfoService.findStudentByCondition(condition);
+		JSONUtils.toJSON(students, response);
+	}
 	
 	/**
 	 * 表单提交的时间转换器

@@ -1,4 +1,4 @@
-package com.cqupt.dormitory.utils;
+package com.cqupt.dormitory.vo;
 /**
  * 条件查询 键-值类
  * @author Bern
@@ -10,6 +10,11 @@ public class Factor {
 	
 	public Factor() {}
 	
+	/**
+	 * 构造函数
+	 * @param name	条件名称
+	 * @param value	条件值
+	 */
 	public Factor(String name, String value) {
 		super();
 		this.name = name;
