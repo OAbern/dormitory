@@ -12,4 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `area` 
 	</select>
 	
+	<select id="find_all_area" resultType="com.cqupt.dormitory.model.Area">
+		SELECT area_id as id,area_name as name FROM `area` 
+	</select>
 </mapper>

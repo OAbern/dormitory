@@ -13,4 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `building` 
 	</select>
 
+	<!-- 这里写 * 是为了方便 -->
+	<select id="find_building_by_areaname" parameterType="string" resultType="com.cqupt.dormitory.model.Building"> 
+		SELECT building.`building_id` as id,building.`building_num` as buildingNum FROM building LEFT JOIN AREA ON(area.`area_id`=building.`area_id`) WHERE area.`area_name`=#{areaName}
+	</select>
 </mapper>
