@@ -166,7 +166,7 @@ $(function(){
 				    				$('#dormitory').datagrid('deleteRow',index);
 								}	//通过行号移除该行
 							}else{
-								$.messager.alert("提示","删除失败","info");
+								$.messager.alert("提示","删除失败,删除的楼栋中有人在住,请先作退宿处理再删除","info");
 								}
 						});//post结束
 					}

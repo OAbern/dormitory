@@ -105,16 +105,16 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		showTable.datagrid({
 			width:'700px',
 			height:'330px',
-			url:'json/get/s_sushe_xinxi_chaxun.json',
+			url:'roomInfo/findRoomDetail.do',
 			rownumbers:'true',
 		  fitColumns:'true',
 		  striped:'true',
 			nowrap:'false',
 			queryParams:{
 				sex:GLOBAL.getSex(),
-				building:GLOBAL.getBuilding(),
-				floor:GLOBAL.getFloor(),
-				room:GLOBAL.getRoom()
+				buildingNum:GLOBAL.getBuilding(),
+				floorNum:GLOBAL.getFloor(),
+				roomNum:GLOBAL.getRoom()
 			},
 			pagination:'true',
 			columns:[[      
@@ -175,7 +175,7 @@ function editrow(target) {
 function saverow(target) {
 	showTable.datagrid('endEdit', getRowIndex(target));
 	var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
-	$.post('',row,function(data){
+	$.post('roomInfo/updateRoom.do',{'roomNum':row.roomNum,'fee':row.roomCost,'cata':row.roomType},function(data){
 		if(data.status=='0'){
 			$.messager.alert('操作提示',data.info);
 		}    
