@@ -58,18 +58,12 @@
 						formatter : function(value, row, index) {
 							var status="";
 							if(row.status==1)
-								status="未通过";
+								status="待审核";
 							return status;
 						}
 					},
 					{field : 'id',title : 'excelId',width : 0}
-					/*{field : 'delete',title : '删除',width : 60,align : 'center',
-						formatter : function(value, row, index) {
-							var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="del(\''+ index + '\')">删除</a>';
-							return d;
-								/* var d = '<a href='+row.path+' class="xiazai" onclick="yijianDownLoad(\''+ index + '\')">下载</a>';/*  
-						}
-					}*/ ] ],
+					] ],
 			pagination : true,
 			pageNumber : 1,
 			pageSize : 2,
@@ -87,64 +81,12 @@
 		$.messager.confirm('确认', '确认下载?', function(row) {
 			if (row) {
 				if ($('.table_two').datagrid('getSelected')) {//当勾选了本行时，否则就是直接点击删除
-					var row = $('.table_two').datagrid('getSelected');//获取你选择的行
+					var rows = $('.table_two').datagrid('getSelected');//获取你选择的行
 					/* $.post('excel/findAllExcel.do', {"teaNum" : row.teaNum});//选中行   */
 				}
 			}
 		});
 	}
-/*	//操作过后（同意或者不同意）同时删除学院请求意见
-	function del(index) { //删除操作  
-		$.messager.confirm('确认', '确认删除?', function(row) {
-			if (row) {
-				if ($('.table_two').datagrid('getSelected')) {//当勾选了本行时，否则就是直接点击删除
-					var row = $('.table_two').datagrid('getSelected');//获取你选择的行
-				}
-				$.post('json/post/s_delete_student.json', {"teaNum" : row.teaNum});//选中行  
-				$('.table_two').datagrid('deleteRow', index);
-			}
-		});
-	}*/
-	//点击同意
-/*	$('.agree').click(function() {
-				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
-				if (rows.length > 0) {
-					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
-						if (r) {
-							for ( var i = 0; i < rows.length; i++) {//循环所选的行
-								$('.table_two').datagrid('updateRow',{
-								   index : $('.table_two').datagrid('getRowIndex', rows[i]),
-									   row : {
-											shenhe : '已同意'
-										}
-								});
-								$('.table_two').datagrid('getRowIndex', rows[i])
-								$.post('json/post/s_jijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : rows[i].shenhe});
-							}
-						}
-					});
-				}
-			});*/
-	/*$('.noagree').click(
-			function() {
-				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
-				//循环所选的行
-				if (rows.length > 0) {
-					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
-						if (r) {
-							for ( var i = 0; i < rows.length; i++) {
-								$('.table_two').datagrid('updateRow',{
-								   index : $('.table_two').datagrid('getRowIndex', rows[i]),
-								   row : {
-										shenhe : '未同意'
-								   }
-								});
-								$.post('json/post/s_jijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : rows[i].shenhe});
-							}
-						}
-					});
-				}
-			});	*/
 	//同意，同时要删除那一行
 	function agree() {
 		var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行

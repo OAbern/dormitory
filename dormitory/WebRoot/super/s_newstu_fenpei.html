@@ -103,12 +103,24 @@
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"livingStatus":3}, function(data) {
-			if(data){
+		//$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"livingStatus":3}, function(data) {
+			//if(data){
 				$(".table_one").datagrid({
-					data : data,
 					width : '835px',
 					height : '330px',
+					url : 'studentInfo/findStudentByCondition.do',
+					rownumbers:'true',
+					fitColumns:'true',
+					queryParams:{
+						academy:fenpei_sure.academy,
+						education:fenpei_sure.education,
+						grade:fenpei_sure.grade,
+						major:fenpei_sure.major,
+						classNum:fenpei_sure.classNum,
+						sex:fenpei_sure.sex,
+						livingStatus:3
+					},
+					pagination : true,
 					columns : [ [
 					        {field : 'academy',title : '学院',width : 200,align : 'center',
 					        	formatter:function(value){
@@ -122,20 +134,21 @@
 							{field : 'sex',title : '性别',width : 60,align : 'center'}, 
 							{field : 'education',title : '学历',width : 120,align : 'center'}
 				     ] ],
-					pagination : true
+				     onLoadError:function(){
+						$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+				    },
+					onLoadSuccess:function(data){
+						if(data.rows.length==0){
+							$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+						}
+						sum_fenpei = data.total;//选择的人数总量
+						openSum();
+				},
 				});
-				var Page = $('.table_one').datagrid().datagrid('getPager');// get the pager of datagrid
-				Page.pagination({
-					beforePageText : "第",
-					afterPageText : "共{pages}页",
-					displayMsg : "显示{from}到{to},共{total}条记录"
-				});
-				sum_fenpei = data.total;//选择的人数总量
-				openSum();
-			}else{
-				$.messager.alert("提示","未找到符合条件的学生，请重新选择","info");
-			}
-		});
+			//}else{
+			//	$.messager.alert("提示","未找到符合条件的学生，请重新选择","info");
+			//}
+		//});
 	}
 	//展现已经选择多少人的函数
 	function openSum() {
@@ -164,22 +177,6 @@
 			 $.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
 		}
 	});
-/*	function emptyOption(num){
-	}*/
-	//第一个选择框改变时   年级
-/*	$('select[name="grade"]').change(function(){
-		$('select[name="education"]').val("-1");
-		$('select[name="sex"]').val("-1");
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append(optionhtml);
-		$('select[name="major"]').empty();
-		$('select[name="major"]').append(optionhtml);
-		$('select[name="classNum"]').empty();
-		$('select[name="classNum"]').append(optionhtml);
-		var str="";
-		str=$('select[name="grade"] option:selected').val();
-		fenpei_sure.grade=str;
-	});*/
 //	第二个选择框改变时  学历
 	$('select[name="education"]').change(function(){
 		$('select[name="sex"]').val("-1");
@@ -263,7 +260,7 @@
 		str=$('select[name="classNum"] option:selected').val();
 		fenpei_sure.classNum=str;
 	});
-		//加载学院和年级
+	//加载学院和年级
 	function showAcademy(){
 		$('select[name="academy.id"]').empty();
 		$('select[name="academy.id"]').append(optionhtml);
