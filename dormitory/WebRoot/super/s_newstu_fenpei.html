@@ -182,6 +182,10 @@
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		fenpei_sure.sex="";
+		fenpei_sure.academy="";
+		fenpei_sure.major="";
+		fenpei_sure.classNum="";
 		var str="";
 		str=$('select[name="education"] option:selected').val();
 		fenpei_sure.education=str;
@@ -193,6 +197,9 @@
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		fenpei_sure.academy="";
+		fenpei_sure.major="";
+		fenpei_sure.classNum="";
 		var str="";
 		str=$('select[name="sex"] option:selected').val();
 		fenpei_sure.sex=str;//请求学院。。。。。。。。。。。。。。。。。。。。。。。。。。。。
@@ -204,26 +211,35 @@
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		fenpei_sure.major="";
+		fenpei_sure.classNum="";
 		var str="";
 		str=$('select[name="academy.id"] option:selected').val();
 		fenpei_sure.academy=str;
-		$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy},function(data){
-			$.each(data.rows,function(index, item) {
-				fenpei['fenpei_major']=item.major;
-				for(var i=0;i<item.major.length;i++){
-					$('select[name="major"]').append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
-				}
+		if($('select[name="education"]').val()=="请选择"){
+			 $.messager.alert("警告","请选择学历!","warning");
+		}else if($('select[name="sex"]').val()=="请选择"){
+			 $.messager.alert("警告","请选择性别!","warning");
+		}else{
+			$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"target":"major"},function(data){
+				$.each(data.rows,function(index, item) {
+					fenpei['fenpei_major']=item.major;
+					for(var i=0;i<item.major.length;i++){
+						$('select[name="major"]').append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
+					}
+				});
 			});
-		});
+		}
 	});
 	//第五个框改变时   专业，请求班级
 	$('select[name="major"]').change(function(){
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		fenpei_sure.classNum="";
 		var str="";
 		str=$('select[name="major"] option:selected').val();
 		fenpei_sure.major=str;
-		$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"major":fenpei_sure.major},function(data){
+		$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"major":fenpei_sure.major,"target":"classNum"},function(data){
 			$.each(data.rows,function(index, item) {
 				fenpei['fenpei_classNum']=item.classNum;
 				for(var i=0;i<item.classNum.length;i++){
