@@ -158,7 +158,7 @@
 	//点击下一步时
 	$(".nextStep").click(function() {
 		/*if (sum_fenpei > 0) {
-			$.post('test/getResult.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+			$.post('test/getResult.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex}, function(data) {
 					if(data.status=="1"){
 						$("#base_right .right_contain").empty().load("super/s_qinshi_xuanze.html");
 						$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
@@ -170,7 +170,7 @@
 				$.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
 			}*/
 		if(sum_fenpei>0){//后台直接按照级联选择的条件确定分配的学生
-			//$.post('xuanzhederen', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
+			//$.post('xuanzhederen', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex});
 			$("#base_right .right_contain").empty().load("super/s_qinshi_xuanze.html");
 			$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 		}else{
