@@ -32,141 +32,167 @@
     <p><span><b>查询学院辅导员信息:</b></span><br />
       <br />
       学院:
-      <select name="academy" id="academy">
-        <option value="0">未选择</option>
-        <option value="01">通信</option>
-        <option value="02">经管</option>
-        <option value="03">计算机</option>
-      </select>
-      年级:
-      <select name="grade" id="grade">
-        <option value="0">未选择</option>
-        <option value="2012">2012</option>
-        <option value="2011">2011</option>
-        <option value="2010">2010</option>
-      </select>
+      <select name="academy.id" id="academy">
+        <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    年级:
+    <select name="grade" id="grade">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
       <input type="button" value="确定" id="filter">
   </div>
   <!-- 展示数据的表格 -->
   <div id="showTable"></div>
 </div>
 <script type="text/javascript">
-  var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
-	  $("#filter").click(function(event) {//点击筛选展示数据
-		  var academyText=$("#academy").val(),
-			  grade=$("#grade").val();
-		  showTable.datagrid({
-			  width:'710px',
-			  height:'330px',
-			  url:'json/get/s_chaxun_xinxi.json',
-			  rownumbers:'true',
-			  fitColumns:'true',
-			  queryParams:{
-				  academy:academyText,
-				  grade:grade
+//加载学院选项
+GLOBAL.showAcademy();
+//展示年级选项
+GLOBAL.showGrade();
+var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
+$("#filter").click(function(event) {//点击筛选展示数据
+  var academyText=$("#academy").val(),
+	  grade=$("#grade").val();
+  if(academyText=='-1'||grade=='-1'){
+		alert('请选择筛选条件');
+	}else{
+	  showTable.datagrid({
+		  width:'710px',
+		  height:'330px',
+		  url:'',
+		  rownumbers:'true',
+		  fitColumns:'true',
+		  queryParams:{
+			  academy:academyText,
+			  grade:grade
+		  },
+		  pagination:'true',
+		  toolbar:[{
+			  id:'deleteRows',
+			  text:'批量删除',
+			  iconCls:'icon-remove',
+			  handler:deleterow,
+		  }],
+		  columns:[[    
+			  {field:'ck',checkbox:true},    
+			  {field:'teacherId',title:'教工号',width:100,align:'center'},    
+			  {field:'academy',title:'学院',width:200,align:'center'/*,
+				  editor:{
+					  type:'combobox',
+					  options:{
+						  data:[],
+						  valueField: "value",
+						  textField: "text"
+					  }
+				  }*/
 			  },
-			  pagination:'true',
-			  toolbar:[{
-				  id:'deleteRows',
-				  text:'批量删除',
-				  iconCls:'icon-remove',
-				  handler:function() {
-					  var selections=showTable.datagrid('getSelections');
-					  var delRowsIdArray=[];//存储要删除的教师id
-					  if(selections.length==0){//没有选择要删除的行
-						  $.messager.alert('操作提示', '请选择要删除的行');
-					  }else{
-						  for(var i=0;i<selections.length;i++){
-							  delRowsIdArray[i]=selections[i].studentId;//studentId为表的主键
-							  var index=showTable.datagrid('getRowIndex',selections[i]);
-							  showTable.datagrid('deleteRow',index);
-						  }
-						  $.post('post.jsp',{'delRowsIdArray':delRowsIdArray});
+			  {field:'manageGrade',title:'负责年级',width:120,align:'center'}, 
+			  {field:'name',title:'用户姓名',width:100,align:'center',editor:'text'},    
+			  {field:'role',title:'用户角色',width:100,align:'center'/*,
+				  editor:{
+					  type:'combobox',
+					  options:{
+						  data:[],
+						  valueField: "value",
+						  textField: "text"
 					  }
-					  
-					  
-				  }
-			  }],
-			  columns:[[    
-				  {field:'ck',checkbox:true},    
-				  {field:'teacherId',title:'教工号',width:100,align:'center'},    
-				  {field:'academy',title:'学院',width:200,align:'center',
-					  editor:{
-						  type:'combobox',
-						  options:{
-							  data:[],
-							  valueField: "value",
-							  textField: "text"
-						  }
-					  }
-				  },
-				  {field:'manageGrade',title:'负责年级',width:120,align:'center',editor:'text'}, 
-				  {field:'name',title:'用户姓名',width:100,align:'center',editor:'text'},    
-				  {field:'role',title:'用户角色',width:100,align:'center',
-					  editor:{
-						  type:'combobox',
-						  options:{
-							  data:[],
-							  valueField: "value",
-							  textField: "text"
-						  }
-					  }
-				  },
-				  {field:'action',title:'操作',align:'center',width:100,
-					  formatter: function(value,row,index){
-						  if (row.editing){
-							  var s = '<a href="#" onclick="saverow(this)">保存</a> ';
-							  var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
-							  return s+c;
-						  } else {
-							  var e = '<a href="#" onclick="editrow(this)">修改</a> ';
-							  return e;
-						  }
+				  }*/
+			  },
+			  {field:'action',title:'操作',align:'center',width:100,
+				  formatter: function(value,row,index){
+					  if (row.editing){
+						  var s = '<a href="#" onclick="saverow(this)">保存</a> ';
+						  var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
+						  return s+c;
+					  } else {
+						  var e = '<a href="#" onclick="editrow(this)">修改</a> ';
+						  return e;
 					  }
 				  }
-			  ]],
-			  onBeforeEdit:function(index,row){
-				  row.editing = true;
-				  updateActions(index);
-			  },
-			  onAfterEdit:function(index,row){
-				  row.editing = false;
-				  updateActions(index);
-			  },
-			  onCancelEdit:function(index,row){
-				  row.editing = false;
-				  updateActions(index);
 			  }
-		  }); 
+		  ]],
+		  onBeforeEdit:function(index,row){
+			  row.editing = true;
+			  updateActions(index);
+		  },
+		  onAfterEdit:function(index,row){
+			  row.editing = false;
+			  updateActions(index);
+		  },
+		  onCancelEdit:function(index,row){
+			  row.editing = false;
+			  updateActions(index);
+		  },
+		  onLoadError:function(){
+				alert('载入远程数据出错！');
+			}
 	  });
-	  //showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
-  function updateActions(index){//点击修改、保存、取消后更新行数据
-	  showTable.datagrid('updateRow',{
-		  index: index,
-		  row:{}
-	  });
-  }
-  function getRowIndex(target) {//获取鼠标点击后的行索引
-	  var tr = $(target).closest('tr.datagrid-row');
-	  return parseInt(tr.attr('datagrid-row-index'));
-  }
-  //编辑行
-  function editrow(target) {
-	  var rowIndex=getRowIndex(target);
-	  showTable.datagrid('beginEdit', getRowIndex(target));
-	  showTable.datagrid('clearSelections');//先清空所有选择行，保证每次修改只有一行
-	  showTable.datagrid('selectRow',rowIndex);//选中要编辑的行
-  }
-  //保存行
-  function saverow(target) {
-	  showTable.datagrid('endEdit', getRowIndex(target));
-	  var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
-	  $.post('post.jsp',{'changedRow':row}); 
-	  showTable.datagrid('clearSelections');    
-  }
-  //取消操作
-  function cancelrow(target) {
-	  showTable.datagrid('clearSelections');
-	  showTable.datagrid('cancelEdit', getRowIndex(target));
-  }
+		showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容 
+	}
+});
+function updateActions(index){//点击修改、保存、取消后更新行数据
+  showTable.datagrid('updateRow',{
+	  index: index,
+	  row:{}
+  });
+}
+function getRowIndex(target) {//获取鼠标点击后的行索引
+  var tr = $(target).closest('tr.datagrid-row');
+  return parseInt(tr.attr('datagrid-row-index'));
+}
+//编辑行
+function editrow(target) {
+  var rowIndex=getRowIndex(target);
+  showTable.datagrid('beginEdit', getRowIndex(target));
+  showTable.datagrid('clearSelections');//先清空所有选择行，保证每次修改只有一行
+  showTable.datagrid('selectRow',rowIndex);//选中要编辑的行
+}
+//保存行
+function saverow(target) {
+  showTable.datagrid('endEdit', getRowIndex(target));
+  var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
+  delete(row.editing);
+	$.ajax({ 
+    type:"POST", 
+    url:"", 
+    dataType:"json",      
+    contentType:"application/json",               
+    data:JSON.stringify(row),
+    success: function(data){
+	    if(data.status=='0'){
+				alert(data.info);
+			}else if(data.status=='1'){
+
+			}
+	  }
+  }); 
+  showTable.datagrid('clearSelections');    
+}
+//取消操作
+function cancelrow(target) {
+  showTable.datagrid('clearSelections');
+  showTable.datagrid('cancelEdit', getRowIndex(target));
+}
+//删除行
+function deleterow() {
+	var selections=showTable.datagrid('getSelections');
+	var delRowsIdArray=[];//存储要删除的id
+	if(selections.length==0){//没有选择要删除的行
+		$.messager.alert('操作提示', '请选择要删除的行');
+	}else{
+		for(var i=0;i<selections.length;i++){
+			delRowsIdArray[i]=selections[i].id;//教师的逻辑主键
+		}
+		$.post('',{'delRowsIdArray':delRowsIdArray},function(data){
+			if(data.status=='0'){
+				alert(data.info);
+			}else if(data.status=='1'){
+				showTable.datagrid('reload');
+				alert('删除成功');
+			}
+		});
+	}
+}
 </script>

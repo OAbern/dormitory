@@ -1,10 +1,8 @@
 // JavaScript Document
 var GLOBAL={};
 GLOBAL.grade=[];
-GLOBAL.academy={};
-$.post('academyInfo/getAll.do',function(data){
-	GLOBAL.academy=data;
-});
+//GLOBAL.academy={};
+//生成年级数组
 (function creatGrade(){
 	var date=new Date();
 	var year=date.getFullYear();
@@ -13,7 +11,56 @@ $.post('academyInfo/getAll.do',function(data){
 		GLOBAL.grade.push(year-i);
 	}	
 })();
- //展示学院选项
+$.get('academyInfo/getAll.do',function(data){
+	GLOBAL.academy=data;
+});
+//展示学院选项
+GLOBAL.showAcademy=function(){
+	if(!GLOBAL.academy){
+		alert('加载学院数据失败,请刷新重试');
+	}else{
+		$.each(GLOBAL.academy,function(i,v){
+			$('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
+		});
+	}
+}
+//展示年级选项
+GLOBAL.showGrade=function(){
+	$.each(GLOBAL.grade,function(i,v){
+		$('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
+	})		
+}
+//用于判断筛选条件是否选择
+GLOBAL.notSelected=function(){
+	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'){
+		alert('请完善选择框');
+		return false;
+	}else{
+		return true;
+	}
+};
+//获取学院选择框的value
+GLOBAL.getAcademy=function(){
+	return $('select[name="academy.id"]').val();
+};
+//获取年级选择框的value
+GLOBAL.getGrade=function(){
+	return $('select[name="grade"]').val();
+};
+//获取性别选择框的value
+GLOBAL.getSex=function(){
+	return $('select[name="sex"]').val();
+};
+//获取楼栋选择框的value
+GLOBAL.getBuilding=function(){
+	return $('select[name="building"]').val();
+};
+//获取学历选择框的value
+GLOBAL.getEducation=function(){
+	return $('select[name="education"]').val();
+};
+
+//展示学院选项
 function showAcademy(){
 	$('select[name="academy.id"]').empty();
 	$('select[name="academy.id"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");

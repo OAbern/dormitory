@@ -35,25 +35,6 @@ input[type='text'] {
         <input type="text" name="studentId">
         <br />
       </p>
-      <p class="item"><span>性别:</span>
-        <select name="sex">
-          <option value="male" selected="selected">男</option>
-          <option value="female">女</option>
-        </select>
-        <br />
-      </p>
-      <p class="item"><span>年级:</span>
-        <input type="text" name="grade">
-        <br />
-      </p>
-      <p class="item"><span>班级:</span>
-        <input type="text" name="classes">
-        <br />
-      </p>
-      <p class="item"><span>学院:</span>
-        <input type="text" name="academy">
-        <br />
-      </p>
       <p class="item"><span>外出住宿时间:</span>
         <input id="outTime" type="text" name="outTime">
         <br />
@@ -71,7 +52,9 @@ input[type='text'] {
 </div>
 <script type="text/javascript">
 	//外出时间日历
-	$("input[name='outTime']").datebox();
+	$("input[name='outTime']").datebox({
+		required:true,
+	});
 	//表单验证
 		$("#addStudent").validate({
 			rules : {
@@ -83,23 +66,7 @@ input[type='text'] {
 					required : true,
 					digits:true,
 					rangelength : [10, 10],
-				}, 
-				sex : {
-					
-				}, 
-				grade : {
-					required : true,
-					number : true,
-					rangelength : [4, 4],
-				}, 
-				classes : {
-					required : true,
-					//number : true,
-					//rangelength:[7,7]
-				}, 
-				academy : {
-					required : true,	
-				}, 
+				},
 				outTime : {
 					required : true,
 				}, 
@@ -109,25 +76,14 @@ input[type='text'] {
 			},
 			messages : {
 			    name : {
-					required : '帐号不得为空！',
-					minlength : '帐号不得小于2位！',
-				},
+							required : '帐号不得为空！',
+							minlength : '帐号不得小于2位！',
+						},
 		        studentId : {
 			        required : '帐号不得为空！',
 			        digits:'请输入整数',
 			        rangelength : jQuery.format('账号必须为{0}位数字'),
 		        }, 
-		        grade : {
-		          required : '年级不得为空！',
-		          digits:'请输入整数',
-		          rangelength : jQuery.format('账号必须为{0}位数字'),
-		        }, 
-		        classes : {
-		          required : '班级号号不得为空！',
-		        },  
-		        academy : {
-		          required : '学院不得为空！', 
-		        },
 		        /*outTime : {
 		          required : '外出住宿时间不得为空！',
 		        },*/

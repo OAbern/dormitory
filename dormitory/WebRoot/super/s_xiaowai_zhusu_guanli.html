@@ -24,79 +24,98 @@
 <div class="right_contain">
   <div class="selectxw"> 
     <!-- 筛选框 -->
-    <div id="searchBar"> </div>
-    <input type="button" value="确定" id="filter">
+    <div id="searchBar"> 学院:
+    <select name="academy.id" id="academy">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    年级:
+    <select name="grade" id="grade">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    学历:
+    <select name="education" id="education">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+      <option value="本科在读">本科生</option>
+      <option value="研究生在读">研究生</option>
+      <option value="博士生在读">博士生</option>
+    </select>
+    <input type="button" value="筛选" name="filter" id="filter">
+  </div>
     <!-- 展示数据的表格 -->
     <div id="showTable"></div>
   </div>
 </div>
 <!--级联--> 
 <script type="text/javascript">
-	$("#searchBar").cascade({
-		url : "json/get/s_xiaowai_zhusu_jilian.json",
-		firstName : "学院",
-		secondName : "年级",
-		thirdName : "学历",
-		firstText : "请选择学院",
-		secondText : "请选择年级",
-		thirdText : "请选择学历"
-	});
-</script> 
-<script type="text/javascript">
-	var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
-	$("#filter").click(function(event) {//点击筛选展示数据
-		//定义三个变量获取筛选的条件
-		var academyText=$("#academy").val(),
-			grade=$("#grade").val(),
-			education=$("#education").val();
-		showTable.datagrid({
-			width:'980px',
-			height:'330px',
-			url:'json/get/s_xiaowai_zhusu_guanli.json',
-			rownumbers:'true',
-			fitColumns:'true',
-			queryParams:{
-				academy:academyText,
-				grade:grade,
-				education:education
-			},
-			pagination:'true',
-			toolbar:[{
-				id:'deleteRows',
-				text:'删除',
-				iconCls:'icon-remove',
-				handler:function() {
-					var selections=showTable.datagrid('getSelections');
-					var delRowsIdArray=[];//存储要删除的学生id
-					if(selections.length==0){//没有选择要删除的行
-						$.messager.alert('操作提示', '请选择要删除的行');
-					}else{
-						for(var i=0;i<selections.length;i++){
-							delRowsIdArray[i]=selections[i].studentId;//studentId为表的主键
-							var index=showTable.datagrid('getRowIndex',selections[i]);
-							showTable.datagrid('deleteRow',index);
-						}
-						$.post('post.jsp',{'delRowsIdArray':delRowsIdArray});
-					}	
-				}
-			}],
-			columns:[[    
-				{field:'ck',checkbox:true},    
-				{field:'academy',title:'学院',width:200,align:'center'},    
-				{field:'grade',title:'年级',width:100,align:'center'},
-				{field:'name',title:'姓名',width:100,align:'center'}, 
-				{field:'studentId',title:'学号',width:100,align:'center'},    
-				{field:'classes',title:'班级',width:100,align:'center'},    
-				{field:'sex',title:'性别',width:60,align:'center'},
-				{field:'outTime',title:'外出住宿时间',width:120,align:'center'}, 
-				{field:'outAddress',title:'校外住宿地址',width:200,align:'center'}
-			]]
-		}); 
-		showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
+//加载学院选项
+GLOBAL.showAcademy();
+//展示年级选项
+GLOBAL.showGrade();
+var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
+$("#filter").click(function(event) {//点击筛选展示数据
+	//定义三个变量获取筛选的条件
+	var academyText=$("#academy").val(),
+		grade=$("#grade").val(),
+		education=$("#education").val();
+	showTable.datagrid({
+		width:'980px',
+		height:'330px',
+		url:'json/get/s_xiaowai_zhusu_guanli.json',
+		rownumbers:'true',
+		fitColumns:'true',
+		queryParams:{
+			academy:academyText,
+			grade:grade,
+			education:education
+		},
+		pagination:'true',
+		toolbar:[{
+			id:'deleteRows',
+			text:'删除',
+			iconCls:'icon-remove',
+			handler:deleterow
+		}],
+		columns:[[    
+			{field:'ck',checkbox:true},    
+			{field:'academy',title:'学院',width:200,align:'center'},    
+			{field:'grade',title:'年级',width:100,align:'center'},
+			{field:'name',title:'姓名',width:100,align:'center'}, 
+			{field:'studentId',title:'学号',width:100,align:'center'},    
+			{field:'classes',title:'班级',width:100,align:'center'},    
+			{field:'sex',title:'性别',width:60,align:'center'},
+			{field:'outTime',title:'外出住宿时间',width:120,align:'center'}, 
+			{field:'outAddress',title:'校外住宿地址',width:200,align:'center'}
+		]]
+	}); 
+	showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
 	});
 		//表单提交
-	$('input[name="submit"]').click(function(event) {
-		/* Act on the event */
-		$.post('json/post/post.jsp',$('#addStudent').serialize());
-	});
+$('input[name="submit"]').click(function(event) {
+	/* Act on the event */
+	$.post('json/post/post.jsp',$('#addStudent').serialize());
+});
+function deleterow() {
+	var selections=showTable.datagrid('getSelections');
+	var delRowsIdArray=[];//存储要删除的学生id
+	if(selections.length==0){//没有选择要删除的行
+		$.messager.alert('操作提示', '请选择要删除的行');
+	}else{
+		for(var i=0;i<selections.length;i++){
+			delRowsIdArray[i]=selections[i].stuNum;//studentId为表的主键
+			//var index=showTable.datagrid('getRowIndex',selections[i]);
+			//showTable.datagrid('deleteRow',index);
+		}
+		$.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
+			if(data.status=='0'){
+				alert(data.info);
+			}else if(data.status=='1'){
+				showTable.datagrid('reload');
+				alert('删除成功');
+			}
+		});
+	}
+}
 </script>
