@@ -32,7 +32,7 @@ GLOBAL.showGrade=function(){
 }
 //用于判断筛选条件是否选择
 GLOBAL.notSelected=function(){
-	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'){
+	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'||GLOBAL.getFloor()=='-1'||GLOBAL.getRoom()=='-1'){
 		alert('请完善选择框');
 		return false;
 	}else{
@@ -51,31 +51,22 @@ GLOBAL.getGrade=function(){
 GLOBAL.getSex=function(){
 	return $('select[name="sex"]').val();
 };
-//获取楼栋选择框的value
-GLOBAL.getBuilding=function(){
-	return $('select[name="building"]').val();
-};
 //获取学历选择框的value
 GLOBAL.getEducation=function(){
 	return $('select[name="education"]').val();
 };
-
-//展示学院选项
-function showAcademy(){
-	$('select[name="academy.id"]').empty();
-	$('select[name="academy.id"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
-    $.each(GLOBAL.academy,function(i,v){
-    	$('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
-    });  
-}
-//展示年级选项
-function showGrade(){
-	$('select[name="grade"]').empty();
-	$('select[name="grade"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
-	$.each(GLOBAL.grade,function(i,v){
-	    $('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
-	});
-}
+//获取楼栋选择框的value
+GLOBAL.getBuilding=function(){
+	return $('select[name="building"]').val();
+};
+//获取楼层选择框的value
+GLOBAL.getFloor=function(){
+	return $('select[name="floor"]').val();
+};
+//获取寝室号选择框的value
+GLOBAL.getRoom=function(){
+	return $('select[name="room"]').val();
+};
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("super/s_tianjia_xuesheng_xinxi.html");

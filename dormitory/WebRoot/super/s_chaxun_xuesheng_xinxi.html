@@ -57,6 +57,7 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 			url:'studentInfo/findStudentByCondition.do',
 			rownumbers:'true',
 			fitColumns:'true',
+			striped:true,//斑马线
 			queryParams:{
 				academy:academyText,
 				grade:grade,
@@ -83,8 +84,14 @@ var showTable=$('#showTable');//定义一个全局变量，指向要操作的tab
 				{field:'room',title:'寝室号',width: 100,align:'center'},
 				]],
 				onLoadError:function(){
-					alert('载入远程数据出错！');
-				}
+					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");
+
+				},
+				onLoadSuccess:function(data){
+					if(data.rows.length==0){
+						$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+					}
+				},
 			}); 
 			showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
 		}

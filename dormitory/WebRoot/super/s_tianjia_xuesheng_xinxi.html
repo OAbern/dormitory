@@ -168,9 +168,9 @@ input[type='text'] {
   });
   //console.log($('.datebox'));
   //加载学院
-  showAcademy();
+  GLOBAL.showAcademy();
   //加载年级
-  showGrade();
+  GLOBAL.showGrade();
   //表单项验证
   $('input[name="name"]').blur(inputValid);
   $('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);

@@ -61,14 +61,46 @@ GLOBAL.showAcademy();
 //展示年级选项
 GLOBAL.showGrade();
 var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
+var bui=$('select[name="building"]'),
+		sex=$('select[name="sex"]'),
+		gra=$('select[name="grade"]'),
+		edu=$('select[name="education"]'),
+		aca=$('select[name="academy"]');
+//生成楼栋
+bui.focus(function(){
+	if(GLOBAL.getSex()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getAcademy()=='-1'||GLOBAL.getEducation()=='-1'){
+		alert('请先选择前面的选择框');
+	}else{
+		$.post('',{
+				target:'building',
+				sex:GLOBAL.getSex(),
+				grade:GLOBAL.getGrade(),
+				academy:GLOBAL.getAcademy(),
+				education:GLOBAL.getEducation()
+			},
+			function(data){
+				$(data).each(function(i,v){
+	        bui.append('<option value="'+v+'">'+v+'</option>');
+	      });
+			}
+		);
+	}
+});
+//选择框改变
+sex.change(function(){
+	bui.find('option:gt(1)').remove();
+});
+gra.change(function(){
+	bui.find('option:gt(1)').remove();
+});
+aca.change(function(){
+	bui.find('option:gt(1)').remove();
+});
+edu.change(function(){
+	bui.find('option:gt(1)').remove();
+});
+
 $("#filter").click(function(event) {//点击筛选展示数据
-		//定义四个变量获取筛选的条件
-		//这里可以定义全局变量来优化====================
-/*var academy=$("#academy").val(),
-	grade=$("#grade").val(),
-	education=$("#education").val(),
-	sex=$("#sex").val(),
-	building=$("#building").val();*/
 	if(GLOBAL.notSelected()){
 		showTable.datagrid({
 			width:'650px',

@@ -78,28 +78,10 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		  columns:[[    
 			  {field:'ck',checkbox:true},    
 			  {field:'teacherId',title:'教工号',width:100,align:'center'},    
-			  {field:'academy',title:'学院',width:200,align:'center'/*,
-				  editor:{
-					  type:'combobox',
-					  options:{
-						  data:[],
-						  valueField: "value",
-						  textField: "text"
-					  }
-				  }*/
-			  },
+			  {field:'academy',title:'学院',width:200,align:'center'},
 			  {field:'manageGrade',title:'负责年级',width:120,align:'center'}, 
 			  {field:'name',title:'用户姓名',width:100,align:'center',editor:'text'},    
-			  {field:'role',title:'用户角色',width:100,align:'center'/*,
-				  editor:{
-					  type:'combobox',
-					  options:{
-						  data:[],
-						  valueField: "value",
-						  textField: "text"
-					  }
-				  }*/
-			  },
+			  {field:'role',title:'用户角色',width:100,align:'center'},
 			  {field:'action',title:'操作',align:'center',width:100,
 				  formatter: function(value,row,index){
 					  if (row.editing){

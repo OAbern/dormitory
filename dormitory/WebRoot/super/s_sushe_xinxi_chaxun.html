@@ -18,132 +18,179 @@
 </div>
 <div class="right_contain"> 
   <!-- 筛选框 -->
-  <div id="searchBar"></div>
-  <input type="button" value="查询" id="filter">
+  <div id="searchBar">
+  	性别：
+  	<select name="sex">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    楼栋:
+    <select name="building">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    楼层:
+    <select name="floor">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    寝室号:
+    <select name="room">
+      <option value="-1" selected="selected">未选择</option>
+      <option value="">全部</option>
+    </select>
+    <input type="button" value="查询" id="filter">
+  </div>
   <!-- 展示数据的表格 -->
   <div id="showTable"></div>
 </div>
-<!--级联--> 
 <script type="text/javascript">
-	$("#searchBar").cascade_four({
-		url : "json/get/s_sushe_xinxi_chaxun_jilian.json",
-		firstName : "性别",
-		secondName : "楼栋",
-		thirdName : "楼层",
-		fourName:"寝室号",
-		firstText : "请选择性别",
-		secondText : "请选择楼栋",
-		thirdText : "请选择楼层",
-		fourText : "请选择寝室号"
-	});
-</script> 
-<script type="text/javascript">
-	var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
-		$("#filter").click(function(event) {//点击筛选展示数据
-			//定义三个变量获取筛选的条件
-			var sex=$("#sex").val(),
-				building=$("#building").val(),
-				roomId=$("#roomId").val();
-			showTable.datagrid({
-				width:'700px',
-				height:'330px',
-				url:'json/get/s_sushe_xinxi_chaxun.json',
-				rownumbers:'true',
-				fitColumns:'true',
-				queryParams:{
-					sex:sex,
-					building:building,
-					roomId:roomId
+var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
+var sex=$('select[name="sex"]'),
+		bui=$('select[name="building"]'),
+		flo=$('select[name="floor"]'),
+		room=$('select[name="room"]');
+//性别改变
+sex.change(function(){
+	bui.find('option:gt(1)').remove();
+	flo.find('option:gt(1)').remove();
+	room.find('option:gt(1)').remove();
+	$.post('',{
+			target:'building',
+			sex:GLOBAL.getSex()
+		},
+		function(data){
+			$(data).each(function(i,v){
+        bui.append('<option value="'+v+'">'+v+'</option>');
+      });
+		}
+	);
+});
+//楼栋改变
+bui.change(function(){
+	flo.find('option:gt(1)').remove();
+	room.find('option:gt(1)').remove();
+	$.post('',{
+			target:'floor',
+			sex:GLOBAL.getSex(),
+			building:GLOBAL.getBuilding()
+		},
+		function(data){
+			$(data).each(function(i,v){
+        flo.append('<option value="'+v+'">'+v+'</option>');
+      });
+		}
+	);
+});
+//楼层改变
+flo.change(function(){
+	room.find('option:gt(1)').remove();
+	$.post('',{
+			target:'floor',
+			sex:GLOBAL.getSex(),
+			building:GLOBAL.getBuilding(),
+			floor:GLOBAL.getFloor()
+		},
+		function(data){
+			$(data).each(function(i,v){
+        room.append('<option value="'+v+'">'+v+'</option>');
+      });
+		}
+	);
+});
+$("#filter").click(function(event) {//点击筛选展示数据
+	if(GLOBAL.notSelected()){
+		showTable.datagrid({
+			width:'700px',
+			height:'330px',
+			url:'json/get/s_sushe_xinxi_chaxun.json',
+			rownumbers:'true',
+			fitColumns:'true',
+			queryParams:{
+				sex:GLOBAL.getSex(),
+				building:GLOBAL.getBuilding(),
+				floor:GLOBAL.getFloor(),
+				room:GLOBAL.getRoom()
+			},
+			pagination:'true',
+			columns:[[      
+				{field:'building',title:'楼栋号',width:100,align:'center'},    
+				{field:'sex',title:'所住人员性别',width:100,align:'center'},
+				{field:'roomId',title:'寝室号',width:120,align:'center'}, 
+				{field:'roomType',title:'寝室类型(人/间)',width:120,align:'center',editor:'numberbox'/*,
+					editor:{
+						type:'combobox',
+						options:{
+							data:[],
+							valueField: "value",
+							textField: "text"
+						}
+					}*/
+				},    
+				{field:'roomCost',title:'寝室资费(元/学年)',width:150,align:'center',editor:'numberbox'
 				},
-				pagination:'true',
-				columns:[[      
-					{field:'building',title:'楼栋号',width:100,align:'center'},    
-					{field:'sex',title:'所住人员性别',width:100,align:'center',
-						editor:{
-							type:'combobox',
-							options:{
-								data:[],
-								valueField: "value",
-								textField: "text"
-							}
-						}
-					},
-					{field:'roomId',title:'寝室号',width:120,align:'center'}, 
-					{field:'roomType',title:'寝室类型',width:120,align:'center',
-						editor:{
-							type:'combobox',
-							options:{
-								data:[],
-								valueField: "value",
-								textField: "text"
-							}
-						}
-					},    
-					{field:'roomCost',title:'寝室资费',width:150,align:'center',
-						editor:{
-							type:'combobox',
-							options:{
-								data:[],
-								valueField: "value",
-								textField: "text"
-							}
-						}
-					},
-					{field:'action',title:'操作',align:'center',width:100,
-						formatter: function(value,row,index){
-							if (row.editing){
-								var s = '<a href="#" onclick="saverow(this)">保存</a> ';
-								var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
-								return s+c;
-							} else {
-								var e = '<a href="#" onclick="editrow(this)">修改</a> ';
-								return e;
-							}
+				{field:'action',title:'操作',align:'center',width:100,
+					formatter: function(value,row,index){
+						if (row.editing){
+							var s = '<a href="#" onclick="saverow(this)">保存</a> ';
+							var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
+							return s+c;
+						} else {
+							var e = '<a href="#" onclick="editrow(this)">修改</a> ';
+							return e;
 						}
 					}
-				]],
-				onBeforeEdit:function(index,row){
-					row.editing = true;
-					updateActions(index);
-				},
-				onAfterEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
-				},
-				onCancelEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
 				}
-			});
-			showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
+			]],
+			onBeforeEdit:function(index,row){
+				row.editing = true;
+				updateActions(index);
+			},
+			onAfterEdit:function(index,row){
+				row.editing = false;
+				updateActions(index);
+			},
+			onCancelEdit:function(index,row){
+				row.editing = false;
+				updateActions(index);
+			}
 		});
-	function updateActions(index){//点击修改、保存、取消后更新行数据
-		showTable.datagrid('updateRow',{
-			index: index,
-			row:{}
-		});
+	showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
+		
 	}
-	function getRowIndex(target) {//获取鼠标点击后的行索引
-		var tr = $(target).closest('tr.datagrid-row');
-		return parseInt(tr.attr('datagrid-row-index'));
-	}
-	//编辑行
-	function editrow(target) {
-		var rowIndex=getRowIndex(target);
-		showTable.datagrid('beginEdit', getRowIndex(target));
-		showTable.datagrid('clearSelections');//先清空所有选择行，保证每次修改只有一行
-		showTable.datagrid('selectRow',rowIndex);//选中要编辑的行
-	}
-	//保存行
-	function saverow(target) {
-		showTable.datagrid('endEdit', getRowIndex(target));
-		var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
-		$.post('post.jsp',{'changedRow':row}); 
-		showTable.datagrid('clearSelections');    
-	}
-	//取消操作
-	function cancelrow(target) {
-		showTable.datagrid('clearSelections');
-		showTable.datagrid('cancelEdit', getRowIndex(target));
-	}
+	
+});
+function updateActions(index){//点击修改、保存、取消后更新行数据
+	showTable.datagrid('updateRow',{
+		index: index,
+		row:{}
+	});
+}
+function getRowIndex(target) {//获取鼠标点击后的行索引
+	var tr = $(target).closest('tr.datagrid-row');
+	return parseInt(tr.attr('datagrid-row-index'));
+}
+//编辑行
+function editrow(target) {
+	var rowIndex=getRowIndex(target);
+	showTable.datagrid('beginEdit', getRowIndex(target));
+	showTable.datagrid('clearSelections');//先清空所有选择行，保证每次修改只有一行
+	showTable.datagrid('selectRow',rowIndex);//选中要编辑的行
+}
+//保存行
+function saverow(target) {
+	showTable.datagrid('endEdit', getRowIndex(target));
+	var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
+	$.post('',row,function(data){
+		if(data.status=='0'){
+			alert(data.info);
+		}    
+}
+//取消操作
+function cancelrow(target) {
+	showTable.datagrid('clearSelections');
+	showTable.datagrid('cancelEdit', getRowIndex(target));
+}
 </script>
