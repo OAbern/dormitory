@@ -1,17 +1,23 @@
 // JavaScript Document
 $(function(){ 
     var status=0;
-	$(".stu li:first-child").click(function(){
+	$(".stu li:eq(0)").click(function(){
+		$("#base_right").empty().load("fu/f_modify.html");
+	});
+	$(".stu li:eq(1)").click(function(){
 		$("#base_right").empty().load("fu/f_studentmessage.html");
 	});
-   $(".stuqin li:first-child").click(function(){
+    $(".stuqin li:eq(0)").click(function(){
 		$("#base_right").empty().load("fu/f_stuchangehotel.html");
+	});
+   $(".stuqin li:eq(1)").click(function(){
+		$("#base_right").empty().load("fu/f_modifystuchangehotel.html");
 	});
 	$(".wait li:first-child").click(function(){
 		$("#base_right").empty();
 		$.messager.alert("提示","此部分功能还在开发","info");
 	});	
-	$(".stu li:first-child,.stuqin li:first-child").hover(function(){
+	$(".stu li:eq(0),.stu li:eq(1),.stuqin li:eq(0),.stuqin li:eq(1)").hover(function(){
 		var status=0;
 		$(this).click(function(){
 			if(status==0){
