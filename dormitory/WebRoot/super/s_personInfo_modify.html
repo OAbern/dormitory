@@ -95,7 +95,7 @@ $(function(){
 	function checkOldPassword(){  
 		var value=$('input[name="old"]').val();
 		if(value!=''){
-			$.post("adminInfo/checkPw.do",{"adminNum":adminNum,"password":value},function(data){
+			$.post("adminInfo/checkPw.do",{"adminNum":adminNum,"pw":value},function(data){
 				if(data.status==1){
 					ok_3=true;
 					$('input[name="old"]').next().html("");
