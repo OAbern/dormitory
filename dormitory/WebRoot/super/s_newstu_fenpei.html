@@ -61,11 +61,11 @@
 	var major = "";
 	var classNum = "";
 	if(sum_fenpei==0){
-		showAcademy();
+		showAcademyAndGrade();
 		$(".fenpei_txt").hide();//把本次分配已选择和下一步隐藏
 		onclick();
 	}else if(sum_fenpei>0){
-		showAcademy();
+		showAcademyAndGrade();
 		for(var i=0;i<fenpei['fenpei_major'].length;i++){
 			$('select[name="major"]').append("<option value='" + fenpei['fenpei_major'][i] + "'>" + fenpei['fenpei_major'][i] + "</option>");
 		}
@@ -264,4 +264,13 @@
 		str=$('select[name="classNum"] option:selected').val();
 		fenpei_sure.classNum=str;
 	});
+		//加载学院和年级
+	function showAcademyAndGrade(){
+		$('select[name="academy.id"]').empty();
+		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
+		$('select[name="grade"]').empty();
+		$('select[name="grade"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
+		GLOBAL.showAcademy();
+		GLOBAL.showGrade();
+	}
 </script>
