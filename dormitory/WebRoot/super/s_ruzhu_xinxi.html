@@ -55,12 +55,6 @@ $(function(){
 			$.messager.alert("提示","该宿舍床位已满，不能添加学生","info");
 			}
 		});
-	$('#tb a:eq(0)').linkbutton({
-		iconCls:'icon-edit'
-	});
-	$('#tb a:eq(1)').linkbutton({
-		iconCls:'icon-remove'
-	});
 	//datagrid start
 	$.post("roomInfo/findAllPersonInRoom.do",{"roomNum":susheid},function(data){
 		$('#student').datagrid({
@@ -93,13 +87,13 @@ $(function(){
 				{field:'name',title:'姓名',width:100,align:'center'} ,
 				{field:'sex',title:'性别',width:60,align:'center'}, 
 				{field:'stuNum',title:'学号',width:100,align:'center'},
-				{field:'academy',title:'学院',width: 200,align:'center',
+				{field:'academy',title:'学院',width: 160,align:'center',
 					formatter:function(value,row){
 				        return row.academy.name;
 				    }
 					
 				},
-				{field:'major',title:'专业',width:200,align:'center'},    
+				{field:'major',title:'专业',width:160,align:'center'},    
 				{field:'classNum',title:'班级',width:100,align:'center'},
 				{field:'delete',width:60,align:'center',
 					formatter:function(value,row,index){
@@ -140,15 +134,17 @@ $(function(){
 		$('input[name="stuNum"]').focusout(function(){
 			var stuNum=$('input[name="stuNum"]').val();
 			if(stuNum!=''){
-		/* 	var param={};param.name=stuNum;param.name */
-				$.post("studentInfo/findStudentByFactor.do",{"stuNum":stuNum},function(data){
-					if(data.status==0){//有这个学生
-						$('input[name="name"]').text(data.name);
+	
+				$.post("studentInfo/findStudentByStuNum.do",{"stuNum":stuNum},function(data){
+					if(data!=null){//有这个学生
+						$('input[name="name"]').attr("value",data.name);
 						ok_1=true;
-					}else if(data.status==1){
+					}else {
 						$.messager.alert("提示","没有该学生，请输入正确的学号","info");
+						$('input[name="stuNum"]').empty();
 					}
 				});
+				
 			}
 		});
 			
@@ -187,8 +183,9 @@ $(function(){
 					var status=data.status;
 					if(status==1){
 						$.messager.alert("提示","添加成功","info");
+						$('input["name=stuNum"]').empty();
 					}else if(status==0){
-						$.messager.alert("提示",data.errorInfo,"info");
+						$.messager.alert("提示","添加失败","info");
 					}else{
 						$.messager.alert("提示","发生错误，请重新输入学号","info");
 					}

@@ -79,47 +79,14 @@ var ok_c=false;
 var ok_f=false;
 var url="";
 var param={};
+$(function(){
+	$('.buildingid').append(buildingid);
+})
+
 $('.return').click(function(){
 	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
 	})
-    $(function(){
-		$('#'+action).show();
-		$('.buildingid').append(buildingid);
-		$('.floorid').append(floorid);
-		$('.susheid').append(susheid);
-	});
-	$.getJSON("json/get/s_sushe_cata.json",function(data){
-		var str="";
-		var cata=data.cata;
-		for(i=0;i<cata.length;i++){
-			str+="<option>"+cata[i]+"人间</option>";
-			}
-	    $('select[name="cata"]').append(str);
-	});
-	$.getJSON("json/get/s_sushe_fee.json",function(data){
-		var str="";
-		var fee=data.fee;
-		for(i=0;i<fee.length;i++){
-			str+="<option>"+fee[i]+"元/年</option>";
-		}
-		$('select[name="fee"]').append(str);
-	});
-	$('.select').click(function(){
-		var tem1=$('select[name="cata"] ').val();
-		var tem2=$('select[name="fee"] ').val();
-		cata=tem1.substring(0,tem1.length-2);
-		fee=tem2.substring(0,tem2.length-3);
-		getPostParam(action);
-		$.post(url,param,function(data){
-			if(data.status==1){
-			 $.messager.alert("提示","保存成功","info"); 
-			 $('#base_right').empty().load("super/s_sushe_xinxi.html");
-			}else{
-				$.messager.alert("提示","保存失败","info"); 
-				}
-		});
-		url="";param={};
-	});
+
 	//校验
     $('input[name="cata"]').focusout(function(){
 		var s=$(this).val();
@@ -128,7 +95,7 @@ $('.return').click(function(){
 			var str="请输入数字";
 			$(this).next().html(str);
 			}else{
-				$(this).next().html("<img src='images/checked.gif' />");
+				$(this).next().html("<img src='images/reg_succ.png' />");
 				ok_c=true;
 			}
 	});	
@@ -139,7 +106,7 @@ $('.return').click(function(){
 			var str="请输入数字";
 			$(this).next().html(str);
 			}else{
-				$(this).next().html("<img src='images/checked.gif' />");
+				$(this).next().html("<img src='images/reg_succ.png' />");
 				ok_f=true;
 			}
 	});	
@@ -162,10 +129,10 @@ $('.return').click(function(){
 			param.fee=$('input[name="fee"]').val();
 			$.post("areaInfo/updateBuilding.do",param,function(data){
 				if(data.status==1){
-					$.messager.alert("提示","添加成功","info"); 
+					$.messager.alert("提示","修改成功","info"); 
 					$('#base_right').empty().load("super/s_sushe_xinxi.html");
 				}else if(data.status==0){
-					 $.messager.alert("提示","添加失败,楼栋里面有人!","info"); 
+					 $.messager.alert("提示","修改失败,该楼栋中还有学生入住，不能修改。","error"); 
 				}else{
 					 $.messager.alert("提示","发生错误","info"); 
 				}

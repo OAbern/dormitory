@@ -74,8 +74,9 @@ var ok_c=false;
 var ok_f=false;
 var url="";
 var param={};
-$('.return').click(function(){
-	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
+var info="";
+	$('.return').click(function(){
+	 	$("#base_right").empty().load("super/s_sushe_xinxi.html");
 	})
     $(function(){
 		$('#'+action).show();
@@ -107,11 +108,14 @@ $('.return').click(function(){
 		getPostParam(action);
 		$.post(url,param,function(data){
 			if(data.status==1){
-			 $.messager.alert("提示","保存成功","info"); 
-			 $('#base_right').empty().load("super/s_sushe_xinxi.html");
+			 $.messager.alert("提示",info+"成功","info",function(){
+			 	 $('#base_right').empty().load("super/s_sushe_xinxi.html");
+			 }); 
+			}else if(data.status==0){
+				$.messager.alert("提示",info+"失败","info"); 
 			}else{
-				$.messager.alert("提示","保存失败","info"); 
-				}
+				$.messager.alert("提示","发生错误","info"); 
+			}
 		});
 		url="";param={};
 	});
@@ -122,8 +126,10 @@ $('.return').click(function(){
 		if(s=='' || !reg.test(s)){
 			var str="请输入数字";
 			$(this).next().html(str);
+			ok_c=false;
 			}else{
 				$(this).next().html("<img src='images/reg_succ.png' />");
+			/* 	$(this).next().html(""); */
 				ok_c=true;
 			}
 	});	
@@ -133,6 +139,7 @@ $('.return').click(function(){
 		if(s=='' || !reg.test(s)){
 			var str="请输入数字";
 			$(this).next().html(str);
+			ok_f=false;
 			}else{
 				$(this).next().html("<img src='images/reg_succ.png' />");
 				ok_f=true;
@@ -153,10 +160,10 @@ $('.return').click(function(){
 			getPostParam(action);
 			$.post(url,param,function(data){
 				if(data.status==1){
-					$.messager.alert("提示","添加成功","info"); 
+					$.messager.alert("提示",info+"成功","info"); 
 					$('#base_right').empty().load("super/s_sushe_xinxi.html");
 				}else if(data.status==0){
-					 $.messager.alert("提示","添加失败","info"); 
+					 $.messager.alert("提示",info+"失败","info"); 
 				}else{
 					 $.messager.alert("提示","发生错误","info"); 
 				}
@@ -173,6 +180,7 @@ $('.return').click(function(){
 			param.floorNum=floorid;
 			param.cata=cata;
 			param.fee=fee;
+			info="添加";
 			}
 		if(action=="modifyfloor"){
 			url="roomInfo/updateFloor.do";//修改某层楼的宿舍信息
@@ -180,12 +188,15 @@ $('.return').click(function(){
 			param.floorNum=floorid;
 			param.cata=cata;
 			param.fee=fee;
+			info="修改楼层";
 			}
 		if(action=="modifysushe"){
 			url="roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
 			param.roomNum=susheid;
 			param.cata=cata;
 			param.fee=fee;
+			info="修改宿舍";
 			}
 		}
+	
 </script>

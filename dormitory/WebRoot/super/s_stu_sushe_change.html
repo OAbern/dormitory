@@ -52,7 +52,7 @@ $(function(){
 			$('.building').empty();
 			$.post("areaInfo/findBuildingNumBySex.do",{"area":area,"sex":stuSex},function(data){
 				if(data.length==0){
-					$.messager.alert("提示","您所选的片区没有生"+stuSex+"寝室,请重新选择片区","warning");
+					$.messager.alert("提示","您所选的片区没有"+stuSex+"生寝室,请重新选择片区","warning");
 				}else{
 						var buildingid="<option value='-1'>请选择</option>";
 						$.each(data,function(index,item){

@@ -60,8 +60,11 @@ $(function(){
 		onClickCell:function(rowIndex, field, value){
 			if(value){
 				susheid=value.substring(0,6);
-				contains=parseInt(value[13]);
-				person=parseInt(value[11]);
+				var str= new Array(); //定义一数组
+				str=value.split("/"); //字符分割 
+				/* var p=str[1].indexOf("/"); */
+				person=parseInt(str[1].substring(1,str[1].length));
+				contains=parseInt(str[2]);
 				$("#base_right").load("super/s_ruzhu_xinxi.html");
 			
 			}

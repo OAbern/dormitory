@@ -75,7 +75,7 @@ var ok_1=false,ok_2=false,ok_3=false;
 var adminNum="";
 var name="";
 $(function(){
-	$.post("json/post/name.json",function(data){
+	$.post("adminInfo/findAdmin.do",function(data){
 	    adminNum=data.adminNum;
 	    name=data.name;
 		$('input[type="text"]').attr("value",name);
@@ -95,7 +95,7 @@ $(function(){
 	function checkOldPassword(){  
 		var value=$('input[name="old"]').val();
 		if(value!=''){
-			$.post("json/post/test.json",{"adminNum":adminNum,"password":value},function(data){
+			$.post("adminInfo/checkPw.do",{"adminNum":adminNum,"password":value},function(data){
 				if(data.status==1){
 					ok_3=true;
 					$('input[name="old"]').next().html("");
@@ -142,7 +142,7 @@ $(function(){
 				else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
 					var password= $(".old").val();
 					var newpassword= $(".new").val();
-							$.post("4.json",{"adminNum":adminNum,"password":newpassword},function(data){
+							$.post("adminInfo/updateAdmin.do",{"pw":newpassword},function(data){
 								if(data.status==0){
 									$.messager.alert("提示","修改成功");
 									}else{
