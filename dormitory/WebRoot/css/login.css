@@ -73,7 +73,7 @@ body{
       width:160px; 
 	  margin:0 auto;
 	}
-#contain .right form input#login,#contain .right form input#reset{ 
+#contain .right form input#login,#contain .right form input#reset,#contain .right form input#login{ 
      float:left;
 	 margin-top:5px;
 	 margin-left:15px;

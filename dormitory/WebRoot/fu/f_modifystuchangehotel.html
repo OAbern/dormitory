@@ -4,7 +4,7 @@
 <div class="right_contain">
        <div class="editor" style="float:left;width:700px">
             <p>请上传您调整后的寝室调配情况:</p>
-            <form id="form1" enctype="multipart/form-data" action="excel/addExcel.do" onsubmit="check()">
+            <form id="form1" method="post" enctype="multipart/form-data" action="excel/addExcel.do" onsubmit="check()">
                  <input name="file" type="file" size="35" onchange="fileChange(this);">
                  <input name="submit" type="submit" class="btn_grey" value="提交">
 	        </form>
