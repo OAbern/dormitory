@@ -218,6 +218,9 @@ public class StudentInfoController {
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
 		Map<String, Object> map = new HashMap<String, Object>();
 		int total = SystemContext.getTotal();
+		if(total <= 0) {
+			total = students.size();
+		}
 		map.put("total", total);
 		map.put("rows", students);
 		JSONUtils.toJSON(map, response);
