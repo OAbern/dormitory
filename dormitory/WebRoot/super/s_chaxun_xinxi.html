@@ -106,6 +106,8 @@ $('#addData').form({
 			$.messager.alert('操作提示',data.info);
 		}else if(data.status=='1'){
 			$.messager.alert('操作提示','上传成功');
+			//清空文件框
+			$('input[name="file"]').val('');
 		}
   }
 });
