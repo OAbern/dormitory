@@ -33,6 +33,10 @@ public class Student {
 	private Teacher teacher;	//辅导员
 	private Room room;	//所住房间
 	
+	
+	private String oldRoomNum; //旧的住址   add  Dec.4 
+	
+	
 	@Override
 	public String toString() {
 		return "学生id："+id+",	学号："+stuNum+",		姓名："+name;
@@ -157,6 +161,14 @@ public class Student {
 	}
 	public void setEducation(String education) {
 		this.education = education;
+	}
+
+	public String getOldRoomNum() {
+		return oldRoomNum;
+	}
+
+	public void setOldRoomNum(String oldRoomNum) {
+		this.oldRoomNum = oldRoomNum;
 	}
 	
 }
