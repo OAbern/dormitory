@@ -19,8 +19,12 @@
     <!-- 默认的注解映射的支持 -->  
     <mvc:annotation-driven />
     
-    <!-- 分页参数拦截器 -->
+    
     <mvc:interceptors>
+    	<!-- 检查是否登录的拦截器 -->
+    	<bean class="com.cqupt.dormitory.interceptor.LoginCheckInterceptor"/>
+    	
+    	<!-- 分页参数拦截器 -->
     	<bean class="com.cqupt.dormitory.interceptor.PagingParameterInteceptor"/>	
     </mvc:interceptors>
     

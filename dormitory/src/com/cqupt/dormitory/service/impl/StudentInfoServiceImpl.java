@@ -1,6 +1,7 @@
 package com.cqupt.dormitory.service.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
+import com.cqupt.dormitory.model.Academy;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.StudentInfoService;
+import com.cqupt.dormitory.utils.ExcelUtils;
 import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.vo.ClassAndMajor;
 import com.cqupt.dormitory.vo.Condition;
@@ -159,18 +162,28 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 				throw  new RuntimeException();
 			}
 			
+			/*将Excel里的信息转换成对象集合*/
 			Sheet sheet1 = wb.getSheetAt(0);
-			for(Row row : sheet1) {
-				for(Cell cell : row) {
-//					cell.get
-					cell.getStringCellValue();
+
+			List<Student> students = new ArrayList<Student>();
+			for(int j=1; j<=sheet1.getLastRowNum(); j++) {
+				students.add(ExcelUtils.toStudent(sheet1.getRow(j)));
+			}
+			
+			/*执行批量插入*/
+			for(Student student : students) {
+				student.setLiveStatus(3);
+				boolean result = studentInfoDao.addStudent(student);
+				if(!result) {
+					return false;
 				}
 			}
-			//TODO
+			
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

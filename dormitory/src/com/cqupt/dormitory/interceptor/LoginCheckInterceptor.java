@@ -35,6 +35,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object object ) throws Exception {
 		
+		String url = request.getRequestURI();
+		if(url.equals("/dormitory/loginCheck.do")) {
+			return true;
+		}
+		
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
 		if(teacher != null) {

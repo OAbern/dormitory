@@ -243,11 +243,15 @@ public class StudentInfoController {
 	@RequestMapping("/addStudentByExcel")
 	public void addStudentByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
 		ResultMessage resultMessage = new ResultMessage();
-		resultMessage.setStatus(ResultMessage.FAILED);
-		resultMessage.setInfo("批量添加学生失败！后台未做实现");
+		boolean result = studentInfoService.addStudentByExcel(file);
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("批量添加学生成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("批量添加学生失败！");
+		}
 		JSONUtils.toJSON(resultMessage, response);
-		//TODO
-		//studentInfoService.addStudentByExcel(file);
 	}
 	
 	/**

@@ -69,6 +69,7 @@ public class LoginController {
 	 * 退出登录
 	 * @return
 	 */
+	@RequestMapping("logOut")
 	public ModelAndView logOut(HttpServletRequest request) {
 		request.getSession().invalidate();
 		ModelAndView modelAndView = new ModelAndView();

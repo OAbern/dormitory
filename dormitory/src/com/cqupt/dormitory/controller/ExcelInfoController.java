@@ -64,7 +64,7 @@ public class ExcelInfoController {
 		ExcelInfo excelInfo = new ExcelInfo();
 		excelInfo.setSubmitTeacher(teacherInSession);
 		excelInfo.setName(originalFilename);
-		excelInfo.setStatus(0);
+		excelInfo.setStatus(1);
 		excelInfo.setPath(path);
 		
 		/*保存上传的文件*/

@@ -29,6 +29,7 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 			result = getSqlSession().insert("com.cqupt.dormitory.model.Student.addStudent", student);
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 		if(result > 0) {
 			return true;

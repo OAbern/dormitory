@@ -5,9 +5,12 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.cqupt.dormitory.model.Admin;
 import com.cqupt.dormitory.model.Teacher;
@@ -26,19 +29,22 @@ public class LoginCheckFilter implements Filter{
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
+	public void doFilter(ServletRequest arg1, ServletResponse arg2,
 			FilterChain chain) throws IOException, ServletException {
 		
-//		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
-//		Admin admin = (Admin) request.getSession().getAttribute("admin");
-//		if(teacher != null) {
-//			chain.doFilter(request, response);
-//		}else if(admin != null) {
-//			chain.doFilter(request, response);
-//		}else {
-//			
-//		}
+		HttpServletRequest request = (HttpServletRequest) arg1;
+		HttpServletResponse response = (HttpServletResponse) arg2;
 		
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		if(teacher != null) {
+			chain.doFilter(request, response);
+			return;
+		}else if(admin != null) {
+			chain.doFilter(request, response);
+			return;
+		}
+		response.sendRedirect("/dormitory/login.html");
 	}
 
 	@Override
