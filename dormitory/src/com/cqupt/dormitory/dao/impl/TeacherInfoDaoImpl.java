@@ -79,5 +79,16 @@ public class TeacherInfoDaoImpl extends BaseDaoSupport implements TeacherInfoDao
 		return majors;
 	}
 
+	@Override
+	public Teacher findTeacherByClassNum(String classNum) {
+		Teacher teacher = null;
+		try {
+			teacher = getSqlSession().selectOne("findTeacherByClassNum", classNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return teacher;
+	}
+
 	
 }

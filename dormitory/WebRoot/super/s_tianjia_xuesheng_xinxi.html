@@ -172,7 +172,7 @@ input[type='text'] {
   //加载年级
   showGrade();
   //表单项验证
-  $('input[name="name"]').blur([/^\w{2,}/,'至少输入两个字符'],inputValid);
+  $('input[name="name"]').blur(inputValid);
   $('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);
   $('select[name="academy.id"]').blur(inputValid);
   $('select[name="major"]').blur(inputValid);

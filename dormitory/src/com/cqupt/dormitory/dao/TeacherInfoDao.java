@@ -44,4 +44,11 @@ public interface TeacherInfoDao {
 	 * @return 
 	 */
 	public List<String> findMajorByTecId(int tecId);
+	
+	/**
+	 * 根据班级号查找教师信息
+	 * @param classNum 班级号
+	 * @return 教师信息
+	 */
+	public Teacher findTeacherByClassNum(String classNum);
 }

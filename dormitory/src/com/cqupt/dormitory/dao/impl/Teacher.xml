@@ -54,5 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE `tec_id` = ${tecId}
 	</select>
 	
+	<!-- 根据班级代号加载教师信息 -->
+	<select id="findTeacherByClassNum" parameterType="String" resultMap="teacherResult">
+		SELECT * FROM `teacher` t 
+			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id` 
+			WHERE t.`tec_id` IN(SELECT tec_id FROM `student` s WHERE s.`class`= #{classNum})
+	</select>
+	
 	
 </mapper>

@@ -58,7 +58,7 @@ public class StudentInfoController {
 		/*检查辅导员是否存在*/
 		ModelAndView modelAndView = new ModelAndView();
 		//TODO 根据班级加载辅导员信息
-		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getName(), student.getAcademy().getId());
+		Teacher teacher = teacherInfoService.findTeacherByClassNum(student.getClassNum());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
 			resultMessage.setInfo("添加学生失败！");
@@ -122,7 +122,8 @@ public class StudentInfoController {
 		boolean result = false;
 		ResultMessage resultMessage = new ResultMessage();
 		/*检查辅导员是否存在*/
-		Teacher teacher = teacherInfoService.findTeacherByNameAndAcademyId(student.getTeacher().getName(), student.getAcademy().getId());
+		//TODO
+		Teacher teacher = teacherInfoService.findTeacherByClassNum(student.getClassNum());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
 			resultMessage.setInfo("更新学生信息失败！");

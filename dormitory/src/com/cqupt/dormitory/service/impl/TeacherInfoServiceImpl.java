@@ -45,4 +45,9 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 		return teacherInfoDao.findMajorByTecId(tecId);
 	}
 
+	@Override
+	public Teacher findTeacherByClassNum(String classNum) {
+		return teacherInfoDao.findTeacherByClassNum(classNum);
+	}
+
 }

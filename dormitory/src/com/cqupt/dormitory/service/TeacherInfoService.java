@@ -11,7 +11,7 @@ import com.cqupt.dormitory.model.Teacher;
  */
 public interface TeacherInfoService {
 	/**
-	 * 根据教师名字查找教师
+	 * 根据教师名字和学院id查找教师
 	 * @return
 	 */
 	public Teacher findTeacherByNameAndAcademyId(String name, int academyId);
@@ -44,4 +44,11 @@ public interface TeacherInfoService {
 	 * @return 
 	 */
 	public List<String> findMajorByTecId(int tecId);
+	
+	/**
+	 * 根据班级号查找教师信息
+	 * @param classNum 班级号
+	 * @return 教师信息
+	 */
+	public Teacher findTeacherByClassNum(String classNum);
 }
