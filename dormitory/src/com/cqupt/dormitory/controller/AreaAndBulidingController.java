@@ -1,6 +1,8 @@
 package com.cqupt.dormitory.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -25,4 +27,24 @@ public class AreaAndBulidingController {
 		map.put("rows", areaBuildingService.findAllAreaAndBuilding());
 		JSONUtils.toJSON(map, response);
 	}
+	
+	@RequestMapping("/findBuildingByManyField")
+	public void findBuilding(HttpServletResponse response){
+		List<String> shit = new ArrayList<String>();
+		shit.add("15");
+		shit.add("1");
+		shit.add("18");
+		JSONUtils.toJSON(shit, response);
+	}
+	
+	
+	@RequestMapping("/findBuildingNumBySex")
+	public void findBuildingNumBySex(HttpServletResponse response){
+		List<String> shit = new ArrayList<String>();
+		shit.add("15");
+		shit.add("1");
+		shit.add("18");
+		JSONUtils.toJSON(shit, response);
+	}
+
 }
