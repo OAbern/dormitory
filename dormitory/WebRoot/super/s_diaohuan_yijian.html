@@ -48,14 +48,11 @@
 					{field : 'status',title : '审核',width : 100,align : 'center',
 						formatter : function(value, row, index) {
 							var status="";
-							if(row.status==0){
+							if(row.status==1)
 								status="未通过";
-							}else{
-								status="已通过";
-							}
 							return status;
 						}
-					},
+					}
 					/*{field : 'delete',title : '删除',width : 60,align : 'center',
 						formatter : function(value, row, index) {
 							var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="del(\''+ index + '\')">删除</a>';
