@@ -10,6 +10,9 @@
 	padding-right:0;
 	width:100px;
 }
+/* .item span{
+	display:block;
+} */
 .help {
 	margin-top:10px;
 }
@@ -52,11 +55,11 @@ input[type='text'], input[type='password']{
             <br />
           </p>
           <p class="item"><span>新密码:</span>
-             <input  type="password" name="new" class="new" disabled="disabled" />
+             <input  type="password" name="new" class="new"  />
             <br />
           </p>
            <p class="item"><span>确认新密码:</span>
-             <input  type="password" name="newagain" onblur="check()" class="again" disabled="disabled" /><span class="error"></span>
+             <input  type="password" name="newagain" onblur="check()" class="again" /><span class="error"></span>
            <br />
           </p>
           </p>
@@ -69,12 +72,14 @@ input[type='text'], input[type='password']{
 </div>
 <script type="text/javascript">
 var ok_1=false,ok_2=false,ok_3=false;
-var data={};
+var adminNum="";
+var name="";
 $(function(){
-	$.post("name.json",function(data){
-	    data=data;
-		$('input[type="text"]').text(data.name);
-		});
+	$.post("json/post/name.json",function(data){
+	    adminNum=data.adminNum;
+	    name=data.name;
+		$('input[type="text"]').attr("value",name);
+		},"json");
 })
 
 	function checkName(){
@@ -87,13 +92,14 @@ $(function(){
 				$('input[name="adminName"]').next().html("");
 				}
 		}
-	function checkOldPassword(){
+	function checkOldPassword(){  
 		var value=$('input[name="old"]').val();
 		if(value!=''){
-			$.post("json/post/test.json",{"num":data.adminNum,"password":value},function(data){
-				if(data.status==0){
+			$.post("json/post/test.json",{"adminNum":adminNum,"password":value},function(data){
+				if(data.status==1){
 					ok_3=true;
-				}else if(data.status==1){
+					$('input[name="old"]').next().html("");
+				}else if(data.status==0){
 					var str="原密码不正确";
 				 $('input[name="old"]').next().html(str);
 				}else{
@@ -101,8 +107,6 @@ $(function(){
 				}
 			});
 		}else{}
-		
-		
 	}
 	
 	$('input[type="text"]').focusout(function(){
@@ -125,26 +129,20 @@ $(function(){
 			}
 	}
 	$('input[type="button"]').click(function(){
-		
 		checkName();//检查姓名是否为空
 		checkOldPassword();//检查原密码是否正确
+		/* console.log(ok_1);console.log(ok_2);console.log(ok_3); */
 		var name=$('input[name="old"]').val();
 		var value=$('.new').val();
 		if(!ok_1){
-			 $.messager.alert("提示","姓名不能为空","warning");
-			}else if(value==''){//只修改姓名
-				$.post("1.json",{"name":name},function(data){
-					if(data.status==0){
-						 $.messager.alert("提示","修改成功");
-						}else{
-							$.messager.alert("提示","修改失败");
-							}
-				});
-				}else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
-				cosole.log(ok_3);
+			    $.messager.alert("提示","姓名不能为空","warning");
+			}else if(value==''){
+				 $.messager.alert("提示","请输入新密码","warning");
+				}
+				else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
 					var password= $(".old").val();
 					var newpassword= $(".new").val();
-							$.post("",{"adminNum":data.adminNum,"password":newpassword},function(data){
+							$.post("4.json",{"adminNum":adminNum,"password":newpassword},function(data){
 								if(data.status==0){
 									$.messager.alert("提示","修改成功");
 									}else{
