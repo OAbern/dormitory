@@ -63,8 +63,11 @@ public class AreaAndBulidingController {
 		for(Student s:students){
 			studentNums.add(s.getStuNum());
 		}
-		List<String> buildingNums = areaBuildingService.findBuildingByStudents(studentNums);
-		JSONUtils.toJSON(buildingNums, response);
+		if(studentNums.size()>0){
+			List<String> buildingNums = areaBuildingService.findBuildingByStudents(studentNums);
+			JSONUtils.toJSON(buildingNums, response);
+		}
+		return ;
 	}
 	
 	
