@@ -3,8 +3,19 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqupt.dormitory.model.Teacher">
-	<!-- 结果集 teacherResult -->
+	<!-- 结果集 teacherResult 不包含教师密码 -->
 	<resultMap type="com.cqupt.dormitory.model.Teacher" id="teacherResult">
+		<id property="id" column="tec_id"/>
+		<result property="sex" column="tec_sex"/>
+		<result property="tecNum" column="tec_num"/>
+		<result property="name" column="tec_name"/>
+		<result property="phone" column="tec_phone"/>
+		
+		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
+	</resultMap>
+	
+	<!-- 结果集 teacherResult 完整教师信息 -->
+	<resultMap type="com.cqupt.dormitory.model.Teacher" id="teacherResultFull">
 		<id property="id" column="tec_id"/>
 		<result property="sex" column="tec_sex"/>
 		<result property="tecNum" column="tec_num"/>
@@ -23,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 根据教师名字和密码查找教师 -->
-	<select id="findTeacherByNumAndPw" parameterType="com.cqupt.dormitory.model.Teacher" resultMap="teacherResult">
+	<select id="findTeacherByNumAndPw" parameterType="com.cqupt.dormitory.model.Teacher" resultMap="teacherResultFull">
 		SELECT * FROM `teacher` t
 			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id` 
 			WHERE t.`tec_num`=#{tecNum} AND t.`password`=#{password}

@@ -138,14 +138,14 @@ public class PagingSqlInterceptor implements Interceptor {
 	 */
 	public void closeLink(Connection conn, PreparedStatement pStat, ResultSet rs) {
 		try {
-			if(conn != null) {
-				conn.close();
+			if(rs != null) {
+				rs.close();
 			}
 			if(pStat != null) {
 				pStat.close();
 			}
-			if(rs != null) {
-				rs.close();
+			if(conn != null) {
+				conn.close();
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
