@@ -24,4 +24,19 @@ public class AdminDaoImpl extends BaseDaoSupport implements AdminDao {
 		return admin;
 	}
 
+	@Override
+	public boolean updateAdminInfo(Admin admin) {
+		int result = -1;
+		try{
+			result = getSqlSession().update("com.cqupt.dormitory.model.Admin.updateAdminInfo", admin);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 }

@@ -12,12 +12,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="post" column="admin_post"/>
 	</resultMap>
 	
+	<!-- 查找所有的管理员 -->
 	<select id="findAllAdmin" resultMap="adminResult">
 		SELECT * FROM `admin` 
 	</select>
 	
+	<!-- 根据教工号和密码查找管理员 -->
 	<select id="findAdminByNumAndPw" parameterType="com.cqupt.dormitory.model.Admin" resultMap="adminResult">
 		SELECT * FROM `admin` WHERE `admin_num`=#{adminNum} AND `password`=#{password}
 	</select>
 
+	<!-- 更新管理员信息 -->
+	<update id="updateAdminInfo" parameterType="com.cqupt.dormitory.model.Admin">
+		UPDATE `admin` 
+		<set>
+			if<if test="sex!=null and sex!=''">`sex` = #{sex}</if>
+			if<if test="name!=null and name!=''">`admin_name` = #{name}</if>
+			if<if test="post!=null and post!=''">`post` = #{post}</if>
+			if<if test="password!=null and password!=''">`password` = #{password}</if>
+		</set>
+			WHERE `admin_num` = #{adminNum}
+	</update>
+	
 </mapper>

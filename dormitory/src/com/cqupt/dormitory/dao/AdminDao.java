@@ -15,4 +15,11 @@ public interface AdminDao {
 	 * @return 符合条件的管理员信息
 	 */
 	public Admin findAdminByNumAndPw(Admin admin);
+	
+	/**
+	 * 更新管理员信息
+	 * @param admin 
+	 * @return
+	 */
+	public boolean updateAdminInfo(Admin admin);
 }

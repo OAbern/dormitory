@@ -20,10 +20,10 @@ import com.cqupt.dormitory.model.Teacher;
 @Controller
 public class LoginController {
 	@Resource(name="teacherInfoDaoImpl")
-	TeacherInfoDao teacherInfoDao;
+	private TeacherInfoDao teacherInfoDao;
 	
 	@Resource(name="adminDaoImpl")
-	AdminDao adminDao;
+	private AdminDao adminDao;
 	
 	/**
 	 * 登录校验
