@@ -34,4 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON(student.`room_id` = f.room_id) 
 	</select>
 	
+	<select id="find_floor_by_floornum_buildingnum" parameterType="map" resultMap="floorResult">
+		SELECT * FROM FLOOR LEFT JOIN building ON floor.`building_id` = building.`building_id`
+		WHERE floor.`floor_num`=#{floorNum} AND building.`building_num`=#{buildingNum}
+	</select>
+	
+	<insert id="add" parameterType="com.cqupt.dormitory.model.Floor">
+		INSERT INTO  `floor` (`floor_num`, `building_id`) VALUES (#{floorNum}, #{building.id})
+	</insert>
+	
 </mapper>

@@ -44,4 +44,34 @@ public interface FloorDao {
 	 * @since  1.0.0
 	 */
 	public boolean isPeopleInFloor(int floorId);
+	
+	/**
+	 * addFloor 增加一个楼层
+	 * @param f
+	 * @return 
+	 *Floor
+	 * @exception 
+	 */
+	void addFloor(Floor f);
+	
+	/**
+	 * isFloorExist 判断这个楼层是否中存在
+	 * @param floorNum
+	 * @param buildingNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 */
+	boolean isFloorExist(String floorNum,String buildingNum);
+	
+	/**
+	 * findFloorByNum  
+	 * 			根据条件查找
+	 * @param floorNum
+	 * @param buildingNum
+	 * @return 
+	 *Floor
+	 * @exception
+	 */
+	Floor findFloorByNum(String floorNum,String buildingNum);
 }

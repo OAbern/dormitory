@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="find_current_room" parameterType="int" resultType="int">
-		SELECT COUNT(room.`room_id`) FROM room WHERE room.`floor_id`=#{floorId}
+		SELECT SUBSTRING(MAX(room.`room_num`),5) FROM room WHERE room.`floor_id`=#{floorId}
 	</select>
 	
 	<insert id="add_room" parameterType="com.cqupt.dormitory.model.Room">
@@ -92,9 +92,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_room_by_many_field" parameterType="map" resultMap="roomResult">
 			SELECT room_id,room.`room_num`,f.`floor_id`,cost,total_bed,building_id,building_num,sex FROM room RIGHT JOIN 
 			(
-			SELECT floor.`floor_id`,building.`building_id`,building.`building_num`,building.`sex` FROM FLOOR LEFT JOIN building ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num` LIKE #{buildingNum} AND 
-			floor.`floor_num` LIKE #{floorNum}  AND building.`sex` LIKE #{sex}
-			) f ON(room.`floor_id` = f.floor_id) WHERE room.`room_num` LIKE #{roomNum}
+			SELECT floor.`floor_id`,building.`building_id`,building.`building_num`,building.`sex` FROM FLOOR LEFT JOIN building ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num` LIKE '${buildingNum}' AND 
+			floor.`floor_num` LIKE '${floorNum}'  AND building.`sex` LIKE '${sex}'
+			) f ON(room.`floor_id` = f.floor_id) WHERE room.`room_num` LIKE '${roomNum}'
 	</select>
 	
 	

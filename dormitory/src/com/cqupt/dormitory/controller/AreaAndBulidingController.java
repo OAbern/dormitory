@@ -98,7 +98,7 @@ public class AreaAndBulidingController {
 		System.out.println(file.getName());
 		System.out.println(file.getOriginalFilename());
 		System.out.println(file.getContentType());
-		
+		JSONUtils.toJSON(areaBuildingService.addBuildingAndFloor(file), response);
 	}
 
 	

@@ -120,4 +120,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		return studentInfoDao.findStudentByStuNum(stuNum);
 	}
 
+	@Override
+	public void updateOutOfRoom(List<String> studentNums) {
+		String[] a ={};
+		a = studentNums.toArray(a);
+		this.updateOutOfRoom(a);
+	}
+
 }

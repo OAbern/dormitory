@@ -130,4 +130,13 @@ public interface StudentInfoService {
 	 * @return
 	 */
 	public Student findStudentByStuNum(String stuNum);
+	
+	/**
+	 * updateOutOfRoom 退宿处理.主要是先清空.
+	 * @param studentNums 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateOutOfRoom(List<String> studentNums);
 }

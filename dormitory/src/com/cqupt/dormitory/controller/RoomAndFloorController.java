@@ -23,6 +23,7 @@ import com.cqupt.dormitory.service.FloorService;
 import com.cqupt.dormitory.service.RoomService;
 import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.utils.JSONUtils;
+import com.cqupt.dormitory.utils.SystemContext;
 import com.cqupt.dormitory.vo.Condition;
 import com.cqupt.dormitory.vo.ResultMessage;
 import com.cqupt.dormitory.vo.RoomInFloor;
@@ -237,8 +238,14 @@ public class RoomAndFloorController {
 		}
 		
 		List<Room> rooms = roomDao.findRoomByAnyField(sex,buildingNum,floorNum,roomNum);
-		//分页没有做..会出错.
-		JSONUtils.toJSON(rooms, response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("rows", rooms);
+		int total = SystemContext.getTotal();
+		if(total <= 0) {
+			total = rooms.size();
+		}
+		map.put("total",total);
+		JSONUtils.toJSON(map, response);
 	}
 	
 	@RequestMapping("/distributeRoom")
@@ -249,7 +256,7 @@ public class RoomAndFloorController {
 		for(Student s:students){
 			studentNums.add(s.getStuNum());
 		}
-		
+		studentInfoService.updateOutOfRoom(studentNums);
 		boolean b  =roomService.updateDistributeRoom(studentNums,buildingNum);
 		ResultMessage rm = new ResultMessage();
 		if(b){

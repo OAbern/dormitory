@@ -92,6 +92,15 @@ public interface StudentInfoDao {
 	public void updateOutRoom(String[] studentNum);
 	
 	/**
+	 * updateOutRoom 退宿处理单个
+	 * @param studentNum 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateOutRoom(String studentNum);
+	
+	/**
 	 * 根据条件查找学生（按academy和class排序）
 	 * @param condition
 	 * @return

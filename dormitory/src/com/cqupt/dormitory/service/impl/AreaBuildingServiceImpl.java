@@ -1,13 +1,26 @@
 package com.cqupt.dormitory.service.impl;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.dao.AreaDao;
 import com.cqupt.dormitory.dao.BuildingDao;
@@ -16,10 +29,13 @@ import com.cqupt.dormitory.dao.RoomDao;
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
 import com.cqupt.dormitory.model.Floor;
+import com.cqupt.dormitory.model.Room;
 import com.cqupt.dormitory.service.AreaBuildingService;
+import com.cqupt.dormitory.service.RoomService;
 import com.cqupt.dormitory.vo.AreaBuilding;
 import com.cqupt.dormitory.vo.AreaBuildingEmpty;
 import com.cqupt.dormitory.vo.BuildingEmptyBed;
+import com.cqupt.dormitory.vo.ResultMessage;
 
 @Service("areaBuildingService")
 public class AreaBuildingServiceImpl implements AreaBuildingService {
@@ -31,6 +47,8 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 	private FloorDao floorDao;
 	@Resource
 	private RoomDao	roomDao;
+	@Resource
+	private RoomService roomService;
 	
 	@Override
 	public List<Area> findAllArea() {
@@ -146,14 +164,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 				Building b = new Building();
 				b.setBuildingNum(buildingNum);
 				b.setSex(sex);
-				Area a1 = new Area();
-				a1.setName(area);
-				List<Area> areas = areaDao.findAllArea();
-				for(Area a : areas){
-					if(a.getName().equals(area)){
-						a1.setId(a.getId());
-					}
-				}
+				Area a1 = areaDao.findAreaByAreaName(area);
 				b.setArea(a1);
 				buildDao.updateBuilding(b);
 				List<Floor> floor = floorDao.findFloorByBuildingNum(buildingNum);
@@ -167,14 +178,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 			if(buildDao.isBuildingSexChange(buildingNum, sex)){
 				Building b = new Building();
 				b.setBuildingNum(buildingNum);
-				Area a1 = new Area();
-				a1.setName(area);
-				List<Area> areas = areaDao.findAllArea();
-				for(Area a : areas){
-					if(a.getName().equals(area)){
-						a1.setId(a.getId());
-					}
-				}
+				Area a1 = areaDao.findAreaByAreaName(area);
 				b.setArea(a1);
 				buildDao.updateBuilding(b);
 				List<Floor> floor = floorDao.findFloorByBuildingNum(buildingNum);
@@ -197,5 +201,96 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 	@Override
 	public List<String> findBuildingByStudents(List<String> studentNums) {
 		return buildDao.findBuildingByStudents(studentNums);
+	}
+
+	@Override
+	public ResultMessage addBuildingAndFloor(MultipartFile file) {
+		int rows = 1;
+		ResultMessage rm = new ResultMessage();
+		try {
+			InputStream fs = file.getInputStream();
+			String lastName= null;
+			Pattern pat = Pattern.compile("\\.[\\w]+");
+	 		Matcher m = pat.matcher(file.getOriginalFilename());
+			while(m.find()){
+				lastName = m.group();
+			}
+			Workbook wb = null ;
+			if(lastName.equals(".xls")){
+				wb = new HSSFWorkbook(fs);
+			}else if(lastName.equals(".xlsx")){
+				wb = new XSSFWorkbook(fs);
+			}else{
+				throw  new RuntimeException();
+			}
+			
+			//第一行直接忽略
+			Sheet sheet1 = wb.getSheetAt(0);
+			
+			for (int j=1;j<sheet1.getLastRowNum();j++) {
+				Row row = sheet1.getRow(j);
+				
+				rows++;
+				int totalRoom = -1;
+				Area a = new Area();
+				Building b = new Building();
+				Floor f = new Floor();
+				Room r = new Room();
+				
+				for (Cell cell : row) {
+					CellReference cellRef = new CellReference(row.getRowNum(),cell.getColumnIndex());
+					//只能用上固定的格式
+					switch(cellRef.getCol()){
+					case 0:a.setName(cell.toString());break;
+					case 1:b.setBuildingNum(String.valueOf(Math.round(Double.parseDouble(cell.toString()))));break;
+					case 2:f.setFloorNum(String.valueOf(Math.round(Double.parseDouble(cell.toString()))));break;
+					case 3:{
+								try {
+									totalRoom = Integer.parseInt(cell.toString());
+								} catch (Exception e) {
+									totalRoom = (int)Double.parseDouble(cell.toString());
+								}
+								break;
+							}
+					case 4:r.setTotalBed(cell.toString());break;
+					case 5:r.setCost(cell.toString());break;
+					case 6:b.setSex(cell.toString());break;
+					}
+				}
+				
+				Area a2 = areaDao.addArea(a);
+				b.setArea(a2);
+				Building b2 = buildDao.addBuilding(b);
+				
+				if(!floorDao.isFloorExist(f.getFloorNum(), b.getBuildingNum())){
+					f.setBuilding(b2);
+					floorDao.addFloor(f);
+				}
+				for(int i = 0;i<totalRoom;i++){
+					if(!roomService.addRoom(b.getBuildingNum(), f.getFloorNum(), r.getTotalBed(), r.getCost())){
+						throw new RuntimeException();
+					}
+				}
+			}
+			
+			rm.setStatus(1);
+			rm.setInfo("成功");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		} catch(NumberFormatException e){
+			e.printStackTrace();
+			rm.setStatus(0);
+			rm.setError("第"+rows+"行出了问题,可能输入有误请检查");
+			throw new RuntimeException();
+		} catch(Exception e){
+			e.printStackTrace();
+			rm.setStatus(0);
+			rm.setError("第"+rows+"行出了问题,可能输入有误请检查");
+			throw new RuntimeException();
+		} finally{
+			return rm;
+		}
+		
 	}
 }

@@ -58,7 +58,11 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 
 	@Override
 	public int findCurrentFloorNum(int floorId) {
-		return getSqlSession().selectOne(Room.class.getName()+".find_current_room",floorId);
+		Integer i =  getSqlSession().selectOne(Room.class.getName()+".find_current_room",floorId);
+		if(i==null){
+			return 0;
+		}
+		return i;
 	}
 
 	@Override

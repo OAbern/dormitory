@@ -71,4 +71,26 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		return getSqlSession().selectList(Building.class.getName()+".find_building_student_numbers",map);
 	}
 
+	@Override
+	public Building addBuilding(Building b) {
+		if(!isBuildingExist(b.getBuildingNum())){
+			getSqlSession().insert(Building.class.getName()+".add",b);
+		}
+		return this.findBuildingByNum(b.getBuildingNum());
+	}
+
+	@Override
+	public boolean isBuildingExist(String buildingNum) {
+		Building b = getSqlSession().selectOne(Building.class.getName()+".find_building_by_building_name",buildingNum);
+		if(b!= null){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Building findBuildingByNum(String buildingNum) {
+		return getSqlSession().selectOne(Building.class.getName()+".find_building_by_building_name",buildingNum);
+	}
+	
 }

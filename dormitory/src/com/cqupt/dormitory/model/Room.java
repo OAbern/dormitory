@@ -25,11 +25,27 @@ public class Room {
 	public void setTotalBed(int totalBed) {
 		this.totalBed = totalBed;
 	}
+	public void setTotalBed(String totalBed) {
+		try {
+			this.totalBed = Integer.parseInt(totalBed);
+		} catch (NumberFormatException e) {
+			//e.printStackTrace();
+			this.totalBed = (int) Double.parseDouble(totalBed);
+		}
+	}
 	public int getCost() {
 		return cost;
 	}
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+	public void setCost(String cost){
+		try {
+			this.cost = Integer.parseInt(cost);
+		} catch (NumberFormatException e) {
+			//e.printStackTrace();
+			this.cost = (int) Double.parseDouble(cost);
+		}
 	}
 	public String getRoomNum() {
 		return roomNum;

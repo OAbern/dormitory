@@ -38,4 +38,29 @@ public class FloorDaoImpl extends BaseDaoSupport implements FloorDao {
 		return false;
 	}
 
+	@Override
+	public void addFloor(Floor f) {
+		getSqlSession().insert(Floor.class.getName()+".add",f);
+	}
+
+	@Override
+	public boolean isFloorExist(String floorNum, String buildingNum) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("floorNum", floorNum);
+		map.put("buildingNum", buildingNum);
+		Floor f = getSqlSession().selectOne(Floor.class.getName()+".find_floor_by_floornum_buildingnum",map);
+		if(f!=null){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Floor findFloorByNum(String floorNum, String buildingNum) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("floorNum", floorNum);
+		map.put("buildingNum", buildingNum);
+		return getSqlSession().selectOne(Floor.class.getName()+".find_floor_by_floornum_buildingnum",map);
+	}
+
 }

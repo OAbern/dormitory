@@ -70,4 +70,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND student.`room_id` IS NOT NULL 
 		GROUP BY student.`room_id`
 	</select>
+	
+	
+	<select id="find_building_by_building_name" parameterType="string" resultMap="buildingResult">
+		SELECT * FROM building WHERE building.`building_num` = #{buildingNum}
+	</select>
+	
+	<insert id="add" parameterType="com.cqupt.dormitory.model.Building">
+		INSERT INTO `building` (`building_num`, `area_id`, `sex`) VALUES (#{buildingNum}, #{area.id}, #{sex})
+	</insert>
+	
+	
+	
 </mapper>

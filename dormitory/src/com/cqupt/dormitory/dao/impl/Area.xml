@@ -15,4 +15,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_all_area" resultType="com.cqupt.dormitory.model.Area">
 		SELECT area_id as id,area_name as name FROM `area` 
 	</select>
+	
+	<select id="find_area_by_area_name" parameterType="string" resultMap="areaResult">
+		SELECT * FROM AREA WHERE area.`area_name` = #{areaName}
+	</select>
+	
+	<insert id="add" parameterType="com.cqupt.dormitory.model.Area">
+		INSERT INTO `area` (`area_name`) VALUES (#{name})
+	</insert>
+	
 </mapper>
+
+

@@ -3,9 +3,12 @@ package com.cqupt.dormitory.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
 import com.cqupt.dormitory.vo.AreaBuilding;
+import com.cqupt.dormitory.vo.ResultMessage;
 
 public interface AreaBuildingService {
 	
@@ -110,5 +113,15 @@ public interface AreaBuildingService {
 	 * @since  1.0.0
 	 */
 	public List<String> findBuildingByStudents(List<String> studentNums);
+
+	/**
+	 * addBuildingAndFloor 导入excel表格.
+	 * @param file
+	 * @return 
+	 *Map<String,Object>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public ResultMessage addBuildingAndFloor(MultipartFile file);
 	
 }

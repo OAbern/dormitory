@@ -173,6 +173,12 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 	}
 
 	@Override
+	public void updateOutRoom(String studentNum) {
+		String[] students = {studentNum};
+		this.updateOutRoom(students);
+	}
+
+	@Override
 	public List<Student> findStudentByCondition(Condition condition) {
 		List<Student> students = null;
 		try{

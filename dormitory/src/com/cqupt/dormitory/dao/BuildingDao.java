@@ -85,4 +85,36 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	List<String> findBuildingByStudents(List<String> studentNums);
+	
+	/**
+	 * addBuilding 添加一个building的基础类.
+	 * 		如果不存在就直接添加,否则就直接查找相应的类返回.
+	 * 		总之就是会返回一个相应的类
+	 * @param b
+	 * @return 
+	 *Building
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	Building addBuilding(Building b);
+	
+	/**
+	 * isBuildingExist 判断是否存在building 根据楼栋的号码
+	 * @param buildingNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	boolean isBuildingExist(String buildingNum);
+	
+	/**
+	 * findBuildingByNum 查找building 根据楼栋的号码
+	 * @param buildingNum
+	 * @return 
+	 *Building
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	Building findBuildingByNum(String buildingNum);
 }
