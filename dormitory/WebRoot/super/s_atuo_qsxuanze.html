@@ -63,7 +63,7 @@ $(function(){
 		else if(sum_dhstu_kong>=sum_diaohuan){//弹框确认分配人数和空床位数的大小
 		    	$.messager.confirm("提示:","选择分配"+sum_diaohuan+"人，选择空床位"+sum_dhstu_kong+"个，系统将自动分配，并将结果发送给辅导员，请等待辅导员意见！！",function(event){   
 						if(event){ 
-							$.post('json/get/s_check_info.json',{"building":building},function(data){//把选中的空床位发给后台
+							$.post('json/get/s_check_info.json',{"academy":diaohuan_sure.academy,"education":diaohuan_sure.education,"major":diaohuan_sure.major,"grade":diaohuan_sure.grade,"classNum":diaohuan_sure.classNum,"sex":diaohuan_sure.sex,"building":building},function(data){//把选中的空床位发给后台
 								if(data.status=="1"){
 									sum_diaohuan=0;
 									sum_dhstu_kong=0;
