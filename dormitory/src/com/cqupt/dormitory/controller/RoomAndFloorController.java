@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,7 +20,10 @@ import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.AreaBuildingService;
 import com.cqupt.dormitory.service.FloorService;
 import com.cqupt.dormitory.service.RoomService;
+import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.utils.JSONUtils;
+import com.cqupt.dormitory.vo.Condition;
+import com.cqupt.dormitory.vo.ResultMessage;
 import com.cqupt.dormitory.vo.RoomInFloor;
 
 @Controller
@@ -33,7 +37,8 @@ public class RoomAndFloorController {
 	private AreaBuildingService areaBuildingService;
 	@Resource
 	private RoomDao roomDao;
-	
+	@Resource
+	private StudentInfoService studentInfoService;
 	
 	@RequestMapping("/findAllRoom")
 	public void findAllRoom(String buildingNum,HttpServletResponse response){
@@ -234,6 +239,27 @@ public class RoomAndFloorController {
 		
 		List<Room> rooms = roomDao.findRoomByAnyField(sex,buildingNum,floorNum,roomNum);
 		JSONUtils.toJSON(rooms, response);
+	}
+	
+	@RequestMapping("/distributeRoom")
+	public void distributeRoom(@ModelAttribute Condition condition,@RequestParam("building[]")String[] buildingNum,HttpServletResponse response){
+		List<Student> students = studentInfoService.findStudentByCondition(condition);
+		List<String> studentNums = new ArrayList<String>();
+		for(Student s:students){
+			studentNums.add(s.getStuNum());
+		}
+		
+		boolean b  =roomService.updateDistributeRoom(studentNums,buildingNum);
+		ResultMessage rm = new ResultMessage();
+		if(b){
+			rm.setStatus(1);
+			rm.setInfo("分配成功");
+		}else {
+			rm.setStatus(0);
+			rm.setInfo("失败");
+		}
+		JSONUtils.toJSON(rm, response);
+		
 	}
 	
 }

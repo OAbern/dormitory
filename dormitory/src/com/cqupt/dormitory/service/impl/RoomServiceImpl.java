@@ -250,5 +250,34 @@ public class RoomServiceImpl implements RoomService{
 		}
 		return true;
 	}
-	
+
+	@Override
+	public boolean updateDistributeRoom(List<String> studentNums,String[] buildingNum) {
+		try {
+			int j = 0;
+			int k = 0;
+			List<Room> allRoomList = new ArrayList<Room>(4000);
+			
+			for(String b : buildingNum){
+				allRoomList.addAll(roomDao.findAllRoomByBuildingNumAndFloor(b, "%"));
+			}
+			
+			Room r = allRoomList.get(k);
+			
+			for(int i = 0;i<studentNums.size() ;i++){
+				String studentNum = studentNums.get(i);
+				if(r.getTotalBed()<j){
+					k++;
+					r = allRoomList.get(k);
+				}
+				roomDao.updateStudentRoom(studentNum, r.getId());
+				j++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
 }

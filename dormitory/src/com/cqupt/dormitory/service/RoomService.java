@@ -148,4 +148,16 @@ public interface RoomService {
 	 * @since  1.0.0
 	 */
 	public boolean updateChangeRoom(String studentNum,int roomId);
+
+	/**
+	 * updateDistributeRoom 
+	 * 			分配新的寝室   
+	 * @param studentNums
+	 * @param buildingNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateDistributeRoom(List<String> studentNums,String[] buildingNum);
 }
