@@ -48,7 +48,7 @@ input[type='text'], input[type='password']{
             <br />
           </p>
           <p class="item"><span>原密码:</span>
-             <input  type="password" name="old" class="old" />
+             <input  type="password" name="old" class="old" /><span class="error" ></span>
             <br />
           </p>
           <p class="item"><span>新密码:</span>
@@ -68,7 +68,12 @@ input[type='text'], input[type='password']{
   		 </div>
 </div>
 <script type="text/javascript">
-var ok_1=false,ok_2=false;
+$(function(){
+	$.post("name.json",function(data){
+		$('input[type="text"]').text(data.name);
+		});
+})
+var ok_1=false,ok_2=false,ok_3=false;
 	function checkName(){
 		var value=$('input[type="text"]').val();
 		if(value==''){
@@ -79,11 +84,29 @@ var ok_1=false,ok_2=false;
 				$('input[name="adminName"]').next().html("");
 				}
 		}
-	$.getJSON("name.json",function(data){
-		$('input[type="text"]').text(data.name);
-		});
+	function checkOldPassword(){
+		var value=$('input[name="old"]').val();
+		if(value!=''){
+			$.post("",{"password":value},function(data){
+				if(data.status==0){
+					ok_3=true;
+				}else if(data.status==1){
+					var str="原密码不正确";
+				 $('input[name="old"]').next().html(str);
+				}else{
+					$.messager.alert("提示","出现错误","info");
+				}
+			});
+		}else{}
+		
+		
+	}
+	
 	$('input[type="text"]').focusout(function(){
 		checkName();
+	});
+	$('input[name="old"]').focusout(function(){
+		checkOldPassword();
 	});
 	
 	function check(){
@@ -98,43 +121,32 @@ var ok_1=false,ok_2=false;
 			$('.again').next().html("");
 			}
 	}
-	/*function submitModify(){
-		$.post('json/post/post.jsp',$('#form1').serialize(),function(){
-			   $.messager.alert("提示","修改成功");
-			}
-		);	
-	}*/
-	
 	$('input[type="button"]').click(function(){
-		//新密码是否输入
-		checkName();
+		
+		checkName();//检查姓名是否为空
+		checkOldName();//检查原密码是否正确
+		var adminName=$(input[name="old"]).val();
 		var value=$('.new').val();
 		if(!ok_1){
 			 $.messager.alert("提示","姓名不能为空");
-			}else if(value==''){
-				$.post("1.json",$('#form1').serialize(),function(data){
+			}else if(value==''){//只修改姓名
+				$.post("1.json",{"adminName":adminName},function(data){
 					if(data.status==0){
 						 $.messager.alert("提示","修改成功");
 						}else{
 							$.messager.alert("提示","修改失败");
 							}
 				});
-				}else if(ok_1 && ok_2){
+				}else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
 					var password= $(".old").val();
 					var newpassword= $(".new").val();
-					$.post("2.json",{"password":password},function(data){
-						if(data.status==0){
-							$.post("",{"password":newpassword},function(data){
+							$.post("",{"adminName":adminName,"password":newpassword},function(data){
 								if(data.status==0){
 									$.messager.alert("提示","修改成功");
 									}else{
 										$.messager.alert("提示","修改失败");
 										}
 								});
-							}else{
-								$.messager.alert("提示","原密码不正确");
-								}
-						})
 				}
 	});
 </script>
