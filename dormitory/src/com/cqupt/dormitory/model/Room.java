@@ -43,5 +43,11 @@ public class Room {
 	public void setFloor(Floor floor) {
 		this.floor = floor;
 	}
+	public int getAlreadyStay() {
+		return alreadyStay;
+	}
+	public void setAlreadyStay(int alreadyStay) {
+		this.alreadyStay = alreadyStay;
+	}
 	
 }

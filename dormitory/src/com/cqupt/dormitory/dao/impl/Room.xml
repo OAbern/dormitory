@@ -36,5 +36,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    WHERE room.`room_num` LIKE #{buildingNum}) s 
 		    ON (s.room_id = student.`room_id`) 
 		GROUP BY s.room_id 
+		ORDER BY s.`floor_num`
 	</select>
 </mapper>
