@@ -2,6 +2,7 @@ package com.cqupt.dormitory.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -104,6 +105,26 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	@Override
 	public List<Student> findStudentCheckOutByCondition(Condition condition) {
 		return studentInfoDao.findStudentCheckOutByCondition(condition);
+	}
+
+	@Override
+	public boolean deleteStudentOutLiving(List<String> stuNum) {
+		return studentInfoDao.changeLivingStatus(stuNum, 2);
+	}
+
+	@Override
+	public boolean addStudentOutLiving(Student student) {
+		return studentInfoDao.addStudentOutLiving(student);
+	}
+
+	@Override
+	public boolean checkOutStudent(List<String> stuNum) {
+		return studentInfoDao.changeLivingStatus(stuNum, 1);
+	}
+
+	@Override
+	public Student findStudentByStuNum(String stuNum) {
+		return studentInfoDao.findStudentByStuNum(stuNum);
 	}
 
 }

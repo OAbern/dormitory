@@ -1,6 +1,8 @@
 package com.cqupt.dormitory.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -94,18 +96,14 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 	}
 
 	@Override
-	public boolean stuNumIsExist(String stuNum) {
+	public Student findStudentByStuNum(String stuNum) {
 		Student student = null;
 		try {
 			student = getSqlSession().selectOne("stuNumIsExist", stuNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(student == null) {
-			return false;
-		}else {
-			return true;
-		}
+		return student;
 	}
 
 	@Override
@@ -139,6 +137,39 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 			e.printStackTrace();
 		}
 		return students;
+	}
+
+	@Override
+	public boolean changeLivingStatus(List<String> stuNum, int status) {
+		int result = -1;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("nums", stuNum);
+		map.put("status", status);
+		try {
+			result = getSqlSession().update("changeLivingStatus", map);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean addStudentOutLiving(Student student) {
+		int result = -1;
+		try {
+			result = getSqlSession().update("addStudentOutLiving", student);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 }

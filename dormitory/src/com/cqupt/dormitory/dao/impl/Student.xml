@@ -128,16 +128,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 校验指定学号的信息是否存在 -->
-	<select id="stuNumIsExist" parameterType="String" resultType="com.cqupt.dormitory.model.Student">
+	<select id="stuNumIsExist" parameterType="String" resultMap="studentResult">
 		SELECT * FROM `student` WHERE `stu_num` = #{stuNum}
 	</select>
 	
 	<!-- 根据条件查找外出住宿的学生 -->
-	<select id="findStutentOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultType="com.cqupt.dormitory.model.Student" statementType="STATEMENT">
+	<select id="findStutentOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
-			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
 			<where>
 				s.`live_status` = 2
 				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
@@ -149,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 查找已住寝室的学生 -->
-	<select id="findStudentWithRoom" parameterType="com.cqupt.dormitory.vo.Condition" resultType="com.cqupt.dormitory.model.Student" statementType="STATEMENT">
+	<select id="findStudentWithRoom" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
@@ -165,21 +164,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 根据条件查找退宿的学生信息 -->
-	<select id="findStudentCheckOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultType="com.cqupt.dormitory.model.Student" statementType="STATEMENT" >
+	<select id="findStudentCheckOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT" >
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
 			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
 			<where>
-				s.`live_status` = 1
+				s.`live_status` = 0
 				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
 				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
 				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
 				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
 				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
+				<if test="buildingNum!=null and buildingNum!=''">AND r.`room_num` = '${buildingNum}%'</if>
 			</where>
 	</select>
 	
+	<!-- 改变学生的住宿状态 -->
+	<update id="changeLivingStatus" parameterType="map">
+		UPDATE `student`
+		<set>
+			`live_status` = #{status,jdbcType=Integer}
+			<if test="status=1">, `in_time` = '', `room_id` = ''</if>
+			<if test="status=2">, `out_time` = '', `out_address` = ''</if> 
+		</set>
+			WHERE `stu_num` IN (
+			<foreach collection="nums" item="i" separator=",">
+				#{i}
+			</foreach>
+			)
+	</update>
 	
-	
+	<!-- 添加校外住宿的学生 -->
+	<update id="addStudentOutLiving" parameterType="com.cqupt.dormitory.model.Student">
+		UPDATE `student` 
+		<set>
+			`live_status` = 2, `in_time` = '', `romm_id` = ''  
+			<if test="outTime!=null and outTime!=''">, `out_time` = #{outTime,jdbcType=Date}</if>
+			<if test="outAddress!=null and outAddress!=''">, `out_address` = #{outAddress}</if>
+		</set>
+			WHERE `stu_num` = #{stuNum}
+	</update>
+		
 </mapper>

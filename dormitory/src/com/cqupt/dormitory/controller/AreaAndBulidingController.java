@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.service.AreaBuildingService;
 import com.cqupt.dormitory.utils.JSONUtils;
@@ -46,6 +48,15 @@ public class AreaAndBulidingController {
 		shit.add("18");
 		JSONUtils.toJSON(shit, response);
 	}
+	
+	/**
+	 * 通过Excel批量添加宿舍信息 
+	 */
+	@RequestMapping("/addBuildingByExcel")
+	public void addBuildingByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
+		//TODO
+	}
+
 	
 	/**
 	 * updateBuilding 修改整栋楼的资费

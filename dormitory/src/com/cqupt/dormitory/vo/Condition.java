@@ -12,6 +12,7 @@ public class Condition {
 	private String grade;	//筛选的年级
 	private String sex; 	//性别
 	private String classNum;	//班级
+	private String buildingNum;		//楼栋号
 	
 	public String getTarget() {
 		return target;
@@ -54,6 +55,12 @@ public class Condition {
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+	public String getBuildingNum() {
+		return buildingNum;
+	}
+	public void setBuildingNum(String buildingNum) {
+		this.buildingNum = buildingNum;
 	}
 	
 }

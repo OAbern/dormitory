@@ -78,7 +78,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
 			WHERE t.`tec_id` IN (
 				SELECT DISTINCT(s.`tec_id`) FROM `student` s 
-					WHERE s.`academy_id` = ${academy} AND s.`grade` = '${grade}'
+				<where>
+					<if test="academy!=null and academy!=''">s.`academy_id` = ${academy}</if>
+					<if test="grade!=null and grade!=''">s.`grade` = '${grade}'</if>
+				</where>
 			)
 	</select>
 	

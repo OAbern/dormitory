@@ -209,7 +209,7 @@ public class StudentInfoController {
 	 * @param condition
 	 * @param response
 	 */
-	@RequestMapping("/findStutentOutLiving")
+	@RequestMapping("/findStudentOutLiving")
 	public void findStutentOutLivingByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
 		List<Student> students = studentInfoService.findStudentOutByCondition(condition);
 		this.formatAndWrite(students, response);
@@ -243,6 +243,82 @@ public class StudentInfoController {
 	@RequestMapping("/addStudnetByExcel")
 	public void addStudentByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
 		//TODO
+	}
+	
+	/**
+	 * 删除校外住宿的学生（改状态）
+	 * @param delRowsIdArray
+	 * @param response
+	 */
+	@RequestMapping("/deleteStudentOutLiving")
+	public void deleteStudentOutLiving(@RequestParam("delRowsIdArray[]") String []delRowsIdArray, HttpServletResponse response) {
+		List<String> list = new ArrayList<String>();
+		for(String id : delRowsIdArray) {
+			list.add(id);
+		}
+		boolean result = studentInfoService.deleteStudentOutLiving(list);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("删除校外住宿学生成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("删除校外住宿学生失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 添加校外住宿的学生
+	 * @param student
+	 * @param response
+	 */
+	@RequestMapping("/addStudentOutLiving")
+	public void addStudentOutLiving(@ModelAttribute Student student, HttpServletResponse response) {
+		boolean result = studentInfoService.addStudentOutLiving(student);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("添加校外住宿学生成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("添加校外住宿学生失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 对学生做退宿处理（改状态）
+	 * @param delRowsIdArray
+	 * @param response
+	 */
+	@RequestMapping("/checkOutStudent")
+	public void checkOutStudent(@RequestParam("delRowsIdArray[]") String []delRowsIdArray, HttpServletResponse response) {
+		List<String> list = new ArrayList<String>();
+		for(String id : delRowsIdArray) {
+			list.add(id);
+		}
+		boolean result = studentInfoService.checkOutStudent(list);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("退宿处理成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("退宿处理失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 根据学号查找学生信息
+	 * @param stuNum
+	 * @param response
+	 */
+	@RequestMapping("/findStudentByStuNum")
+	public void findStudentByStuNum(String stuNum, HttpServletResponse response) {
+		Student student = studentInfoService.findStudentByStuNum(stuNum);
+		JSONUtils.toJSON(student, response);
 	}
 	
 	/**

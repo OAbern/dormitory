@@ -80,4 +80,32 @@ public interface StudentInfoService {
 	 * @return
 	 */
 	public List<Student> findStudentCheckOutByCondition(Condition condition);
+	
+	/**
+	 * 删除校外住宿的学生（改状态）
+	 * @param stuNum
+	 * @return
+	 */
+	public boolean deleteStudentOutLiving(List<String> stuNum);
+	
+	/**
+	 * 添加校外住宿的学生
+	 * @param student
+	 * @return
+	 */
+	public boolean addStudentOutLiving(Student student);
+	
+	/**
+	 * 对学生做退宿处理（改状态）
+	 * @param stuNum
+	 * @return
+	 */
+	public boolean checkOutStudent(List<String> stuNum);
+	
+	/**
+	 * 根据学号查找学生
+	 * @param stuNum
+	 * @return
+	 */
+	public Student findStudentByStuNum(String stuNum);
 }
