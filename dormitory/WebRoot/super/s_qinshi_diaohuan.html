@@ -52,12 +52,6 @@
 
 <!--选择分配的学生名单--> 
 <script type="text/javascript">
-	var grade = "";
-	var education = "";
-	var sex = "";
-	var academy = "";
-	var major = "";
-	var classNum = "";
 	var optionthml="<option value='-1'>请选择</option><option value=''>全部</option>";
 	if(sum_diaohuan==0){
 		showAcademyAndGrade();
@@ -99,20 +93,19 @@
 				 $.messager.alert("警告","请先选择班级!","warning");
 			}else{
 				sum_diaohuan_kong=0;//点击确定时，代表重新选择分配的学生，所以已经选择的空床位置为0
-				grade = $('select[name="grade"]').val();
-				education = $('select[name="education"]').val();
-				sex = $('select[name="sex"]').val();
-				academy = $('select[name="academy.id"]').val();
-				major = $('select[name="major"]').val();
-				classNum = $('select[name="classNum"]').val();
-				diaohuan_sure={"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex};
+				diaohuan_sure.grade = $('select[name="grade"]').val();
+				diaohuan_sure.education = $('select[name="education"]').val();
+				diaohuan_sure.sex = $('select[name="sex"]').val();
+				diaohuan_sure.academy = $('select[name="academy.id"]').val();
+				diaohuan_sure.major = $('select[name="major"]').val();
+				diaohuan_sure.classNum = $('select[name="classNum"]').val();
 				showData();
 			}
 		});
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		$.post('studentInfo/findStudentByCondition.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+		$.post('studentInfo/findStudentByCondition.do', {"academy":diaohuan_sure.academy,"education":diaohuan_sure.education,"grade":diaohuan_sure.grade,"major":diaohuan_sure.major,"classNum":diaohuan_sure.classNum,"sex":diaohuan_sure.sex}, function(data) {
 			if(data){
 				$(".table_one").datagrid({
 					data : data,
@@ -120,9 +113,9 @@
 					height : '250px',
 					columns : [ [
 					 {field : 'academy',title : '学院',width : 130,align : 'center',
-					 formatter:function(value){
-						 return value.name;
-					 }
+						 formatter:function(value){
+							 return value.name;
+						 }
 					 }, 
 					 {field : 'major',title : '专业',width : 150,align : 'center'}, 
 					 {field : 'classNum',title : '班级',width : 80,align : 'center'}, 
@@ -298,4 +291,11 @@
 		GLOBAL.showAcademy();
 		GLOBAL.showGrade();
 	}
+	
+	sum_fenpei=0;
+	sum_newstu_kong=0;
+	fenpei={};//存放级联
+	fenpei['fenpei_major']=[];//存放动态加载的专业
+	fenpei['fenpei_classNum']=[];
+	fenpei_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件
 </script>

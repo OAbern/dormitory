@@ -39,6 +39,7 @@ $(function(){
 		});
 	$(".xuanze_qinshi").trigger("table_load");
 	$(".sure_fenpei").click(function(){
+		building=[];
 		sum_dhstu_kong=0;//点击确认空床位时，把之前的空床位置空
 		var i=0;
 		$(".checkbox_emptyBed").each(function(){
@@ -65,12 +66,10 @@ $(function(){
 						if(event){ 
 							$.post('roomInfo/distributeRoom.do',{"academy":diaohuan_sure.academy,"education":diaohuan_sure.education,"major":diaohuan_sure.major,"grade":diaohuan_sure.grade,"classNum":diaohuan_sure.classNum,"sex":diaohuan_sure.sex,"building":building},function(data){//把选中的空床位发给后台
 								if(data.status=="1"){
-									sum_diaohuan=0;
-									sum_dhstu_kong=0;
 									diaohuan={};
 									diaohuan['diaohuan_major']=[];
 									diaohuan['diaohuan_classes']=[];
-									diaohuan_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
+									//diaohuan_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
 									$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
 									$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 								}else{

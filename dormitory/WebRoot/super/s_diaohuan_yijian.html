@@ -25,10 +25,14 @@
 					{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
 					{field : 'teaname',title : '姓名',width : 100,align : 'center'},
 					{field : 'grade',title : '年级',width : 100,align : 'center'},
-					{field : 'academy',title : '学院',width : 200,align : 'center'},
+					{field : 'academy',title : '学院',width : 200,align : 'center',
+					        	formatter:function(value){
+								 	return value.name;
+								 }
+					},
 					{field : 'xgqk',title : '下载',width : 60,align : 'center',
 						formatter : function(value, row, index) {
-							var d = '<a href="Download/360打分(姓名+学号)1.xlsx" class="xiazai" onclick="xiazai(this)">下载</a>';
+							var d = '<a href="#" class="xiazai" onclick="yijianDownLoad(\''+ index + '\')">下载</a>';
 							return d;
 						}
 					},
@@ -50,6 +54,17 @@
 		afterPageText : "共{pages}页",
 		displayMsg : "显示{from}到{to},共{total}条记录"
 	});
+	//点击下载
+	function yijianDownLoad(index){
+		$.messager.confirm('确认', '确认下载?', function(row) {
+			if (row) {
+				if ($('.table_two').datagrid('getSelected')) {//当勾选了本行时，否则就是直接点击删除
+					var row = $('.table_two').datagrid('getSelected');//获取你选择的行
+					$.post('excel/findAllExcel.do', {"teaNum" : row.teaNum});//选中行  
+				}
+			}
+		});
+	}
 /*	//操作过后（同意或者不同意）同时删除学院请求意见
 	function del(index) { //删除操作  
 		$.messager.confirm('确认', '确认删除?', function(row) {

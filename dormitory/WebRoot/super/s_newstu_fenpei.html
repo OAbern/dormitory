@@ -52,14 +52,7 @@
 <!--选择分配的学生名单--> 
 <script type="text/javascript">
 	var d=new Date();
-	var grade = "";
-	grade=d.getFullYear();
-	fenpei_sure.grade=grade;
-	var education = "";
-	var sex = "";
-	var academy = "";
-	var major = "";
-	var classNum = "";
+	fenpei_sure.grade=d.getFullYear();
 	var optionhtml="<option value='-1'>请选择</option><option value=''>全部</option>";
 	if(sum_fenpei==0){
 		showAcademy();
@@ -102,19 +95,19 @@
 			}else{
 				sum_fenpei_kong=0;//点击确定时，代表重新选择分配的学生，所以已经选择的空床位置为0
 				//grade = $("#one_select").val();
-				education = $('select[name="education"]').val();
-				sex = $('select[name="sex"]').val();
-				academy = $('select[name="academy.id"]').val();
-				major = $('select[name="major"]').val();
-				classNum = $('select[name="classNum"]').val();
-				fenpei_sure={"academy":academy,"education":education,"major":major,"grade":grade,"classNum":classNum,"sex":sex};
+				fenpei_sure.education = $('select[name="education"]').val();
+				fenpei_sure.sex = $('select[name="sex"]').val();
+				fenpei_sure.academy = $('select[name="academy.id"]').val();
+				fenpei_sure.major = $('select[name="major"]').val();
+				fenpei_sure.classNum = $('select[name="classNum"]').val();
+				//fenpei_sure={"academy":academy,"education":education,"major":major,"grade":grade,"classNum":classNum,"sex":sex};
 				showData();
 			}
 		});
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		$.post('studentInfo/findStudentByCondition.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+		$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex}, function(data) {
 			if(data){
 				$(".table_one").datagrid({
 					data : data,
@@ -277,7 +270,12 @@
 		//加载学院和年级
 	function showAcademy(){
 		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append(optionthml);
+		$('select[name="academy.id"]').append(optionhtml);
 		GLOBAL.showAcademy();
 	}
+	sum_diaohuan=0;
+	diaohuan={};//存放级联
+	diaohuan['diaohuan_major']=[];
+	diaohuan['diaohuan_classNum']=[];
+	diaohuan_sure={"academy": "","education":"","grade":"","major": "","classNum" : "","sex" : ""};//自己保存
 </script>

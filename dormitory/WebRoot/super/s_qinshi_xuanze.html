@@ -65,12 +65,10 @@ $(function(){
 						if(event){ 
 							$.post('roomInfo/distributeRoom.do',{"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"building":building},function(data){//把选中的空床位发给后台
 								if(data.status=="1"){
-									sum_fenpei=0;
-									sum_newstu_kong=0;
 									fenpei={};
 									fenpei['fenpei_major']=[];
 									fenpei['fenpei_classes']=[];
-									fenpei_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
+									//fenpei_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
 									$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
 									$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 								}else{
