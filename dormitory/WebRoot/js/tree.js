@@ -30,7 +30,8 @@ $.getJSON("json/get/s_loudong_xinxi.json",function(data){
 					area=$(this).parent().prev().text()[0];
 					$("#base_right").empty().load("super/s_add_loudong.html");
 					}else{
-						buildingid=$(this).find("a").text()[0];	
+						var tem=$(this).find("a").text();	
+						buildingid=tem.substring(0,tem.length-1);
 						$("#base_right").empty().load("super/s_sushe_xinxi.html");
 					}
 				}
