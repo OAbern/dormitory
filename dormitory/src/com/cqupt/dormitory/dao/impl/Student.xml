@@ -115,7 +115,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findCascadingInfo" parameterType="com.cqupt.dormitory.vo.Condition" resultType="String" statementType="STATEMENT">
 		SELECT DISTINCT(
 		<if test="target=='academy'">academy_id</if>
-		<if test="target!='academy'">${target}</if>
+		<if test="target=='classNum'">class</if>
+		<if test="target!='academy' and target!='classNum'">${target}</if>
 		) FROM `student` s
 			<where>
 				<if test="academy!=null">s.`academy_id` = ${academy}</if>
