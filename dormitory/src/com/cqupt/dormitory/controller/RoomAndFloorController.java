@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -216,11 +217,6 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/findRoomDetail")
 	public void findRoomDetail(String sex,String buildingNum,String floorNum,String roomNum,HttpServletResponse response){
-		System.out.println(sex);
-		System.out.println(buildingNum);
-		System.out.println(floorNum);
-		System.out.println(roomNum);
-		
 		if(sex == null || "".equals(sex)){
 			sex = "%";
 		}
@@ -238,6 +234,7 @@ public class RoomAndFloorController {
 		}
 		
 		List<Room> rooms = roomDao.findRoomByAnyField(sex,buildingNum,floorNum,roomNum);
+		//分页没有做..会出错.
 		JSONUtils.toJSON(rooms, response);
 	}
 	
@@ -259,7 +256,17 @@ public class RoomAndFloorController {
 			rm.setInfo("失败");
 		}
 		JSONUtils.toJSON(rm, response);
-		
+	}
+
+	@RequestMapping("/updateRoomCostAndFee")
+	public void updateRoomCostAndFee(@RequestBody Room room,HttpServletResponse response){
+		boolean b= roomService.udpateRoom(room);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(b){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
 	}
 	
 }

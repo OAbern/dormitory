@@ -82,7 +82,9 @@ public class RoomServiceImpl implements RoomService{
 				i++;
 				everyFloorRoom.put("item"+i, this.roomNumHandler(r));
 			}
-			
+		}
+		if(columnMax < i){
+			columnMax = i;
 		}
 		rows.add(everyFloorRoom);//最后一大堆.
 		

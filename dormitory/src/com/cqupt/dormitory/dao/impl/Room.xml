@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="update" parameterType="com.cqupt.dormitory.model.Room">
-		update room set cost=#{cost}, total_bed=#{totalBed} where room_num=#{roomNum}
+		update room set cost=#{cost}, total_bed=#{totalBed} where room_num=#{roomNum} 
 	</update>
 	
 	<select id="find_current_room" parameterType="int" resultType="int">
@@ -85,11 +85,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update_student_room_id" parameterType="map">
-		UPDATE `student` SET `room_id` = #{roomId} WHERE stu_num =#{studentNum} 
+		UPDATE `student` SET `room_id` = #{roomId} WHERE stu_num =#{studentNum} and student.`live_status` = 0
 	</update>
 	
 	<select id="find_room_by_many_field" parameterType="map" resultMap="roomResult">
-			SELECT room.*,f.* FROM room RIGHT JOIN 
+			SELECT room_id,room.`room_num`,f.`floor_id`,cost,total_bed,building_id,building_num,sex FROM room RIGHT JOIN 
 			(
 			SELECT floor.`floor_id`,building.`building_id`,building.`building_num`,building.`sex` FROM FLOOR LEFT JOIN building ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num` LIKE #{buildingNum} AND 
 			floor.`floor_num` LIKE #{floorNum}  AND building.`sex` LIKE #{sex}
