@@ -114,12 +114,14 @@ public class AreaAndBulidingController {
 	 * @since  1.0.0
 	 */
 	@RequestMapping("/updateBuilding")
-	public void updateBuilding(String buildingId,String cata,String fee,String sex,HttpServletResponse response){
-		boolean  result = areaBuildingService.updateBuildingMessage(buildingId, sex, fee, cata);
+	public void updateBuilding(String area,String buildingId,String cata,String fee,String sex,HttpServletResponse response){
+		int  result = areaBuildingService.updateBuildingMessage(buildingId, sex, fee, cata,area);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result){
+		if(result==1){
 			map.put("status", 1);
-		}else {
+		}else if(result ==2){
+			map.put("status", 2);
+		}else{
 			map.put("status", 0);
 		}
 		JSONUtils.toJSON(map, response);

@@ -19,21 +19,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_all_room_by_buildingnum" parameterType="map" resultMap="roomResult">
 		SELECT 
 		  COUNT(student.`stu_id`) AS alreadstay,
-		  s.* 
+		  s.*
 		FROM
 		  student 
 		  RIGHT JOIN 
 		    (SELECT 
 		      room.*,
 		      floor.`building_id`,
-		      floor.`floor_num` 
+		      floor.`floor_num`,
+		      building.sex 
 		    FROM
 		      room 
 		      LEFT JOIN FLOOR
 		        ON (
 		          floor.`floor_id` = room.`floor_id`
-		        ) 
-		    WHERE room.`room_num` LIKE #{buildingNum} AND floor.`floor_num` LIKE #{floorNum}) s 
+		        ) ,building 
+		    WHERE  building.`building_id` = floor.`building_id` and room.`room_num` LIKE #{buildingNum} AND floor.`floor_num` LIKE #{floorNum}) s 
 		    ON (s.room_id = student.`room_id`) 
 		GROUP BY s.room_id 
 		order by s.room_num

@@ -139,13 +139,22 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 	}
 
 	@Override
-	public boolean updateBuildingMessage(String buildingNum,String sex, String fee, String cata) {
+	public int updateBuildingMessage(String buildingNum,String sex, String fee, String cata,String area) {
 		
 		//先要判断一下有没有人住 再修改
 		if(buildDao.isBuildingStayPerson(buildingNum)){
 				Building b = new Building();
 				b.setBuildingNum(buildingNum);
 				b.setSex(sex);
+				Area a1 = new Area();
+				a1.setName(area);
+				List<Area> areas = areaDao.findAllArea();
+				for(Area a : areas){
+					if(a.getName().equals(area)){
+						a1.setId(a.getId());
+					}
+				}
+				b.setArea(a1);
 				buildDao.updateBuilding(b);
 				List<Floor> floor = floorDao.findFloorByBuildingNum(buildingNum);
 				List<Integer> floorsId = new ArrayList<Integer>();
@@ -153,19 +162,31 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 					floorsId.add(f.getId());
 				}
 				roomDao.updateRoom(floorsId, fee, cata);
-				return true;
+				return 1;
 		}else{
 			if(buildDao.isBuildingSexChange(buildingNum, sex)){
+				Building b = new Building();
+				b.setBuildingNum(buildingNum);
+				Area a1 = new Area();
+				a1.setName(area);
+				List<Area> areas = areaDao.findAllArea();
+				for(Area a : areas){
+					if(a.getName().equals(area)){
+						a1.setId(a.getId());
+					}
+				}
+				b.setArea(a1);
+				buildDao.updateBuilding(b);
 				List<Floor> floor = floorDao.findFloorByBuildingNum(buildingNum);
 				List<Integer> floorsId = new ArrayList<Integer>();
 				for(Floor f : floor){
 					floorsId.add(f.getId());
 				}
 				roomDao.updateRoom(floorsId, fee, null);
-				return true;
+				return 2;
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	@Override

@@ -74,16 +74,21 @@ public interface AreaBuildingService {
 	public Map<String,Object> findBuildingAndAreaVoBySex(String sex);
 	
 	/**
-	 * updateBuildingMessage 修改楼栋信息
+	 * updateBuildingMessage 修改楼栋信息 
+	 * 
+	 * 1-修改成功
+	 * 2-修改部分成功
+	 * 0-修改不成功
+	 * 
 	 * @param sex
 	 * @param fee
 	 * @param cata
 	 * @return 
-	 *boolean
+	 *int
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public boolean updateBuildingMessage(String buildingNum,String sex,String fee,String cata);
+	public int updateBuildingMessage(String buildingNum,String sex,String fee,String cata,String area);
 
 	/**
 	 * findBuildingBySexAndArea 级联查询

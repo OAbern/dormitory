@@ -35,7 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update" parameterType="com.cqupt.dormitory.model.Building">
-		update building set sex=#{sex} where building_num=#{buildingNum}
+		UPDATE  `building` SET `area_id` = #{area.id} 
+			<if test="sex!=null">
+			,`sex` = #{sex}
+			</if>
+		 where building_num=#{buildingNum}
 	</update>
 	
 	<select id="find_building_person" parameterType="string" resultType="int">

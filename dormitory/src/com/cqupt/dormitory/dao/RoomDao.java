@@ -138,6 +138,6 @@ public interface RoomDao {
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public List<Room> findRoomByAnyField(String sex, String buildingNum,
-			String floorNum, String roomNum);
+	public List<Room> findRoomByAnyField(String sex, String buildingNum,String floorNum, String roomNum);
+	
 }

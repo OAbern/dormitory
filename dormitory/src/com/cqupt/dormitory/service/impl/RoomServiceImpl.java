@@ -9,8 +9,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.cqupt.dormitory.dao.BuildingDao;
 import com.cqupt.dormitory.dao.FloorDao;
 import com.cqupt.dormitory.dao.RoomDao;
+import com.cqupt.dormitory.dao.StudentInfoDao;
 import com.cqupt.dormitory.model.Floor;
 import com.cqupt.dormitory.model.Room;
 import com.cqupt.dormitory.model.Student;
@@ -23,7 +25,10 @@ public class RoomServiceImpl implements RoomService{
 	private RoomDao roomDao;
 	@Resource
 	private FloorDao floorDao;
-	
+	@Resource
+	private BuildingDao buildDao;
+	@Resource
+	private StudentInfoDao studentInfoDao;
 	
 	@Override
 	public RoomInFloor findRoomInFloorForView(String buildingNum) {
@@ -239,7 +244,17 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public boolean updateChangeRoom(String studentNum, String roomNum) {
-		Room r = roomDao.findByRoomNum(roomNum);
+		//要判断这个房间人满了没有! 还要判断这个人是不是跟这个房间上面的属性是一样的.就是说不能直接加女生.
+		Student s = studentInfoDao.findStudentByStuNum(studentNum);
+		Room r = roomDao.findAllRoomByBuildingNumAndFloor(roomNum,"%").get(0);
+		if(r.getAlreadyStay()>=r.getTotalBed()){
+			//人太多了.不能再加了
+			return false;
+		}
+		if(!s.getSex().equals(r.getFloor().getBuilding().getSex())){
+			//性别不合 添加失败
+			return false;
+		}
 		return this.updateChangeRoom(studentNum, r.getId());
 	}
 	
@@ -271,6 +286,10 @@ public class RoomServiceImpl implements RoomService{
 				if((r.getTotalBed()-r.getAlreadyStay())<j+1){
 					k++;
 					r = allRoomList.get(k);
+					while((r.getTotalBed()-r.getAlreadyStay())<1){
+						k++;
+						r = allRoomList.get(k);
+					}
 					j=0;
 				}
 				if((r.getTotalBed()-r.getAlreadyStay())>0){
