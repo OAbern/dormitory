@@ -75,7 +75,7 @@ $('#addData').form({
   }
 });
 //添加excel文件检验
-$('input[name="submit"]').click(function(){
+$('#sub').click(function(){
 	if(!$(this).prev('input').val()){
 		$.messager.alert('操作提示','请选择要上传的Excel');
 		return false;
