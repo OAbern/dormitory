@@ -53,13 +53,12 @@ $(function(){
 		}//onCliclCell end
 		
 		}//datagrid end
-		var s="[[";
-		s+="{field:'ck',checkbox:true,rowspan:2},{field:'floorid',title:'楼层',width:50,align:'center',rowspan:2},";
-		s+="{title:'寝室号',align:'center',colspan:"+data.columnmax+"}],[";
-		for(i=1;i<data.columnmax;i++){
-			s+="{field:'" +i+"',title:'"+i+"',width:'50',align:'center',styler:cellStyler},";
+			var s="[[";
+		s+="{field:'ck',checkbox:true},";
+		for(i=1;i<data.columnMax;i++){
+			s+="{field:'" +i+"',title:'',width:'50',align:'center',styler:cellStyler},";
 		}
-		s+="{field:'" +data.columnmax+"',title:'"+data.columnmax+"',align:'center',styler:cellStyler}]]";
+		s+="{field:'" +data.columnMax+"',title:'',align:'center',styler:cellStyler}]]";
 		
 		options.columns=eval(s);
 		options.nowrap=false;
