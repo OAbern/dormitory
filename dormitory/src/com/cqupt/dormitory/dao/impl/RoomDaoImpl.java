@@ -81,6 +81,12 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("studentNum", studentNum);
 		map.put("roomId", roomId);
+		Room r = this.findByStudentNum(studentNum);
+		if(r!=null){
+			map.put("oldRoomNum", r.getRoomNum());
+		}else{
+			map.put("oldRoomNum","无");
+		}
 		getSqlSession().update(Room.class.getName()+".update_student_room_id",map);
 	}
 
@@ -92,6 +98,11 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		map.put("floorNum", floorNum);
 		map.put("roomNum", roomNum);
 		return getSqlSession().selectList(Room.class.getName()+".find_room_by_many_field",map);
+	}
+
+	@Override
+	public Room findByStudentNum(String studentNum) {
+		return getSqlSession().selectOne(Room.class.getName()+".find_room_by_studentnum",studentNum);
 	}
 
 }

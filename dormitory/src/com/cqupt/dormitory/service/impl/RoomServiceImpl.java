@@ -268,11 +268,14 @@ public class RoomServiceImpl implements RoomService{
 			
 			for(int i = 0;i<studentNums.size() ;i++){
 				String studentNum = studentNums.get(i);
-				if(r.getTotalBed()<j){
+				if((r.getTotalBed()-r.getAlreadyStay())<j+1){
 					k++;
 					r = allRoomList.get(k);
+					j=0;
 				}
-				roomDao.updateStudentRoom(studentNum, r.getId());
+				if((r.getTotalBed()-r.getAlreadyStay())>0){
+					roomDao.updateStudentRoom(studentNum, r.getId());
+				}
 				j++;
 			}
 		} catch (Exception e) {

@@ -25,9 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="find_building_emptybed" parameterType="int" resultType="int">
-		SELECT SUM(total_bed)-COUNT(student.`stu_id`) FROM student RIGHT JOIN
+		SELECT COUNT(student.`stu_id`) FROM student RIGHT JOIN
 		(SELECT room_id,room.`total_bed` FROM room LEFT JOIN FLOOR ON(room.`floor_id`=floor.`floor_id` )WHERE floor.`building_id`=#{buildingId}) u
 		ON(u.room_id  = student.`room_id`)
+	</select>
+	
+	<select id="find_all_building_totalbed" parameterType="int" resultType="int" >
+		SELECT SUM(room.`total_bed`) FROM room LEFT JOIN FLOOR ON(room.`floor_id`=floor.`floor_id` )WHERE floor.`building_id`=#{buildingId}
 	</select>
 	
 	<update id="update" parameterType="com.cqupt.dormitory.model.Building">

@@ -24,7 +24,9 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 
 	@Override
 	public int findBuildingEmptyBed(int buildingId) {
-		return getSqlSession().selectOne(Building.class.getName()+".find_building_emptybed",buildingId);
+		int totalBed = getSqlSession().selectOne(Building.class.getName()+".find_all_building_totalbed",buildingId);
+		int emptyBed =  getSqlSession().selectOne(Building.class.getName()+".find_building_emptybed",buildingId);
+		return totalBed-emptyBed;
 	}
 
 	@Override

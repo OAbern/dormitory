@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update_student_room_id" parameterType="map">
-		UPDATE `student` SET `room_id` = #{roomId} WHERE stu_num =#{studentNum} and student.`live_status` = 0
+		UPDATE `student` SET `room_id` = #{roomId} ,`live_status` = 4, old_roomnum=#{oldRoomNum} WHERE stu_num =#{studentNum}
 	</update>
 	
 	<select id="find_room_by_many_field" parameterType="map" resultMap="roomResult">
@@ -94,5 +94,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT floor.`floor_id`,building.`building_id`,building.`building_num`,building.`sex` FROM FLOOR LEFT JOIN building ON(floor.`building_id` = building.`building_id`) WHERE building.`building_num` LIKE #{buildingNum} AND 
 			floor.`floor_num` LIKE #{floorNum}  AND building.`sex` LIKE #{sex}
 			) f ON(room.`floor_id` = f.floor_id) WHERE room.`room_num` LIKE #{roomNum}
+	</select>
+	
+	
+	<select id="find_room_by_studentnum" parameterType="string" resultMap="roomResult">
+		SELECT * FROM student LEFT JOIN room ON (room.`room_id` = student.`room_id`) WHERE student.`stu_num` = #{studentNum}
 	</select>
 </mapper>

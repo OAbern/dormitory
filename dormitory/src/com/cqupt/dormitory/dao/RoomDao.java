@@ -18,6 +18,16 @@ public interface RoomDao {
 	 */
 	public Room findByRoomNum(String roomId);
 	
+	/**
+	 * findByStudentNum 查询某人住的房间
+	 * @param studentNum
+	 * @return 
+	 *Room
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public Room findByStudentNum(String studentNum);
+	
 	
 	/**
 	 * findAllRoomByBuildingNum 

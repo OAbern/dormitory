@@ -268,5 +268,15 @@ public class RoomAndFloorController {
 			map.put("status", 0);
 		}
 	}
-	
+		
+	@RequestMapping("/changeOneRoom")
+	public void changeOneRoom(String stuNum,String room,HttpServletResponse response){
+		boolean b = roomService.updateChangeRoom(stuNum,room);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(b){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
+	}
 }
