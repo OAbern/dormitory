@@ -11,8 +11,7 @@ $(function(){
 		$("#base_right").empty().load("super/s_xiugai_xuesheng_xinxi.html");
 	});
 	$("#studentInfo li:eq(3)").click(function(event) {
-		$("#base_right").empty();
-		$.messager.alert("提示","此部分功能还在开发","info");
+		$("#base_right").empty().load("super/s_xueyuan_xuesheng_fenbu.html");
 	});
 	$("#managerInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("super/s_chaxun_xinxi.html");

@@ -114,14 +114,16 @@ input[type='text'] {
 				}, 
 				studentId : {
 					required : true,
-					number : true,
+          digits:true,
 					rangelength : [10, 10],
+
 				}, 
 				sex : {
 				}, 
 				grade : {
 					required : true,
-					number : true,
+					digits:true,
+          rangelength : [4,4],
 				}, 
 				classes : {
 					required : true,
@@ -138,9 +140,10 @@ input[type='text'] {
 					required : true,			
 				},
 				home : {	
+          required : true,
 				},
 				birthday : {
-					
+					required : true,
 				},
 				nation : {
 					required : true,
@@ -154,6 +157,44 @@ input[type='text'] {
 					required : '帐号不得为空！',
 					minlength : '帐号不得小于2位！',
 				},
+        studentId : {
+          required : '帐号不得为空！',
+          digits:'请输入整数',
+          rangelength : jQuery.format('账号必须为{0}位数字'),
+        }, 
+        sex : {
+          required : '性别不得为空！',
+        }, 
+        grade : {
+          required : '年级不得为空！',
+          digits:'请输入整数',
+          rangelength : jQuery.format('账号必须为{0}位数字'),
+        }, 
+        classes : {
+          required : '班级号号不得为空！',
+        }, 
+        major : {
+          required : '专业不得为空！',
+        }, 
+        academy : {
+          required : '学院不得为空！', 
+        }, 
+        teacher : {
+          required : '辅导员不得为空！',     
+        },
+        home : {  
+          required : '籍贯不得为空！',
+        },
+        birthday : {
+          required : '出生年月不得为空！',
+          
+        },
+        nation : {
+          required : '民族不得为空！',
+        },
+        roomNumber : {
+          required : '寝室号不得为空！',
+        }
 			}
 	});
 </script> 

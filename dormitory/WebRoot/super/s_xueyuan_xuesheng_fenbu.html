@@ -1,0 +1,83 @@
+
+<style type="text/css">
+#filter {
+	margin-left:8px;
+}
+#searchBar select {
+	width:200px;
+	margin-right:20px;
+	margin-bottom:30px;
+}
+/* #chartDisplay{
+	width: 600px;
+	height: 500px;
+} */
+</style>
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>各学院学生分布</b></span><span class="shuoming">您可以查看各学院的学生分布统计图</span></div>
+</div>
+<div class="right_contain"> 
+  <!-- 筛选框 -->
+	<div id="searchBar">
+		学院:
+		<select name="academy" id="academy">
+			<option value="0">未选择</option>
+			<option value="01">通信</option>
+			<option value="02">经管</option>
+			<option value="03">计算机</option>
+		</select>
+		<input type="button" value="确定" id="filter">
+	</div>
+   <div id="chartDisplay"></div>
+<script>
+$(function () {
+	$.ajaxSettings.async = false;
+	var options={
+        chart: {
+            renderTo: 'chartDisplay',
+            type: 'column'
+        },
+        title: {
+            text: '学院学生分布'
+        },
+        xAxis: {
+            //categories: ['Apples', 'Bananas', 'Oranges']
+            title: {
+                text: '楼栋'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '人数'
+            }
+        },
+        credits:{
+        	enabled:false
+        },
+        series: [{
+            //name: '经济管理学院',
+            //data: [1, 0, 4]
+        }]
+    };
+	var x=[];//x轴要展示的楼栋
+	var y=[];//y轴要展示的数据
+	$('#filter').click(function(){
+		var name=$("#academy option:selected").html();//要展示的学院的名字
+		$.getJSON('json/get/s_xueyuan_xuesheng_fenbu.json',{academy:name},function(data){
+			var record=data['data'];
+			$.each(record,function(i,val) {
+				 x.push(val['building']);
+				 y.push(val['num']);
+			});
+		});
+		//动态设置图标数据
+		options.xAxis.categories=x;
+		options.series[0]['name']=name;
+		options.series[0]['data']=y;
+		var chart1 = new Highcharts.Chart(options);//展示
+		//清空x,y
+		x=[];
+		y=[];
+	});
+});
+</script>

@@ -81,7 +81,7 @@ input[type='text'] {
 				}, 
 				studentId : {
 					required : true,
-					number : true,
+					digits:true,
 					rangelength : [10, 10],
 				}, 
 				sex : {
@@ -108,10 +108,32 @@ input[type='text'] {
 				}  
 			},
 			messages : {
-			   /* name : {
+			    name : {
 					required : '帐号不得为空！',
 					minlength : '帐号不得小于2位！',
-				},*/
+				},
+		        studentId : {
+			        required : '帐号不得为空！',
+			        digits:'请输入整数',
+			        rangelength : jQuery.format('账号必须为{0}位数字'),
+		        }, 
+		        grade : {
+		          required : '年级不得为空！',
+		          digits:'请输入整数',
+		          rangelength : jQuery.format('账号必须为{0}位数字'),
+		        }, 
+		        classes : {
+		          required : '班级号号不得为空！',
+		        },  
+		        academy : {
+		          required : '学院不得为空！', 
+		        },
+		        /*outTime : {
+		          required : '外出住宿时间不得为空！',
+		        },*/
+		        outAddress : {
+		          required : '校外住宿地址不得为空！',
+		        },
 			},
 			submitHandler:function(form) {//表单提交
 				$.post('json/post/post.jsp',$('#addStudent').serialize());

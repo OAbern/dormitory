@@ -1,0 +1,12 @@
+{
+	"data":[{
+		"building":"1栋",
+		"num":200
+	},{
+		"building":"6栋",
+		"num":150
+	},{
+		"building":"9栋",
+		"num":400
+	}]
+}
