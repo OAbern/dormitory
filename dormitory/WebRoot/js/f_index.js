@@ -1,4 +1,8 @@
-// 控制right页面的加载
+/**
+ * 控制right页面的加载
+ * @author log
+ *
+ */
 $(function(){ 
     var status=0;
 	$(".stu li:eq(0)").click(function(){

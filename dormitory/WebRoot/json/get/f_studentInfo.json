@@ -1,76 +1,76 @@
 { "total":"6",
  "rows":[
 		{
-			"college":"经济管理学院",
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 },
-		{
-			"college":"经济管理学院",
+			{
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 },
-		{
-			"college":"经济管理学院",
+			{
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 },
-		{
-			"college":"经济管理学院",
+			{
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 },
-		{
-			"college":"经济管理学院",
+			{
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 },
-		{
-			"college":"经济管理学院",
+			{
+			"academy":"经济管理学院",
 			"major":"信息管理与信息系统",
 			"grade":"2012",
-			"classes":"0311201",
-			"stuNum":"2012211065",
-			"name":"张三",
-			"sex":"女",
-			"born":"1994/2",
-			"area":"广西",
-			"dormitory":"19-516"
+			"classNum":"0311201",
+			"stu_id":"2012211065",
+			"stu_name":"张三",
+			"stu_sex":"女",
+			"birth":"1994/2",
+			"birthplace":"广西",
+			"room_id":"19-516"
 		 }
 	]
 }

@@ -10,19 +10,21 @@
        <p style="float:left;font-size:13px;color:#FF7F00;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>        
 </div>
 <script type="text/javascript">
-    $.getJSON('json/get/f_stuchangehotel.json',function(data){
+    var tecNum = data.tecNum;
+    $.post('studentInfo/findStudentByCondition.do',{"tecNum":tecNum},function(data){
 		if(data.total>0){
 			$("#tab1").datagrid({
 						data:data,
 						width:'700px',
 						height:'250px', 
 						columns:[[    
-							{field:'dormitory',title:'寝室号',width:120,align:'center'},
-							{field:'family',title:'成员姓名',width:120,align:'center'},
+							{field:'dormitory',title:'新寝室号',width:100,align:'center'},
+							{field:'roomNum',title:'原寝室号',width:100,align:'center'},
+							{field:'name',title:'姓名',width:100,align:'center'},
 							{field:'sex',title:'性别',width:80,align:'center'},
-							{field:'stuNum',title:'学号',width:130,align:'center'},
+							{field:'stuNum',title:'学号',width:100,align:'center'},
 							{field:'college',title:'学院',width:120,align:'center'},       
-							{field:'classes',title:'班级',width:120,align:'center'}
+							{field:'classNum',title:'班级',width:100,align:'center'}
 						]],
 					singleSelect:true,
 					saveUrl:'server.php',

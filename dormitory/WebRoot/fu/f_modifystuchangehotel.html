@@ -2,14 +2,14 @@
   <div class="rheader"><span class="pageName"><b>调整学生住宿调配</b></span><span class="shuoming">您可以修改学生住宿调配情况</span></div>
 </div>
 <div class="right_contain">
-       <div class="editor" style="float:left;margin-top:10px">
+       <div class="editor" style="float:left;width:700px">
             <p>请上传您调整后的寝室调配情况:</p>
             <form name="form1" enctype="multipart/form-data" method="post"  action="hello.html">
                  <input name="file" type="file" size="35" onchange="fileChange(this);"/ >
                  <input name="submit" type="submit" class="btn_grey" value="提交">
 	        </form>
       </div>
-      <div class="result" style="float:left;margin-top:10px;">
+      <div class="result" style="float:left;margin-top:10px;width:700px">
           <p>查看管理员审批意见：</p>
           <div class="table_two" style="float:left;margin-top:10px"></div>
       </div>
@@ -19,8 +19,8 @@
 		   if(data.total>0){
 			   $('.table_two').datagrid(
 				{
-					width : '750px',
-					height : '330px',
+					width : '700px',
+					height : '250px',
 					nowrap : false,
 					data: data,
 					columns : [ [

@@ -21,11 +21,16 @@ input[type='button'] {
 input[type='reset'] {
 	margin-left:50px;
 }
-input[type='text'] {
+input[type='text'],input[type='password']{
 	width:200px;
 	height:20px;
+	/*border-radius:3px;*/
 }
-
+.right_foot{
+	float:left;
+	margin-left:50px;
+	margin-top:30px;
+}
 </style>
 <div>
     <div class="right_top btm">
@@ -34,24 +39,23 @@ input[type='text'] {
     <div class="right_foot">
           <form id="form1" action="#"  method="post">
               <p class="item"><span>姓名:</span>
-                 <input type="text" name="tec_name" class="tec_name" onblur="checkName()">
+                 <input type="text" name="name" class="name">
                 <br />
               </p>
               <p class="item"><span>性别：</span>
-                 男：<input name="sex" type="radio" value="1" />
-                 女：<input name="sex" type="radio" value="0" />
+                 <input type="text" name="sex" class="sex">
                 <br />
               </p>
               <p class="item"><span>电话：</span>
-                 <input type="text" name="tec_phone" class="tec_phone" onblur="checkNum()">
+                 <input type="text" name="phone" class="phone">
                 <br />
               </p>
                <p class="item"><span>旧密码:</span>
-                   <input  type="password" name="old"  class="password" onblur="checkPwd()">
+                   <input  type="password" name="old"  class="old" onblur="checkPwd()">
                    <br />
                </p>
                <p class="item"><span>新密码:</span>
-                   <input  type="password" name="new" class="new">
+                   <input  type="password" name="password" class="new">
                    <br /> 
                </p>
                <p class="item"><span>确认新密码:</span>
@@ -66,26 +70,15 @@ input[type='text'] {
      </div>
 </div>
 <script type="text/javascript">
-    function checkName(){
-		var name = $(".tec_name").val();
-		if(name == ""){
-			 $.messager.alert("提示","姓名为必填","info");
-		}
-	}
-    function checkNum(){
-		var num = $(".tec_phone").val();
-		if(num == ""){
-			 $.messager.alert("提示","电话为必填","info");
-	    }
-	}
+    $(document).ready(function(){
+			$('.name').text(data.name);
+			$('.sex').text(data.sex);
+			$('.phone').text(data.phone);
+	});
 	function checkPwd(){
-		var key = $(".password").val();
-		if(key == data.password){
-			alert("ok");
-		}else{
-		   $(".password").empty()
-		   $.messager.alert("提示","您输入的密码不正确","info");
-		}
+	    var password= $(".old").val();
+		$.post("teacherInfo/checkPw.do",{"password":password},function(data){
+		});
 	}
 	function checkNew(){
 		var key1 = $(".new").val();
@@ -97,9 +90,17 @@ input[type='text'] {
 		}
 	}
 	function submitModify(){
-		$.post('json/post/post.jsp',$('#form1').serialize(),function(){
-			   $.messager.alert("提示","修改成功");
-			}
-		);	
+		var name = $(".name").val();
+		var num = $(".phone").val();
+		if(name == ""){
+			 $.messager.alert("提示","姓名为必填","info");
+			 return false;
+		}else if(num == ""){
+			 $.messager.alert("提示","电话为必填","info");
+			 return false;
+		}else{
+			$.post('teacherInfo/updateTeacher.do',$('#form1').serialize(),function(data){
+		    });	
+		}
 	}
 </script>

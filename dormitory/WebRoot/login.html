@@ -10,24 +10,21 @@
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	
 	$("#login").click(function(){
-		if($("#userName").val() == ""){
+		if($("#num").val() == ""){
 			alert("请输入用户名");
 			return false;
-		} else if($("#userPwd").val() == ""){
+		} else if($("#pw").val() == ""){
 			alert("请输入用户密码");
 			return false;
-		} else if($("#role").val() == ""||$("#role").val() == 0){
+		} else if($("#level").val() == ""||$("#role").val() == 0){
 			alert("请选择身份信息");
 			return false;
 		} else {
 			//return true;
-			$.post("hello.html",$('#form1').serializeArray(),function(data){ 
+			$.post("loginCheck.do",$('#form1').serializeArray(),function(data){ 
 	        });
 		}
-		var d=$('#form1').serialize()
-	    alert(d);
 	});
 });
 </script>
@@ -40,17 +37,17 @@ $(document).ready(function(){
 			 <form id="form1" method="post">
 				<h3>重邮宿舍管理系统</h3>
 				<br>
-				<label for="userName">用户名</label>
-				<input type="text" name="userName" id="userName" />
+				<label for="num">用户名</label>
+				<input type="text" name="num" id="num" />
 				<p class="clear"></p>
-				<label for="userPwd">密码</label>
-				<input type="password" name="userPwd" id="userPwd" />
+				<label for="pw">密码</label>
+				<input type="password" name="pw" id="pw" />
                 <p class="clear"></p>
-                <label for="role">身份</label>
-				<select name="loginType" id="role">
-					<option  value="0">请选择角色</option>
-                    <option  value="1">辅导员</option>
-                    <option  value="2">系统管理员</option>
+                <label for="level">身份</label>
+				<select name="level" id="level">
+					<option  value="">请选择角色</option>
+                    <option  value="0">辅导员</option>
+                    <option  value="1">系统管理员</option>
 				</select> 
                 <p class="clear"></p>
 				<div>

@@ -21,7 +21,7 @@
     <script type="text/javascript">
     //获取登录辅导员的信息
 	$(document).ready(function(){
-		$.get("hello.html",function(data){
+		$.get("teacherInfo/findTeacher.do",function(data){
 		});
 	});
 	//头部时间
@@ -44,6 +44,7 @@
 				}
 			});
 		});
+		
 </script>
 </head>
 <body>
@@ -53,7 +54,7 @@
          <div id="top_right" style="color:#FFF">
             <p>欢迎您，<span style="color:#FFBF55;font-weight: bolder;">管理员</span>
                <span class="space">|</span>
-			   <a href="login.html" style="color:#FFF;">退出</a></p>
+			   <a href="logOut.do" style="color:#FFF;">退出</a></p>
             <div id="nowTime"></div> 
           </div>
           <div class="line"></div>

@@ -1,48 +1,99 @@
 <style type="text/css">
+.right_contain{
+	width:750px;
+	float:left;
+}
 .selectab1{
 	margin-bottom:10px;
+	float:left;
+	width:750px;
+}
+#tab1{
+	width:100%;
+	float:left;
+}
+#sure{
+	margin-top:10px;
 }
 </style>
 <div class="right_top btm">
   <div class="rheader"><span class="pageName"><b>查询学生信息界面</b></span><span class="shuoming">您可以查看学生信息</span></div>
 </div>
 <div class="right_contain">
-    <from id="form1">
-          <div class="selectab1"><span class="jilian"></span>&nbsp;&nbsp;&nbsp;<input name="ok" type="button"  value="确定" id="sure"/></div>
+          <div class="selectab1">
+            <span class="jilian">
+              <lable for="major">专业:</lable>
+                  <select class="select major" name="major">
+                    <option value="请选择">请选择</option>
+                  </select>
+              <lable for="classNum">班级:</lable>
+                  <select class="select classNum" name="classNum">
+                    <option value="请选择">请选择</option>
+                  </select>      
+             </span>&nbsp;&nbsp;&nbsp;
+             <input name="ok" type="button"  value="确定" id="sure"/></div>
+          <br />
           <div id="tab1"></div>
-    </from>
 </div>
-<script type="text/javascript">
-   $(".jilian").cascade({
-		url:"json/get/f_stu.json",
-		firstName:"专业",
-		secondName:"班级",
-		firstText:"请选择专业",
-		secondText:"请选择班级"
-	});                        
+<script type="text/javascript">  
+      var major = $('select[name="major"]').val();
+	  var classNum = $('select[name="classNum"]').val();
+    //加载页面时，发送请求获取专业信息
+	$(document).ready(function(){
+		$('select[name="major"]','select[name="classNum"]').empty();
+		$('select[name="major"]','select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		$.post('teacherInfo/findMajor.do',function(data){
+			$.each(data.rows,function(index, item) {
+				for(var i=0;i<item.major.length;i++){
+					$('select[name="major"]').append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
+				}
+			});
+		});
+	});
+	//选择专业，请求班级
+	$('select[name="major"]').change(function(){
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		major=$('select[name="major"] option:selected').val();
+		$.post('studentInfo/findCascadingInfo.do',{"major":major},function(data){
+			$.each(data.rows,function(index, item) {
+				for(var i=0;i<item.classNum.length;i++){
+					$('select[name="classNum"]').append("<option value='" + item.classNum[i] + "'>" + item.classNum[i] + "</option>");
+				}
+			});
+		});
+	});
+	//选择班级
+	$('select[name="classNum"]').change(function(){
+		classNum=$('select[name="classNum"] option:selected').val();
+	});         
     $("#sure").click(function(event) {//点击筛选展示数据
-		var major=$("#first_select").val();
-		var classes=$("#second_select").val();
-		$.post("json/post/f_stu.json",{"major":major,"classes":classes},function(){
-			//alert("保存成功");
-        });	
-		$.getJSON('json/get/f_studentInfo.json',function(data){
+	   if(marjor=="请选择"){
+			$.messager.alert("警告","请选择专业!","warning");
+		}else if(classNum=="请选择"){
+			 $.messager.alert("警告","请选择班级!","warning");
+		}else{
+			showData();
+		}
+	});
+	function showData(){
+		$.post("studentInfo/findStudentByCondition.do",{"major":major,"classNum":classNum},function(data){
 			if(data.total>0){
 				$("#tab1").datagrid({
 						data:data,
 						width:'720px',
 						height:'300px', 
 						columns:[[    
-							{field:'college',title:'学院',width:80,align:'center'},    
+							{field:'academy',title:'学院',width:80,align:'center'},    
 							{field:'major',title:'专业',width:120,align:'center'},
 							{field:'grade',title:'年级',width:50,align:'center'},    
-							{field:'classes',title:'班级',width:60,align:'center'},
+							{field:'classNum',title:'班级',width:60,align:'center'},
 							{field:'stuNum',title:'学号',width:85,align:'center'}, 
 							{field:'name',title:'姓名',width:70,align:'center'}, 
 							{field:'sex',title:'性别',width:50,align:'center'},
-							{field:'born',title:'出生年月',width:70,align:'center'},
-							{field:'area',title:'籍贯',width:65,align:'center'},
-							{field:'dormitory',title:'寝室号',width:70,align:'center'}
+							{field:'birth',title:'出生年月',width:70,align:'center'},
+							{field:'birthplace',title:'籍贯',width:65,align:'center'},
+							{field:'roomNum',title:'寝室号',width:70,align:'center'}
 						]],
 					singleSelect:true,
 					saveUrl:'server.php',
@@ -63,7 +114,7 @@
 				 $.messager.alert("提示","经查询无数据","info");
 			 }
 	    });	
-	});
+	}
        //$("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应	
 </script>
 
