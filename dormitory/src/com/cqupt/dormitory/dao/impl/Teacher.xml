@@ -15,8 +15,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
 	</resultMap>
 
+	<!-- 根据教师名字和学院id查找教师 -->
 	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
-		SELECT * FROM `teacher` WHERE `tec_name`=#{name} AND `academy_id`=#{academy.id}
+		SELECT * FROM `teacher` WHERE `tec_name`=#{name} AND `academy_id`=#{academyId}
 	</select>
 
+	<!-- 根据教师名字和密码查找教师 -->
+	<select id="findTeacherByNumAndPw" parameterType="com.cqupt.dormitory.model.Teacher" resultMap="teacherResult">
+		SELECT * FROM `teacher` WHERE `tec_num`=#{tecNum} AND `password`=#{password}
+	</select>
+	
+	
 </mapper>

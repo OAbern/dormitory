@@ -50,7 +50,7 @@ public class StudentInfoTest {
 		student.setMajor("信息管理与信息系统");
 		student.setName("冯迪");
 		student.setStuNum("2012211141");
-		student.setLiveSatus(0);
+		student.setLiveStatus(0);
 		boolean result = studentInfoDao.addStudent(student);
 		if(result) {
 			System.out.println("添加学生信息成功！");

@@ -15,5 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findAllAdmin" resultMap="adminResult">
 		SELECT * FROM `admin` 
 	</select>
+	
+	<select id="findAdminByNumAndPw" parameterType="com.cqupt.dormitory.model.Admin" resultMap="adminResult">
+		SELECT * FROM `admin` WHERE `admin_num`=#{adminNum} AND `password`=#{password}
+	</select>
 
 </mapper>

@@ -37,6 +37,18 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		}
 	}
 
+	@Override
+	public boolean updateStudent(Student student) {
+		boolean result = studentInfoDao.updateStudent(student);
+		return result;
+	}
+
+	@Override
+	public boolean deleteStudentByStuId(List<String> idList) {
+		boolean result = studentInfoDao.deleteStudentByStuId(idList);
+		return result;
+	}
+	
 	public void setStudentInfoDao(StudentInfoDao studentInfoDao) {
 		this.studentInfoDao = studentInfoDao;
 	}

@@ -3,7 +3,7 @@ package com.cqupt.dormitory.dao;
 import com.cqupt.dormitory.model.Room;
 
 /**
- * 房间信息的Dao类
+ * 处理房间信息的DAO层接口
  * @author Bern
  *
  */

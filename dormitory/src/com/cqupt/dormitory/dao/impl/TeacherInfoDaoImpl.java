@@ -30,5 +30,16 @@ public class TeacherInfoDaoImpl extends BaseDaoSupport implements TeacherInfoDao
 		return teacher;
 	}
 
+	@Override
+	public Teacher findTeacherByNumAndPw(Teacher t) {
+		Teacher teacher = null;
+		try {
+			teacher = getSqlSession().selectOne("findTeacherByNumAndPw", t);	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return teacher;
+	}
+
 	
 }

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="com.cqupt.dormitory.model.Student" id="studentResult">
 		<id property="id" column="stu_id"/>
 		<result property="sex" column="stu_sex"/>
-		<result property="liveSatus" column="live_satus"/>
+		<result property="liveStatus" column="live_satus"/>
 		<result property="grade" column="grade"/>
 		<result property="classNum" column="class"/>
 		<result property="major" column="major"/>
@@ -28,33 +28,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<association property="room" column="room_id" resultMap="com.cqupt.dormitory.model.Room.roomResult"></association>
 	</resultMap>
 	
+	<!-- 所有字段(不包含逻辑主键) -->
+	<sql id="fields">
+		`academy_id`, `grade`, `class`, 
+	 	`major`, `stu_num`, `stu_sex`, 
+	 	`stu_name`, `birth`, `birthplace`, 
+	 	`nation`, `identity`, `stu_phone`, 
+	 	`in_time`, `tec_id`, `room_id`, 
+	 	`out_time`, `out_address`, `live_status`,
+	 	`education`
+	</sql>
+	
+	<!-- 所有字段的值(不包含逻辑主键) 要求parameterType必须为Student -->
+	<sql id="fieldsValue">
+		#{academy.id,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
+		#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+		#{name,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{birthplace,jdbcType=VARCHAR}, 
+		#{nation,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+		#{inTime,jdbcType=DATE}, #{teacher.tecNum,jdbcType=VARCHAR}, #{room.roomNum,jdbcType=VARCHAR}, 
+		#{outTime,jdbcType=DATE}, #{outAddress,jdbcType=VARCHAR}, #{liveStatus,jdbcType=INTEGER},
+		#{education,jdbcType=VARCHAR}
+	</sql>
+	
 	<!-- 添加学生 -->
 	<insert id="addStudent" parameterType="com.cqupt.dormitory.model.Student" useGeneratedKeys="true">
 			INSERT INTO `student` (
-				`academy_id`, `grade`, `class`, 
-			 	`major`, `stu_num`, `sex`, 
-			 	`name`, `birth`, `birthplace`, 
-			 	`nation`, `identity`, `phone`, 
-			 	`in_time`, `tec_id`, `room_id`, 
-			 	`out_time`, `out_address`, `live_status`,
-			 	`education`
+				<include refid="fields"/>
 			) VALUES (
-				#{academy.id,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{classNum,jdbcType=VARCHAR}, 
-				#{major,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
-				#{name,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{birthplace,jdbcType=VARCHAR}, 
-				#{nation,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-				#{inTime,jdbcType=DATE}, #{teacher.tecNum,jdbcType=VARCHAR}, #{room.room_id,jdbcType=VARCHAR}, 
-				#{outTime,jdbcType=DATE}, #{outAddress,jdbcType=VARCHAR}, #{liveSatus,jdbcType=INTEGER},
-				#{education,jdbcType=VARCHAR}
+				<include refid="fieldsValue"/>
 			);
 	</insert>
 	
 	<!-- 根据条件查找学生集合 -->
 	<select id="findStudentByFactor" parameterType="list" resultMap="studentResult" statementType="STATEMENT">
-		SELECT * FROM `student` WHERE
-			<foreach collection="list" item="f" separator=" AND ">
-				${f.name} = '${f.value}'
-			</foreach>
+		SELECT * FROM `student` s
+			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
+			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
+			<where>
+				<foreach collection="list" item="f" separator=" AND ">
+					s.${f.name} = '${f.value}'
+				</foreach>
+			</where>
 	</select>
+	
+	<!-- 更新学生信息 -->
+	<update id="updateStudent" parameterType="com.cqupt.dormitory.model.Student">
+		UPDATE `student` SET 
+			`academy_id`=#{academy.id}, `grade`=#{grade}, `class`=#{classNum}, 
+		 	`major`=#{major}, `stu_num`=#{stuNum}, `stu_sex`=#{sex}, 
+		 	`stu_name`=#{name}, `birth`=#{birth}, `birthplace`=#{birthplace}, 
+		 	`nation`=#{nation}, `identity`=#{identity}, `stu_phone`=#{phone}, 
+		 	`in_time`=#{inTime}, `tec_id`=#{teacher.id}, `room_id`=#{room.id}, 
+		 	`out_time`=#{outTime}, `out_address`=#{outAddress}, `live_status`=#{liveStatus},
+		 	`education`=#{education}
+		WHERE `stu_num`=#{stuNum}
+	</update>
+	
+	<!-- 删除学生信息 -->
+	<delete id="deleteStudentByStuId" parameterType="list">
+		DELETE FROM `student` WHERE `stu_num` IN (
+			<foreach collection="list" item="l" separator=",">
+				#{l}
+			</foreach>
+		)
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

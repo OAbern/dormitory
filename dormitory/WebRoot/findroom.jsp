@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		Room room = (Room) request.getAttribute("room");
         	if(room != null) {
         		out.println("房间自增id："+room.getId());
-        		out.println("房间id："+room.getRoomId());
+        		out.println("房间id："+room.getRoomNum());
         		out.println("房间费用："+room.getCost());
         		out.println("房间总床数："+room.getTotalBed());	
         	}

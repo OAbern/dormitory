@@ -15,4 +15,11 @@ public interface TeacherInfoDao {
 	 */
 	public Teacher findTeacherByNameAndAcademyId(String name, int academyId);
 	
+	/**
+	 * 根据教师的账号和密码查找教师
+	 * @param teacher 教师的num和pw不能为空
+	 * @return 教师信息
+	 */
+	public Teacher findTeacherByNumAndPw(Teacher teacher);
+	
 }
