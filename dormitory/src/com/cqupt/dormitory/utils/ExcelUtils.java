@@ -3,8 +3,13 @@ package com.cqupt.dormitory.utils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import com.cqupt.dormitory.dao.AcademyDao;
+import com.cqupt.dormitory.dao.TeacherInfoDao;
+import com.cqupt.dormitory.dao.impl.AcademyDaoImpl;
+import com.cqupt.dormitory.dao.impl.TeacherInfoDaoImpl;
 import com.cqupt.dormitory.model.Academy;
 import com.cqupt.dormitory.model.Student;
+import com.cqupt.dormitory.model.Teacher;
 
 /**
  * excel信息转换的工具类
@@ -12,6 +17,8 @@ import com.cqupt.dormitory.model.Student;
  *
  */
 public class ExcelUtils {
+	private static AcademyDao academyDao = new AcademyDaoImpl();
+	private static TeacherInfoDao teacherInfoDao = new TeacherInfoDaoImpl();
 	
 	/**
 	 * 将一行Excel数据转换为student对象
@@ -39,8 +46,11 @@ public class ExcelUtils {
 				break;
 			}
 			case 4:{	//设置学院
-				//TODO
-				student.setAcademy(new Academy());
+				Academy academy = academyDao.findAcademyByName(cell.toString());
+				if(academy == null) {
+					return null;
+				}
+				student.setAcademy(academy);
 				i++;
 				break;
 			}
@@ -89,11 +99,67 @@ public class ExcelUtils {
 				i++;
 				break;
 			}
+			case 14:{	//设置辅导员
+				Teacher teacher = teacherInfoDao.findTeacherByNameAndAcademyId(cell.toString(), student.getAcademy().getId());
+				if(teacher == null) {
+					return null;
+				}
+				student.setTeacher(teacher);
+				i++;
+				break;
+			}
 			
 			default:
 				break;
 			}
 		}
 		return student;
+	}
+	
+	
+	/**
+	 * 将一行Excel数据转换为teacher对象
+	 * @param row
+	 * @return
+	 */
+	public static Teacher toTeacher(Row row) {
+		int i = 1;
+		Teacher teacher = new Teacher();
+		for(Cell cell : row) {
+			switch (i) {
+			case 1:{	//设置教工号
+				teacher.setTecNum(String.valueOf(Math.round(Double.parseDouble(cell.toString()))));
+				i++;
+				break;
+			}
+			case 2:{	//设置名字
+				teacher.setName(cell.getStringCellValue());
+				i++;
+				break;
+			}
+			case 3:{	//设置性别
+				teacher.setSex(cell.getStringCellValue());
+				i++;
+				break;
+			}
+			case 4:{	//设置学院
+				Academy academy = academyDao.findAcademyByName(cell.toString());
+				if(academy == null) {
+					return null;
+				}
+				teacher.setAcademy(academy);
+				i++;
+				break;
+			}
+			case 5:{	//设置电话
+				teacher.setPhone(String.valueOf(Math.round(Double.parseDouble(cell.toString()))));
+				i++;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+		return teacher;
 	}
 }

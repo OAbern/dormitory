@@ -120,5 +120,20 @@ public class TeacherInfoDaoImpl extends BaseDaoSupport implements TeacherInfoDao
 		}
 	}
 
+	@Override
+	public boolean addTeacher(Teacher teacher) {
+		int result = -1;
+		try {
+			result = getSqlSession().insert("addTeacher", teacher);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 	
 }

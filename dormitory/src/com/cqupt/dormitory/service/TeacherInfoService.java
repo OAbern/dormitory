@@ -2,6 +2,8 @@ package com.cqupt.dormitory.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.cqupt.dormitory.model.Teacher;
 
 /**
@@ -66,4 +68,11 @@ public interface TeacherInfoService {
 	 * @return 操作结果
 	 */
 	public boolean deleteTeacherByTecNum(List<String> list);
+	
+	/**
+	 * 批量添加辅导员信息
+	 * @param file
+	 * @return
+	 */
+	public boolean addTeacherByExcel(MultipartFile file);
 }

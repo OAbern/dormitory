@@ -15,4 +15,11 @@ public interface AcademyDao {
 	 * @return
 	 */
 	public List<Academy> findAllAcademy();
+	
+	/**
+	 * 根据辅导员名字查找辅导员
+	 * @param name
+	 * @return
+	 */
+	public Academy findAcademyByName(String name);
 }

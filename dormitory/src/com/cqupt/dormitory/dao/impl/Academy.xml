@@ -13,5 +13,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findAllAcademy" resultMap="academyResult">
 		SELECT * FROM `academy`
 	</select>
+	
+	<!-- 根据学院名字查找学院 -->
+	<select id="findAcademyByName" parameterType="Stirng" resultMap="academyResult">
+		SELECT * FROM `academy` WHERE `academy_name` = #{_parameter}
+	</select>
 
 </mapper>

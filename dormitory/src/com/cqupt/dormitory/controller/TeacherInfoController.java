@@ -144,11 +144,16 @@ public class TeacherInfoController {
 	 */
 	@RequestMapping("/addTeacherByExcel")
 	public void addTeacherByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
-		ResultMessage resultMessage = new ResultMessage();
-		resultMessage.setStatus(ResultMessage.FAILED);
-		resultMessage.setInfo("批量添加辅导员失败！后台未做实现");
+		ResultMessage resultMessage = new ResultMessage();		
+		boolean result = teacherInfoService.addTeacherByExcel(file);
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("批量添加辅导员成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("批量添加辅导员失败！");
+		}
 		JSONUtils.toJSON(resultMessage, response);
-		//TODO
 	}
 	
 }

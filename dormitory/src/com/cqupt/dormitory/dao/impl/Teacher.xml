@@ -25,7 +25,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
 	</resultMap>
-
+	
+	<!-- 添加教师信息 -->
+	<insert id="addTeacher" parameterType="com.cqupt.dormitory.model.Teacher">
+		INSERT INTO `teacher` (
+			`tec_num`, `tec_name`, `tec_sex`, `tec_phone`, `academy`, `password`
+		) VALUES (
+			#{tecNum}, #{name}, #{sex}, #{phone}, #{academy.id, jdbcType=Integer}, '123'
+		)
+	</insert>
+	
 	<!-- 根据教师名字和学院id查找教师 -->
 	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
 		SELECT * FROM `teacher` t

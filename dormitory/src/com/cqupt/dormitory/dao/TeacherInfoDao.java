@@ -66,4 +66,11 @@ public interface TeacherInfoDao {
 	 * @return 操作结果
 	 */
 	public boolean deleteTeacherByTecNum(List<String> list);
+	
+	/**
+	 * 添加教师
+	 * @param teacher
+	 * @return
+	 */
+	public boolean addTeacher(Teacher teacher);
 }

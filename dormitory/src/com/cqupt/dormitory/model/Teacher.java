@@ -32,7 +32,7 @@ public class Teacher {
 	public Academy getAcademy() {
 		return academy;
 	}
-	public void setAcademyId(Academy academy) {
+	public void setAcademy(Academy academy) {
 		this.academy = academy;
 	}
 	public String getTecNum() {

@@ -167,7 +167,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 			List<Student> students = new ArrayList<Student>();
 			for(int j=1; j<=sheet1.getLastRowNum(); j++) {
-				students.add(ExcelUtils.toStudent(sheet1.getRow(j)));
+				Student student = ExcelUtils.toStudent(sheet1.getRow(j));
+				if(student == null) {
+					return false;
+				}
+				students.add(student);
 			}
 			
 			/*执行批量插入*/
