@@ -74,7 +74,7 @@ $(function(){
 									$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
 									$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 								}else{
-									$.messager.alert("提示","分配失败！原因:"+data.info);  
+									$.messager.alert("提示","分配失败！原因:"+data.info,"info");  
 								}
 							});
 						}else{   

@@ -11,7 +11,7 @@
 <div class="stu_xuanze">
     <div class="jilian">
       <span style="display:none">年级:</span>
-      <select id="one_select" class="select grade" style="display:none">
+      <select class="select grade" style="display:none">
         <option value="请选择">请选择</option>
         <option value="">全部</option>
         <option value="2011">2011</option>
@@ -19,8 +19,8 @@
         <option value="2013">2013</option>
         <option value="2014">2014</option>
       </select>
-      学历:
-      <select id="two_select" class="select education">
+       学历:
+      <select class="select education" name="education">
         <option value="请选择">请选择</option>
         <option value="">全部</option>
         <option value="本科生在读">本科生在读</option>
@@ -28,21 +28,21 @@
         <option value="博士生在读">博士生在读</option>
       </select>
       性别:
-      <select id="three_select" class="select sex">
+      <select class="select sex" name="sex">
         <option value="请选择">请选择</option>
         <option value="男">男</option>
         <option value="女">女</option>
       </select>
       学院:
-      <select id="four_select" class="select academy">
+      <select class="select academy" name="academy.id">
         <option value="请选择">请选择</option>
       </select><br />
       专业:
-      <select id="five_select" class="select major">
+      <select class="select major" name="major">
         <option value="请选择">请选择</option>
       </select>
       班级:
-      <select id="six_select" class="select classNum">
+      <select class="select classNum" name="classNum">
         <option value="请选择">请选择</option>
       </select>      
     </div>
@@ -66,50 +66,49 @@
 	var major = "";
 	var classNum = "";
 	if(sum_fenpei==0){
+		showAcademy();
 		$(".fenpei_txt").hide();//把本次分配已选择和下一步隐藏
 		onclick();
 	}else if(sum_fenpei>0){
-		for(var i=0;i<academys.length;i++){//学院还未改。。。。。。。。。。。
-			$("#four_select").append("<option value='" + academys[i] + "'>" + academys[i] + "</option>");
-		}
+		showAcademy();
 		for(var i=0;i<fenpei['fenpei_major'].length;i++){
-			$("#five_select").append("<option value='" + fenpei['fenpei_major'][i] + "'>" + fenpei['fenpei_major'][i] + "</option>");
+			$('select[name="major"]').append("<option value='" + fenpei['fenpei_major'][i] + "'>" + fenpei['fenpei_major'][i] + "</option>");
 		}
 		for(var i=0;i<fenpei['fenpei_classNum'].length;i++){
-			$("#six_select").append("<option value='" + fenpei['fenpei_classNum'][i] + "'>" + fenpei['fenpei_classNum'][i] + "</option>");
+			$('select[name="classNum"]').append("<option value='" + fenpei['fenpei_classNum'][i] + "'>" + fenpei['fenpei_classNum'][i] + "</option>");
 		}
 		//$("#one_select").val(fenpei_sure.grade);//选中
-		$("#two_select").val(fenpei_sure.education);
-		$("#three_select").val(fenpei_sure.sex);
-		$("#four_select").val(fenpei_sure.academy);
-		$("#five_select").val(fenpei_sure.major);
-		$("#six_select").val(fenpei_sure.classNum);
+		$('select[name="education"]').val(fenpei_sure.education);
+		$('select[name="sex"]').val(fenpei_sure.sex);
+		$('select[name="academy.id"]').val(fenpei_sure.academy);
+		$('select[name="major"]').val(fenpei_sure.major);
+		$('select[name="classNum"]').val(fenpei_sure.classNum);
 		showData();
 		onclick();
 	}
 	//点击确定级联
 	function onclick(){
 		$(".jilian_sure").click(function() {//点击确定
-			/*if($("#one_select").val()=="请选择"){
+			/*if($('select[name="grade"]').val()=="请选择"){
 				alert("请先选择年级！");
-			}else */if($("#two_select").val()=="请选择"){
+			}else */if($('select[name="education"]').val()=="请选择"){
 				 $.messager.alert("警告","请先选择学历!","warning");
-			}else if($("#three_select").val()=="请选择"){
+			}else if($('select[name="sex"]').val()=="请选择"){
 				 $.messager.alert("警告","请先选择性别!","warning");
-			}else if($("#four_select").val()=="请选择"){
+			}else if($('select[name="academy.id"]').val()=="请选择"){
 				 $.messager.alert("警告","请先选择学院!","warning");
-			}else if($("#five_select").val()=="请选择"){
+			}else if($('select[name="major"]').val()=="请选择"){
 				 $.messager.alert("警告","请先选择专业!","warning");
-			}else if($("#six_select").val()=="请选择"){
+			}else if($('select[name="classNum"]').val()=="请选择"){
 				 $.messager.alert("警告","请先选择班级!","warning");
 			}else{
 				sum_fenpei_kong=0;//点击确定时，代表重新选择分配的学生，所以已经选择的空床位置为0
 				//grade = $("#one_select").val();
-				education = $("#two_select").val();
-				sex = $("#three_select").val();
-				academy = $("#four_select").val();
-				major = $("#five_select").val();
-				classNum = $("#six_select").val();
+				education = $('select[name="education"]').val();
+				sex = $('select[name="sex"]').val();
+				academy = $('select[name="academy.id"]').val();
+				major = $('select[name="major"]').val();
+				classNum = $('select[name="classNum"]').val();
 				fenpei_sure={"academy":academy,"education":education,"major":major,"grade":grade,"classNum":classNum,"sex":sex};
 				showData();
 			}
@@ -151,95 +150,99 @@
 	//点击下一步时
 	$(".nextStep").click(function() {
 		if (sum_fenpei > 0) {
-			$("#base_right .right_contain").empty().load("super/s_qinshi_xuanze.html");
-			$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
-		} else
-			$.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
+			$.post('json/get/s_check_info.json', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
+					if(data.status=="1"){
+						$("#base_right .right_contain").empty().load("super/s_qinshi_xuanze.html");
+						$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
+					}else{
+						$.messager.alert("提示","分配失败,原因:"+data.info,"info");
+					}
+				});
+			} else{
+				$.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
+			}
 	});
 	var fenpei_stu=[];//传给后台
 /*	function emptyOption(num){
 	}*/
 	//第一个选择框改变时   年级
-/*	$("#one_select").change(function(){
-		$("#two_select").val("请选择");
-		$("#three_select").val("请选择");
-		$("#four_select").empty();
-		$("#four_select").append("<option value='请选择'>请选择</option>");
-		$("#five_select").empty();
-		$("#five_select").append("<option value='请选择'>请选择</option>");
-		$("#six_select").empty();
-		$("#six_select").append("<option value='请选择'>请选择</option>");
+/*	$('select[name="grade"]').change(function(){
+		$('select[name="education"]').val("请选择");
+		$('select[name="sex"]').val("请选择");
+		$('select[name="academy.id"]').empty();
+		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="major"]').empty();
+		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
-		str=$("#one_select option:selected").val();
+		str=$('select[name="grade"] option:selected').val();
 		fenpei_sure.grade=str;
 	});*/
 //	第二个选择框改变时  学历
-	$("#two_select").change(function(){
-		$("#three_select").val("请选择");
-		$("#four_select").empty();
-		$("#four_select").append("<option value='请选择'>请选择</option>");
-		$("#five_select").empty();
-		$("#five_select").append("<option value='请选择'>请选择</option>");
-		$("#six_select").empty();
-		$("#six_select").append("<option value='请选择'>请选择</option>");
+	$('select[name="education"]').change(function(){
+		$('select[name="sex"]').val("请选择");
+		$('select[name="academy.id"]').empty();
+		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="major"]').empty();
+		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
-		str=$("#two_select option:selected").val();
+		str=$('select[name="education"] option:selected').val();
 		fenpei_sure.education=str;
 	});
 //	第三个选择框改变时   性别，请求学院
-	$("#three_select").change(function(){
-		$("#four_select").empty();
-		$("#four_select").append("<option value='请选择'>请选择</option>");
-		$("#five_select").empty();
-		$("#five_select").append("<option value='请选择'>请选择</option>");
-		$("#six_select").empty();
-		$("#six_select").append("<option value='请选择'>请选择</option>");
+	$('select[name="sex"]').change(function(){
+		$('select[name="academy.id"]').empty();
+		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="major"]').empty();
+		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
-		str=$("#three_select option:selected").val();
+		str=$('select[name="sex"] option:selected').val();
 		fenpei_sure.sex=str;//请求学院。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-		fenpei['fenpei_academy']=academys;
-		for(var i=0;i<academys.length;i++){
-			$("#four_select").append("<option value='" + academys[i] + "'>" + academys[i] + "</option>");
-		}
+		showAcademy();
 	});
 //	第四个选择框改变时  学院,请求专业
-	$("#four_select").change(function(){
-		$("#five_select").empty();
-		$("#five_select").append("<option value='请选择'>请选择</option>");
-		$("#six_select").empty();
-		$("#six_select").append("<option value='请选择'>请选择</option>");
+	$('select[name="academy.id"]').change(function(){
+		$('select[name="major"]').empty();
+		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
-		str=$("#four_select option:selected").val();
+		str=$('select[name="academy.id"] option:selected').val();
 		fenpei_sure.academy=str;
 		$.post('json/get/s_major_jilian.json',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy},function(data){
 			$.each(data.rows,function(index, item) {
 				fenpei['fenpei_major']=item.major;
 				for(var i=0;i<item.major.length;i++){
-					$("#five_select").append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
+					$('select[name="major"]').append("<option value='" + item.major[i] + "'>" + item.major[i] + "</option>");
 				}
 			});
 		});
 	});
 	//第五个框改变时   专业，请求班级
-	$("#five_select").change(function(){
-		$("#six_select").empty();
-		$("#six_select").append("<option value='请选择'>请选择</option>");
+	$('select[name="major"]').change(function(){
+		$('select[name="classNum"]').empty();
+		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
-		str=$("#four_select option:selected").val();
+		str=$('select[name="major"] option:selected').val();
 		fenpei_sure.major=str;
 		$.post('json/get/s_classNum_jilian.json',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"major":fenpei_sure.major},function(data){
 			$.each(data.rows,function(index, item) {
 				fenpei['fenpei_classNum']=item.classNum;
 				for(var i=0;i<item.classNum.length;i++){
-					$("#six_select").append("<option value='" + item.classNum[i] + "'>" + item.classNum[i] + "</option>");
+					$('select[name="classNum"]').append("<option value='" + item.classNum[i] + "'>" + item.classNum[i] + "</option>");
 				}
 			});
 		});
 	});
 	//第六个框改变时   班级
-	$("#six_select").change(function(){
+	$('select[name="classNum"]').change(function(){
 		var str="";
-		str=$("#four_select option:selected").val();
+		str=$('select[name="classNum"] option:selected').val();
 		fenpei_sure.classNum=str;
 	});
 </script>
