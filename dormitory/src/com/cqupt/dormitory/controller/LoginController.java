@@ -39,10 +39,10 @@ public class LoginController {
 			t.setPassword(pw);
 			Teacher teacher = teacherInfoDao.findTeacherByNumAndPw(t);
 			if(teacher == null) {
-				modelAndView.setViewName("login");
+				modelAndView.setViewName("redirect:login.html");
 				modelAndView.addObject("error", "用户名或密码错误！");
 			}else {
-				modelAndView.setViewName("redirect:f_index");
+				modelAndView.setViewName("redirect:f_index.html");
 				request.getSession().setAttribute("teacherPw", teacher.getPassword());
 				teacher.setPassword("");	//置空密码
 				request.getSession().setAttribute("teacher", teacher);
@@ -53,10 +53,10 @@ public class LoginController {
 			a.setPassword(pw);
 			Admin admin = adminDao.findAdminByNumAndPw(a);
 			if(admin == null) {
-				modelAndView.setViewName("redirect:login");
+				modelAndView.setViewName("redirect:login.html");
 				modelAndView.addObject("error", "用户名或密码错误！");
 			}else {
-				modelAndView.setViewName("index");
+				modelAndView.setViewName("redirect:index.html");
 				request.getSession().setAttribute("adminPw", admin.getPassword());
 				admin.setPassword("");		//置空密码
 				request.getSession().setAttribute("admin", admin);

@@ -15,12 +15,8 @@
 		$.get("teacherInfo/findTeacher.do",function(data){
 		    var tecNum=data.tecNum
             $.post('studentInfo/findStudentByCondition.do',{"tecNum":tecNum},function(data){
-                  showGrid();
-            });
-        });
-        function showGrid(){
-           if(data){
-			   $("#tab1").datagrid({
+               if(data){
+			     $("#tab1").datagrid({
 				    data:data,
 				    width:'700px',
 				    height:'250px',
@@ -64,6 +60,7 @@
 		    }else{
 			    $.messager.alert("提示","经查询无数据","info");
 			}
-	}
+	    });
+     });
 });
 </script>

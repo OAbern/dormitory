@@ -24,12 +24,12 @@
             <span class="jilian">
               <lable for="major">专业:</lable>
                   <select class="select major" name="major">
-                    <option value='-1'>未选择</option>
+                    <option value='-1'>请选择</option>
                     <option value=''>全部</option>
                   </select>
               <lable for="classNum">班级:</lable>
                   <select class="select classNum" name="classNum">
-                    <option value='-1'>未选择</option>
+                    <option value='-1'>请选择</option>
                     <option value=''>全部</option>
                   </select>      
              </span>&nbsp;&nbsp;&nbsp;
@@ -66,9 +66,9 @@
 		classNum=$('select[name="classNum"] option:selected').val();
 	});         
     $("#sure").click(function(event) {//点击筛选展示数据
-	   if(major=="请选择"){
+	   if(major=="-1"){
 			$.messager.alert("警告","请选择专业!","warning");
-		}else if(classNum=="请选择"){
+		}else if(classNum=="-1"){
 			 $.messager.alert("警告","请选择班级!","warning");
 		}else{
 			showData();

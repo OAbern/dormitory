@@ -50,7 +50,7 @@ input[type='text'],input[type='password']{
                 <br />
               </p>
                <p class="item"><span>旧密码:</span>
-                   <input  type="password" name="old"  class="old" onchange="checkPwd()">
+                   <input  type="password" name="old"  class="old" onblur="checkPwd()">
                    <br />
                </p>
                <p class="item"><span>新密码:</span>
@@ -86,11 +86,12 @@ input[type='text'],input[type='password']{
 	var ok_1=false,ok_2=false,ok_3=false;
 	function checkPwd(){
 	    var password= $(".old").val();
-		$.post("teacherInfo/checkPw.do",{"password":password},function(data){
+		$.post("teacherInfo/checkPw.do",{"pw":password},function(data){
 		   if(data.status==0){
-		        $.messager.alert("警告",data.info,"error");
+		        $.messager.alert("警告",data.info,"warning");
 		        $(".old").empty();
 		   }else if(data.status==1){
+		       $.messager.alert("提示",data.info,"info");
 		       ok_1=true;
 		   }
 		});
@@ -122,7 +123,7 @@ input[type='text'],input[type='password']{
 		}
 		if(ok_1&&ok_2&&ok_3){
 		   $.post('teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
-		      if(data.status==0){
+		      if(data.status==1){
 				$.messager.alert("提示","修改成功");
 				}else{
 				  $.messager.alert("提示","修改失败");
