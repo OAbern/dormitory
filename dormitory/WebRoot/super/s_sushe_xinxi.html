@@ -27,15 +27,22 @@ $(function(){
 		selectOnCheck: true,
 		striped:true,
 		fitColumns:true,
-		toolbar:[{
+		toolbar:[
+			{
 				id:'add',
 				text:'添加寝室',
 				iconCls:'icon-add',
 				handler:add		
 			},
 			{
+				id:'modifyBuilding',
+				text:'修改楼栋信息',
+				iconCls:'icon-edit',
+				handler:modifyBuilding		
+			},
+			{
 				id:'modify',
-				text:'修改寝室',
+				text:'修改寝室信息',
 				iconCls:'icon-edit',
 				handler:modify	
 			},
@@ -132,7 +139,9 @@ $(function(){
 				  $("#base_right").empty().load("super/s_sushe_detail.html");
 					}	
 	}
-		
+	function modifyBuilding	(){
+		 $("#base_right").empty().load("super/s_modifybuilding.html");
+	}
 	function deleteRows(){	
 		$.messager.confirm("提示","确定删除所选内容么？",function(r){
 			if(r){
