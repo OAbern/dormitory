@@ -34,7 +34,7 @@ public class MybatisTest {
 	@Test
 	public void roomTest() {
 		RoomDao roomDao = (RoomDao) context.getBean("roomDaoImpl");
-		Room room = roomDao.findByRoomId("160317");
+		Room room = roomDao.findByRoomNum("160317");
 		System.out.println("roomId:"+room.getRoomNum()+"Cost:"+room.getCost());
 	}
 

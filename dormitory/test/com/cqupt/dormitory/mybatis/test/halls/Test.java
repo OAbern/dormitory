@@ -68,7 +68,7 @@ ApplicationContext context;
 	
 	public void test3(){
 		RoomDao room =(RoomDao)context.getBean("roomDaoImpl");
-		List<Room> rooms = room.findAllRoomByBuildingNum("19");
+		List<Room> rooms = room.findAllRoomByBuildingNumAndFloor("19","%");
 		System.out.println(rooms.size());
 	}
 	
