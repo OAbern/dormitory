@@ -37,7 +37,7 @@ input[type='text'] {
     </form>
   </div>
   <div  class="error"></div>
-  <div id="tb"> <span> <a href="javascript:void(0)" class="modify">修改寝室信息</a>&nbsp; <a href="javascript:void(0)" class="delete">删除寝室</a>&nbsp; </span> </div>
+ <!--  <div id="tb"> <span> <a href="javascript:void(0)" class="modify">修改寝室信息</a>&nbsp; <a href="javascript:void(0)" class="delete">删除寝室</a>&nbsp; </span> </div> -->
   <div id="student"></div>
 </div>
 <script type="text/javascript">
@@ -67,15 +67,33 @@ $(function(){
 			data:data,
 			width:'1005px',
 			title:susheid+'号寝室入住情况',
-			height:'330px',
-			nowrap:false,  
-			toolbar:'#tb', 
+			height:'250px',
+			nowrap:false, 
+			striped:true,
+			fitColumns:true, 
+			toolbar:[{
+				id:'add',
+				text:'修改宿舍信息',
+				iconCls:'icon-edit',
+				handler:modify		
+			},
+			{
+				id:'delete',
+				text:'删除寝室',
+				iconCls:'icon-remove',
+				handler:deleteRows
+			}],
 			columns:[[    
 			    {field:'room',title:'寝室号',width:100,align:'center'},
 				{field:'name',title:'姓名',width:100,align:'center'} ,
 				{field:'sex',title:'性别',width:60,align:'center'}, 
 				{field:'stuNum',title:'学号',width:100,align:'center'},
-				{field:'academy',title:'学院',width:200,align:'center'},    
+				{field:'academy',title:'学院',width: 200,align:'center',
+					formatter:function(value,row){
+				        return row.academy.name;
+				    }
+					
+				},
 				{field:'major',title:'专业',width:200,align:'center'},    
 				{field:'classNum',title:'班级',width:100,align:'center'},
 				{field:'delete',width:60,align:'center',
@@ -93,10 +111,18 @@ $(function(){
 				 
 			]],
 		singleSelect:true,
-		pagination:true,
+		onLoadSuccess:function(data){
+			if(data.length==0){
+				$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+			}
+		},
+		onLoadError:function(){
+			$.messager.alert("error","errro","warning");
+		}
+	/* 	pagination:true,
 		pageNumber:1,
 		pageSize:5,
-		pageList:[3,5,7]
+		pageList:[3,5,7] */
 		
 		});//datagrid end
 	});
@@ -139,7 +165,6 @@ $(function(){
 							/*$.messager.alert("提示","删除成功","info");*/
 							$('#student').datagrid('deleteRow',index);
 							person--;
-							console.log(person);
 							$('.add input[type="text"]').removeAttr("disabled");	
 							}else{
 								$.messager.alert("提示","删除失败","info");					
@@ -195,11 +220,11 @@ $(function(){
 							}
 					}
 		}); */
-		$('.modify').click(function(){
+		function modify(){
 			  action="modifysushe";//修改单个宿舍信息
 			 $("#base_right").empty().load("super/s_sushe_detail.html");
-			});
-		$('.delete').click(function(){
+			}
+		function deleteRows(){
 			if(person==0){
 				$.post("url",{"susheid":susheid},function(data){
 					if(data.status==1){
@@ -211,7 +236,7 @@ $(function(){
 			}else{
 				$.messager.alert("提示","该宿舍目前有学生住宿，不能删除","info");
 				}
-		});
+		}
 	   function change(target){
 			var tr = $(target).closest('tr.datagrid-row');
 			var index=parseInt(tr.attr('datagrid-row-index'));

@@ -1,14 +1,12 @@
+<style type="text/css">
+h5{
+	display:none;
+}
+</style>
 <div class="right_top btm">
   <div class="rheader"><span class="pageName"><b><span class="building"></span>栋住宿情况</b></span><span class="shuoming">您可以查看该栋的住宿情况，寝室情况并修改</span></div>
 </div>
 <div class="right_contain">
-    <div id="tb"><!--tool bar-->
-          <span>
-               <a href="javascript:void(0)" class="add">添加寝室</a>&nbsp;
-                 <a href="javascript:void(0)" class="modify">修改楼层信息</a>&nbsp;
-                 <a href="javascript:void(0)" class="delete">删除楼层</a>&nbsp;
-          </span>
-    </div>   
     <div id="dormitory"></div>
     <h5>提示：点击单元格可查看寝室入住人员信息和修改宿舍信息,3/4表示该寝室可住4人，实住3人</h5>
 </div> 
@@ -16,16 +14,6 @@
 
 $(".btm .rheader .pageName span.building").html(buildingid);
 $(function(){
-    $('#tb a:eq(0)').linkbutton({
-		iconCls:'icon-add'
-	});
-	$('#tb a:eq(1)').linkbutton({
-		iconCls:'icon-edit'
-	});
-	$('#tb a:eq(2)').linkbutton({
-		iconCls:'icon-remove'
-	});
-
 	/* $.post("json/get/s_sushe_xinxi.json",{"buildingid":buildingid},function(data){ */
 
 	$.getJSON("roomInfo/findAllRoom.do",{"buildingNum":buildingid},function(data){
@@ -37,13 +25,32 @@ $(function(){
 		singleSelect:false,
 		checkOnSelect:true,
 		selectOnCheck: true,
+		striped:true,
+		fitColumns:true,
+		toolbar:[{
+				id:'add',
+				text:'添加寝室',
+				iconCls:'icon-add',
+				handler:add		
+			},
+			{
+				id:'modify',
+				text:'修改寝室',
+				iconCls:'icon-edit',
+				handler:modify	
+			},
+			{
+				id:'delete',
+				text:'删除寝室',
+				iconCls:'icon-remove',
+				handler:deleteRows
+			}],
 		/* pagination:true,
 		pageNumber:1,
 		pageSize:5,
 		pageList:[3,5,7], */
 
 		onClickCell:function(rowIndex, field, value){
-		console.log(value);
 			if(value){
 				susheid=value.substring(0,6);
 				contains=parseInt(value[13]);
@@ -52,7 +59,16 @@ $(function(){
 			
 			}
 			
-		}//onCliclCell end
+		},//onCliclCell end
+		onLoadSuccess:function(data){
+			if(data.length==0){
+				$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+			}
+			$('h5').show();
+		},
+		onLoadError:function(){
+			$.messager.alert("error","errro","warning");
+		}
 		
 		}//datagrid end
 		var s="[[";
@@ -71,7 +87,7 @@ $(function(){
 		if(value){
 			
             if (value[11]< value[13]){
-                return 'color:red;cursor:pointer';
+                return 'color:#666;cursor:pointer';
             }
 			return 'cursor:pointer';
 		}
@@ -82,7 +98,7 @@ $(function(){
 		afterPageText:"共{pages}页",
 		displayMsg:"显示{from}到{to},共{total}条记录"
 	    }); */
-	$('.add').click(function(){	
+	function add(){	
 		var checkedItems = $('#dormitory').datagrid('getChecked');
 		var names = [];
    		$.each(checkedItems, function(index, item){
@@ -98,8 +114,8 @@ $(function(){
 				  action="add";
 				  $("#base_right").empty().load("super/s_sushe_detail.html");
 					}	
-	});
-	$('.modify').click(function(){	
+	}
+	function modify(){	
 		var checkedItems = $('#dormitory').datagrid('getChecked');
 		var names = [];
    		$.each(checkedItems, function(index, item){
@@ -115,9 +131,9 @@ $(function(){
 				  action="modifyfloor";//修改整层宿舍信息
 				  $("#base_right").empty().load("super/s_sushe_detail.html");
 					}	
-	});
+	}
 		
-	$('.delete').click(function(){	
+	function deleteRows(){	
 		$.messager.confirm("提示","确定删除所选内容么？",function(r){
 			if(r){
 				var checkedItems = $('#dormitory').datagrid('getSelections');	
@@ -126,12 +142,6 @@ $(function(){
    				$.each(checkedItems, function(index, item){
 					floors.push(item.item1);
 				});  
-				
-			/* 	$.each(floors, function(index, value){
-					 floorname+=value+",";
-					
-				});
-				floorname=floorname.substring(0,floorname.length-1); */
 				$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
 					if(data.status==1){
 						$.messager.alert("提示","删除成功","info");
@@ -146,7 +156,7 @@ $(function(){
 				});//post结束
 			}
 		});//messager end
-	});//delete end
+	}//delete end
 	
 	
 });

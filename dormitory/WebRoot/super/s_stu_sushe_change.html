@@ -38,7 +38,7 @@ $(function(){
 	$('.stuInfo span[name="sex"]').append(stuSex);
 	
 	$.post("json/get/s_area.json",{"sex":stuSex},function(data){
-		var area="<option value=''>请选择</option>";
+		var area="<option value='-1'>请选择</option><option value=''>全部</option>";
 		$.each(data.rows,function(index,item){
 			 area+="<option value="+item.area+">"+item.area+"</option>";
 		});
@@ -48,9 +48,9 @@ $(function(){
 	
 	$('.area').change(function(){
 		var area=$('select option:selected').val();
-		if(area!=''){
+		if(area!='-1'){
 			$.post("json/get/s_buildingid.json",{"area":area,"sex":stuSex},function(data){
-				var buildingid="<option value=''>请选择</option>";
+				var buildingid="<option value='-1'>请选择</option><option value=''>全部</option>";
 				$.each(data.rows,function(index,item){
 					buildingid+="<option value="+item.buildingid+">"+item.buildingid+"</option>";
 				});
@@ -61,8 +61,8 @@ $(function(){
 	$('input[type="button"]').click(function(){
 		var area=$('.area').val();
 		var name=$('.building').val();
-		if(name!='' && area!=''){
-			$.post("json/get/s_sushe_xinxi_empty.json",{"buildingid":name},function(data){
+		if(name!='-1' && area!='-1'){
+			$.post("json/get/s_sushe_xinxi.json",{"buildingId":name},function(data){
 				var options={
 					data:data,
 					width:'1000px',
@@ -70,11 +70,11 @@ $(function(){
 					singleSelect:false,
 					checkOnSelect:true,
 					selectOnCheck: true,
-					pagination:true	,
+					/* pagination:true	, */
 					nowrap:false,
-					pageNumber:1,
+					/* pageNumber:1,
 					pageSize:5,
-					pageList:[3,5,7],
+					pageList:[3,5,7], */
 			
 					onClickCell:function(rowIndex, field, value){
 						if(value){
@@ -83,11 +83,20 @@ $(function(){
 							if(susheid.indexOf("层")>=0){}
 							else{
 								var str="确定将"+stuName+"同学调换到"+susheid+"寝吗？";
-								$.messager.confirm('Confirm',str,function(r){
+								$.messager.confirm('提示',str,function(r){
 									if (r){
-										$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"susheid":susheid});
-										susheid=per_susheid;
-										$("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+										$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"susheid":susheid},function(data){
+											if(data.status==0){//失败
+												$.messager.alert("提示","调换失败，请重新操作","info");
+											}else if(data.status==1){
+												$.messager.alert("提示","操作成功","info");
+											    susheid=per_susheid;
+												$("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+											}else{
+												$.messager.alert("提示","出现错误","info");
+											}
+										});
+									
 									}
 								});				
 						   }
@@ -97,12 +106,12 @@ $(function(){
 					
 				}//option end
 				var s="[[";
-				s+="{field:'floorid',title:'楼层',width:45,align:'center',rowspan:2},";
-				s+="{title:'寝室号',align:'center',colspan:"+data.columnmax+"}],[";
-				for(i=1;i<data.columnmax;i++){
-					s+="{field:'" +i+"',title:'"+i+"',width:'48',align:'center',styler:cellStyler},";
-				}
-				s+="{field:'" +data.columnmax+"',title:'"+data.columnmax+"',width:'48',align:'center',styler:cellStyler}]]";
+		s+="{field:'item1',title:'楼层',width:50,align:'center',rowspan:2},";
+		s+="{title:'寝室号',align:'center',colspan:"+data.columnMax+"}],[";
+		for(i=2;i<data.columnMax;i++){
+			s+="{field:'item" +i+"',title:'"+(i-1)+"',width:'50',align:'center',styler:cellStyler},";
+		}
+		s+="{field:'item" +data.columnMax+"',title:'"+(data.columnMax-1)+"',align:'center',styler:cellStyler}]]";
 				options.columns=eval(s);
 				$('.empty').datagrid(options);
 				$('.empty').datagrid('reload');
@@ -114,8 +123,8 @@ $(function(){
 	
 	function cellStyler(value,row,index){
 	  if(value){
-		  if (value[10]< value[12]){
-			  return 'color:red;cursor:pointer';
+		  if (value[11]< value[13]){
+			  return 'color:#666;cursor:pointer';
 		  }
 	  }
 
