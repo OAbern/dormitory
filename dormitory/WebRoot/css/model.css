@@ -100,3 +100,13 @@ a {
 	margin-top:30px;
 }
 
+.person{
+	margin-top:10px;
+	height:30px;
+	}
+.person a{
+	font-family:Microsoft YaHei,"Times New Roman", Times, serif;
+	font-weight:bold;
+	
+	color:#2A3F55;
+	padding-left:8px;}
