@@ -23,6 +23,13 @@
     <mvc:interceptors>
     	<bean class="com.cqupt.dormitory.interceptor.PagingParameterInteceptor"/>	
     </mvc:interceptors>
+    
+    <!-- 文件上传的解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="defaultEncoding" value="UTF-8"/>  
+        <!-- 指定所上传文件的总大小不能超过500KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+        <property name="maxUploadSize" value="500000"/>  
+    </bean>
  
     <!-- 完成请求和注解POJO的映射 -->
 <!--     
@@ -44,7 +51,7 @@
     <!-- 视图解释类 -->  
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
         <property name="prefix" value="/"/>  
-        <property name="suffix" value=".jsp"/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
+        <property name="suffix" value=".html"/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
     </bean>
     
     <!-- 对静态资源文件的访问   -->  

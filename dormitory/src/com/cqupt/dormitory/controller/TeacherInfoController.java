@@ -90,6 +90,9 @@ public class TeacherInfoController {
 	@RequestMapping("/findMajor")
 	public void findMajor(HttpServletRequest request, HttpServletResponse response) {
 		Teacher teacherInSession = (Teacher) request.getSession().getAttribute("teacher");
+		if(teacherInSession == null) {
+			return;
+		}
 		List<String> majors = teacherInfoService.findMajorByTecId(teacherInSession.getId());
 		JSONUtils.toJSON(majors, response);
 	}

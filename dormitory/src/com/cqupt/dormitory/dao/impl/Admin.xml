@@ -3,7 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cqupt.dormitory.model.Admin">
+	<!-- 管理员结果集 不包含密码 -->
 	<resultMap type="com.cqupt.dormitory.model.Admin" id="adminResult">
+		<id property="id" column="admin_id"/>
+		<result property="sex" column="admin_sex"/>
+		<result property="adminNum" column="admin_num"/>
+		<result property="name" column="admin_name"/>
+		<result property="post" column="admin_post"/>
+	</resultMap>
+	
+	<!-- 管理员结果集 所有信息 -->
+	<resultMap type="com.cqupt.dormitory.model.Admin" id="adminResultFull">
 		<id property="id" column="admin_id"/>
 		<result property="sex" column="admin_sex"/>
 		<result property="adminNum" column="admin_num"/>
@@ -18,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 根据教工号和密码查找管理员 -->
-	<select id="findAdminByNumAndPw" parameterType="com.cqupt.dormitory.model.Admin" resultMap="adminResult">
+	<select id="findAdminByNumAndPw" parameterType="com.cqupt.dormitory.model.Admin" resultMap="adminResultFull">
 		SELECT * FROM `admin` WHERE `admin_num`=#{adminNum} AND `password`=#{password}
 	</select>
 

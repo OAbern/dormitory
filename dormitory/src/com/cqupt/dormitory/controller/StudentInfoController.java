@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cqupt.dormitory.model.Student;
@@ -234,6 +235,14 @@ public class StudentInfoController {
 	public void findStudentCheckOutByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
 		List<Student> students = studentInfoService.findStudentCheckOutByCondition(condition);
 		this.formatAndWrite(students, response);
+	}
+	
+	/**
+	 * 通过Excel批量添加学生 
+	 */
+	@RequestMapping("/addStudnetByExcel")
+	public void addStudentByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
+		//TODO
 	}
 	
 	/**
