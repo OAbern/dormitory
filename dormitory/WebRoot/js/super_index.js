@@ -1,5 +1,30 @@
 // JavaScript Document
-	//-----------------------------tdg
+var GLOBAL={};
+GLOBAL.grade=[];
+GLOBAL.academy={};
+$.post('academyInfo/getAll.do',function(data){
+	GLOBAL.academy=data;
+});
+(function creatGrade(){
+	var date=new Date();
+	var year=date.getFullYear();
+	GLOBAL.grade=[];
+	for(i=4;i>=0;i--){
+		GLOBAL.grade.push(year-i);
+	}	
+})();
+ //展示学院选项
+function showAcademy(){
+  $.each(GLOBAL.academy,function(i,v){
+    $('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
+  })  
+}
+//展示年级选项
+function showGrade(){
+  $.each(GLOBAL.grade,function(i,v){
+    $('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
+  })
+}
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("super/s_tianjia_xuesheng_xinxi.html");

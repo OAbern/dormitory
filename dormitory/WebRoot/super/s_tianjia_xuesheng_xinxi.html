@@ -14,7 +14,8 @@
   display:inline-block;
   width: 200px;
   height: 20px;
-  background: red;
+  color: red;
+  /* background: red; */
   /* background-image: url('images/reg_succ.png') ; */
   background-repeat: no-repeat;
 }
@@ -66,7 +67,6 @@ input[type='text'] {
         <span class="preInfo">年级:</span>
         <select name="grade">
           <option value="-1" selected="selected">未选择</option>
-          <option value="0">测试</option>
         </select>
         <span class="validInfo"></span>
         <br />
@@ -120,7 +120,6 @@ input[type='text'] {
         <span class="preInfo">学院:</span>
         <select type="text" name="academy.id" >
           <option value="-1" selected="selected">未选择</option>
-          <option value="0">测试</option>
         </select>
         <span class="validInfo"></span>
         <br />
@@ -129,7 +128,6 @@ input[type='text'] {
         <span class="preInfo">专业:</span>
         <select name="major">
           <option value="-1" selected="selected">未选择</option>
-          <option value="0">测试</option>
         </select>
         <span class="validInfo"></span>
         <br />
@@ -138,7 +136,6 @@ input[type='text'] {
         <span class="preInfo">班级:</span>
         <select name="classNum">
           <option value="-1" selected="selected">未选择</option>
-          <option value="0">测试</option>
         </select>
         <span class="validInfo"></span>
         <br />
@@ -152,9 +149,13 @@ input[type='text'] {
   </form>
 </div>
 <script type="text/javascript">
+  //ajax同步，验证学号需使用
+  $.ajaxSettings.async = false;
   var acad=$('select[name="academy.id"]'),
       maj=$('select[name="major"]'),
-      cla=$('select[name="classNum"]');
+      cla=$('select[name="classNum"]'),
+      gra=$('select[name="grade"]'),
+      edu=$('select[name="education"]');
   var bir=$("input[name='birth']");
 	//出生年月日历设置
 	bir.datebox({
@@ -167,6 +168,9 @@ input[type='text'] {
   });
   //console.log($('.datebox'));
   //加载学院
+  showAcademy();
+  //加载年级
+  showGrade();
   //表单项验证
   $('input[name="name"]').blur([/^\w{2,}/,'至少输入两个字符'],inputValid);
   $('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);
@@ -190,6 +194,7 @@ input[type='text'] {
     var nextSpan=$(this).next();
     var code=0;
     var prompt="输入不正确";
+    var prompt1="数据库校验错误";
     //非空验证
     if(!!val){
       code=1;
@@ -205,12 +210,12 @@ input[type='text'] {
           code=1;
            //数据库验证
           if(event.data[2]==true){
-            $.post('',dataObj,function(data){
-              if(data=='0'){
-                code=3;
-              }else if(typeof data=='object'){
-                //...
+              code=3;
+            $.post('vaildate/stuNumIsExist.do',dataObj,function(data){
+              if(data.status=='1'){
                 code=1;
+              }else{
+                prompt1=data.info;
               }
             });
           }
@@ -227,35 +232,70 @@ input[type='text'] {
         break;
       case 2:nextSpan.removeClass('status').html(prompt);
         break;
-      case 3:nextSpan.removeClass('status').html('输入不正确');
+      case 3:nextSpan.removeClass('status').html(prompt1);
         break;
       case 4:nextSpan.removeClass('status').html('请选择');
         break;
     }
   }
+  //年级改变
+  gra.change(function(){
+    //学院变为未选择
+    academySelectedChanged();
+
+  });
+  //学历改变
+  edu.change(function(){
+    //学院变为未选择
+    academySelectedChanged();
+  });
   //学院选择改变
   acad.change(function(){
-    //maj.find('option:gt(0)').remove();
+    maj.find('option:gt(0)').remove();
     cla.find('option:gt(0)').remove();
-    var val=acad.val();
-    if(val!=-1){
-      $.post('studentInfo/findCascadingInfo.do',{academy:val},function(data){
-      $(data).each(function(i,v){
-        maj.append('<option>'+v+'</option>');
-      });
-    });
+    var val=acad.val(),
+        graText=gra.find('option:selected').text(),
+        eduText=edu.find('option:selected').text();
+    if(graText=='未选择'||eduText=='未选择'){
+      alert("请先选择年级和学历");
+      academySelectedChanged();      
+    }else if(val!=-1){
+      $.post('studentInfo/findCascadingInfo.do',{
+          target:'major',
+          grade:graText,
+          education:eduText,
+          academy:val
+        },
+        function(data){
+          $(data).each(function(i,v){
+            maj.append('<option>'+v+'</option>');
+          });
+        }
+      );
     }
+    
   });
   //专业选择改变
   maj.change(function(){
     cla.find('option:gt(0)').remove();
-    var text=maj.find('option:selected').text();
-    if(text=='未选择'){
-      $.post('studentInfo/findCascadingInfo.do',{academy:acad.val(),major:text},function(data){
-        $(data).each(function(i,v){
-          cla.append('<option>'+v+'</option>');
-        });
-      });
+    var val=acad.val(),
+        graText=gra.find('option:selected').text(),
+        eduText=edu.find('option:selected').text(),
+        majText=maj.find('option:selected').text();
+    if(majText!='未选择'){
+      $.post('studentInfo/findCascadingInfo.do',{
+          target:'classNum',
+          grade:graText,
+          education:eduText,
+          academy:val,
+          major:majText,
+        },
+        function(data){
+          $(data).each(function(i,v){
+            cla.append('<option>'+v+'</option>');
+          });
+        }
+      );
     }
   });
   //表单提交
@@ -275,4 +315,12 @@ input[type='text'] {
     }
     return success;
   });
+//学院框变为未选择
+function academySelectedChanged(){
+  acad.find('option:selected').removeAttr('selected')
+  acad.find('option:eq(0)').attr('selected','selected');
+  acad.next().removeClass('status');
+  maj.find('option:gt(0)').remove();
+  cla.find('option:gt(0)').remove();
+}
 </script>
