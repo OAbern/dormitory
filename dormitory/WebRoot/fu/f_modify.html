@@ -3,17 +3,14 @@
 	height:25px;
 	margin-top:3px;
 }
-.item span {
-	display:inline-block;
-	margin-right:10px;
+.item label {
+    float:left;
 	text-align:right;
-	padding-right:0;
-	width:100px;
-	color:#000;
-	font-size:14px;
+	margin-right:15px;
+	width:120px;
 }
 .help {
-	margin-top:10px;
+	margin-top:15px;
 }
 input[type='button'] {
 	margin-left:120px;
@@ -22,6 +19,7 @@ input[type='reset'] {
 	margin-left:50px;
 }
 input[type='text'],input[type='password']{
+    float:left;
 	width:200px;
 	height:20px;
 }
@@ -30,6 +28,10 @@ input[type='text'],input[type='password']{
 	margin-left:50px;
 	margin-top:30px;
 }
+.error{
+	color:#A00;
+	margin-left:3px;
+	}
 </style>
 <div>
     <div class="right_top btm">
@@ -40,28 +42,28 @@ input[type='text'],input[type='password']{
     </div>
     <div class="right_foot">
           <form id="form1">
-              <p class="item"><span>姓名:</span>
-                 <input type="text" name="name" class="name">
+              <p class="item"><label>姓    名:</label>
+                 <input type="text" name="name" class="name" onchange="checkName()"><span class="error" ></span>
                  <br />
               </p>
-              <p class="item"><span>性别：</span>
-                 <input type="text" name="sex" class="sex">
+              <p class="item"><label>性    别:</label>
+                 <input type="text" name="sex" class="sex" onchange="checkSex()"><span class="error" ></span>
                  <br />
               </p>
-              <p class="item"><span>电话：</span>
-                 <input type="text" name="phone" class="phone">
+              <p class="item"><label>电    话:</label>
+                 <input type="text" name="phone" class="phone" onchange="checkNum()"><span class="error" ></span>
                 <br />
               </p>
-               <p class="item"><span>旧密码:</span>
-                   <input  type="password" name="old"  class="old" onblur="checkPwd()">
+               <p class="item"><label>旧密码:</label>
+                   <input  type="password" name="old"  class="old" onblur="checkPwd()"><span class="error" ></span>
                    <br />
                </p>
-               <p class="item"><span>新密码:</span>
+               <p class="item"><label>新密码:</label>
                    <input  type="password" name="password" class="new">
                    <br /> 
                </p>
-               <p class="item"><span>确认新密码:</span>
-                   <input  type="password" name="newagain" onblur="checkNew()" class="again">
+               <p class="item"><label>确认新密码:</label>
+                   <input  type="password" name="newagain" onblur="checkNew()" class="again"><span class="error" ></span>
                    <br />
                </p>
                <div class="help">
@@ -86,16 +88,53 @@ input[type='text'],input[type='password']{
 		    $('.phone').attr("value",tec_phone);
 		});
 	});
-	var ok_1=false,ok_2=false,ok_3=false;
+	var ok_n=true,ok_s=true,ok_p=true,ok_w=true,ok_i=true;
+	function checkName(){
+	  var str2="该项不能为空";
+	  var name = $(".name").val();
+	  if(name == ""){
+			$('input[name="name"]').next().html(str2);
+			ok_n=false;
+			 return false;
+	  }else{
+	       $('input[name="name"]').next().html("<img src='images/reg_succ.png' />");
+	       ok_n=true;
+	  }
+	}
+	function checkSex(){
+	  var str3="请输入'男'或'女'";
+	  var sex = $(".sex").val();
+	  if(sex != "男" && sex!= "女"){
+		  $('input[name="sex"]').next().html(str3);
+		  ok_s=false;
+		  return false;
+	  }else{
+	       $('input[name="sex"]').next().html("<img src='images/reg_succ.png' />");
+	       ok_s=true;
+	  }
+	}
+	function checkNum(){
+	  var str1="请输入数字";
+	  var phone = $(".phone").val();
+	  var reg = /^[0-9]*$/;
+		if(phone=='' || !reg.test(phone)){
+			$('input[name="phone"]').next().html(str1);
+			ok_p=false;
+		}else{
+			$('input[name="phone"]').next().html("<img src='images/reg_succ.png' />");
+			ok_p=true;
+		}
+	}
 	function checkPwd(){
 	    var password= $(".old").val();
 		$.post("teacherInfo/checkPw.do",{"pw":password},function(data){
 		   if(data.status==0){
-		        $.messager.alert("警告",data.info,"warning");
-		        $(".old").empty().focus();
+		       $(".old").attr("value","");
+		        ok_w=false;
+		       $('input[name="old"]').next().html(data.info);
 		   }else if(data.status==1){
-		       $.messager.alert("提示",data.info,"info");
-		       ok_1=true;
+		       $('input[name="old"]').next().html("<img src='images/reg_succ.png' />");
+			   ok_w=true;
 		   }
 		});
 	}
@@ -103,35 +142,31 @@ input[type='text'],input[type='password']{
 		var key1 = $(".new").val();
 		var key2 = $(".again").val();
 		if(key2 != key1){
-		   $.messager.alert("提示","两次密码输入不一致","info");
 		   $(".again").empty();
 		   $(".new").empty();
-		}else if(key2==key1){
-		   ok_2=true;
+		   ok_i=false;
+		   $('input[name="newagain"]').next().html("两次密码输入不一致");
+		}else if(key2==key1 && key2!=""){
+		   ok_i=true;
+		   $('input[name="newagain"]').next().html("<img src='images/reg_succ.png' />");
 		}
 	}
 	$("#modify").click(function(){
-	    var name = $(".name").val();
+	    var name =$(".name").val();
 		var phone = $(".phone").val();
 		var sex=$(".sex").val();
 		var password =$(".new").val();
-		if(name == ""){
-			 $.messager.alert("提示","姓名为必填","info");
-			 return false;
-		}else if(phone == ""){
-			 $.messager.alert("提示","电话为必填","info");
-			 return false;
-		}else{
-			ok_3=true;
-		}
-		if(ok_1&&ok_2&&ok_3){
+		if(ok_n&&ok_s&&ok_p&&ok_w&&ok_i){
 		   $.post('teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
 		      if(data.status==1){
-				$.messager.alert("提示","修改成功");
+				  $.messager.alert("提示","修改成功");
 				}else{
 				  $.messager.alert("提示","修改失败");
 			  }
 		   });	
+	    }
+	    else{
+	       $.messager.alert("提示","信息未填写完全，不能修改","info");
 	    }
 	});
 </script>

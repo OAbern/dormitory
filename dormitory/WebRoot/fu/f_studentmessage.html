@@ -22,18 +22,19 @@
 <div class="right_contain">
           <div class="selectab1">
             <span class="jilian">
-              <lable for="major">专业:</lable>
+              <label for="major">专业:</label>
                   <select class="select major" name="major">
                     <option value='-1'>请选择</option>
                     <option value=''>全部</option>
                   </select>
-              <lable for="classNum">班级:</lable>
+              <label for="classNum">班级:</label>
                   <select class="select classNum" name="classNum">
                     <option value='-1'>请选择</option>
                     <option value=''>全部</option>
                   </select>      
-             </span>&nbsp;&nbsp;&nbsp;
-             <input name="ok" type="button"  value="确定" id="sure"/></div>
+             <input name="ok" type="button"  value="确定" id="sure"/>
+            </span>
+         </div>
           <br />
           <div id="tab1"></div>
 </div>
@@ -66,10 +67,8 @@
 		classNum=$('select[name="classNum"] option:selected').val();
 	});         
     $("#sure").click(function(event) {//点击筛选展示数据
-	   if(major=="-1"){
-			$.messager.alert("警告","请选择专业!","warning");
-		}else if(classNum=="-1"){
-			 $.messager.alert("警告","请选择班级!","warning");
+	   if(major=="-1"||classNum=="-1"){
+			$.messager.alert("提示","请选择专业或班级!","info");
 		}else{
 			showData();
 		}
@@ -79,26 +78,26 @@
 			if(data){
 				$("#tab1").datagrid({
 						data:data,
-						width:'720px',
+						width:'750px',
 						height:'300px', 
 						rownumbers:'true',
 						striped:true,//斑马线
 						fitColumns:true,//适应宽度
 						nowrap:false,//自动换行
 						columns:[[    
-							{field : 'academy',title : '学院',width : 200,align : 'center',
+							{field : 'academy',title : '学院',width : 120,align : 'center',
 					        	formatter:function(value){
 								 	return value.name;
 								 }
 					        },    
 							{field:'major',title:'专业',width:120,align:'center'},
 							{field:'grade',title:'年级',width:50,align:'center'},    
-							{field:'classNum',title:'班级',width:60,align:'center'},
-							{field:'stuNum',title:'学号',width:85,align:'center'}, 
-							{field:'name',title:'姓名',width:70,align:'center'}, 
+							{field:'classNum',title:'班级',width:100,align:'center'},
+							{field:'stuNum',title:'学号',width:100,align:'center'}, 
+							{field:'name',title:'姓名',width:100,align:'center'}, 
 							{field:'sex',title:'性别',width:50,align:'center'},
 							{field:'birth',title:'出生年月',width:70,align:'center'},
-							{field:'birthplace',title:'籍贯',width:65,align:'center'},
+							{field:'birthplace',title:'籍贯',width:80,align:'center'},
 							{field:'roomNum',title:'寝室号',width:70,align:'center'}
 						]],
 					singleSelect:true,

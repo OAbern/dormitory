@@ -3,11 +3,13 @@
 </div>
 <div class="right_contain">
        <div id="tab1"></div>
-       <p  style="float:left;margin-top:5px;margin-left:550px">
-          <a href="Download/360打分(姓名+学号)1.xlsx"><input name="download" type="button" value="住宿分配情况附件下载"></a>
-       </p>
-       <br />
-       <p style="float:left;font-size:13px;color:#FF7F00;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>        
+       <div class="hid" style="display:none;">
+          <p style="float:left;margin-top:5px;margin-left:550px">
+             <a href="Download/360打分(姓名+学号)1.xlsx"><input name="download" type="button" value="住宿分配情况附件下载"></a>
+          </p>
+          <br />
+          <p style="float:left;font-size:13px;color:#FF7F00;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>        
+       </div>
 </div>
 <script type="text/javascript">
     //获取登录辅导员的信息
@@ -57,6 +59,7 @@
 					afterPageText:"共{pages}页",
 					displayMsg:"显示{from}到{to},共{total}条记录"
 				});
+				$(".hid").show();
 		    }else{
 			    $.messager.alert("提示","经查询无数据","info");
 			}
