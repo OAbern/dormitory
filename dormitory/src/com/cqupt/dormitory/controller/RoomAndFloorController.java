@@ -240,6 +240,7 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/distributeRoom")
 	public void distributeRoom(@ModelAttribute Condition condition,@RequestParam("building[]")String[] buildingNum,HttpServletResponse response){
+		condition.setLivingStatus(3);
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
 		List<String> studentNums = new ArrayList<String>();
 		for(Student s:students){
@@ -278,5 +279,6 @@ public class RoomAndFloorController {
 		}else {
 			map.put("status", 0);
 		}
+		JSONUtils.toJSON(map, response);
 	}
 }
