@@ -16,7 +16,7 @@ $.post('academyInfo/getAll.do',function(data){
  //展示学院选项
 function showAcademy(){
 	$('select[name="academy.id"]').empty();
-	$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+	$('select[name="academy.id"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
     $.each(GLOBAL.academy,function(i,v){
     	$('select[name="academy.id"]').append('<option value="'+v.id+'">'+v.name+'</option>');
     });  
@@ -24,7 +24,7 @@ function showAcademy(){
 //展示年级选项
 function showGrade(){
 	$('select[name="grade"]').empty();
-	$('select[name="grade"]').append("<option value='请选择'>请选择</option>");
+	$('select[name="grade"]').append("<option value='请选择'>请选择</option><option value=''>全部</option>");
 	$.each(GLOBAL.grade,function(i,v){
 	    $('select[name="grade"]').append('<option value="'+v+'">'+v+'</option>');
 	});
