@@ -118,11 +118,27 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			},
 			pagination:'true',
 			columns:[[      
-				{field:'building',title:'楼栋号',width:100,align:'center'},    
-				{field:'sex',title:'所住人员性别',width:100,align:'center'},
-				{field:'room',title:'寝室号',width:120,align:'center'}, 
-				{field:'roomType',title:'寝室类型(人/间)',width:120,align:'center',editor:'numberbox'},    
-				{field:'roomCost',title:'寝室资费(元/学年)',width:150,align:'center',editor:'numberbox'},
+				{field:'floor',title:'楼栋号',width:100,align:'center',
+					formatter:function(v,row){
+						if(row.floor){
+							return row.floor.building.buildingNum;
+						}else{
+							return '无数据';
+						}
+					}
+				},    
+				{field:'sex',title:'所住人员性别',width:100,align:'center',
+					formatter:function(v,row){
+						if(row.floor){
+							return row.floor.building.sex;
+						}else{
+							return '无数据';
+						}
+					}
+				},    
+				{field:'roomNum',title:'寝室号',width:120,align:'center'}, 
+				{field:'totalBed',title:'寝室类型(人/间)',width:120,align:'center',editor:'numberbox'},
+				{field:'cost',title:'寝室资费(元/学年)',width:150,align:'center',editor:'numberbox'},
 				{field:'action',title:'操作',align:'center',width:100,
 					formatter: function(value,row,index){
 						if (row.editing){
@@ -175,11 +191,21 @@ function editrow(target) {
 function saverow(target) {
 	showTable.datagrid('endEdit', getRowIndex(target));
 	var row=showTable.datagrid('getSelected');//必须放在上一句的后面，才能获取到改变后的row
-	$.post('roomInfo/updateRoom.do',{'roomNum':row.roomNum,'fee':row.roomCost,'cata':row.roomType},function(data){
-		if(data.status=='0'){
-			$.messager.alert('操作提示',data.info);
-		}    
-	});
+	delete(row.editing);
+	$.ajax({ 
+    type:"POST", 
+    url:"roomInfo/updateRoom.do", 
+    dataType:"json",      
+    //contentType:"application/json",               
+    data:JSON.stringify(row),
+    success: function(data){
+	    if(data.status=='0'){
+				$.messager.alert('操作提示',data.info);
+			}else if(data.status=='1'){
+
+			}
+	  }
+  });
 }
 //取消操作
 function cancelrow(target) {

@@ -162,7 +162,7 @@ function saverow(target) {
     data:JSON.stringify(row),
     success: function(data){
 	    if(data.status=='0'){
-				alert(data.info);
+				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
 
 			}
