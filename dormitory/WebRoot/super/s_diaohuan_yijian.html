@@ -144,7 +144,7 @@
 			$.messager.confirm('提示', '确认后将无法修改，您确定要“同意”通过审核吗? ', function(r) {
 				if (r) {
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
-						$.post('excel/approved.do', {"teaNum" : rows[i].teaNum,"shenhe" : "同意"},function(data){
+						$.post('excel/approved.do',function(data){
 								if(data.status=="1"){
 									$.messager.alert("提示","同意操作成功！");
 									var index=$('.table_two').datagrid('getRowIndex', rows[i]);
@@ -165,7 +165,7 @@
 			$.messager.confirm('提示', '确认后将无法修改，您确定“不同意”通过审核吗? ', function(r) {
 				if (r) {
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
-						$.post('excel/refuse.do', {"teaNum" : rows[i].teaNum,"shenhe" : "不同意"},function(data){
+						$.post('excel/refuse.do',function(data){
 								if(data.status=="1"){
 									$.messager.alert("提示","未同意操作成功！");
 									var index=$('.table_two').datagrid('getRowIndex', rows[i]);

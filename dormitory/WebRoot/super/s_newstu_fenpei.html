@@ -107,7 +107,7 @@
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex}, function(data) {
+		$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"livingStatus":3}, function(data) {
 			if(data){
 				$(".table_one").datagrid({
 					data : data,
