@@ -1,4 +1,4 @@
-// JavaScript Document
+// 控制right页面的加载
 $(function(){ 
     var status=0;
 	$(".stu li:eq(0)").click(function(){
@@ -17,6 +17,7 @@ $(function(){
 		$("#base_right").empty();
 		$.messager.alert("提示","此部分功能还在开发","info");
 	});	
+	//树形控件点击添加事件，用于指示当前页面
 	$(".stu li:eq(0),.stu li:eq(1),.stuqin li:eq(0),.stuqin li:eq(1)").hover(function(){
 		var status=0;
 		$(this).click(function(){

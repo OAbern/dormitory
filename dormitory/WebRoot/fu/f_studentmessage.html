@@ -27,30 +27,31 @@
 			//alert("保存成功");
         });	
 		$.getJSON('json/get/f_studentInfo.json',function(data){
-			$("#tab1").datagrid({
-					data:data,
-					width:'720px',
-					height:'300px', 
-					columns:[[    
-						{field:'college',title:'学院',width:80,align:'center'},    
-						{field:'major',title:'专业',width:120,align:'center'},
-						{field:'grade',title:'年级',width:50,align:'center'},    
-						{field:'classes',title:'班级',width:60,align:'center'},
-						{field:'stuNum',title:'学号',width:85,align:'center'}, 
-						{field:'name',title:'姓名',width:70,align:'center'}, 
-						{field:'sex',title:'性别',width:50,align:'center'},
-						{field:'born',title:'出生年月',width:70,align:'center'},
-						{field:'area',title:'籍贯',width:65,align:'center'},
-						{field:'dormitory',title:'寝室号',width:70,align:'center'}
-					]],
-				singleSelect:true,
-				saveUrl:'server.php',
-				updateUrl:'server.php',
-				destroyUrl:'server.php',
-				pagination:true	,
-				pageNumber:1,
-				pageSize:5,
-				pageList:[1,5,10,15,20] 
+			if(data.total>0){
+				$("#tab1").datagrid({
+						data:data,
+						width:'720px',
+						height:'300px', 
+						columns:[[    
+							{field:'college',title:'学院',width:80,align:'center'},    
+							{field:'major',title:'专业',width:120,align:'center'},
+							{field:'grade',title:'年级',width:50,align:'center'},    
+							{field:'classes',title:'班级',width:60,align:'center'},
+							{field:'stuNum',title:'学号',width:85,align:'center'}, 
+							{field:'name',title:'姓名',width:70,align:'center'}, 
+							{field:'sex',title:'性别',width:50,align:'center'},
+							{field:'born',title:'出生年月',width:70,align:'center'},
+							{field:'area',title:'籍贯',width:65,align:'center'},
+							{field:'dormitory',title:'寝室号',width:70,align:'center'}
+						]],
+					singleSelect:true,
+					saveUrl:'server.php',
+					updateUrl:'server.php',
+					destroyUrl:'server.php',
+					pagination:true	,
+					pageNumber:1,
+					pageSize:5,
+					pageList:[1,5,10,15,20] 
 				});
 				var pager = $("#tab1").datagrid().datagrid('getPager');// get the pager of datagrid
 				pager.pagination({
@@ -58,8 +59,10 @@
 					afterPageText:"共{pages}页",
 					displayMsg:"显示{from}到{to},共{total}条记录"
 				});
-			
-			});
+		     }else{
+				 $.messager.alert("提示","经查询无数据","info");
+			 }
+	    });	
 	});
        //$("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应	
 </script>
