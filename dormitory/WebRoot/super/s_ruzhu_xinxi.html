@@ -12,7 +12,6 @@ input[type='text'] {
 	
 }
 .error{
-	
 	height:20px;
 	weight:30px;
 	color:#F00;
@@ -47,7 +46,6 @@ $('.return').click(function(){
 	})
 $(function(){
 		$('.add input[type="hidden"]').attr('value',susheid);
-		
 	});
 	$('input[type="text"]').focus(function(){
 		if(person==contains){
@@ -57,9 +55,10 @@ $(function(){
 		});
 	//datagrid start
 	$.post("roomInfo/findAllPersonInRoom.do",{"roomNum":susheid},function(data){
+		person=data.total;
 		$('#student').datagrid({
 			data:data,
-			width:'900px',
+			width:'930px',
 			title:susheid+'号寝室入住情况',
 			height:'250px',
 			nowrap:false, 
@@ -141,7 +140,7 @@ $(function(){
 						ok_1=true;
 					}else {
 						$.messager.alert("提示","没有该学生，请输入正确的学号","info");
-						$('input[name="stuNum"]').empty();
+						ok_1=false;
 					}
 				});
 				
@@ -183,11 +182,13 @@ $(function(){
 					var status=data.status;
 					if(status==1){
 						$.messager.alert("提示","添加成功","info");
-						$('input["name=stuNum"]').empty();
+						$('input[type="text"]').attr("value","");
+						$('#base_right').empty().load("super/s_ruzhu_xinxi.html");
 					}else if(status==0){
-						$.messager.alert("提示","添加失败","info");
+						$.messager.alert("提示","添加失败：该学生性别与该寝室不符或者该寝室已满。","warning");
+						$('input[type="text"]').attr("value","");
 					}else{
-						$.messager.alert("提示","发生错误，请重新输入学号","info");
+						$.messager.alert("提示","发生错误，请重新输入学号","warning");
 					}
 				});
 			}else{

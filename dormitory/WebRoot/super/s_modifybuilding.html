@@ -17,6 +17,10 @@ h3 span {
 	margin-right:10px;
 	margin-left:5px;
 }
+p{
+  font-size:12px;
+  
+}
 
  select{
 	height:30px;
@@ -49,13 +53,16 @@ form.info p label{
 }
 </style>
 <div class="right_top btm">
-  <div class="rheader"><span class="pageName"><b>楼栋信息修改</b></span><span class="shuoming">您可以修改楼栋基本信息</span><span class="fanhui"><a class="return" href="javascript:void(0)">返回»</a></span></div>
+  <div class="rheader"><span class="pageName"><b>楼栋信息修改</b></span><span class="shuoming">您可以修改楼栋基本信息。 若改楼栋中有学生入住，则不能修改宿舍类型和所住学生性别。</span><span class="fanhui"><a class="return" href="javascript:void(0)">返回»</a></span></div>
 </div>
 <div class="right_contain">
   <div class="new_dormitory">
     
     <div id="modifyfloor"  >
       <h3>您将要修改的楼栋号为 <span class="buildingid"></span>栋  </h3>
+      <p>
+      	提示：若该楼栋中有学生入住，则不能修改宿舍类型和所住学生性别。
+      </p>
     </div>
     
     <form class="info">
@@ -147,6 +154,11 @@ $('.return').click(function(){
 					$('#base_right').empty().load("super/s_sushe_xinxi.html");
 				}else if(data.status==0){
 					 $.messager.alert("提示","修改失败,该楼栋中还有学生入住，不能修改。","error"); 
+				}else if(data.status==2){
+					$.messager.alert("提示","由于改楼栋有学生入住，只修改了该收费的收费标准和所属片区。","info",function(){
+						$('#base_right').empty().load("super/s_sushe_xinxi.html");
+					}); 
+					
 				}else{
 					 $.messager.alert("提示","发生错误","info"); 
 				}
