@@ -41,5 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="is_change_sex" parameterType="map" resultType="int">
 		SELECT COUNT(*) FROM building WHERE building.`building_num` LIKE #{buildingNum} AND building.`sex`=#{sex}
 	</select>
+	<select id="find_building_by_sex_area" parameterType="map" resultMap="buildingResult">
+		SELECT * FROM building LEFT JOIN AREA ON(building.`area_id`=area.`area_id`) WHERE area.`area_name` LIKE #{area} AND sex LIKE #{sex}
+	</select>
 	
 </mapper>

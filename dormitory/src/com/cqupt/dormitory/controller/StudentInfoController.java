@@ -246,6 +246,28 @@ public class StudentInfoController {
 	}
 	
 	/**
+	 * outOfRoom 退宿处理
+	 * @param stuNum
+	 * @param response 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 * @author hhy
+	 */
+	@RequestMapping("/updateStudentRoom")
+	public void outOfRoom(String stuNum, HttpServletResponse response) {
+	//	System.out.println(stuNum);
+		boolean b = studentInfoService.updateOutOfRoom(stuNum);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(b){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
+		JSONUtils.toJSON(map, response);
+	}
+	
+	/**
 	 * 删除校外住宿的学生（改状态）
 	 * @param delRowsIdArray
 	 * @param response
@@ -348,6 +370,8 @@ public class StudentInfoController {
 		JSONUtils.toJSON(map, response);
 	}
 
+	
+	
 	public void setStudentInfoService(StudentInfoService studentInfoService) {
 		this.studentInfoService = studentInfoService;
 	}

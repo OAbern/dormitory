@@ -82,6 +82,28 @@ public interface StudentInfoService {
 	public List<Student> findStudentCheckOutByCondition(Condition condition);
 	
 	/**
+	 * updateOutOfRoom 退宿处理
+	 * @param studentNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 * @author hhy
+	 */
+	public boolean updateOutOfRoom(String studentNum);
+	
+	/**
+	 * updateOutOfRoom 退宿管理删除多个学生.
+	 * @param studentNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateOutOfRoom(String[] studentNum);
+	
+	
+	/**
 	 * 删除校外住宿的学生（改状态）
 	 * @param stuNum
 	 * @return

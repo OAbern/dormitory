@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.cqupt.dormitory.dao.RoomDao;
+import com.cqupt.dormitory.model.Floor;
 import com.cqupt.dormitory.model.Room;
 import com.cqupt.dormitory.model.Student;
+import com.cqupt.dormitory.service.AreaBuildingService;
 import com.cqupt.dormitory.service.FloorService;
 import com.cqupt.dormitory.service.RoomService;
 import com.cqupt.dormitory.utils.JSONUtils;
@@ -27,6 +29,11 @@ public class RoomAndFloorController {
 	private RoomService roomService;
 	@Resource
 	private FloorService floorService;
+	@Resource
+	private AreaBuildingService areaBuildingService;
+	@Resource
+	private RoomDao roomDao;
+	
 	
 	@RequestMapping("/findAllRoom")
 	public void findAllRoom(String buildingNum,HttpServletResponse response){
@@ -35,22 +42,33 @@ public class RoomAndFloorController {
 	}
 	
 	
+	/**
+	 * findFloorNumByBuildingNum 查找某楼栋下面的所有floor
+	 * @param response 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
 	@RequestMapping("/findFloorNumByBuildingNum")
-	public void findFloorNumByBuildingNum(HttpServletResponse response){
-		List<String> shit = new ArrayList<String>();
-		shit.add("1");
-		shit.add("2");
-		shit.add("3");
-		JSONUtils.toJSON(shit, response);
+	public void findFloorNumByBuildingNum(String building,HttpServletResponse response){
+		List<String> floors = areaBuildingService.findFloorByBuildingNum(building);
+		JSONUtils.toJSON(floors, response);
 	}
 	
 	@RequestMapping("/findRoomNumByBuildingNumAndFloor")
-	public void findRoomNumByBuildingNumAndFloor(HttpServletResponse response){
-		List<String> shit = new ArrayList<String>();
-		shit.add("190101");
-		shit.add("190102");
-		shit.add("190103");
-		JSONUtils.toJSON(shit, response);
+	public void findRoomNumByBuildingNumAndFloor(String building,String floor,HttpServletResponse response){
+		if("".equals(floor) || floor==null){
+			floor = "%";
+		}
+		if("".equals(building) || building == null){
+			building = "%";
+		}
+		List<Room> rooms = roomDao.findAllRoomByBuildingNumAndFloor(building, floor);
+		List<String> s = new ArrayList<String>();
+		for(Room r : rooms){
+			s.add(r.getRoomNum());
+		}
+		JSONUtils.toJSON(s, response);
 	}
 
 	/**
@@ -146,8 +164,8 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/delFloor")
 	public void delFloor(String buildingNum,@RequestParam("floorNum[]")String[] floorNum,HttpServletResponse response){
-		System.out.println(buildingNum);
-		System.out.println(floorNum);
+	//	System.out.println(buildingNum);
+	//	System.out.println(floorNum);
 		boolean b = floorService.delFloor(buildingNum,floorNum);
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(b){
@@ -160,7 +178,7 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/delRoom")
 	public void delRoom(String roomNum,HttpServletResponse response){
-		System.out.println(roomNum);
+	//	System.out.println(roomNum);
 		boolean b = roomService.delRoom(roomNum);
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(b){
@@ -173,9 +191,21 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/findAllPersonInRoom")
 	public void findAllPersonInRoom(String roomNum,HttpServletResponse response){
-		System.out.println(roomNum);
+	//	System.out.println(roomNum);
 		List<Student> students = roomService.findAllPersonInRoom(roomNum);
 		JSONUtils.toJSON(students, response);
+	}
+	
+	@RequestMapping("/updateStudentRoom")
+	public void updateStudentRoom(String studentNum,String roomNum,HttpServletResponse response){
+		boolean b = roomService.updateChangeRoom(studentNum,roomNum);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(b){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
+		JSONUtils.toJSON(map, response);
 	}
 	
 }

@@ -140,6 +140,12 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 	}
 
 	@Override
+	public void updateOutRoom(String[] studentNum) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("studentNum", studentNum);
+		getSqlSession().update(Student.class.getName()+".update_out_of_room",map);
+	}
+	@Override
 	public boolean changeLivingStatus(List<String> stuNum, int status) {
 		int result = -1;
 		Map<String, Object> map = new HashMap<String, Object>();

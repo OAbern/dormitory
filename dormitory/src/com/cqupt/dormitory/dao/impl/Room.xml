@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `room` WHERE room_num = #{roomNum}
 	</select>
 
-	<select id="find_all_room_by_buildingnum" parameterType="string" resultMap="roomResult">
+	<select id="find_all_room_by_buildingnum" parameterType="map" resultMap="roomResult">
 		SELECT 
 		  COUNT(student.`stu_id`) AS alreadstay,
 		  s.* 
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		        ON (
 		          floor.`floor_id` = room.`floor_id`
 		        ) 
-		    WHERE room.`room_num` LIKE #{buildingNum}) s 
+		    WHERE room.`room_num` LIKE #{buildingNum} AND floor.`floor_num` LIKE #{floorNum}) s 
 		    ON (s.room_id = student.`room_id`) 
 		GROUP BY s.room_id 
 		order by s.room_num
@@ -79,5 +79,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN teacher ON (student.`tec_id`=teacher.`tec_id`)
 		WHERE room.`room_num`= #{roomNum}
 	</select>
+	
+	<update id="update_student_room_id" parameterType="map">
+		UPDATE `student` SET `room_id` = #{roomId} WHERE stu_num =#{studentNum} 
+	</update>
 	
 </mapper>

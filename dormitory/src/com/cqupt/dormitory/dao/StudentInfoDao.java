@@ -95,4 +95,13 @@ public interface StudentInfoDao {
 	 */
 	public boolean addStudentOutLiving(Student student);
 
+	/**
+	 * updateOutRoom 退宿处理
+	 * @param studentNum 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateOutRoom(String[] studentNum);
+
 }

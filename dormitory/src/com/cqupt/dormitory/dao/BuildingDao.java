@@ -64,4 +64,15 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	boolean isBuildingSexChange(String buildingNum,String sex);
+
+	/**
+	 * findBuildingBySexAndArea 级联查询
+	 * @param area
+	 * @param sex
+	 * @return 
+	 *List<Building>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	List<Building> findBuildingBySexAndArea(String area, String sex);
 }

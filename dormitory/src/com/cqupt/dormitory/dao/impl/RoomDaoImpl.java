@@ -18,15 +18,18 @@ import com.cqupt.dormitory.model.Student;
 public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 
 	@Override
-	public Room findByRoomId(String roomId) {
+	public Room findByRoomNum(String roomId) {
 		Room room = getSqlSession().selectOne("com.cqupt.dormitory.model.Room.findByRoomId", roomId);
 		return room;
 	}
 
 	@Override
-	public List<Room> findAllRoomByBuildingNum(String buildingNum) {
+	public List<Room> findAllRoomByBuildingNumAndFloor(String buildingNum,String floorNum) {
+		Map<String,Object> map = new HashMap<String,Object>();
 		buildingNum += "%";
-		return getSqlSession().selectList(Room.class.getName()+".find_all_room_by_buildingnum",buildingNum);
+		map.put("buildingNum", buildingNum);
+		map.put("floorNum", floorNum);
+		return getSqlSession().selectList(Room.class.getName()+".find_all_room_by_buildingnum",map);
 	}
 
 	@Override
@@ -71,6 +74,14 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 	@Override
 	public List<Student> findAllPersonInRoom(String roomNum) {
 		return getSqlSession().selectList(Room.class.getName()+".find_all_person_room",roomNum);
+	}
+
+	@Override
+	public void updateStudentRoom(String studentNum, int roomId) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("studentNum", studentNum);
+		map.put("roomId", roomId);
+		getSqlSession().update(Room.class.getName()+".update_student_room_id",map);
 	}
 
 }

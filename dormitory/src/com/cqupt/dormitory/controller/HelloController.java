@@ -21,7 +21,7 @@ public class HelloController {
 	@RequestMapping("test")
 	public ModelAndView hello(String roomId) {
 //		System.out.println("roomId:"+roomId);
-		Room room = roomDao.findByRoomId(roomId);
+		Room room = roomDao.findByRoomNum(roomId);
 		ModelAndView modelAndView = new ModelAndView();
 		if(room != null) {
 			modelAndView.addObject("room", room);

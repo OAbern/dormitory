@@ -84,5 +84,16 @@ public interface AreaBuildingService {
 	 * @since  1.0.0
 	 */
 	public boolean updateBuildingMessage(String buildingNum,String sex,String fee,String cata);
+
+	/**
+	 * findBuildingBySexAndArea 级联查询
+	 * @param area
+	 * @param sex
+	 * @return 
+	 *List<Building>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<Building> findBuildingBySexAndArea(String area, String sex);
 	
 }

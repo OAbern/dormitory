@@ -180,6 +180,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</where>
 	</select>
 	
+<<<<<<< .mine
+	<update id="update_out_of_room" parameterType="map">
+		UPDATE `student` SET `room_id` = NULL ,`live_status` = '1' WHERE student.`stu_num` IN
+		<foreach item="item" index="index" collection="studentNum"  open="(" separator="," close=")">
+	                   #{item}
+	    </foreach>
+	</update>
+	
 	<!-- 改变学生的住宿状态 -->
 	<update id="changeLivingStatus" parameterType="map">
 		UPDATE `student`

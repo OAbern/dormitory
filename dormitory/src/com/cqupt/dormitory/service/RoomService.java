@@ -124,5 +124,28 @@ public interface RoomService {
 	 * @since  1.0.0
 	 */
 	public List<Student> findAllPersonInRoom(String roomNum);
+	
+	/**
+	 * updateChangeRoom 
+	 * 			公共方法   / 当添加学生的时候分配宿舍,还有当调换寝室的时候分配宿舍能够使用这个方法
+	 * @param studentNum
+	 * @param roomNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateChangeRoom(String studentNum, String roomNum);
 
+	/**
+	 * updateChangeRoom 
+	 * 			公共方法   / 当添加学生的时候分配宿舍,还有当调换寝室的时候分配宿舍能够使用这个方法
+	 * @param studentNum
+	 * @param roomId
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateChangeRoom(String studentNum,int roomId);
 }

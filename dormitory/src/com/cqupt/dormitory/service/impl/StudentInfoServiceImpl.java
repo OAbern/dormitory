@@ -108,6 +108,23 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	}
 
 	@Override
+	public boolean updateOutOfRoom(String studentNum) {
+		String[] studentNums = {studentNum};
+		return this.updateOutOfRoom(studentNums);
+	}
+
+	@Override
+	public boolean updateOutOfRoom(String[] studentNum) {
+		try {
+			studentInfoDao.updateOutRoom(studentNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public boolean deleteStudentOutLiving(List<String> stuNum) {
 		return studentInfoDao.changeLivingStatus(stuNum, 2);
 	}

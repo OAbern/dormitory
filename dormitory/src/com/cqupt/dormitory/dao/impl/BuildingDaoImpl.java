@@ -54,4 +54,12 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		return true;
 	}
 
+	@Override
+	public List<Building> findBuildingBySexAndArea(String area, String sex) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("sex", sex);
+		map.put("area", area);
+		return getSqlSession().selectList(Building.class.getName()+".find_building_by_sex_area",map);
+	}
+
 }

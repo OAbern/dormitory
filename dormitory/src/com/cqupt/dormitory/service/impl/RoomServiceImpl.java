@@ -24,17 +24,21 @@ public class RoomServiceImpl implements RoomService{
 	@Resource
 	private FloorDao floorDao;
 	
+	
 	@Override
 	public RoomInFloor findRoomInFloorForView(String buildingNum) {
-		List<Room> rooms = roomDao.findAllRoomByBuildingNum(buildingNum);
+		List<Room> rooms = roomDao.findAllRoomByBuildingNumAndFloor(buildingNum,"%");
 		return this.roomHandler(rooms,true);
 	}
 
+	
 	@Override
 	public RoomInFloor findEmptyRoomInFloorForView(String buildingNum) {
-		List<Room> rooms = roomDao.findAllRoomByBuildingNum(buildingNum);
+		List<Room> rooms = roomDao.findAllRoomByBuildingNumAndFloor(buildingNum,"%");
 		return this.roomHandler(rooms,false);
 	}
+	
+	
 	
 	/**
 	 * RoomHandler 创建相应的vo 需要的方法  
@@ -229,7 +233,22 @@ public class RoomServiceImpl implements RoomService{
 	public List<Student> findAllPersonInRoom(String roomNum) {
 		return roomDao.findAllPersonInRoom(roomNum);
 	}
+
+
+	@Override
+	public boolean updateChangeRoom(String studentNum, String roomNum) {
+		Room r = roomDao.findByRoomNum(roomNum);
+		return this.updateChangeRoom(studentNum, r.getId());
+	}
 	
-	
+	public boolean updateChangeRoom(String studentNum,int roomId){
+		try {
+			roomDao.updateStudentRoom(studentNum,roomId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 }

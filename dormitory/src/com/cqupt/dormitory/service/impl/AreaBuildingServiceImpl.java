@@ -158,4 +158,9 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 		}
 		return false;
 	}
+
+	@Override
+	public List<Building> findBuildingBySexAndArea(String area, String sex) {
+		return buildDao.findBuildingBySexAndArea(area,sex);
+	}
 }

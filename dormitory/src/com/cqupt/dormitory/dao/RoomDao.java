@@ -16,7 +16,7 @@ public interface RoomDao {
 	 * @param roomId 房间id(复合型)
 	 * @return	相应的房间
 	 */
-	public Room findByRoomId(String roomId);
+	public Room findByRoomNum(String roomId);
 	
 	
 	/**
@@ -28,7 +28,7 @@ public interface RoomDao {
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	public List<Room> findAllRoomByBuildingNum(String buildingNum);
+	public List<Room> findAllRoomByBuildingNumAndFloor(String buildingNum,String floorNum);
 
 	/**
 	 * findAllCategoryOfRoom 返回所有的寝室类型
@@ -106,4 +106,15 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public List<Student> findAllPersonInRoom(String roomNum);
+
+	/**
+	 * updateStudentRoom 更新一下这个家伙的room_id
+	 * @param studentNum
+	 * @param roomId
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateStudentRoom(String studentNum, int roomId);
 }
