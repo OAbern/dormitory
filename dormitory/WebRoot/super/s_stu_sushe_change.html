@@ -39,7 +39,7 @@ $(function(){
 	
 	$.post("areaInfo/findAllArea.do",{"sex":stuSex},function(data){
 		var area="<option value='-1'>请选择</option>";
-		$.each(data,function(item){
+		$.each(data,function(index,item){
 			 area+="<option value="+item+">"+item+"</option>";
 		});
 		$('.area').append(area);		
@@ -49,12 +49,17 @@ $(function(){
 	$('.area').change(function(){
 		var area=$('select option:selected').val();
 		if(area!='-1'){
+			$('.building').empty();
 			$.post("areaInfo/findBuildingNumBySex.do",{"area":area,"sex":stuSex},function(data){
-				var buildingid="<option value='-1'>请选择</option>";
-				$.each(data,function(item){
-					buildingid+="<option value="+item+">"+item+"</option>";
-				});
-				$('.building').append(buildingid);
+				if(data.length==0){
+					$.messager.alert("提示","您所选的片区没有生"+stuSex+"寝室,请重新选择片区","warning");
+				}else{
+						var buildingid="<option value='-1'>请选择</option>";
+						$.each(data,function(index,item){
+							buildingid+="<option value="+item+">"+item+"</option>";
+						});
+						$('.building').append(buildingid);
+					}
 		    });	
 		}	
 	});
@@ -78,7 +83,7 @@ $(function(){
 					onLoadSuccess:function(data){
 						alert(data.rows.length);
 							if(data.rows.length==0){
-								$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+								$.messager.alert("提示","没有符合条件的数据","warning");
 							}
 						},
 					onLoadError:function(){
