@@ -62,11 +62,11 @@
 	var classNum = "";
 	var optionhtml="<option value='-1'>请选择</option><option value=''>全部</option>";
 	if(sum_fenpei==0){
-		showAcademyAndGrade();
+		showAcademy();
 		$(".fenpei_txt").hide();//把本次分配已选择和下一步隐藏
 		onclick();
 	}else if(sum_fenpei>0){
-		showAcademyAndGrade();
+		showAcademy();
 		$('select[name="major"]').append("<option value=''>全部</option>");
 		for(var i=0;i<fenpei['fenpei_major'].length;i++){
 			$('select[name="major"]').append("<option value='" + fenpei['fenpei_major'][i] + "'>" + fenpei['fenpei_major'][i] + "</option>");
@@ -175,7 +175,6 @@
 			 $.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
 		}
 	});
-	var fenpei_stu=[];
 /*	function emptyOption(num){
 	}*/
 	//第一个选择框改变时   年级
@@ -221,7 +220,6 @@
 		var str="";
 		str=$('select[name="sex"] option:selected').val();
 		fenpei_sure.sex=str;//请求学院。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-		showAcademy();
 	});
 //	第四个选择框改变时  学院,请求专业
 	$('select[name="academy.id"]').change(function(){
@@ -277,12 +275,9 @@
 		fenpei_sure.classNum=str;
 	});
 		//加载学院和年级
-	function showAcademyAndGrade(){
+	function showAcademy(){
 		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append(optionhtml);
-		$('select[name="grade"]').empty();
-		$('select[name="grade"]').append(optionhtml);
+		$('select[name="academy.id"]').append(optionthml);
 		GLOBAL.showAcademy();
-		GLOBAL.showGrade();
 	}
 </script>
