@@ -4,10 +4,73 @@
   <p><b>学生信息表模板：</b><a href="#" class="ml">学生信息Excel模板下载</a></p>
 </div>
 <div class="exportData">
-  <form id="exportData" action="post.jsp">
-    <p><b>批量导入：</b>请选择要上传的Excel:
-      <input type="file">
-      <input type="submit" name="export" value="导入">
-    </p>
+   <form  id="addData" enctype="multipart/form-data" method="post" action="excel/addStudentByExcel.do">
+    <p><span><b>批量添加:</b></span>请选择要上传的Excel:
+        <input name="file" type="file" size="35" onchange="fileChange(this);">
+        <input type="submit" name="submit" value="导入">
+      </p>
   </form>
 </div>
+<script type="text/javascript">
+//上传文件校验
+var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+function fileChange(target,id) { 
+	var fileSize = 0; 
+	var filetypes =[".xls",".xlsx"]; 
+	var filepath = target.value; 
+	var filemaxsize = 1024*2;//2M 
+	if(filepath){ 
+	var isnext = false; 
+	var fileend = filepath.substring(filepath.indexOf(".")); 
+	if(filetypes && filetypes.length>0){ 
+		for(var i =0; i<filetypes.length;i++){ 
+			if(filetypes[i]==fileend){ 
+				isnext = true; 
+				break; 
+			} 
+		} 
+	} 
+	if(!isnext){ 
+		$.messager.alert("提示","不接受此文件类型！"); 
+		target.value =""; 
+		return false; 
+	} 
+	}else{ 
+		return false; 
+	} 
+	if (isIE && !target.files) { 
+		var filePath = target.value; 
+		var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
+		if(!fileSystem.FileExists(filePath)){ 
+			$.messager.alert("提示","文件不存在，请重新输入！"); 
+			return false; 
+		} 
+		var file = fileSystem.GetFile (filePath); 
+		fileSize = file.Size; 
+	} else { 
+		fileSize = target.files[0].size; 
+	} 
+	
+	var size = fileSize / 1024; 
+	if(size>filemaxsize){ 
+		$.messager.alert("提示","文件大小不能大于"+filemaxsize/1024+"M！"); 
+		target.value =""; 
+		return false; 
+	} 
+	if(size<=0){ 
+		$.messager.alert("提示","文件大小不能为0M！"); 
+		target.value =""; 
+		return false; 
+	} 
+} 
+//添加excel文件检验
+$('input[name="submit"]').click(function(){
+	if(!$(this).prev('input').val()){
+		$.messager.alert('操作提示','请选择要上传的Excel');
+		return false;
+	}else{
+		return true;
+	}
+	
+});
+</script>

@@ -20,7 +20,7 @@
   <!-- 筛选框 -->
 	<div id="searchBar">
 		学院:
-		<select name="academy" id="academy">
+		<select name="academy.id" id="academy">
 			<option value="0">未选择</option>
 			<option value="01">通信</option>
 			<option value="02">经管</option>
@@ -30,6 +30,8 @@
 	</div>
    <div id="chartDisplay"></div>
 <script>
+//加载学院选项
+GLOBAL.showAcademy();
 $(function () {
 	$.ajaxSettings.async = false;
 	var options={
