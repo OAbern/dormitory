@@ -199,7 +199,10 @@ public class RoomAndFloorController {
 	public void findAllPersonInRoom(String roomNum,HttpServletResponse response){
 	//	System.out.println(roomNum);
 		List<Student> students = roomService.findAllPersonInRoom(roomNum);
-		JSONUtils.toJSON(students, response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", students.size());
+		map.put("rows",students);
+		JSONUtils.toJSON(map, response);
 	}
 	
 	@RequestMapping("/updateStudentRoom")
@@ -272,6 +275,7 @@ public class RoomAndFloorController {
 		
 	@RequestMapping("/changeOneRoom")
 	public void changeOneRoom(String stuNum,String room,HttpServletResponse response){
+		
 		boolean b = roomService.updateChangeRoom(stuNum,room);
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(b){
