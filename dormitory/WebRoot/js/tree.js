@@ -1,6 +1,6 @@
 // JavaScript Document
 
-$.getJSON("json/get/s_loudong_xinxi.json",function(data){
+$.getJSON("areaInfo/findAreaAndBuilding.do",function(data){
 		var html="";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
