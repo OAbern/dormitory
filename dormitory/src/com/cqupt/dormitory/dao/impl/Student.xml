@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="com.cqupt.dormitory.model.Student" id="studentResult">
 		<id property="id" column="stu_id"/>
 		<result property="sex" column="stu_sex"/>
-		<result property="liveStatus" column="live_satus"/>
+		<result property="liveStatus" column="live_status"/>
 		<result property="grade" column="grade"/>
 		<result property="classNum" column="class"/>
 		<result property="major" column="major"/>

@@ -240,9 +240,14 @@ public class StudentInfoController {
 	/**
 	 * 通过Excel批量添加学生 
 	 */
-	@RequestMapping("/addStudnetByExcel")
+	@RequestMapping("/addStudentByExcel")
 	public void addStudentByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
-		studentInfoService.addStudentByExcel(file);
+		ResultMessage resultMessage = new ResultMessage();
+		resultMessage.setStatus(ResultMessage.FAILED);
+		resultMessage.setInfo("批量添加学生失败！后台未做实现");
+		JSONUtils.toJSON(resultMessage, response);
+		//TODO
+		//studentInfoService.addStudentByExcel(file);
 	}
 	
 	/**
