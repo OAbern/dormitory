@@ -107,5 +107,38 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 			return true;
 		}
 	}
+
+	@Override
+	public List<Student> findStudentOutByCondition(Condition condition) {
+		List<Student> students = null;
+		try{
+			students = getSqlSession().selectList("findStutentOutByCondition", condition);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
+
+	@Override
+	public List<Student> findStudentWithRoom(Condition condition) {
+		List<Student> students = null;
+		try{
+			students = getSqlSession().selectList("findStudentWithRoom", condition);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
+
+	@Override
+	public List<Student> findStudentCheckOutByCondition(Condition condition) {
+		List<Student> students = null;
+		try{
+			students = getSqlSession().selectList("findStudentCheckOutByCondition", condition);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
 	
 }

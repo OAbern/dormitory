@@ -58,7 +58,7 @@ public class StudentInfoController {
 		ResultMessage resultMessage = new ResultMessage();
 		/*检查辅导员是否存在*/
 		ModelAndView modelAndView = new ModelAndView();
-		//TODO 根据班级加载辅导员信息
+		//根据班级加载辅导员信息
 		Teacher teacher = teacherInfoService.findTeacherByClassNum(student.getClassNum());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
@@ -110,15 +110,7 @@ public class StudentInfoController {
 			factorLists.add(factor);
 		}
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
-		Map<String, Object> map = new HashMap<String, Object>();
-		int total = SystemContext.getTotal();
-		if(total <= 0) {
-			total = studentList.size();
-		}
-		map.put("total", total);
-		map.put("rows", studentList);
-		JSONUtils.toJSON(map, response);
-		System.out.println("size:"+studentList.size());
+		this.formatAndWrite(studentList, response);
 	}
 	
 	
@@ -131,7 +123,6 @@ public class StudentInfoController {
 		boolean result = false;
 		ResultMessage resultMessage = new ResultMessage();
 		/*检查辅导员是否存在*/
-		//TODO
 		Teacher teacher = teacherInfoService.findTeacherByClassNum(student.getClassNum());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
@@ -162,7 +153,7 @@ public class StudentInfoController {
 		for(String id : delRowsIdArray){
 			idList.add(id);
 		}
-		boolean result = studentInfoService.deleteStudentByStuId(null);
+		boolean result = studentInfoService.deleteStudentByStuId(idList);
 		if(result) {
 			resultMessage.setStatus(ResultMessage.SUCCESS);
 			resultMessage.setInfo("删除学生信息成功！"); 
@@ -183,14 +174,7 @@ public class StudentInfoController {
 		@SuppressWarnings("unchecked")
 		List<Factor> factors = (List<Factor>) JSONUtils.json2Obj(json, Factor.class);
 		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
-		Map<String, Object> map = new HashMap<String, Object>();
-		int total = SystemContext.getTotal();
-		if(total <= 0) {
-			total = studentList.size();
-		}
-		map.put("total", total);
-		map.put("rows", studentList);
-		JSONUtils.toJSON(map, response);
+		this.formatAndWrite(studentList, response);
 	}
 	
 	/**
@@ -216,14 +200,40 @@ public class StudentInfoController {
 	@RequestMapping("/findStudentByCondition")
 	public void findStudentByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
-		Map<String, Object> map = new HashMap<String, Object>();
-		int total = SystemContext.getTotal();
-		if(total <= 0) {
-			total = students.size();
-		}
-		map.put("total", total);
-		map.put("rows", students);
-		JSONUtils.toJSON(map, response);
+		this.formatAndWrite(students, response);
+	}
+	
+	/**
+	 * 根据条件查找外出住宿的学生信息
+	 * @param condition
+	 * @param response
+	 */
+	@RequestMapping("/findStutentOutLiving")
+	public void findStutentOutLivingByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
+		List<Student> students = studentInfoService.findStudentOutByCondition(condition);
+		this.formatAndWrite(students, response);
+	}
+	
+	/**
+	 * 根据条件查找已住寝室的学生
+	 * @param condition
+	 * @param response
+	 */
+	@RequestMapping("/findStudentWithRoom")
+	public void findStudentWithRoom(@ModelAttribute Condition condition, HttpServletResponse response) {
+		List<Student> students = studentInfoService.findStudentWithRoom(condition);
+		this.formatAndWrite(students, response);
+	}
+	
+	/**
+	 * 根据条件查找退宿的学生信息
+	 * @param condition
+	 * @param response
+	 */
+	@RequestMapping("/findStudentCheckOut")
+	public void findStudentCheckOutByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
+		List<Student> students = studentInfoService.findStudentCheckOutByCondition(condition);
+		this.formatAndWrite(students, response);
 	}
 	
 	/**
@@ -234,6 +244,23 @@ public class StudentInfoController {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");    
 	    dateFormat.setLenient(false);    
 	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));    
+	}
+	
+	/**
+	 * 格式化数据并向前台传递json
+	 * 学生信息类数据
+	 * @param students 查询结果的学生信息
+	 * @param response
+	 */
+	public void formatAndWrite(List<Student> students, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int total = SystemContext.getTotal();
+		if(total <= 0) {
+			total = students.size();
+		}
+		map.put("total", total);
+		map.put("rows", students);
+		JSONUtils.toJSON(map, response);
 	}
 
 	public void setStudentInfoService(StudentInfoService studentInfoService) {

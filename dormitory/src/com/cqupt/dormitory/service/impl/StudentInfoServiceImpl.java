@@ -91,4 +91,19 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		return studentInfoDao.findStudentByFactor(factors);
 	}
 
+	@Override
+	public List<Student> findStudentOutByCondition(Condition condition) {
+		return studentInfoDao.findStudentOutByCondition(condition);
+	}
+
+	@Override
+	public List<Student> findStudentWithRoom(Condition condition) {
+		return studentInfoDao.findStudentWithRoom(condition);
+	}
+
+	@Override
+	public List<Student> findStudentCheckOutByCondition(Condition condition) {
+		return studentInfoDao.findStudentCheckOutByCondition(condition);
+	}
+
 }

@@ -59,5 +59,26 @@ public interface StudentInfoDao {
 	 * @return 存在返回true，否则返回false
 	 */
 	public boolean stuNumIsExist(String stuNum);
+	
+	/**
+	 * 根据条件查找外出住宿的学生信息
+	 * @param condition
+	 * @return
+	 */
+	public List<Student> findStudentOutByCondition(Condition condition);
+	
+	/**
+	 * 根据条件查找已住寝室的学生
+	 * @param condition
+	 * @return
+	 */
+	public List<Student> findStudentWithRoom(Condition condition);
+	
+	/**
+	 * 根据条件查找退宿的学生信息
+	 * @param condition
+	 * @return
+	 */
+	public List<Student> findStudentCheckOutByCondition(Condition condition);
 
 }
