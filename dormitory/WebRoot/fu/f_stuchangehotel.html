@@ -1,19 +1,21 @@
+<style type="text/css">
+
+</style>
 <div class="right_top btm">
   <div class="rheader"><span class="pageName"><b>学生住宿调配界面</b></span><span class="shuoming">您可以查看学生住宿调配情况</span></div>
 </div>
 <div class="right_contain">
-   <form id="form1">
        <div id="tab1"></div>
        <span  style="float:left;margin-top:5px;margin-left:550px">
           <a href="Download/360打分(姓名+学号)1.xlsx"><input name="download" type="button" value="住宿分配情况附件下载"></a>
        </span>
        <div class="editor" style="float:left;margin-top:10px">
             <p style="font-size:11px;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>
-            <input type="file" name="fileImg" id="fileImg" /> 
-            <div id="fileQueue" ></div> 
-            <a href="javascript:$('#uploadify').uploadifyUpload()"><input name="upload" type="button" value="上传" /></a>
-       </div>
-   </form>
+            <form name="form1" enctype="multipart/form-data" method="post"  action="hello.html">
+                 <input name="file" type="file" size="35" onchange="fileChange(this);"/ >
+                 <input name="submit" type="submit" class="btn_grey" value="提交">
+	        </form>
+      </div>
 </div>
 <script type="text/javascript">
 	$("#tab1").datagrid({
@@ -44,13 +46,54 @@
 				displayMsg:"显示{from}到{to},共{total}条记录"
 			});
        $("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应
-       $("#uploadify").uploadify({
-                'uploader': 'JS/jquery.uploadify-v2.1.0/uploadify.swf',
-                'script': 'UploadHandler.ashx',
-                'cancelImg': 'JS/jquery.uploadify-v2.1.0/cancel.png',
-                'folder': 'UploadFile',
-                'queueID': 'fileQueue',
-                'auto': false,
-                'multi': true
-         });
+	   var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+	   function fileChange(target,id) { 
+			var fileSize = 0; 
+			var filetypes =[".xls",".xlsx"]; 
+			var filepath = target.value; 
+			var filemaxsize = 1024*2;//2M 
+			if(filepath){ 
+			var isnext = false; 
+			var fileend = filepath.substring(filepath.indexOf(".")); 
+			if(filetypes && filetypes.length>0){ 
+				for(var i =0; i<filetypes.length;i++){ 
+					if(filetypes[i]==fileend){ 
+						isnext = true; 
+						break; 
+					} 
+				} 
+			} 
+			if(!isnext){ 
+				$.messager.alert("提示","不接受此文件类型！"); 
+				target.value =""; 
+				return false; 
+			} 
+			}else{ 
+				return false; 
+			} 
+			if (isIE && !target.files) { 
+				var filePath = target.value; 
+				var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
+				if(!fileSystem.FileExists(filePath)){ 
+					$.messager.alert("提示","文件不存在，请重新输入！"); 
+					return false; 
+				} 
+				var file = fileSystem.GetFile (filePath); 
+				fileSize = file.Size; 
+			} else { 
+				fileSize = target.files[0].size; 
+			} 
+			
+			var size = fileSize / 1024; 
+			if(size>filemaxsize){ 
+				$.messager.alert("提示","文件大小不能大于"+filemaxsize/1024+"M！"); 
+				target.value =""; 
+				return false; 
+			} 
+			if(size<=0){ 
+				$.messager.alert("提示","文件大小不能为0M！"); 
+				target.value =""; 
+				return false; 
+			} 
+	  } 
 </script>

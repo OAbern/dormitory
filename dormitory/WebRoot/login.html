@@ -5,13 +5,33 @@
 <title>登录</title>
 <link href="css/login.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+	function check(){
+		if($("#userName").attr("value") == "") {
+			alert("请输入用户名");
+			return false;
+		} else if($("#userPwd").attr("value") == "") {
+			alert("请输入用户密码");
+			return false;
+		} else if($("#role").val() == "") {
+			alert("请选择身份信息");
+			return false;
+		} else {
+			return true;
+		}
+	};
+	$.post("json/post/login.json",function(){
+		$.messager.alert("提示","登录成功","info");  
+	})
+</script>
 </head>
 <body onload="createCode();">
 <div id="loginbox">
 	<div id="contain" class="radius">
 		<div class="left"></div>
 		<div class="right radius">
-			 <form action="#" method="post" onsubmit="return checkForm();">
+			 <form action="#" method="post" onsubmit="return check();">
 				<h3>重邮宿舍管理系统</h3>
 				<br>
 				<label for="userName">用户名</label>
@@ -20,8 +40,16 @@
 				<label for="userPwd">密码</label>
 				<input type="password" name="userPwd" id="userPwd" />
                 <p class="clear"></p>
+                <label for="role">身份</label>
+				<select name="loginType" id="role">
+					<option value="0">请选择角色</option>
+                    <option value="1">辅导员</option>
+                    <option value="2">系统管理员</option>
+				</select>
+                <p class="clear"></p>
 				<div>
 					<input name="login" type="submit" value="登录" id="login">
+                    <input type="reset" value="重置" id="reset" />
 				    <p class="clear"></p>
 				</div>
 			</form>
