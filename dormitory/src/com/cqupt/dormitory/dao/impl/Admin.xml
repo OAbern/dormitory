@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dormitory.model.Admin">
+	<resultMap type="com.cqupt.dormitory.model.Admin" id="adminResult">
+		<id column="id" property="id"/>
+		<result column="sex" property="sex"/>
+		<result column="admin_num" property="adminNum"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="post" property="post"/>
+	</resultMap>
+
+
+</mapper>
