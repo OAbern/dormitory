@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="name" column="excel_name"/>
 		<result property="path" column="excel_path"/>
 		
-		<association property="approvedAdmin" column="approved_admin_id" resultMap="adminResult"/>
-		<association property="submitTeacher" column="submit_teacher_id" resultMap="teacherResult"/>
+		<association property="approvedAdmin" column="approved_admin_id" resultMap="com.cqupt.dormitory.model.Admin.adminResult"/>
+		<association property="submitTeacher" column="submit_teacher_id" resultMap="com.cqupt.dormitory.model.Teacher.teacherResult"/>
 	</resultMap>
 	
 	<!-- 添加Excel信息 -->
@@ -33,15 +33,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 查找所有的Excel信息 -->
 	<select id="findAllExcel" resultMap="excelResult">
 		SELECT * FROM `excel` e
-			LEFT JOIN `teacher` t ON e.`submit_teacher_id` = t.`teacher_id`
+			LEFT JOIN `teacher` t ON e.`submit_teacher_id` = t.`tec_id`
 			LEFT JOIN `admin` a ON e.`approved_admin_id` = a.`admin_id`
 	</select>
 	
 	<!-- 根据教工号查找所提交的Excel -->
 	<select id="findExcelByTecNum" parameterType="String" resultMap="excelResult">
 		 SELECT * FROM `excel` e
-			LEFT JOIN `teacher` t ON e.`submit_teacher_id` = t.`teacher_id`
+			LEFT JOIN `teacher` t ON e.`submit_teacher_id` = t.`tec_id`
 			LEFT JOIN `admin` a ON e.`approved_admin_id` = a.`admin_id`
 			WHERE e.`submit_teacher_id` = #{tecNum}
 	</select>
+	
+	<!-- 改变excel的状态 -->
+	<update id="changeExcelStatus" parameterType="Map">
+		UPDATE `excel` 
+			SET `approved_admin_id` = #{adminId, jdbcType=INTEGER},
+				`status` = #{status, jdbcType=INTEGER}
+			WHERE `excel_id` IN 
+			<foreach collection="ids" item="i" separator=",">
+				#{i, jdbcType=Integer}
+			</foreach>
+	</update>
+	
 </mapper>

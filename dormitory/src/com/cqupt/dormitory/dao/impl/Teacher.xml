@@ -52,9 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE `teacher` 
 		<set>
 			<if test="sex!=null">`tec_sex` = #{sex}</if>
-			<if test="phone!=null">`phone` = #{phone}</if>
-			<if test="name!=null">`tec_name` = #{name}</if>
-			<if test="password">`password` = #{password}</if>		
+			<if test="phone!=null">, `tec_phone` = #{phone}</if>
+			<if test="name!=null">, `tec_name` = #{name}</if>
+			<if test="password">, `password` = #{password}</if>		
 		</set> 
 			WHERE `tec_num` = #{tecNum}
 	</update>

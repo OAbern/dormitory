@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.TeacherInfoService;
@@ -61,6 +62,7 @@ public class TeacherInfoController {
 			resultMessage.setStatus(ResultMessage.FAILED);
 			resultMessage.setInfo("更新教师信息失败！");
 		}
+		JSONUtils.toJSON(resultMessage, response);
 	}
 	
 	/**
@@ -135,6 +137,14 @@ public class TeacherInfoController {
 			resultMessage.setInfo("删除教师信息失败！");
 		}
 		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 通过Excel批量添加辅导员
+	 */
+	@RequestMapping("/addTeacherByExcel")
+	public void addTeacherByExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) { 
+		//TODO
 	}
 	
 }

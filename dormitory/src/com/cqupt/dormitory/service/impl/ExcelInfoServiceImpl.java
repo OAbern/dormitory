@@ -42,6 +42,13 @@ public class ExcelInfoServiceImpl implements ExcelInfoService {
 	@Override
 	public List<ExcelInfo> findExcelByTecNum(String tecNum) {
 		return excelInfoDao.findExcelByTecNum(tecNum);
+	}
+
+	@Override
+	public boolean changeExcelStatus(List<Integer> ids, int approvedAdminId,
+			int status) {
+		
+		return excelInfoDao.changeExcelStatus(ids, approvedAdminId, status);
 	}	
 
 }

@@ -7,7 +7,7 @@ package com.cqupt.dormitory.model;
  */
 public class ExcelInfo {
 	private int id;		//excel的逻辑id
-	private int status;		//excel审核状态，0表示未审核，1表示审核通过，2表示审核失败
+	private int status;		//excel审核状态，1表示未审核，2表示审核通过，3表示审核失败
 	
 	private String name;		//excel名字
 	private String path;		//excel的存储路径

@@ -34,4 +34,12 @@ public interface ExcelInfoDao {
 	 * @return
 	 */
 	public List<ExcelInfo> findExcelByTecNum(String tecNum);
+	
+	/**
+	 * 改变Excel的状态
+	 * @param status
+	 * @return
+	 */
+	public boolean changeExcelStatus(List<Integer> ids, int approvedAdminId,
+			int status);
 }

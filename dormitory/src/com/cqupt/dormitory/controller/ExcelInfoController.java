@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cqupt.dormitory.model.Admin;
 import com.cqupt.dormitory.model.ExcelInfo;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.ExcelInfoService;
@@ -136,5 +137,52 @@ public class ExcelInfoController {
 		map.put("rows", infos);
 		JSONUtils.toJSON(map, response);
 	}
+	
+	/**
+	 * 审批通过Excel
+	 */
+	@RequestMapping("/approved")
+	public void approvedExcel(@RequestParam("delRowsIdArray[]") int []delRowsIdArray, HttpServletRequest request, HttpServletResponse response) {
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		List<Integer> list = new ArrayList<Integer>();
+		for(int id : delRowsIdArray) {
+			list.add(id);
+		}
+		
+		boolean result = excelInfoService.changeExcelStatus(list, admin.getId(), 2);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("审批成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("审批失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
+	/**
+	 * 审批拒绝Excel
+	 */
+	@RequestMapping("/refuse")
+	public void refuseExcel(@RequestParam("delRowsIdArray[]") int []delRowsIdArray, HttpServletRequest request, HttpServletResponse response) {
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		List<Integer> list = new ArrayList<Integer>();
+		for(int id : delRowsIdArray) {
+			list.add(id);
+		}
+		
+		boolean result = excelInfoService.changeExcelStatus(list, admin.getId(), 3);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("审批成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("审批失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
 	
 }
