@@ -6,23 +6,88 @@
   <div class="addLodong">
     <form  id="add" action="areaInfo/addBuildingByExcel.do" enctype="multipart/form-data" method="post">
       <span><b>请选择要上传文件：</b>
-      <input type="file" name="file">
+      <input type="file" name="file" onchange="fileChange(this)" >
       <input type="submit" value="确定">
       </span>
     </form>
-    <p><b>下载添加的楼栋信息模板：</b><a href="Download/add_building_nodel.xls">excel模板下载</a></p>
+    <p><b>下载添加的楼栋信息模板：</b><a href="Download/add_building_model.xlsx">excel模板下载</a></p>
     <p><img src="images/add_loudong.jpg" /></p>
   </div>
 </div>
 <script type="text/javascript">
+     var able = false;
+	   var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+	   function fileChange(target,id) { 
+			var fileSize = 0; 
+			var filetypes =[".xls",".xlsx"]; 
+			var filepath = target.value; 
+			var filemaxsize = 1024*2;//2M 
+			if(filepath){ 
+			var isnext = false; 
+			var fileend = filepath.substring(filepath.indexOf(".")); 
+			if(filetypes && filetypes.length>0){ 
+				for(var i =0; i<filetypes.length;i++){ 
+					if(filetypes[i]==fileend){ 
+						isnext = true; 
+						break; 
+					} 
+				} 
+			} 
+			if(!isnext){ 
+				$.messager.alert("提示","不接受此文件类型！"); 
+				target.value =""; 
+				return false; 
+			} 
+			}else{ 
+				return false; 
+			} 
+			if (isIE && !target.files) { 
+				var filePath = target.value; 
+				var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
+				if(!fileSystem.FileExists(filePath)){ 
+					$.messager.alert("提示","文件不存在，请重新选择！"); 
+					return false; 
+				} 
+				var file = fileSystem.GetFile (filePath); 
+				fileSize = file.Size; 
+			} else { 
+				fileSize = target.files[0].size; 
+			} 
+			
+			var size = fileSize / 1024; 
+			if(size>filemaxsize){ 
+				$.messager.alert("提示","文件大小不能大于"+filemaxsize/1024+"M！"); 
+				target.value =""; 
+				return false; 
+			} 
+			if(size<=0){ 
+				$.messager.alert("提示","文件大小不能为0M！"); 
+				target.value =""; 
+				return false; 
+			} 
+			able=true;
+	  } 
+	  function check(){
+	     if(able == true){
+	       return true;
+	     }
+	     else{
+	       $.messager.alert("提示","请选择文件");
+	       return false;
+	     }
+	  }
 $('#add').form({
   success:function(d){
   	var data=JSON.parse(d);
     if(data.status=='0'){
-			$.messager.alert('操作提示',data.info);
-			window.location.reload();
+			$.messager.alert('操作提示',"文件格式不正确，上传失败",function(){				
+			});
+		
 		}else if(data.status=='1'){
-			$.messager.alert('操作提示','上传成功');
+			$.messager.alert('操作提示','上传成功',function(){
+				window.location.reload();
+			});
+			
 		}
   }
 });

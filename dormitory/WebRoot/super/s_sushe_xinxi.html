@@ -51,6 +51,11 @@ $(function(){
 				text:'删除楼层',
 				iconCls:'icon-remove',
 				handler:deleteRows
+			},{
+				id:'deleteBuilding',
+				text:'删除楼栋',
+				iconCls:'icon-remove',
+				handler:deleteBuilding
 			}],
 		/* pagination:true,
 		pageNumber:1,
@@ -166,14 +171,26 @@ $(function(){
 				    				$('#dormitory').datagrid('deleteRow',index);
 								}	//通过行号移除该行
 							}else{
-								$.messager.alert("提示","删除失败,删除的楼栋中有人在住,请先作退宿处理再删除","info");
+								$.messager.alert("提示","删除失败,删除的楼层中有人在住,请先作退宿处理再删除","info");
 								}
 						});//post结束
 					}
 				});
 			}
 	}//delete end
-	
+	function deleteBuilding(){
+		$.messager.confirm("提示","确定删除该楼栋么？",function(r){
+			if(r){
+				$.post("",{"buildingId":buildingid},function(data){
+					if(data.status==0){
+						$.messager.alert("提示","删除失败,该楼栋中有学生入住,请先作退宿处理再删除","info");
+					}else{
+						$.messager.alert("提示","删除成功","info");
+					}
+				})
+			}
+		});
+	}
 	
 });
 </script>
