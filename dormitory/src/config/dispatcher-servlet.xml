@@ -18,6 +18,11 @@
     
     <!-- 默认的注解映射的支持 -->  
     <mvc:annotation-driven />
+    
+    <!-- 分页参数拦截器 -->
+    <mvc:interceptors>
+    	<bean class="com.cqupt.dormitory.interceptor.PagingParameterInteceptor"/>	
+    </mvc:interceptors>
  
     <!-- 完成请求和注解POJO的映射 -->
 <!--     
@@ -44,4 +49,5 @@
     
     <!-- 对静态资源文件的访问   -->  
     <mvc:default-servlet-handler/> 
+    
 </beans>

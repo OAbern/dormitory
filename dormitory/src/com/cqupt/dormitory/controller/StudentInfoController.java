@@ -27,6 +27,7 @@ import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.service.TeacherInfoService;
 import com.cqupt.dormitory.vo.Factor;
 import com.cqupt.dormitory.utils.JSONUtils;
+import com.cqupt.dormitory.utils.SystemContext;
 import com.cqupt.dormitory.vo.Condition;
 import com.cqupt.dormitory.vo.ResultMessage;
 
@@ -109,7 +110,12 @@ public class StudentInfoController {
 			factorLists.add(factor);
 		}
 		List<Student> studentList = studentInfoService.findStudentByFactor(factorLists);
-		JSONUtils.toJSON(studentList, response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		int total = SystemContext.getTotal();
+		map.put("total", total);
+		map.put("rows", studentList);
+		JSONUtils.toJSON(map, response);
+		System.out.println("size:"+studentList.size());
 	}
 	
 	
@@ -175,7 +181,8 @@ public class StudentInfoController {
 		List<Factor> factors = (List<Factor>) JSONUtils.json2Obj(json, Factor.class);
 		List<Student> studentList = studentInfoService.findStudentByFactor(factors);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("total", studentList.size());
+		int total = SystemContext.getTotal();
+		map.put("total", total);
 		map.put("rows", studentList);
 		JSONUtils.toJSON(map, response);
 	}
@@ -204,7 +211,8 @@ public class StudentInfoController {
 	public void findStudentByCondition(@ModelAttribute Condition condition, HttpServletResponse response) {
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("total", students.size());
+		int total = SystemContext.getTotal();
+		map.put("total", total);
 		map.put("rows", students);
 		JSONUtils.toJSON(map, response);
 	}

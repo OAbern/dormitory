@@ -49,7 +49,12 @@
 	            <prop key="cacheEnabled">true</prop>  
 	            <prop key="callSettersOnNulls">true</prop>  
 	        </props>  
-    	</property>  
+    	</property>
+    	
+    	<!-- 分页sql拼装 拦截器 -->
+    	<property name="plugins">
+    		<ref bean="pagingSqlInterceptor"/>
+    	</property>
 	</bean>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">  
