@@ -36,7 +36,7 @@ input[type='text'],input[type='password']{
       <div class="rheader"><span class="pageName"><b>辅导员信息修改界面</b></span><span class="shuoming">您可以修改您的基本信息</span></div>
     </div>
     <div class="right_foot">
-          <form id="form1" action="#"  method="post">
+          <form id="form1">
               <p class="item"><span>姓名:</span>
                  <input type="text" name="name" class="name">
                 <br />
@@ -50,7 +50,7 @@ input[type='text'],input[type='password']{
                 <br />
               </p>
                <p class="item"><span>旧密码:</span>
-                   <input  type="password" name="old"  class="old" onblur="checkPwd()">
+                   <input  type="password" name="old"  class="old" onchange="checkPwd()">
                    <br />
                </p>
                <p class="item"><span>新密码:</span>
@@ -62,14 +62,14 @@ input[type='text'],input[type='password']{
                    <br />
                </p>
                <div class="help">
-                     <input type="button" value="修改" onclick="submitModify()">
+                     <input type="button" value="修改" id="modify">
                      <input type="reset" value="重置">
                 </div>
           </form>
      </div>
 </div>
 <script type="text/javascript">
-       //获取登录辅导员的信息
+    //获取登录辅导员的信息
 	$(document).ready(function(){
 		var tec_name="";
 		var tec_phone="";
@@ -78,13 +78,21 @@ input[type='text'],input[type='password']{
 			tec_name=data.name;
 			tec_sex=data.sex;
 			tec_phone=data.phone;
+			$('.name').attr("value",tec_name);
+		    $('.sex').attr("value",tec_sex);
+		    $('.phone').attr("value",tec_phone);
 		});
-		$('.name').html(tec_name);
-		$('.sex').html(tec_sex);
-		$('.phone').value=tec_phone;
+	});
+	var ok_1=false,ok_2=false,ok_3=false;
 	function checkPwd(){
 	    var password= $(".old").val();
 		$.post("teacherInfo/checkPw.do",{"password":password},function(data){
+		   if(data.status==0){
+		        $.messager.alert("警告",data.info,"error");
+		        $(".old").empty();
+		   }else if(data.status==1){
+		       ok_1=true;
+		   }
 		});
 	}
 	function checkNew(){
@@ -92,23 +100,34 @@ input[type='text'],input[type='password']{
 		var key2 = $(".again").val();
 		if(key2 != key1){
 		   $.messager.alert("提示","两次密码输入不一致","info");
-		   $(".again").empty();
-		   $(".new").empty();
+		   $(".again").html("");
+		   $(".new").html("");
+		}else if(key2==key1){
+		   ok_2=true;
 		}
 	}
-	function submitModify(){
-		var name = $(".name").val();
-		var num = $(".phone").val();
+	$("#modify").click(function(){
+	    var name = $(".name").val();
+		var phone = $(".phone").val();
+		var sex=$(".sex").val();
+		var password =$(".new").val();
 		if(name == ""){
 			 $.messager.alert("提示","姓名为必填","info");
 			 return false;
-		}else if(num == ""){
+		}else if(phone == ""){
 			 $.messager.alert("提示","电话为必填","info");
 			 return false;
 		}else{
-			$.post('teacherInfo/updateTeacher.do',$('#form1').serialize(),function(data){
-		    });	
+			ok_3=true;
 		}
-	}
-});
+		if(ok_1&&ok_2&&ok_3){
+		   $.post('teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
+		      if(data.status==0){
+				$.messager.alert("提示","修改成功");
+				}else{
+				  $.messager.alert("提示","修改失败");
+			  }
+		   });	
+	    }
+	});
 </script>
