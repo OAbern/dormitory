@@ -24,11 +24,13 @@
             <span class="jilian">
               <lable for="major">专业:</lable>
                   <select class="select major" name="major">
-                    <option value="请选择">请选择</option>
+                    <option value='-1'>未选择</option>
+                    <option value=''>全部</option>
                   </select>
               <lable for="classNum">班级:</lable>
                   <select class="select classNum" name="classNum">
-                    <option value="请选择">请选择</option>
+                    <option value='-1'>未选择</option>
+                    <option value=''>全部</option>
                   </select>      
              </span>&nbsp;&nbsp;&nbsp;
              <input name="ok" type="button"  value="确定" id="sure"/></div>
@@ -41,7 +43,7 @@
     //加载页面时，发送请求获取专业信息
 	$(document).ready(function(){
 		$('select[name="major"]','select[name="classNum"]').empty();
-		$('select[name="major"]','select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="major"]','select[name="classNum"]').append("<option value='-1'>未选择</option><option value=''>全部</option>");
 		$.post('teacherInfo/findMajor.do',function(data){
 				for(var i=0;i<data.length;i++){
 					$('select[name="major"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
@@ -51,7 +53,7 @@
 	//选择专业，请求班级
 	$('select[name="major"]').change(function(){
 		$('select[name="classNum"]').empty();
-		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="classNum"]').append("<option value='-1'>未选择</option><option value=''>全部</option>");
 		major=$('select[name="major"] option:selected').val();
 		$.post('studentInfo/findCascadingInfo.do',{"major":major,"target":"classNum"},function(data){
 			for(var i=0;i<data.length;i++){
@@ -79,8 +81,16 @@
 						data:data,
 						width:'720px',
 						height:'300px', 
+						rownumbers:'true',
+						striped:true,//斑马线
+						fitColumns:true,//适应宽度
+						nowrap:false,//自动换行
 						columns:[[    
-							{field:'academy',title:'学院',width:80,align:'center'},    
+							{field : 'academy',title : '学院',width : 200,align : 'center',
+					        	formatter:function(value){
+								 	return value.name;
+								 }
+					        },    
 							{field:'major',title:'专业',width:120,align:'center'},
 							{field:'grade',title:'年级',width:50,align:'center'},    
 							{field:'classNum',title:'班级',width:60,align:'center'},
@@ -111,6 +121,5 @@
 			 }
 	    });	
 	}
-       //$("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应	
 </script>
 

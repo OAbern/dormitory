@@ -79,8 +79,8 @@ input[type='text'],input[type='password']{
 			tec_sex=data.sex;
 			tec_phone=data.phone;
 		});
-		$('.name').value=tec_name;
-		$('.sex').value=tec_sex;
+		$('.name').html(tec_name);
+		$('.sex').html(tec_sex);
 		$('.phone').value=tec_phone;
 	function checkPwd(){
 	    var password= $(".old").val();

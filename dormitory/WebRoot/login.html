@@ -10,7 +10,7 @@
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#login").click(function(){
+	function checkForm() {
 		if($("#num").val() == ""){
 			alert("请输入用户名");
 			return false;
@@ -21,10 +21,9 @@ $(document).ready(function(){
 			alert("请选择身份信息");
 			return false;
 		} else {
-				$.post("loginCheck.do",$('#form1').serializeArray(),function(data){ 
-	        });
+			return true;
 		}
-	});
+	}
 });
 </script>
 </head>
@@ -33,7 +32,7 @@ $(document).ready(function(){
 	<div id="contain" class="radius">
 		<div class="left"></div>
 		<div class="right radius">
-			 <form id="form1" method="post">
+			 <form  action="loginCheck.do" method="post" onsubmit="return checkForm()">
 				<h3>重邮宿舍管理系统</h3>
 				<br>
 				<label for="num">用户名</label>
@@ -50,7 +49,7 @@ $(document).ready(function(){
 				</select> 
                 <p class="clear"></p>
 				<div>
-					<input type="button" value="登录" id="login"/>
+					<input type="submit" value="登录" id="login" />
                     <input type="reset" value="重置" id="reset" />
 				    <p class="clear"></p>
 				</div>

@@ -21,7 +21,11 @@
 			$("#tab1").datagrid({
 						data:data,
 						width:'700px',
-						height:'250px', 
+						height:'250px',
+						rownumbers:'true',
+						striped:true,//斑马线
+						fitColumns:true,//适应宽度
+						nowrap:false,//自动换行 
 						columns:[[    
 							{field:'dormitory',title:'新寝室号',width:100,align:'center'},
 							{field:'roomNum',title:'原寝室号',width:100,align:'center'},
@@ -46,7 +50,6 @@
 						afterPageText:"共{pages}页",
 						displayMsg:"显示{from}到{to},共{total}条记录"
 					});
-			   $("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应
 		}else{
 				 $.messager.alert("提示","经查询无数据","info");
 			 }
