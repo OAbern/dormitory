@@ -45,9 +45,9 @@
 	$(document).ready(function(){
 		$('select[name="major"]','select[name="classNum"]').empty();
 		$('select[name="major"]','select[name="classNum"]').append("<option value='-1'>未选择</option><option value=''>全部</option>");
-		$.post('teacherInfo/findMajor.do',function(data){
-				for(var i=0;i<data.length;i++){
-					$('select[name="major"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+		$.post('teacherInfo/findMajor.do',function(row){
+				for(var i=0;i<row.length;i++){
+					$('select[name="major"]').append("<option value='" + row[i] + "'>" + row[i] + "</option>");
 				}
 		});
 	});
