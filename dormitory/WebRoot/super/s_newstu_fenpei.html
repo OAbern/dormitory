@@ -13,11 +13,6 @@
       <span style="display:none">年级:</span>
       <select class="select grade" style="display:none">
         <option value="请选择">请选择</option>
-        <option value="">全部</option>
-        <option value="2011">2011</option>
-        <option value="2012">2012</option>
-        <option value="2013">2013</option>
-        <option value="2014">2014</option>
       </select>
        学历:
       <select class="select education" name="education">
@@ -182,8 +177,7 @@
 //	第二个选择框改变时  学历
 	$('select[name="education"]').change(function(){
 		$('select[name="sex"]').val("请选择");
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="academy.id"]').val("请选择");
 		$('select[name="major"]').empty();
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
@@ -194,8 +188,7 @@
 	});
 //	第三个选择框改变时   性别，请求学院
 	$('select[name="sex"]').change(function(){
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="academy.id"]').val("请选择");
 		$('select[name="major"]').empty();
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();

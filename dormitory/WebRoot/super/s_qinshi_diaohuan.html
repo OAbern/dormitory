@@ -170,8 +170,7 @@
 	$('select[name="grade"]').change(function(){
 		$('select[name="education"]').val("请选择");
 		$('select[name="sex"]').val("请选择");
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="academy.id"]').val("请选择");
 		$('select[name="major"]').empty();
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
@@ -183,8 +182,7 @@
 //	第二个选择框改变时  学历
 	$('select[name="education"]').change(function(){
 		$('select[name="sex"]').val("请选择");
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
+		$('select[name="academy.id"]').val("请选择");
 		$('select[name="major"]').empty();
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
@@ -195,15 +193,13 @@
 	});
 //	第三个选择框改变时   性别，请求学院
 	$('select[name="sex"]').change(function(){
-		$('select[name="academy.id"]').empty();
-		$('select[name="academy.id"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="major"]').empty();
 		$('select[name="major"]').append("<option value='请选择'>请选择</option>");
 		$('select[name="classNum"]').empty();
 		$('select[name="classNum"]').append("<option value='请选择'>请选择</option>");
 		var str="";
 		str=$('select[name="sex"] option:selected').val();
-		diaohuan_sure.sex=str;//请求学院。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+		diaohuan_sure.sex=str;
 	});
 //	第四个选择框改变时  学院,请求专业
 	$('select[name="academy.id"]').change(function(){
