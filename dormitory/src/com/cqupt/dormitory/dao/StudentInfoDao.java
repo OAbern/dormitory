@@ -111,5 +111,12 @@ public interface StudentInfoDao {
 	 * @since  1.0.0
 	 */
 	public void updateOutRoom(String[] studentNum);
+	
+	/**
+	 * 根据条件查找学生（按academy和class排序）
+	 * @param condition
+	 * @return
+	 */
+	public List<Student> findStudentOrdered(Condition condition);
 
 }

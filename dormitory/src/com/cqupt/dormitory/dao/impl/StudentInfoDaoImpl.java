@@ -193,5 +193,16 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		}
 		return student;
 	}
+
+	@Override
+	public List<Student> findStudentOrdered(Condition condition) {
+		List<Student> students = null;
+		try {
+			students = getSqlSession().selectList("findStudentOrdered", condition);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
 	
 }

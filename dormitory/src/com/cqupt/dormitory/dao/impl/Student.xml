@@ -81,6 +81,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</where>
 	</select>
 	
+	<!-- 根据条件查找学生 （排序字段为academy 和 class） -->
+	<select id="findStudentOrdered" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
+		SELECT * FROM `student` s
+			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
+			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
+			<where>
+				s.`live_status` = 2
+				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
+				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
+				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
+				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
+				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
+			</where>
+			ORDER BY s.`academy_id`,s.`class`
+	</select>
+	
 	<!-- 更新学生信息 -->
 	<update id="updateStudent" parameterType="com.cqupt.dormitory.model.Student">
 		UPDATE `student` SET 
