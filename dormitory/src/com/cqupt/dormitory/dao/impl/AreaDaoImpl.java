@@ -8,7 +8,7 @@ import com.cqupt.dormitory.dao.AreaDao;
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
 
-@Repository("areaDao")
+@Repository
 public class AreaDaoImpl extends BaseDaoSupport implements AreaDao {
 
 	@Override

@@ -8,12 +8,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="roomNum" column="room_num"/>
 		<result property="totalBed" column="total_bed"/>
 		<result property="cost" column="cost"/>
-		
-		<association property="floor" column="floor_id" resultMap="com.cqupt.dormitory.model.Floor.floorResult"></association>
+		<result property="alreadyStay" column="alreadstay"/><!-- 已经入住人数 -->
+		<association property="floor" column="floor_id" resultMap="com.cqupt.dormitory.model.Floor.floorResult"/>
 	</resultMap>
 	
 	<select id="findByRoomId" resultMap="roomResult" parameterType="String">
 		SELECT * FROM `room` WHERE room_num = #{roomNum}
 	</select>
 
+	<select id="find_all_room_by_buildingnum" parameterType="string" resultMap="roomResult">
+		SELECT 
+		  COUNT(student.`stu_id`) AS alreadstay,
+		  s.* 
+		FROM
+		  student 
+		  RIGHT JOIN 
+		    (SELECT 
+		      room.*,
+		      floor.`building_id`,
+		      floor.`floor_num` 
+		    FROM
+		      room 
+		      LEFT JOIN FLOOR
+		        ON (
+		          floor.`floor_id` = room.`floor_id`
+		        ) 
+		    WHERE room.`room_num` LIKE #{buildingNum}) s 
+		    ON (s.room_id = student.`room_id`) 
+		GROUP BY s.room_id 
+	</select>
 </mapper>

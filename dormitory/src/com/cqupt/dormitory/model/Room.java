@@ -10,6 +10,7 @@ public class Room {
 	private int cost;	//费用 元\年
 	private String roomNum;	//房间id
 	private Floor floor;	//所属楼层
+	private int alreadyStay; // hhy 新增属性. 已经入住的人数
 	
 	
 	public int getId() {

@@ -1,5 +1,7 @@
 package com.cqupt.dormitory.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.cqupt.dormitory.dao.RoomDao;
@@ -16,6 +18,12 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 	public Room findByRoomId(String roomId) {
 		Room room = getSqlSession().selectOne("com.cqupt.dormitory.model.Room.findByRoomId", roomId);
 		return room;
+	}
+
+	@Override
+	public List<Room> findAllRoomByBuildingNum(String buildingNum) {
+		buildingNum += "%";
+		return getSqlSession().selectList(Room.class.getName()+".find_all_room_by_buildingnum",buildingNum);
 	}
 
 }

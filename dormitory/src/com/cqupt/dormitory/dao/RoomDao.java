@@ -1,5 +1,7 @@
 package com.cqupt.dormitory.dao;
 
+import java.util.List;
+
 import com.cqupt.dormitory.model.Room;
 
 /**
@@ -15,4 +17,15 @@ public interface RoomDao {
 	 */
 	public Room findByRoomId(String roomId);
 	
+	
+	/**
+	 * findAllRoomByBuildingNum 
+	 * 	根据buildingNum来查找所有的room 对象 
+	 * @param buildingNum
+	 * @return 
+	 *List<Room>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<Room> findAllRoomByBuildingNum(String buildingNum);
 }
