@@ -1,6 +1,5 @@
 package com.cqupt.dormitory.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -63,48 +62,25 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public List<Student> findStudentByCondition(Condition condition) {
-		/* 将Condition对象封装成Factor对象集合  */
-		List<Factor> factors = new ArrayList<Factor>();
-		if(condition.getAcademy()!=null && !"".equals(condition.getAcademy())) {
-			Factor factor = new Factor("academy_id",condition.getAcademy());
-			factors.add(factor);
-		}
-		if(condition.getClassNum()!=null && !"".equals(condition.getClassNum())) {
-			Factor factor = new Factor("class", condition.getClassNum());
-			factors.add(factor);
-		}
-		if(condition.getEducation()!=null && !"".equals(condition.getEducation())) {
-			Factor factor = new Factor("education", condition.getEducation());
-			factors.add(factor);	
-		}
-		if(condition.getGrade()!=null && !"".equals(condition.getGrade())) {
-			Factor factor = new Factor("grade", condition.getGrade());
-			factors.add(factor);
-		}
-		if(condition.getMajor()!=null && !"".equals(condition.getMajor())) {
-			Factor factor = new Factor("major", condition.getMajor());
-			factors.add(factor);
-		}
-		if(condition.getSex()!=null && !"".equals(condition.getSex())) {
-			Factor factor = new Factor("stu_sex", condition.getSex());
-			factors.add(factor);
-		}
-		return studentInfoDao.findStudentByFactor(factors);
+		return studentInfoDao.findStudentByCondition(condition);
 	}
 
 	@Override
 	public List<Student> findStudentOutByCondition(Condition condition) {
-		return studentInfoDao.findStudentOutByCondition(condition);
+		condition.setLivingStatus(2);
+		return studentInfoDao.findStudentByCondition(condition);
 	}
 
 	@Override
 	public List<Student> findStudentWithRoom(Condition condition) {
-		return studentInfoDao.findStudentWithRoom(condition);
+		condition.setLivingStatus(4);
+		return studentInfoDao.findStudentByCondition(condition);
 	}
 
 	@Override
 	public List<Student> findStudentCheckOutByCondition(Condition condition) {
-		return studentInfoDao.findStudentCheckOutByCondition(condition);
+		condition.setLivingStatus(1);
+		return studentInfoDao.findStudentByCondition(condition);
 	}
 
 	@Override

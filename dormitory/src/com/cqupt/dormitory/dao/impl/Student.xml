@@ -153,50 +153,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `student` WHERE `stu_num` = #{stuNum} AND `stu_name` = #{name}
 	</select>
 	
-	<!-- 根据条件查找外出住宿的学生 -->
-	<select id="findStutentOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
-		SELECT * FROM `student` s
-			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
-			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
-			<where>
-				s.`live_status` = 2
-				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
-				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
-				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
-				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
-				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
-			</where>
-	</select>
-	
-	<!-- 查找已住寝室的学生 -->
-	<select id="findStudentWithRoom" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT">
+	<!-- 根据条件查找学生 -->
+	<select id="findStudentByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT" >
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
 			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
 			<where>
-				s.`room_id` IS NOT NULL
+				<if test="livingStatus!=0">s.`live_status` = ${livingStatus}</if>
 				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
 				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
 				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
 				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
 				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
-			</where>
-	</select>
-	
-	<!-- 根据条件查找退宿的学生信息 -->
-	<select id="findStudentCheckOutByCondition" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentResult" statementType="STATEMENT" >
-		SELECT * FROM `student` s
-			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
-			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
-			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
-			<where>
-				s.`live_status` = 0
-				<if test="academy!=null and academy!=''">AND s.`academy_id` = ${academy}</if>
-				<if test="education!=null and education!=''">AND s.`education` = '${education}'</if>
-				<if test="major!=null and major!=''">AND s.`major` = '${major}'</if>
-				<if test="grade!=null and grade!=''">AND s.`grade` = '${grade}'</if>
-				<if test="sex!=null and sex!=''">AND s.`sex` = '${sex}'</if>
+				<if test="classNum!=null and classNum!=''">AND s.`class` = '${classNum}'</if>
 				<if test="buildingNum!=null and buildingNum!=''">AND r.`room_num` = '${buildingNum}%'</if>
 			</where>
 	</select>

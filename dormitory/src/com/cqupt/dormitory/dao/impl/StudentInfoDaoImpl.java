@@ -109,39 +109,6 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 	}
 
 	@Override
-	public List<Student> findStudentOutByCondition(Condition condition) {
-		List<Student> students = null;
-		try{
-			students = getSqlSession().selectList("findStutentOutByCondition", condition);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return students;
-	}
-
-	@Override
-	public List<Student> findStudentWithRoom(Condition condition) {
-		List<Student> students = null;
-		try{
-			students = getSqlSession().selectList("findStudentWithRoom", condition);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return students;
-	}
-
-	@Override
-	public List<Student> findStudentCheckOutByCondition(Condition condition) {
-		List<Student> students = null;
-		try{
-			students = getSqlSession().selectList("findStudentCheckOutByCondition", condition);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return students;
-	}
-
-	@Override
 	public void updateOutRoom(String[] studentNum) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("studentNum", studentNum);
@@ -199,6 +166,17 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		List<Student> students = null;
 		try {
 			students = getSqlSession().selectList("findStudentOrdered", condition);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
+
+	@Override
+	public List<Student> findStudentByCondition(Condition condition) {
+		List<Student> students = null;
+		try{
+			students = getSqlSession().selectList("findStudentByCondition", condition);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

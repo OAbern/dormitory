@@ -67,28 +67,7 @@ public interface StudentInfoDao {
 	 * @return
 	 */
 	public Student findStudentByStuNumAndName(String stuNum, String name);
-	
-	/**
-	 * 根据条件查找外出住宿的学生信息
-	 * @param condition
-	 * @return
-	 */
-	public List<Student> findStudentOutByCondition(Condition condition);
-	
-	/**
-	 * 根据条件查找已住寝室的学生
-	 * @param condition
-	 * @return
-	 */
-	public List<Student> findStudentWithRoom(Condition condition);
-	
-	/**
-	 * 根据条件查找退宿的学生信息
-	 * @param condition
-	 * @return
-	 */
-	public List<Student> findStudentCheckOutByCondition(Condition condition);
-	
+
 	/**
 	 * 改变学生的住宿状态
 	 * @param stuNum
@@ -118,5 +97,12 @@ public interface StudentInfoDao {
 	 * @return
 	 */
 	public List<Student> findStudentOrdered(Condition condition);
+	
+	/**
+	 * 根据条件查找学生
+	 * @param condition
+	 * @return
+	 */
+	public List<Student> findStudentByCondition(Condition condition);
 
 }
