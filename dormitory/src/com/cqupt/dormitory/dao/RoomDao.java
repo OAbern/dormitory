@@ -28,4 +28,22 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public List<Room> findAllRoomByBuildingNum(String buildingNum);
+
+	/**
+	 * findAllCategoryOfRoom 返回所有的寝室类型
+	 * @return 
+	 *List<String>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<String> findAllCategoryOfRoom();
+
+	/**
+	 * findAllCostOfRoom 查找所有的费用标准
+	 * @return 
+	 *List<String>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public List<String> findAllCostOfRoom();
 }

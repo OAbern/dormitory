@@ -15,4 +15,9 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		return getSqlSession().selectList(Building.class.getName()+".find_building_by_areaname",areaName);
 	}
 
+	@Override
+	public List<String> findBuildingBySex(String sex) {
+		return getSqlSession().selectList(Building.class.getName()+".find_building_by_sex",sex);
+	}
+
 }

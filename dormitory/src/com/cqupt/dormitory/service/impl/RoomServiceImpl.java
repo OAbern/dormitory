@@ -107,6 +107,16 @@ public class RoomServiceImpl implements RoomService{
 		s.append(r.getTotalBed());
 		return s.toString();
 	}
+
+	@Override
+	public List<String> findAllCategoryOfRoom() {
+		return roomDao.findAllCategoryOfRoom();
+	}
+
+	@Override
+	public List<String> findAllCostOfRoom() {
+		return roomDao.findAllCostOfRoom();
+	}
 	
 	
 }

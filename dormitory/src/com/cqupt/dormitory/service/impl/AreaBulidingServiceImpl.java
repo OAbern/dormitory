@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.cqupt.dormitory.dao.AreaDao;
 import com.cqupt.dormitory.dao.BuildingDao;
+import com.cqupt.dormitory.dao.FloorDao;
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
+import com.cqupt.dormitory.model.Floor;
 import com.cqupt.dormitory.service.AreaBulidingService;
 import com.cqupt.dormitory.vo.AreaBuilding;
 
@@ -20,6 +22,8 @@ public class AreaBulidingServiceImpl implements AreaBulidingService {
 	private AreaDao areaDao;
 	@Resource
 	private BuildingDao buildDao;
+	@Resource
+	private FloorDao floorDao;
 	
 	@Override
 	public List<Area> findAllArea() {
@@ -59,5 +63,20 @@ public class AreaBulidingServiceImpl implements AreaBulidingService {
 			stringL.add(b.getBuildingNum());
 		}
 		return stringL;
+	}
+
+	@Override
+	public List<String> findBuildingBySex(String sex) {
+		return buildDao.findBuildingBySex(sex);
+	}
+
+	@Override
+	public List<String> findFloorByBuildingNum(String buildingNum) {
+		List<Floor> floors =  floorDao.findFloorByBuildingNum(buildingNum);
+		List<String> floorString = new ArrayList<String>();
+		for(Floor f : floors){
+			floorString.add(f.getFloorNum());
+		}
+		return floorString;
 	}
 }

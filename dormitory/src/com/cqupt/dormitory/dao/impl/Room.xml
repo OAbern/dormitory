@@ -38,4 +38,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		GROUP BY s.room_id 
 		ORDER BY s.`floor_num`
 	</select>
+	
+	
+	<select id="find_all_category_room" resultType="string">
+		SELECT DISTINCT(room.`total_bed`) FROM room 
+	</select>
+	
+	<select id="find_all_cost_room" resultType="string">
+		SELECT DISTINCT(room.`cost`) FROM room 
+	</select>
+	
 </mapper>

@@ -16,4 +16,14 @@ public interface BuildingDao {
 	 * @author hhy
 	 */
 	List<Building> findBuildByAreaName(String areaName);
+
+	/**
+	 * findBuildingBySex 根据性别来查找相应的
+	 * @param sex
+	 * @return 
+	 *List<String>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	List<String> findBuildingBySex(String sex);
 }
