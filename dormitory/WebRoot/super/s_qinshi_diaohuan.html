@@ -65,9 +65,11 @@
 		onclick();
 	}else if(sum_diaohuan>0){
 		showAcademyAndGrade();
+		$('select[name="major"]').append("<option value=''>全部</option>");
 		for(var i=0;i<diaohuan['diaohuan_major'].length;i++){
 			$('select[name="major"]').append("<option value='" + diaohuan['diaohuan_major'][i] + "'>" + diaohuan['diaohuan_major'][i] + "</option>");
 		}
+		$('select[name="classNum"]').append("<option value=''>全部</option>");
 		for(var i=0;i<diaohuan['diaohuan_classNum'].length;i++){
 			$('select[name="classNum"]').append("<option value='" + diaohuan['diaohuan_classNum'][i] + "'>" + diaohuan['diaohuan_classNum'][i] + "</option>");
 		}
@@ -84,7 +86,7 @@
 	function onclick(){
 		$(".jilian_sure").click(function() {//点击确定
 			if($('select[name="grade"]').val()=="-1"){
-				alert("请先选择年级！");
+				$.messager.alert("警告","请先选择年级!","warning");
 			}else if($('select[name="education"]').val()=="-1"){
 				 $.messager.alert("警告","请先选择学历!","warning");
 			}else if($('select[name="sex"]').val()=="-1"){
@@ -134,7 +136,7 @@
 						 		return "未入住";
 						 	}else{
 						 		return value.roomNum;
-						 		}
+						 	}
 					 	}
 					 }
 					] ],
@@ -159,7 +161,7 @@
 		$(".fenpei_txt").show();
 	}
 	//点击下一步时
-	$(".nextStep").click(function() {
+	/*$(".nextStep").click(function() {
 			if (sum_diaohuan > 0) {
 				$.post('test/getResult.do', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex}, function(data) {
 					if(data.status=="1"){
@@ -171,6 +173,15 @@
 				});
 			} else{
 				$.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
+			}
+	});*/
+		$(".nextStep").click(function() {
+			if (sum_diaohuan > 0) {//后台直接按照级联选择的条件确定分配的学生
+				//$.post('xuanzhederen', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
+						$("#base_right .right_contain").empty().load("super/s_atuo_qsxuanze.html");
+						$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
+			}else{
+				 $.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
 			}
 	});
 	var diaohuan_stu=[];//传给后台
@@ -244,6 +255,7 @@
 		}else{
 			 $.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"target":"major"},function(data){
 				if(data.length){
+					diaohuan['diaohuan_major']=data;
 					for(var i=0;i<data.length;i++){
 						$('select[name="major"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
 					}
@@ -263,6 +275,7 @@
 		diaohuan_sure.major=str;
 		$.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"major":diaohuan_sure.major,"target":"classNum"},function(data){
 			if(data.length){
+				diaohuan['diaohuan_classNum']=data;
 				for(var i=0;i<data.length;i++){
 					$('select[name="classNum"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
 				}

@@ -14,10 +14,8 @@ var sum_fenpei=0;
 var sum_diaohuan=0;
 var sum_newstu_kong=0;
 var sum_dhstu_kong=0;
-//var academys=["经管","通信","计算机"];//存放学院
 //寝室调换
 var diaohuan={};//存放级联
-//diaohuan['diaohuan_stu_jilian']={};//存放动态加载的级联
 diaohuan['diaohuan_major']=[];
 diaohuan['diaohuan_classNum']=[];
 var diaohuan_sure={"academy": "","education":"","grade":"","major": "","classNum" : "","sex" : ""};//自己保存

@@ -19,11 +19,11 @@ $(function(){
 				var html="<table>";
 				$.each(data.rows,function(index,item){
 				  html +="<tr><td class='area'>"+item["area"]+"</td>";
-				  //for(i=0;i<data.columnmax;i++){
-					  var j=item.building_kong.length;
+				  //for(i=0;i<data.columnMax;i++){
+					  var j=item.buildingEmptyBeds.length;
 					  if(j--){
-						  $.each(item.building_kong,function(index,items){
-						 	 html += "<td><input type='checkbox' name='checkbox_kong' class='checkbox_kong' value="+items["buildingid"]+" />" +"<span class='buildingid'>"+items["buildingid"]+"</span>" +"(<span class='kong'>"+items["kong"] +"</span>)"+"</td>";
+						  $.each(item.buildingEmptyBeds,function(index,items){
+						 	 html += "<td><input type='checkbox' name='checkbox_emptyBed' class='checkbox_emptyBed' value="+items["buildingNum"]+" />" +"<span class='buildingNum'>"+items["buildingNum"]+"</span>" +"(<span class='emptyBed'>"+items["emptyBed"] +"</span>)"+"</td>";
 						  });
 					  }
 					  else{
@@ -41,11 +41,11 @@ $(function(){
 	$(".sure_fenpei").click(function(){
 		sum_dhstu_kong=0;//点击确认空床位时，把之前的空床位置空
 		var i=0;
-		$(".checkbox_kong").each(function(){
+		$(".checkbox_emptyBed").each(function(){
 			if($(this).is(":checked")){ 
-				var num = parseInt($(this).parent().find("span.kong").text());
+				var num = parseInt($(this).parent().find("span.emptyBed").text());
 				sum_dhstu_kong =parseInt(sum_dhstu_kong)+num; 
-				kong=num;
+				emptyBed=num;
 				i++;
 				building.push(parseInt($(this).val()));
 			}
