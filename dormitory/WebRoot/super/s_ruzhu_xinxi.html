@@ -165,7 +165,7 @@ $(function(){
 			$.messager.confirm('提示','确定退宿么?',function(r){
 				if (r){
 					var index=parseInt(getRowIndex(target));
-					$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"roomNum":susheid},function(data){
+					$.post('studentInfo/updateStudentRoom.do',{"stuNum":stuNum,"roomNum":susheid},function(data){
 						if(data.status==1){
 							$.messager.alert("提示","删除成功","info",function(){
 								$('#student').datagrid('deleteRow',index);
@@ -232,7 +232,7 @@ $(function(){
 			}
 		function deleteRows(){
 			if(person==0){
-				$.post("roomInfo/delRoom.do",{"roomId":susheid},function(data){
+				$.post("roomInfo/delRoom.do",{"roomNum":susheid},function(data){
 					if(data.status==1){
 						$.messager.alert("提示","删除成功","info",function(){
 							$("#base_right").empty().load("super/s_sushe_xinxi.html");

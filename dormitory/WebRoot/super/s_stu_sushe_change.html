@@ -37,7 +37,7 @@ $(function(){
 	$('.stuInfo span[name="name"]').append(stuName);
 	$('.stuInfo span[name="sex"]').append(stuSex);
 	
-	$.post("json/get/s_area.json",{"sex":stuSex},function(data){
+	$.post("areaInfo/findAllArea.do",{"sex":stuSex},function(data){
 		var area="<option value='-1'>请选择</option>";
 		$.each(data,function(item){
 			 area+="<option value="+item+">"+item+"</option>";
@@ -49,7 +49,7 @@ $(function(){
 	$('.area').change(function(){
 		var area=$('select option:selected').val();
 		if(area!='-1'){
-			$.post("json/get/s_buildingid.json",{"area":area,"sex":stuSex},function(data){
+			$.post("areaInfo/findBuildingNumBySex.do",{"area":area,"sex":stuSex},function(data){
 				var buildingid="<option value='-1'>请选择</option>";
 				$.each(data,function(item){
 					buildingid+="<option value="+item+">"+item+"</option>";
@@ -62,7 +62,7 @@ $(function(){
 		var area=$('.area').val();
 		var name=$('.building').val();
 		if(name!='-1' && area!='-1'){
-			$.post("json/get/s_sushe_xinxi.json",{"buildingId":name},function(data){
+			$.post("roomInfo/findAllRoom.do",{"buildingNum":name},function(data){
 				var options={
 					data:data,
 					width:'1000px',
@@ -93,7 +93,7 @@ $(function(){
 								var str="确定将"+stuName+"同学调换到"+susheid+"寝吗？";
 								$.messager.confirm('提示',str,function(r){
 									if (r){
-										$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"susheid":susheid},function(data){
+										$.post('roomInfo/updateStudentRoom.do',{"studentNum":stuNum,"roomNum":susheid},function(data){
 											if(data.status==0){//失败
 												$.messager.alert("提示","调换失败，请重新操作","info");
 											}else if(data.status==1){
