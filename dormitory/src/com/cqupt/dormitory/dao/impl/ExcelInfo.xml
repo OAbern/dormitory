@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="id" column="excel_id"/>
 		<result property="name" column="excel_name"/>
 		<result property="path" column="excel_path"/>
+		<result property="status" column="status"/>
 		
 		<association property="approvedAdmin" column="approved_admin_id" resultMap="com.cqupt.dormitory.model.Admin.adminResult"/>
 		<association property="submitTeacher" column="submit_teacher_id" resultMap="com.cqupt.dormitory.model.Teacher.teacherResult"/>
@@ -35,6 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM `excel` e
 			LEFT JOIN `teacher` t ON e.`submit_teacher_id` = t.`tec_id`
 			LEFT JOIN `admin` a ON e.`approved_admin_id` = a.`admin_id`
+			LEFT JOIN `academy` ac ON ac.`academy_id` = t.`academy_id`
+			WHERE e.`status` = 1
 	</select>
 	
 	<!-- 根据教工号查找所提交的Excel -->

@@ -103,7 +103,7 @@ public class ExcelInfoController {
 	}
 	
 	/**
-	 * 查找所有的Excel信息
+	 * 管理员查找所有的Excel信息(未审批)
 	 */
 	@RequestMapping("/findAllExcel")
 	public void findAllExcelInfo(HttpServletResponse response) {
