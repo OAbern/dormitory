@@ -69,7 +69,7 @@
 	  } 
 	  $('input[name="submit"]').click(function(){
 	        if(able == true){
-	            $.post('findExcelInfoByTecNum.do',function(data){
+	            $.post('Excel/addExcel.do',function(data){
 	                 if(data.status==1){
 				        $.messager.alert("提示","上传成功");
 				     }else{
@@ -85,7 +85,7 @@
 	   $(".table_two").datagrid({
 				width:'950px',
 				height:'330px',
-				url:'json/get/s_diaohuanyijian_xinxi.json',
+				url:'Excel/findExcellInfoByTecNum.do',
 				rownumbers:'true',
 				fitColumns:'true',
 				striped:'true',//斑马线

@@ -72,7 +72,7 @@ public class LoginController {
 	public ModelAndView logOut(HttpServletRequest request) {
 		request.getSession().invalidate();
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:login");
+		modelAndView.setViewName("redirect:login.html");
 		return modelAndView;
 	}
 
