@@ -30,8 +30,8 @@ input[type='text'] {
       学号:
       <input type="text" name="stuNum"  />
       姓名:
-      <input type="text" name="stuName"  />
-      <input type="hidden" name="susheid" value=""/>
+      <input type="text" name="name"  />
+      <input type="hidden" name="room" value=""/>
       <input type="button"  value="确定" />
       <input type="reset"  value="重置" />
     </form>
@@ -70,13 +70,13 @@ $(function(){
 			nowrap:false,  
 			toolbar:'#tb', 
 			columns:[[    
-			    {field:'dormitory',title:'寝室号',width:100,align:'center'},
+			    {field:'room',title:'寝室号',width:100,align:'center'},
 				{field:'name',title:'姓名',width:100,align:'center'} ,
 				{field:'sex',title:'性别',width:60,align:'center'}, 
 				{field:'stuNum',title:'学号',width:100,align:'center'},
-				{field:'college',title:'学院',width:200,align:'center'},    
+				{field:'academy',title:'学院',width:200,align:'center'},    
 				{field:'major',title:'专业',width:200,align:'center'},    
-				{field:'classes',title:'班级',width:100,align:'center'},
+				{field:'classNum',title:'班级',width:100,align:'center'},
 				{field:'delete',width:60,align:'center',
 					formatter:function(value,row,index){
 					  var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="deleterow(this)">退宿</a>';
@@ -138,9 +138,9 @@ $(function(){
 		
 		$('input[type="button"]').click(function(){
 			var str="";
-			stuName=$('input[name="stuName"]').val();
+			stuName=$('input[name="name"]').val();
 			stuNum=$('input[name="stuNum"]').val();
-			susheid=$('input[name="susheid"]').val();
+			susheid=$('input[name="room"]').val();
 			var reg = /^[0-9]*$/;
 			
 			if(stuName==''|| stuName==''){
@@ -158,7 +158,7 @@ $(function(){
 									$.messager.alert("提示","添加成功","info");
 									}	
 									else if(status==0){
-										$.messager.alert("提示","添加失败，可能的原因有姓名与学号不匹配，学号输入错误","info");
+										$.messager.alert("提示",data.errorInfo,"info");
 										}
 								});
 					

@@ -29,25 +29,10 @@ input[type='text'], input[type='password']{
 	margin-top:50px;
 	margin-left:80px;
 }
-#info span{
-	display:block;
-	float:left;
-	border:#FFF solid 1px;
-	width:50px;
-	height:40px;
-	}
-#span edit{
-	width:50px;
-	float:right;
-	height:40px;
-	border:#FFF solid 1px;
-	}
-.line{
-	/*border-bottom:#FFF solid 1px;*/
-	width:400px;	
-	height:20px;
-	border:#FFF solid 1px;
-	
+.error{
+	font-size:14px;
+	color:#F00;
+	margin-left:6px;
 	}
 </style>
 <div>
@@ -57,20 +42,13 @@ input[type='text'], input[type='password']{
    
     </div>
         <div class="right_content">
-        	<div id="info">
-            	<span >基本信息<hr><button >编辑</button></span>
-            </div>
   	     	 <form id="form1" action="#"  method="post">
           <p class="item"><span>姓名:</span>
-             <input type="text" name="name" /><span></span>
+             <input type="text" name="adminName" /><span class="error" ></span>
             <br />
           </p>
-          <p class="item"><span>教工号:</span>
-             <input type="text" name="name" /><span></span>
-            <br />
-          </p>
-          <p class="item"><span>密码:</span>
-             <input  type="password" name="new" class="new" />
+          <p class="item"><span>原密码:</span>
+             <input  type="password" name="old" class="old" />
             <br />
           </p>
           <p class="item"><span>新密码:</span>
@@ -78,30 +56,85 @@ input[type='text'], input[type='password']{
             <br />
           </p>
            <p class="item"><span>确认新密码:</span>
-             <input  type="password" name="newagain" onblur="check()" class="again" />
+             <input  type="password" name="newagain" onblur="check()" class="again" /><span class="error"></span>
            <br />
           </p>
           </p>
           <div class="help">
-              <input type="button" value="修改" onclick="submitModify()">
-              <input type="reset" value="重置">
+              <input type="button" value="修改" />
+              <input type="reset" value="重置"/>
           </div>
   </form>
   		 </div>
 </div>
 <script type="text/javascript">
+var ok_1=false,ok_2=false;
+	function checkName(){
+		var value=$('input[type="text"]').val();
+		if(value==''){
+			 var str="姓名不能为空";
+			 $('input[name="adminName"]').next().html(str);
+			}else{
+				ok_1=true;
+				$('input[name="adminName"]').next().html("");
+				}
+		}
+	$.getJSON("name.json",function(data){
+		$('input[type="text"]').text(data.name);
+		});
+	$('input[type="text"]').focusout(function(){
+		checkName();
+	});
+	
 	function check(){
 		var key1 = $(".new").val();
 		var key2 = $(".again").val();
 		if(key2 != key1){
-		   $.messager.alert("提示","两次密码输入不一致","info");
-		   $(".again").empty();
-		}
+		  var str="两次密码不一致";
+		   $('.again').next().html(str);
+		   $(".again").html(""); 
+		}else{
+			ok_2=true;
+			$('.again').next().html("");
+			}
 	}
-	function submitModify(){
+	/*function submitModify(){
 		$.post('json/post/post.jsp',$('#form1').serialize(),function(){
 			   $.messager.alert("提示","修改成功");
 			}
 		);	
-	}
+	}*/
+	
+	$('input[type="button"]').click(function(){
+		//新密码是否输入
+		checkName();
+		var value=$('.new').val();
+		if(!ok_1){
+			 $.messager.alert("提示","姓名不能为空");
+			}else if(value==''){
+				$.post("1.json",$('#form1').serialize(),function(data){
+					if(data.status==0){
+						 $.messager.alert("提示","修改成功");
+						}else{
+							$.messager.alert("提示","修改失败");
+							}
+				});
+				}else if(ok_1 && ok_2){
+					var password= $(".old").val();
+					var newpassword= $(".new").val();
+					$.post("2.json",{"password":password},function(data){
+						if(data.status==0){
+							$.post("",{"password":newpassword},function(data){
+								if(data.status==0){
+									$.messager.alert("提示","修改成功");
+									}else{
+										$.messager.alert("提示","修改失败");
+										}
+								});
+							}else{
+								$.messager.alert("提示","原密码不正确");
+								}
+						})
+				}
+	});
 </script>
