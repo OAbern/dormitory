@@ -52,11 +52,11 @@ input[type='text'], input[type='password']{
             <br />
           </p>
           <p class="item"><span>新密码:</span>
-             <input  type="password" name="new" class="new" />
+             <input  type="password" name="new" class="new" disabled="disabled" />
             <br />
           </p>
            <p class="item"><span>确认新密码:</span>
-             <input  type="password" name="newagain" onblur="check()" class="again" /><span class="error"></span>
+             <input  type="password" name="newagain" onblur="check()" class="again" disabled="disabled" /><span class="error"></span>
            <br />
           </p>
           </p>
@@ -68,12 +68,15 @@ input[type='text'], input[type='password']{
   		 </div>
 </div>
 <script type="text/javascript">
+var ok_1=false,ok_2=false,ok_3=false;
+var data={};
 $(function(){
 	$.post("name.json",function(data){
+	    data=data;
 		$('input[type="text"]').text(data.name);
 		});
 })
-var ok_1=false,ok_2=false,ok_3=false;
+
 	function checkName(){
 		var value=$('input[type="text"]').val();
 		if(value==''){
@@ -87,14 +90,14 @@ var ok_1=false,ok_2=false,ok_3=false;
 	function checkOldPassword(){
 		var value=$('input[name="old"]').val();
 		if(value!=''){
-			$.post("",{"password":value},function(data){
+			$.post("json/post/test.json",{"num":data.adminNum,"password":value},function(data){
 				if(data.status==0){
 					ok_3=true;
 				}else if(data.status==1){
 					var str="原密码不正确";
 				 $('input[name="old"]').next().html(str);
 				}else{
-					$.messager.alert("提示","出现错误","info");
+					$.messager.alert("提示",data.info,"info");
 				}
 			});
 		}else{}
@@ -124,13 +127,13 @@ var ok_1=false,ok_2=false,ok_3=false;
 	$('input[type="button"]').click(function(){
 		
 		checkName();//检查姓名是否为空
-		checkOldName();//检查原密码是否正确
-		var adminName=$(input[name="old"]).val();
+		checkOldPassword();//检查原密码是否正确
+		var name=$('input[name="old"]').val();
 		var value=$('.new').val();
 		if(!ok_1){
-			 $.messager.alert("提示","姓名不能为空");
+			 $.messager.alert("提示","姓名不能为空","warning");
 			}else if(value==''){//只修改姓名
-				$.post("1.json",{"adminName":adminName},function(data){
+				$.post("1.json",{"name":name},function(data){
 					if(data.status==0){
 						 $.messager.alert("提示","修改成功");
 						}else{
@@ -138,9 +141,10 @@ var ok_1=false,ok_2=false,ok_3=false;
 							}
 				});
 				}else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
+				cosole.log(ok_3);
 					var password= $(".old").val();
 					var newpassword= $(".new").val();
-							$.post("",{"adminName":adminName,"password":newpassword},function(data){
+							$.post("",{"adminNum":data.adminNum,"password":newpassword},function(data){
 								if(data.status==0){
 									$.messager.alert("提示","修改成功");
 									}else{

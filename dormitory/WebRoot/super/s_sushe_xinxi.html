@@ -4,7 +4,7 @@
 <div class="right_contain">
     <div id="tb"><!--tool bar-->
           <span>
-                 <a href="javascript:void(0)" class="add">添加寝室</a>&nbsp;
+               <a href="javascript:void(0)" class="add">添加寝室</a>&nbsp;
                  <a href="javascript:void(0)" class="modify">修改楼层信息</a>&nbsp;
                  <a href="javascript:void(0)" class="delete">删除楼层</a>&nbsp;
           </span>
@@ -25,41 +25,43 @@ $(function(){
 	$('#tb a:eq(2)').linkbutton({
 		iconCls:'icon-remove'
 	});
+
+	/* $.post("json/get/s_sushe_xinxi.json",{"buildingid":buildingid},function(data){ */
+
 	$.getJSON("roomInfo/findAllRoom.do",{"buildingNum":buildingid},function(data){
 		var options={
 		data:data,
 		width:'880px',
-		height:'300px',				
+		height:'360px',				
 		toolbar:'#tb',
 		singleSelect:false,
 		checkOnSelect:true,
 		selectOnCheck: true,
-		pagination:true,
+		/* pagination:true,
 		pageNumber:1,
 		pageSize:5,
-		pageList:[3,5,7],
+		pageList:[3,5,7], */
 
 		onClickCell:function(rowIndex, field, value){
+		console.log(value);
 			if(value){
 				susheid=value.substring(0,6);
-				if(susheid.indexOf("层")>=0){}
-				else{
-					contains=parseInt(value[12]);
-					person=parseInt(value[10]);
-					$("#base_right").load("super/s_ruzhu_xinxi.html");
-				}
+				contains=parseInt(value[13]);
+				person=parseInt(value[11]);
+				$("#base_right").load("super/s_ruzhu_xinxi.html");
+			
 			}
 			
 		}//onCliclCell end
 		
 		}//datagrid end
-			var s="[[";
-		s+="{field:'ck',checkbox:true},";
-		for(i=1;i<data.columnMax;i++){
-			s+="{field:'" +i+"',title:'',width:'50',align:'center',styler:cellStyler},";
+		var s="[[";
+		s+="{field:'ck',checkbox:true,rowspan:2},{field:'item1',title:'楼层',width:50,align:'center',rowspan:2},";
+		s+="{title:'寝室号',align:'center',colspan:"+data.columnMax+"}],[";
+		for(i=2;i<data.columnMax;i++){
+			s+="{field:'item" +i+"',title:'"+(i-1)+"',width:'50',align:'center',styler:cellStyler},";
 		}
-		s+="{field:'" +data.columnMax+"',title:'',align:'center',styler:cellStyler}]]";
-		
+		s+="{field:'item" +data.columnMax+"',title:'"+(data.columnMax-1)+"',align:'center',styler:cellStyler}]]";
 		options.columns=eval(s);
 		options.nowrap=false;
 	$('#dormitory').datagrid(options);
@@ -68,24 +70,23 @@ $(function(){
 	function cellStyler(value,row,index){
 		if(value){
 			
-            if (value[10]< value[12]){
+            if (value[11]< value[13]){
                 return 'color:red;cursor:pointer';
             }
 			return 'cursor:pointer';
 		}
     }
-	var pager = $('#dormitory').datagrid().datagrid('getPager');// get the pager of datagrid
+	/* var pager = $('#dormitory').datagrid().datagrid('getPager');// get the pager of datagrid
 	    pager.pagination({
 		beforePageText:"第",
 		afterPageText:"共{pages}页",
 		displayMsg:"显示{from}到{to},共{total}条记录"
-	    });
+	    }); */
 	$('.add').click(function(){	
 		var checkedItems = $('#dormitory').datagrid('getChecked');
-		//if(checkedItems)alert("请先选择楼层");
 		var names = [];
    		$.each(checkedItems, function(index, item){
-			names.push(item.floorid);
+			names.push(item.item1);
 		
 		});               
 		if(names.length>1){
@@ -102,7 +103,7 @@ $(function(){
 		var checkedItems = $('#dormitory').datagrid('getChecked');
 		var names = [];
    		$.each(checkedItems, function(index, item){
-			names.push(item.floorid);
+			names.push(item.item1);
 		
 		});               
 		if(names.length>1){
@@ -123,13 +124,14 @@ $(function(){
 				var floors = [];
 				var floorname="";	
    				$.each(checkedItems, function(index, item){
-					floors.push(item.floorid);
+					floors.push(item.item1);
 				});  
-				$.each(floors, function(index, value){
+				
+			/* 	$.each(floors, function(index, value){
 					 floorname+=value+",";
 					
 				});
-				floorname=floorname.substring(0,floorname.length-1);
+				floorname=floorname.substring(0,floorname.length-1); */
 				$.post("json/post/s_delete_sushe.json",{"buildingid":buildingid,"floorid":floors},function(data){
 					if(data.status==1){
 						$.messager.alert("提示","删除成功","info");

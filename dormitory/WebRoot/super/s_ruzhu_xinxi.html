@@ -30,7 +30,7 @@ input[type='text'] {
       学号:
       <input type="text" name="stuNum"  />
       姓名:
-      <input type="text" name="name"  />
+      <input type="text" name="name" readonly="readonly" />
       <input type="hidden" name="room" value=""/>
       <input type="button"  value="确定" />
       <input type="reset"  value="重置" />
@@ -41,6 +41,7 @@ input[type='text'] {
   <div id="student"></div>
 </div>
 <script type="text/javascript">
+var ok_1=false;
 $('.return').click(function(){
 	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
 	})
@@ -105,6 +106,20 @@ $(function(){
 		afterPageText:"共{pages}页",
 		displayMsg:"显示{from}到{to},共{total}条记录"
 });
+		$('input[name="stuNum"]').focusout(function(){
+			var stuNum=$('input[name="stuNum"]').val();
+			if(stuNum!=''){
+				$.post("studentInfo/findStudentByCondition.do",{"stuNum":stuNum},function(data){
+					if(data.status==0){//有这个学生
+						$('input[name="name"]').text(data.name);
+						ok_1=true;
+					}else if(data.status==1){
+						$.messager.alert("提示","没有该学生，请输入正确的学号","info");
+					}
+				});
+			}
+		});
+			
 		
 		 function getRowIndex(target){//获取要删除行的索引
 			var tr = $(target).closest('tr.datagrid-row');
@@ -135,8 +150,23 @@ $(function(){
 				}
 			});
 	    }
-		
 		$('input[type="button"]').click(function(){
+			if(ok_1){
+				$.post("json/post/add_student_to_sushe.json",$('.add').serialize(),function(data){
+					var status=data.status;
+					if(status==1){
+						$.messager.alert("提示","添加成功","info");
+					}else if(status==0){
+						$.messager.alert("提示",data.errorInfo,"info");
+					}else{
+						$.messager.alert("提示","发生错误，请重新输入学号","info");
+					}
+				});
+			}else{
+				$.messager.alert("提示","请输入正确学号","warning");
+			}
+		});
+/* 		$('input[type="button"]').click(function(){
 			var str="";
 			stuName=$('input[name="name"]').val();
 			stuNum=$('input[name="stuNum"]').val();
@@ -164,7 +194,7 @@ $(function(){
 					
 							}
 					}
-		});
+		}); */
 		$('.modify').click(function(){
 			  action="modifysushe";//修改单个宿舍信息
 			 $("#base_right").empty().load("super/s_sushe_detail.html");
