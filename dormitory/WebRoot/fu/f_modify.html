@@ -33,17 +33,20 @@ input[type='text'],input[type='password']{
 </style>
 <div>
     <div class="right_top btm">
-      <div class="rheader"><span class="pageName"><b>辅导员信息修改界面</b></span><span class="shuoming">您可以修改您的基本信息</span></div>
+      <div class="rheader">
+         <span class="pageName"><b>辅导员信息修改界面</b></span>
+         <span class="shuoming">您可以修改您的基本信息</span>
+      </div>
     </div>
     <div class="right_foot">
           <form id="form1">
               <p class="item"><span>姓名:</span>
                  <input type="text" name="name" class="name">
-                <br />
+                 <br />
               </p>
               <p class="item"><span>性别：</span>
                  <input type="text" name="sex" class="sex">
-                <br />
+                 <br />
               </p>
               <p class="item"><span>电话：</span>
                  <input type="text" name="phone" class="phone">
@@ -62,9 +65,9 @@ input[type='text'],input[type='password']{
                    <br />
                </p>
                <div class="help">
-                     <input type="button" value="修改" id="modify">
-                     <input type="reset" value="重置">
-                </div>
+                   <input type="button" value="修改" id="modify">
+                   <input type="reset" value="重置">
+               </div>
           </form>
      </div>
 </div>
@@ -89,7 +92,7 @@ input[type='text'],input[type='password']{
 		$.post("teacherInfo/checkPw.do",{"pw":password},function(data){
 		   if(data.status==0){
 		        $.messager.alert("警告",data.info,"warning");
-		        $(".old").empty();
+		        $(".old").empty().focus();
 		   }else if(data.status==1){
 		       $.messager.alert("提示",data.info,"info");
 		       ok_1=true;
@@ -101,8 +104,8 @@ input[type='text'],input[type='password']{
 		var key2 = $(".again").val();
 		if(key2 != key1){
 		   $.messager.alert("提示","两次密码输入不一致","info");
-		   $(".again").html("");
-		   $(".new").html("");
+		   $(".again").empty();
+		   $(".new").empty();
 		}else if(key2==key1){
 		   ok_2=true;
 		}
