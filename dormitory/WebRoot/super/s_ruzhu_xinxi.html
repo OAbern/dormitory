@@ -61,7 +61,7 @@ $(function(){
 		iconCls:'icon-remove'
 	});
 	//datagrid start
-	$.getJSON("json/get/s_studentInfo.json",{"room":susheid},function(data){
+	$.post("json/get/s_studentInfo.json",{"room":susheid},function(data){
 		$('#student').datagrid({
 			data:data,
 			width:'1005px',

@@ -83,7 +83,7 @@ $('.return').click(function(){
 		$('.floorid').append(floorid);
 		$('.susheid').append(susheid);
 	});
-	$.getJSON("json/get/s_sushe_cata.json",function(data){
+	$.post("json/get/s_sushe_cata.json",function(data){
 		var str="";
 		var cata=data.cata;
 		for(i=0;i<cata.length;i++){
@@ -91,7 +91,7 @@ $('.return').click(function(){
 			}
 	    $('select[name="cata"]').append(str);
 	});
-	$.getJSON("json/get/s_sushe_fee.json",function(data){
+	$.post("json/get/s_sushe_fee.json",function(data){
 		var str="";
 		var fee=data.fee;
 		for(i=0;i<fee.length;i++){
