@@ -39,8 +39,8 @@ $(function(){
 	
 	$.post("json/get/s_area.json",{"sex":stuSex},function(data){
 		var area="<option value='-1'>请选择</option><option value=''>全部</option>";
-		$.each(data.rows,function(index,item){
-			 area+="<option value="+item.area+">"+item.area+"</option>";
+		$.each(data,function(index,item){
+			 area+="<option value="+item+">"+item+"</option>";
 		});
 		$('.area').append(area);		
 	});//post end
@@ -51,8 +51,8 @@ $(function(){
 		if(area!='-1'){
 			$.post("json/get/s_buildingid.json",{"area":area,"sex":stuSex},function(data){
 				var buildingid="<option value='-1'>请选择</option><option value=''>全部</option>";
-				$.each(data.rows,function(index,item){
-					buildingid+="<option value="+item.buildingid+">"+item.buildingid+"</option>";
+				$.each(data,function(index,item){
+					buildingid+="<option value="+item+">"+item+"</option>";
 				});
 				$('.building').append(buildingid);
 		    });	
@@ -75,7 +75,15 @@ $(function(){
 					/* pageNumber:1,
 					pageSize:5,
 					pageList:[3,5,7], */
-			
+					onLoadSuccess:function(data){
+						alert(data.rows.length);
+							if(data.rows.length==0){
+								$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+							}
+						},
+					onLoadError:function(){
+						$.messager.alert("error","远程加载数据出错","warning");
+					},
 					onClickCell:function(rowIndex, field, value){
 						if(value){
 							var per_susheid=susheid;
