@@ -1,0 +1,159 @@
+<script type="text/javascript" src="js/s_fenpei_right.js"></script>
+<style type="text/css">
+.item {
+	height:25px;
+	margin-top:3px;
+}
+.item span {
+	display:inline-block;
+	margin-right:10px;
+	text-align:right;
+	padding-right:0;
+	width:70px;
+}
+.help {
+	margin-top:10px;
+}
+input[type='submit'] {
+	margin-left:100px;
+}
+input[type='reset'] {
+	margin-left:30px;
+}
+input[type='text'] {
+	width:200px;
+	height:20px;
+}
+</style>
+<div class="right_top">
+  <div class="rheader"> <span class="pageName"><b>添加学生信息</b></span> <span class="shuoming">您可以单独添加个人或者批量导入</span> </div>
+  <ul class="right_ul right_ul_tianjia">
+    <li><a href="#" class="editornav" >添加个人</a></li>
+    <li><a href="#">批量导入</a></li>
+  </ul>
+</div>
+<div class="right_contain"> 
+  <!-- 添加单个学生信息 -->
+  <form id="addStudent" action="post.jsp">
+    <div class="liform">
+      <p class="item"><span>姓名:</span>
+        <input type="text" name="name">
+        <br />
+      </p>
+      <p class="item"><span>学号:</span>
+        <input type="text" name="studentId">
+        <br />
+      </p>
+      <p class="item"><span>性别:</span>
+        <select name="sex">
+          <option value="male" selected="selected">男</option>
+          <option value="female">女</option>
+        </select>
+        <br />
+      </p>
+      <p class="item"><span>年级:</span>
+        <input type="text" name="grade">
+        <br />
+      </p>
+      <p class="item"><span>班级:</span>
+        <input type="text" name="classes">
+        <br />
+      </p>
+      <p class="item"><span>专业:</span>
+        <input type="text" name="major">
+        <br />
+      </p>
+      <p class="item"><span>学院:</span>
+        <input type="text" name="academy">
+        <br />
+      </p>
+      <p class="item"><span>辅导员:</span>
+        <input type="text" name="teacher">
+        <br />
+      </p>
+      <p class="item"><span>籍贯:</span>
+        <input type="text" name="home">
+        <br />
+      </p>
+      <p class="item"><span>出生年月:</span>
+        <input type="text" name="birthday">
+        <br />
+      </p>
+      <p class="item"><span>民族:</span>
+        <input type="text" name="nation">
+        <br />
+      </p>
+      <p class="item"><span>寝室号:</span>
+        <input type="text" name="roomNumber">
+        <br />
+      </p>
+      <p class="item"><span>学历:</span>
+        <select name="education">
+          <option value="0" selected="selected">本科在读</option>
+          <option value="1">研究生在读</option>
+          <option value="2">博士生在读</option>
+        </select>
+        <br />
+      </p>
+      <div class="help">
+        <input type="submit" value="添加">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="reset" value="重置">
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+	//出生年月日历设置
+	$("input[name='birthday']").datebox();
+		$("#addStudent").validate({
+			rules : {
+				name : {
+					required : true,
+					minlength : 2,
+				}, 
+				studentId : {
+					required : true,
+					number : true,
+					rangelength : [10, 10],
+				}, 
+				sex : {
+				}, 
+				grade : {
+					required : true,
+					number : true,
+				}, 
+				classes : {
+					required : true,
+					//number : true,
+					//rangelength:[7,7]
+				}, 
+				major : {
+					required : true,
+				}, 
+				academy : {
+					required : true,	
+				}, 
+				teacher : {
+					required : true,			
+				},
+				home : {	
+				},
+				birthday : {
+					
+				},
+				nation : {
+					required : true,
+				},
+				roomNumber : {
+					required : true,
+				}
+			},
+			messages : {
+				name : {
+					required : '帐号不得为空！',
+					minlength : '帐号不得小于2位！',
+				},
+			}
+	});
+</script> 

@@ -1,0 +1,104 @@
+<style type="text/css">
+.new_dormitory {
+	float:left;
+	margin-left:50px;
+	margin-top:20px;
+}
+.check {
+	margin-left:4px;
+	color:#F00
+}
+</style>
+<div class="new_dormitory">
+  <h3>您将要添加的寝室位于<span style="color:#F00" class="number"> </span>,请完善寝室其他信息</h3>
+  <form class="info">
+    <p>选择已有寝室类型和资费标准:</p>
+    寝室类型:
+    <select name="cata">
+    </select>
+    寝室资费:
+    <select name="fee" >
+    </select>
+    <input type="button" value="确定" />
+  </form>
+  <form id="new_info">
+    <p>添加新的寝室类型和资费标准:</p>
+    寝室类型:
+    <input type="text" name="cata" />
+    人间<span class="checkcata" style="margin:5px">请输入数字</span><br />
+    <br />
+    寝室资费:
+    <input type="text" name="fee" />
+    元/年<span class="checkfee" style="margin:5px">请输入数字</span><br />
+    <br />
+    <input type="submit" class="button" value="确定" />
+  </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+		$('.number').append(floorid);
+		});
+	$.getJSON("json/get/s_sushe_cata.json",function(data){
+		var str="";
+		var cata=data.cata;
+		for(i=0;i<cata.length;i++){
+			str+="<option>"+cata[i]+"人间</option>";
+			}
+			$('select[name="cata"]').append(str);
+		});
+	$.getJSON("json/get/s_sushe_fee.json",function(data){
+		var str="";
+		var fee=data.fee;
+		for(i=0;i<fee.length;i++){
+			str+="<option>"+fee[i]+"元/年</option>";
+			}
+			$('select[name="fee"]').append(str);
+		});
+	$('input[type="button"]').click(function(){
+		
+		var cata=$('select[name="cata"] ').val();
+		var fee=$('select[name="fee"] ').val();
+		$.post("json/post/s_add_dormitory.json",{"buildingid":buildingid,"floorid":floorid,"cata":cata,"fee":fee},function(){
+			$.messager.alert("提示","保存成功","info"); 
+			$('#base_right').empty().load("super/s_sushe_xinxi.html");
+			});
+		
+		});
+   /* $('input[type="text"]').focusout(function(){
+		var s=$(this).val();		
+		var reg = /^[0-9]*$/;
+		if(!reg.test(s)){$(this).next().html("<img src='css/icons/ok.png' />")};
+		});	*/
+	$('input[type="submit"]').click(function(){	
+	
+		var cata=$('input[name="cata"]').val();
+		var fee=$('input[name="fee"]').val();
+		var s = /^[0-9]*$/;
+		var rc=s.test(cata);
+		var rf=s.test(fee);
+		var str="请输入数字";
+		if(!rf || !fee){
+				$('.checkfee').css("color:#F00");
+			    $('.checkfee').html("<img src='css/icons/cancel.png' />");
+				}
+	   
+		if(!rc || !cata){
+			
+			$('.checkcata').css("color:#F00");
+			$('.checkcata').html("<img src='css/icons/cancel.png' />");
+			}
+			  console.log(rc);
+						console.log(rf);
+						console.log(cata);
+						console.log(fee);
+		if(rc && rf && cata && fee){
+			          
+			$.post("json/post/s_add_dormitory.json",{"buildingid":buildingid,"floorid":                           floorid,"cata":cata,"fee":fee},function(){
+			           $.messager.alert("提示","保存成功","info");  
+						
+			           $('#base_right').empty().load("super/s_sushe_xinxi.html");
+			            });
+			}	
+		
+		});
+</script>

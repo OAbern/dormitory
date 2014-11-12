@@ -1,0 +1,96 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	 margin:0; padding:0;
+}
+body{ 
+     /*background:#8fbffe;*/
+	 width:100%;
+	 background-image:url(../images/2253029x2jtezggxtze6gg.jpg);
+	 color:#F8F3F3; 
+	 font-size:14px;
+}
+#loginbox{
+	 width:800px; 
+	 margin:0 auto;
+	 height:600px; 
+	 padding:100px 0 0;
+}
+.left{ 
+     float:left;
+}
+.right{ 
+     float:right;
+}
+/*定义圆角边框的样式*/
+.radius{
+	border-radius:6px; 
+	-webkit-border-radius:6px; 
+	-moz-border-radius:6px;
+}
+.clear{ 
+    clear:both;
+}
+#contain{ 
+    height:340px; 
+	background:#D4DFFF;
+	padding:12px;
+}
+#contain .left{ 
+    background:url(../images/left.jpg) no-repeat; 
+	width:460px;
+	height:340px;
+}
+#contain .right{ 
+     background:#009FFF;
+	 width:300px; 
+	 height:338px;
+}
+#contain .right form{ 
+    padding:20px;
+}
+#contain .right form label{ 
+     text-align:right; 
+	 display:block; 
+	 width:50px; 
+	 padding-right:8px; 
+	 float:left;
+}
+#contain .right form input{ 
+     height:20px; 
+	 float:left; 
+	 width:12em;
+}
+#contain .right form p{ 
+      height:20px;
+}
+#contain .right form h3{ 
+      line-height:70px;
+	  font-size:26px;
+	  text-align:center;
+}
+#contain .right form div{ 
+      width:160px; 
+	  margin:0 auto;
+	}
+#contain .right form input#login{ 
+     float:right;
+	 margin-top:5px;
+	 width:57px; 
+	 height:25px; 
+	 cursor:pointer; 
+	 color:#007FFF; 
+	 background:url(../images/button1.png) no-repeat;
+	 border:0;
+}
+
+
+
+
+
+
+
+
+
+
+

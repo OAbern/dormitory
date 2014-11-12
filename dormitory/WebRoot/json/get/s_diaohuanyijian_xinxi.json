@@ -1,0 +1,27 @@
+
+{
+ "total":"3",
+	"rows":[
+	{
+	        "teaNum":"110",
+		"teaname":"张老师",
+		"mgrade":"2012级",
+		"college":"经济管理学院",
+		"shenhe":"待审核"
+	},
+	{
+	        "teaNum":"110",
+		"teaname":"张老师",
+		"mgrade":"2012级",
+		"college":"经济管理学院",
+		"shenhe":"待审核"
+	},
+		{
+	        "teaNum":"110",
+		"teaname":"张老师",
+		"mgrade":"2012级",
+		"college":"经济管理学院",
+		"shenhe":"待审核"
+	}
+]
+}

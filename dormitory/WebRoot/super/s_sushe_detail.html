@@ -1,0 +1,145 @@
+<style type="text/css">
+.check {
+	margin-left:4px;
+	color:#F00;
+}
+#sure {
+	margin-left:180px;
+}
+form {
+	margin-top:30px;
+	margin-left:30px;
+}
+form.info select {
+	width:100px;
+	margin-right:30px;
+}
+h3 span {
+	color:#69F;
+	margin-right:10px;
+	margin-left:5px;
+}
+.checkcata {
+	color:#F00;
+	font-size:14px;
+	margin-left:8px;
+}
+.checkfee {
+	color:#F00;
+	font-size:14px;
+	margin-left:8px;
+}
+</style>
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>宿舍添加或修改</b></span><span class="shuoming">您可以添加或修改宿舍</span><span class="fanhui"><a class="return" href="javascript:void(0)">返回»</a></span></div>
+</div>
+<div class="right_contain">
+  <div class="new_dormitory">
+    <div id="add" style="display:none" >
+      <h3>您将要添加的寝室位于 <span class="buildingid"></span>栋 <span class="floorid"> </span>层,请完善寝室其他信息 </h3>
+    </div>
+    <div id="modifyfloor" style="display:none" >
+      <h3>您将要修改的寝室为 <span class="buildingid"></span>栋 <span class="floorid"> </span>层 </h3>
+    </div>
+    <div id="modifysushe" style="display:none" >
+      <h3>您将要修改的寝室为<span class="susheid"></span></h3>
+    </div>
+    <form class="info">
+      <p><b>选择已有寝室类型和资费标准</b></p>
+      寝室类型:
+      <select name="cata">
+      </select>
+      寝室资费:
+      <select name="fee" >
+      </select>
+      <input type="button" class="select" value="确定" />
+    </form>
+    <form id="new_info">
+      <p><b>添加新的寝室类型和资费标准</b></p>
+      寝室类型:
+      <input type="text" name="cata" />
+      人间<span class="checkcata"></span><br />
+      <br />
+      寝室资费:
+      <input type="text" name="fee" />
+      元/年<span class="checkfee" ></span><br />
+      <br />
+      <input type="button" class="new" value="确定" id="sure"/>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+$('.return').click(function(){
+	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
+	})
+    $(function(){
+		$('#'+action).show();
+		$('.buildingid').append(buildingid);
+		$('.floorid').append(floorid);
+	});
+	$.getJSON("json/get/s_sushe_cata.json",function(data){
+		var str="";
+		var cata=data.cata;
+		for(i=0;i<cata.length;i++){
+			str+="<option>"+cata[i]+"人间</option>";
+			}
+	    $('select[name="cata"]').append(str);
+	});
+	$.getJSON("json/get/s_sushe_fee.json",function(data){
+		var str="";
+		var fee=data.fee;
+		for(i=0;i<fee.length;i++){
+			str+="<option>"+fee[i]+"元/年</option>";
+		}
+		$('select[name="fee"]').append(str);
+	});
+	$('.select').click(function(){
+		var cata=$('select[name="cata"] ').val();
+		var fee=$('select[name="fee"] ').val();
+		$.post("json/post/s_sushe_detail.json",{"buildingid":buildingid,"floorid":floorid,"susheid":susheid,"cata":cata,"fee":fee},function(){
+			 $.messager.alert("提示","保存成功","info"); 
+			 $('#base_right').empty().load("super/s_sushe_xinxi.html");
+		});
+	});
+   /* $('input[type="text"]').focusout(function(){
+		var s=$(this).val();		
+		var reg = /^[0-9]*$/;
+		if(!reg.test(s)){$(this).next().html("<img src='css/icons/ok.png' />")};
+		});	*/
+	$('.new').click(function(){	
+		var cata=$('input[name="cata"]').val();
+		var fee=$('input[name="fee"]').val();
+		var s = /^[0-9]*$/;
+		var rc=s.test(cata);
+		var rf=s.test(fee);
+		var str="请输入数字";
+		if(fee=='' ||cata==''){
+			if(fee==''){
+				$('.checkfee').html(str);
+			}
+			if(cata==''){
+				$('.checkcata').html(str);
+			}
+		}else{
+			if(!rc){
+				$('.checkcata').html(str);
+			}
+			if(!rf){
+				$('.checkfee').html(str);
+			}
+			if(rc && rf){
+				$('.checkcata').html("");
+				$('.checkcata').html("");
+				$.post("json/post/s_add_dormitory.json",{"buildingid":buildingid,"susheid":                           susheid,"cata":cata,"fee":fee},function(data){
+					if(data.status==0){
+						$.messager.alert("提示","保存成功","info"); 
+						$('#base_right').empty().load("super/s_sushe_xinxi.html");
+					}else{
+						 $.messager.alert("提示","保存失败","info"); 
+					}
+			    });
+	     }
+	  }
+		
+	});
+</script>

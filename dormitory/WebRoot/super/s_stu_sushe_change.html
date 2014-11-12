@@ -1,0 +1,89 @@
+<style type="text/css">
+.stuInfo h3 span {
+	margin-right:10px;
+	margin-left:10px;
+	color:#69F;
+}
+.jiliantwo select {
+	width:260px;
+	margin-right:20px;
+	margin-bottom:30px;
+}
+</style>
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>寝室调换</b></span><span class="shuoming">您可以对选中的学生调换寝室</span><span class="fanhui"><a class="return" href="javascript:void(0)">返回»</a></span></div>
+</div>
+<div class="right_contain">
+  <div class="stuInfo">
+    <h3>您将要调换的学生学号：<span name="stuNum"></span>姓名:<span name="name"></span>性别:<span name="sex"></span></h3>
+  </div>
+  <form >
+    <span class="jiliantwo"></span>
+    <input type="button" value="查询" />
+  </form>
+  <div class="empty"> </div>
+</div>
+<script type="text/javascript">
+
+$('.return').click(function(){
+	 $("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+	})
+	$('.stuInfo span[name="stuNum"]').append(stuNum);
+	$('.stuInfo span[name="name"]').append(stuName);
+	$('.stuInfo span[name="sex"]').append(stuSex);
+	$(".jiliantwo").cascade_two({
+		url:"json/get/s_loudong_jilian.json"
+    });
+	$('input[type="button"]').click(function(){
+		buildingid=$('select[name="building"]').val();
+			$.getJSON("json/get/s_sushe_xinxi_empty.json",{"buildingid":buildingid},function(data){
+				var options={
+					data:data,
+					width:'1000px',
+					height:'400px',				
+					singleSelect:false,
+					checkOnSelect:true,
+					selectOnCheck: true,
+					pagination:true	,
+					nowrap:false,
+					pageNumber:1,
+					pageSize:5,
+					pageList:[3,5,7],
+			
+					onClickCell:function(rowIndex, field, value){
+						var per_susheid=susheid;
+						susheid=value.substring(0,6);
+						if(susheid.indexOf("层")>=0){}
+						else{
+							var str="确定将"+stuName+"同学调换到"+susheid+"寝吗？";
+							$.messager.confirm('Confirm',str,function(r){
+								if (r){
+									$.post('json/post/s_delete_student.json',{"stuNum":stuNum,"susheid":susheid});
+									susheid=per_susheid;
+									$("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+								}
+							});				
+					   }
+					}
+					
+				}
+				var s="[[";
+				s+="{field:'floorid',title:'楼层',width:45,align:'center',rowspan:2},";
+				s+="{title:'寝室号',align:'center',colspan:"+data.columnmax+"}],[";
+				for(i=1;i<data.columnmax;i++){
+					s+="{field:'" +i+"',title:'"+i+"',width:'48',align:'center',styler:cellStyler},";
+				}
+				s+="{field:'" +data.columnmax+"',title:'"+data.columnmax+"',width:'48',align:'center',styler:cellStyler}]]";
+				options.columns=eval(s);
+				$('.empty').datagrid(options);
+				$('.empty').datagrid('reload');
+			});
+	});		
+	function cellStyler(value,row,index){
+	  if(value){
+		  if (value[10]< value[12]){
+			  return 'color:red;';
+		  }
+	  }
+	}
+</script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>登录</title>
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body onload="createCode();">
+<div id="loginbox">
+	<div id="contain" class="radius">
+		<div class="left"></div>
+		<div class="right radius">
+			 <form action="#" method="post" onsubmit="return checkForm();">
+				<h3>重邮宿舍管理系统</h3>
+				<br>
+				<label for="userName">用户名</label>
+				<input type="text" name="userName" id="userName" />
+				<p class="clear"></p>
+				<label for="userPwd">密码</label>
+				<input type="password" name="userPwd" id="userPwd" />
+                <p class="clear"></p>
+				<div>
+					<input name="login" type="submit" value="登录" id="login">
+				    <p class="clear"></p>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

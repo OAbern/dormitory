@@ -1,0 +1,56 @@
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>学生住宿调配界面</b></span><span class="shuoming">您可以查看学生住宿调配情况</span></div>
+</div>
+<div class="right_contain">
+   <form id="form1">
+       <div id="tab1"></div>
+       <span  style="float:left;margin-top:5px;margin-left:550px">
+          <a href="Download/360打分(姓名+学号)1.xlsx"><input name="download" type="button" value="住宿分配情况附件下载"></a>
+       </span>
+       <div class="editor" style="float:left;margin-top:10px">
+            <p style="font-size:11px;">温馨提示：若您想再调整宿舍，请先下载宿舍分配情况附件，再上传调整后的excel表格。</p>
+            <input type="file" name="fileImg" id="fileImg" /> 
+            <div id="fileQueue" ></div> 
+            <a href="javascript:$('#uploadify').uploadifyUpload()"><input name="upload" type="button" value="上传" /></a>
+       </div>
+   </form>
+</div>
+<script type="text/javascript">
+	$("#tab1").datagrid({
+				url:'json/get/f_stuchangehotel.json',
+				width:'700px',
+				height:'250px', 
+				columns:[[    
+					{field:'dormitory',title:'寝室号',width:120,align:'center'},
+					{field:'family',title:'成员姓名',width:120,align:'center'},
+					{field:'sex',title:'性别',width:80,align:'center'},
+					{field:'stuNum',title:'学号',width:130,align:'center'},
+					{field:'college',title:'学院',width:120,align:'center'},       
+					{field:'classes',title:'班级',width:120,align:'center'}
+				]],
+			singleSelect:true,
+			saveUrl:'server.php',
+			updateUrl:'server.php',
+			destroyUrl:'server.php',
+			pagination:true	,
+			pageNumber:1,
+			pageSize:5,
+			pageList:[1,5,10,15,20] 
+			});
+			var pager = $("#tab1").datagrid().datagrid('getPager');// get the pager of datagrid
+			pager.pagination({
+				beforePageText:"第",
+				afterPageText:"共{pages}页",
+				displayMsg:"显示{from}到{to},共{total}条记录"
+			});
+       $("#tab1").datagrid('autoSizeColumn');//自动调整列宽度以适应
+       $("#uploadify").uploadify({
+                'uploader': 'JS/jquery.uploadify-v2.1.0/uploadify.swf',
+                'script': 'UploadHandler.ashx',
+                'cancelImg': 'JS/jquery.uploadify-v2.1.0/cancel.png',
+                'folder': 'UploadFile',
+                'queueID': 'fileQueue',
+                'auto': false,
+                'multi': true
+         });
+</script>

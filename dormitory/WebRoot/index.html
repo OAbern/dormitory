@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>hotel</title>
+<link rel="stylesheet" type="text/css" href="css/icon.css">
+<link rel="stylesheet" type="text/css" href="css/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/model.css"/>
+<link href="css/SimpleTree.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/base_right.css" />
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script><!-- tdg -->
+<script type="text/javascript" src="js/tree.js" ></script>
+<script type="text/javascript" src="js/super_index.js"></script>
+<script type="text/javascript" src="js/parameter.js"></script>
+<script type="text/javascript" src="js/jquery.cascade.js"></script>
+<script type="text/javascript" src="js/cascade_two.js"></script>
+<script type="text/javascript" src="js/jquery.cascade.four.js"></script>
+<script type="text/javascript">
+    //头部时间
+	function current(){
+		var d=new Date(),str='';
+		str +=d.getFullYear()+'年'; //获取当前年份
+		str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+		str +=d.getDate()+'日';
+		/*str +=d.getHours()+'时';
+		str +=d.getMinutes()+'分';
+		str +=d.getSeconds()+'秒';*/
+		return str; 
+	}
+	setInterval(function(){$("#nowTime").html(current)},1000);
+</script>
+</head>
+<body>
+<div id="container">
+  	<div id="top">
+         <div id="top_left">宿舍管理系统</div>
+         <div id="top_right"  style="color:#FFF">
+            <p>欢迎您，<span style="color:#FFBF55;font-weight: bolder;">管理员</span></p>
+            <div id="nowTime"></div> 
+          </div>
+          <div class="line"></div>
+    </div>
+	<div id="base">
+    	<div id="base_left">
+          	<div class="st_tree">
+                <ul >
+                    <li><a href="#" >学生信息</a></li>
+                    <ul id="studentInfo">
+                        <li><a href="#">添加学生信息</a></li>
+                        <li><a href="#">查询学生信息</a></li>
+                        <li><a href="#">修改学生信息</a></li>
+                        <li><a href="#">各学院学生分布</a></li>
+                    </ul>
+                    <li><a href="#">管理员信息</a></li>
+                    <ul id="managerInfo">
+                       <li><a href="#">查询信息</a>
+                    </ul>
+					<li><a href="#">宿舍分配与调整管理</a></li>
+				    <ul class="fenpyutiaozh">
+						<li><a href="#">新生寝室分配</a></li>
+						<li><a href="#">寝室调换</a></li>
+						<li><a href="#">校外住宿管理</a></li>
+						<li><a href="#">退宿管理</a></li>
+						<li><a href="#">宿舍信息查询</a></li>
+				    </ul>
+                    <li><a href="#">宿舍基本信息管理</a></li>
+                    <ul id="sushe">          
+                    </ul>
+                </ul>
+            </div>
+		</div>
+        <div id="base_right"><h2 style="text-align:center;margin-left:100px;margin-top:200px;color:#2A3F55; font-size:30px;">您好，欢迎来到超级管理员管理界面!!!</h2></div>
+    </div>
+	<div id="foot">
+        <div id="footer_text1"><p>重庆邮电大学&nbsp;教务处教学信息中心&nbsp;版权所有&nbsp;2014</p></div>
+        <div id="footer_text2"><p>Version&nbsp;1.0&nbsp;&nbsp;Designed&nbsp;By&nbsp;L</p></div>
+    </div>
+  </div>
+<script src="js/SimpleTree.js" type="text/javascript"></script>
+</body>
+</html>
+<script type="text/javascript">
+	$(function(){
+		$(".st_tree").SimpleTree({
+			click:function(a){
+				if(!$(a).attr("hasChild"))
+					alert($(a).attr("ref"));
+			}
+		});	
+	});
+</script>
+

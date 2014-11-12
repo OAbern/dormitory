@@ -1,0 +1,19 @@
+﻿{"total":"100",
+	"rows":[
+		{
+		  "studentId":"01",
+		  "name":"张三",
+		  "sex":"男",
+		  "academy":"经济管理学院",
+		  "major":"信管",
+		  "grade":"2012",
+		  "classes":"0311201",
+		  "outTime":"2014-10-08",
+		  "outAddress":"静园小区3栋16号"
+		 }
+	]
+}
+
+	
+	
+		 

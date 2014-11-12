@@ -1,0 +1,114 @@
+<script type="text/javascript" src="js/s_fenpei_right.js"></script>
+<div class="tb"> 
+  <!--tool bar--> 
+  <span><a href="javascript:void(0)" class="add agree">同意</a> <a href="javascript:void(0)" class="noagree">不同意</a> <a href="javascript:void(0)" class="delete">删除</a></span> </div>
+<!--得到调换结果名单-->
+<div class="table_two"></div>
+<script type="text/javascript">
+	$('.tb a:eq(0)').linkbutton({});
+	$('.tb a:eq(1)').linkbutton({});
+	$('.tb a:eq(2)').linkbutton({});
+	$('.table_two').datagrid(
+		{
+			width : '750px',
+			height : '330px',
+			toolbar : '.tb',
+			nowrap : false,
+			url : 'json/get/s_diaohuanyijian_xinxi.json',
+			columns : [ [
+					{field : 'ck',align : 'center',checkbox : true},
+					{field : 'teaNum',title : '教师号',width : 100,align : 'center'},
+					{field : 'teaname',title : '姓名',width : 100,align : 'center'},
+					{field : 'mgrade',title : '年级',width : 100,align : 'center'},
+					{field : 'college',title : '学院',width : 200,align : 'center'},
+					{field : 'xgqk',title : '下载',width : 60,align : 'center',
+						formatter : function(value, row, index) {
+							var d = '<a href="Download/360打分(姓名+学号)1.xlsx" class="xiazai" onclick="xiazai(this)">下载</a>';
+							return d;
+						}
+					},
+					{field : 'shenhe',title : '审核',width : 100,align : 'center'},
+					{field : 'delete',title : '删除',width : 60,align : 'center',
+						formatter : function(value, row, index) {
+							var d = '<a href="javascript:void(0)" class="easyui-linkbutton" onclick="del(\''+ index + '\')">删除</a>';
+							return d;
+						}
+					} ] ],
+			pagination : true,
+			pageNumber : 1,
+			pageSize : 2,
+			pageList : [ 1, 2, 3 ]
+		});
+	var pager = $('.table_two').datagrid().datagrid('getPager');// get the pager of datagrid
+	pager.pagination({
+		beforePageText : "第",
+		afterPageText : "共{pages}页",
+		displayMsg : "显示{from}到{to},共{total}条记录"
+	});
+	//删除学院请求意见
+	function del(index) { //删除操作  
+		$.messager.confirm('确认', '确认删除?', function(row) {
+			if (row) {
+				if ($('.table_two').datagrid('getSelected')) {//当勾选了本行时，否则就是直接点击删除
+					var row = $('.table_two').datagrid('getSelected');//获取你选择的行
+				}
+				$.post('json/post/s_delete_student.json', {"teaNum" : row.teaNum});//选中行  
+				$('.table_two').datagrid('deleteRow', index);
+			}
+		});
+	}
+	$('.agree').click(function() {
+				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
+				if (rows.length > 0) {
+					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
+						if (r) {
+							for ( var i = 0; i < rows.length; i++) {//循环所选的行
+								$('.table_two').datagrid('updateRow',{
+								   index : $('.table_two').datagrid('getRowIndex', rows[i]),
+									   row : {
+											shenhe : '已同意'
+										}
+								});
+								$.post('json/post/s_jijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : rows[i].shenhe});
+							}
+						}
+					});
+				}
+			});
+	$('.noagree').click(
+			function() {
+				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
+				//循环所选的行
+				if (rows.length > 0) {
+					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
+						if (r) {
+							for ( var i = 0; i < rows.length; i++) {
+								$('.table_two').datagrid('updateRow',{
+								   index : $('.table_two').datagrid('getRowIndex', rows[i]),
+								   row : {
+										shenhe : '未同意'
+								   }
+								});
+								$.post('json/post/s_jijian_shenhe.json', {"teaNum" : rows[i].teaNum,"shenhe" : rows[i].shenhe});
+							}
+						}
+					});
+				}
+			});
+	$('.delete').click(
+			function() {
+				var rows = $('.table_two').datagrid("getSelections"); //获取你选择的所有行
+				//循环所选的行
+				if (rows.length > 0) {
+					$.messager.confirm('Confirm', 'Are you sure?', function(r) {
+						if (r) {
+							for ( var i = 0; i < rows.length; i++) {
+								var index = $('.table_two').datagrid('getRowIndex', rows[i]);//获取某行的行号
+								$.post('json/post/s_delete_yijian.json', {"teaNum" : rows[i].teaNum});
+								$('.table_two').datagrid('deleteRow', index);//通过行号移除该行
+							}
+						}
+					});
+				}
+			});
+</script>

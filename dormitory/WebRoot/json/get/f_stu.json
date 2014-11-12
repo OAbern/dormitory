@@ -1,0 +1,26 @@
+[
+	{
+		"id":"major1",
+		"name":"信息管理与信息系统",
+		"children":[
+          {"id":"class1","name":"0311201"},
+          {"id":"class2","name":"0311202"},
+          {"id":"class3","name":"0311203"}
+		 ]
+	},
+    {
+		"id":"major2",
+		"name":"电子商务",
+		"children":[
+          {"id":"class1","name":"0361201"}
+          ]
+	},
+    {
+			"id":"major3",
+			"name":"工程管理",
+			"children":[
+            {"id":"class1","name":"0381201"},
+            {"id":"class2","name":"0381202"}
+	      ]
+	}
+]

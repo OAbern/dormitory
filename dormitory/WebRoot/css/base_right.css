@@ -1,0 +1,116 @@
+/*每个右边页面的上方*/
+.right_top {
+	padding-top:5px;
+	background-color:#fbfbfb;
+}
+.btm {
+	border-bottom: 1px solid #ccc;
+}
+.btm .rheader {
+	margin-bottom:20px;
+}
+.rheader span.pageName {
+	margin-left:100px;
+	margin-bottom:5px;
+	color:#485b79;
+	font-size:25px;
+}
+.rheader span.shuoming {
+	color:#838383;
+	margin-left:20px;
+	font-size:13px;
+}
+.right_top span.fanhui a {
+	display:block;
+	float:right;
+	margin-right:30px;
+	padding-top:10px;
+	font-size:16px;
+	color:#2A3F55;
+	font-weight:bold;
+}
+/*右边有多个页面时*/
+.right_ul {
+	list-style: none;
+	padding: 0 60px 0 50px;
+	border-bottom:1px solid #ccc;
+	height: 37px;
+	margin-top:20px;
+}
+.right_ul li {
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
+}
+.right_ul li:first-child {
+	margin-left: 50px;
+}
+.right_ul li a {
+	display: block;
+	padding: 10px 20px;
+	background: none repeat scroll 0 0 #ccc;
+	color: #fff;
+	font-family: 'RobotoBoldCondensed', Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	-moz-border-radius: 2px 2px 0 0;
+	-webkit-border-radius: 2px 2px 0 0;
+	border-radius: 2px 2px 0 0;
+	border: 1px solid #ccc;
+	border-bottom:0;
+}
+.right_ul li a:hover {
+	background: #bbb;
+	border-color: #aaa;
+}
+.right_ul li a.editornav {
+	background: #fff;
+	color: #FB9337;
+}
+.right_ul li a.editornav :hover {
+	border-color: #ccc;
+}
+/*寝室选择s_qin_shixuanze.html  s_atuo_qinshi_xuanze.html*/
+.xuanze_qinshi table {
+	border-collapse: collapse;
+	border:1px solid #95b8e7;
+	font-size:12px;
+}
+.xuanze_qinshi table tr td.area {
+	text-align:center;
+	width:40px;
+	background-color:#f4f4f4;
+}
+.xuanze_qinshi table tr td {
+	border: thin #ccc dotted;
+	width: 75px;
+	height:35px;
+	padding-left:5px;
+}
+.sure_fenpei {
+	display:none;
+}
+/*级联寝室分配*/
+.jilian {
+	display:inline-block;
+}
+.jilian select {
+	margin-right:20px;
+}
+.jilian_sure {
+	display:inline;
+	margin-left:10px;
+	overflow:hidden;
+}
+.stu_xuanze {
+	margin-bottom:30px;
+}
+.diaohuan_txt {
+	margin-bottom:30px;
+}
+.nextStep {
+	margin-left:30px;
+}
+.fenpei_txt {
+	margin-top:20px;
+	display:none;
+}

@@ -1,0 +1,57 @@
+<div class="xuanze_qinshi"></div>
+<br />
+<input type="button" name="sure_fenpei" class="sure_fenpei" value="确定" />
+<script type="text/javascript">
+	$(function() {
+		$.getJSON("json/get/s_sushe_kong.json",{"sex" : stuSex},function(data) {
+			var html = "<table>";
+			$.each(data.rows,function(index, item) {
+				html += "<tr><td class='area'>"+ item["area"]+ "</td>";
+				for (i = 0; i < data.columnmax; i++) {
+					if (item.buildingid[i]&& item.kong[i]) {
+						html += "<td><input type='checkbox' name='checkbox_kong' class='checkbox_kong' value="+item.kong[i]+" />"+ "<span class='buildingid'>"+ item.buildingid[i]+ "</span>"+ "("+ item.kong[i]+ ")" + "</td>";
+					} else {
+						html += "<td></td>";
+					}
+				}
+				html += "</tr>";
+			});
+			html += "</table>";
+			$(".xuanze_qinshi").html(html);
+			$(".sure_fenpei").show();
+		});
+		$(".sure_fenpei").click(function() {
+			var buildingid = {};
+			var kong = {};
+			var i = 0;
+			$(".checkbox_kong").each(function() {
+				if ($(this).is(":checked")) {
+					var num = parseInt($(this).val());
+					sum_newstu_kong=parseInt(sum_newstu_kong)+num;
+					buildingid[i] = parseInt($(this).parent().children(".buildingid").text());
+					kong[i] = parseInt($(this).val());
+					i++;
+				}
+			});
+			$.post('json/post/s_loudong_havexz.json', {"buildingid" : buildingid,"kong" : kong});
+			//点击确定时会生成表格，不知道怎么写生成表格，把表格放在DOwnload文件夹
+			if (sum_newfenpei == 0) {
+				 $.messager.alert("警告","你还没有选择调换人员，无法分配！","warning");
+			} else if (sum_newstu_kong == 0) {
+				 $.messager.alert("警告","你还没有选择空床位，无法分配！","warning");
+			} else if (sum_newstu_kong < sum_newfenpei) {
+				 $.messager.alert("提示","选择分配" + sum_newfenpei + "人，选择空床位" + sum_newstu_kong
+						+ "个，无法分配！请点击确定重新选择！","info");
+			} else if (sum_newstu_kong >= sum_newfenpei) {//弹框确认分配人数和空床位数的大小
+					$.messager.confirm("提示:","选择分配" + sum_newfenpei + "人，选择空床位" + sum_newstu_kong+ "个，可以分配，将把自动分配结果发送给学院辅导员，请等待学院辅导员意见！",function(event){   
+						if(event){   
+							$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
+				            $(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");  
+						}else{   
+						  $.messager.alert("提示","请重新选择！");   
+						}   
+				    });    
+			}
+		});
+	});
+</script> 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dormitory.model.Room">
+	<resultMap type="com.cqupt.dormitory.model.Room" id="room">
+		<id column="id" property="id"/>
+		<result column="room_id" property="roomId"/>
+		<result column="total_bed" property="totalBed"/>
+		<result column="cost" property="cost"/>
+	</resultMap>
+	
+	<select id="findByRoomId" resultMap="room" parameterType="String">
+		SELECT * FROM `room` WHERE room_id = #{roomId}
+	</select>
+
+</mapper>

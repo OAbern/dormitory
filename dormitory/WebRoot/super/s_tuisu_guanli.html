@@ -1,0 +1,98 @@
+<style type="text/css">
+#filter {
+	display:inline;
+	margin-left:10px;
+	overflow:hidden;
+}
+#searchBar {
+	display:inline-block;
+}
+#searchBar select {
+	width:100px;
+	margin-right:20px;
+	margin-bottom:20px;
+}
+</style>
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>退宿管理</b></span><span class="shuoming">您可以查看符合条件的在校住宿学生，并对其做退宿处理</span></div>
+</div>
+<div class="right_contain"> 
+  <!-- 筛选框 -->
+  <div id="searchBar"> 学历：
+    <select name="education" id="education" class="tuisu">
+      <option value="1" selected="selected">全部</option>
+      <option value="2">研究生在读</option>
+      <option value="3">博士生在读</option>
+    </select>
+  </div>
+  <input type="button" value="确定" id="filter">
+  <!-- 展示数据的表格 -->
+  <div id="showTable"></div>
+</div>
+<!--级联--> 
+<script type="text/javascript">
+	$("#searchBar").cascade_four({
+		url : "json/get/s_tuisu_guanli_jilian.json",
+		firstName : "性别",
+		secondName : "楼栋",
+		thirdName : "学院",
+		fourName:"年级",
+		firstText : "请选择性别",
+		secondText : "请选择楼栋",
+		thirdText : "请选择学院",
+		fourText:"请选择年级"
+	});
+</script> 
+<script type="text/javascript">
+	var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
+		$("#filter").click(function(event) {//点击筛选展示数据
+				//定义四个变量获取筛选的条件
+			var academyText=$("#academy").val(),
+				grade=$("#grade").val(),
+				education=$("#education").val(),
+				sex=$("#sex").val(),
+				building=$("#building").val();
+			showTable.datagrid({
+				width:'650px',
+				height:'330px',
+				url:'json/get/s_tuisu_guanli.json',
+				rownumbers:'true',
+				fitColumns:'true',
+				queryParams:{
+					sex:sex,
+					building:building,
+					academy:academyText,
+					grade:grade,
+					education:education
+				},
+				pagination:'true',
+				toolbar:[{
+					id:'deleteRows',
+					text:'退宿',
+					iconCls:'icon-remove',
+					handler:function() {
+						var selections=showTable.datagrid('getSelections');
+						var delRowsIdArray=[];//存储要删除的学生id
+						if(selections.length==0){//没有选择要删除的行
+							$.messager.alert('操作提示', '请选择要删除的行');
+						}else{
+							for(var i=0;i<selections.length;i++){
+								delRowsIdArray[i]=selections[i].studentId;//studentId为表的主键
+								var index=showTable.datagrid('getRowIndex',selections[i]);
+								showTable.datagrid('deleteRow',index);
+							}
+							$.post('post.jsp',{'delRowsIdArray':delRowsIdArray});
+						}	
+					}
+				}],
+				columns:[[    
+					{field:'ck',checkbox:true},    
+					{field:'name',title:'姓名',width:150,align:'center'}, 
+					{field:'studentId',title:'学号',width:150,align:'center'},    
+					{field:'roomId',title:'寝室号',width:150,align:'center'},    
+					{field:'inTime',title:'入住时间',width:200,align:'center'}
+				]]
+			}); 
+			showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容
+		});
+</script>

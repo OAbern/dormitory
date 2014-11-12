@@ -1,0 +1,39 @@
+﻿{"total":"100",
+	"rows":[
+		{
+		  "studentId":"01",
+		  "nane":"t1",
+		  "sex":"男",
+		  "age":"18"
+		 },
+		 {
+		  "studentId":"02",
+		  "nane":"t2",
+		  "sex":"男",
+		  "age":"18"
+		 },
+		 {
+		  "studentId":"03",
+		  "nane":"t3",
+		  "sex":"男",
+		  "age":"18"
+		 },
+		 {
+		  "studentId":"04",
+		  "nane":"t1",
+		  "sex":"男",
+		  "age":"18"
+		 },
+		 {
+		  "studentId":"05",
+		  "nane":"t1",
+		  "sex":"男",
+		  "age":"18"
+		 }
+		 
+	]
+}
+
+	
+	
+		 
