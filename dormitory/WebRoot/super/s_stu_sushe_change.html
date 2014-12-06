@@ -31,13 +31,13 @@
 <script type="text/javascript">
 $(function(){
 	$('.return').click(function(){
-	 $("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+	 $("#base_right").empty().load("s_ruzhu_xinxi.html");
 	})
 	$('.stuInfo span[name="stuNum"]').append(stuNum);
 	$('.stuInfo span[name="name"]').append(stuName);
 	$('.stuInfo span[name="sex"]').append(stuSex);
 	
-	$.post("areaInfo/findAllArea.do",{"sex":stuSex},function(data){
+	$.post("../areaInfo/findAllArea.do",{"sex":stuSex},function(data){
 		var area="<option value='-1'>请选择</option>";
 		$.each(data,function(index,item){
 			 area+="<option value="+item+">"+item+"</option>";
@@ -50,7 +50,7 @@ $(function(){
 		var area=$('select option:selected').val();
 		if(area!='-1'){
 			$('.building').empty();
-			$.post("areaInfo/findBuildingNumBySex.do",{"area":area,"sex":stuSex},function(data){
+			$.post("../areaInfo/findBuildingNumBySex.do",{"area":area,"sex":stuSex},function(data){
 				if(data.length==0){
 					$.messager.alert("提示","您所选的片区没有"+stuSex+"生寝室,请重新选择片区","warning");
 				}else{
@@ -67,7 +67,7 @@ $(function(){
 		var area=$('.area').val();
 		var name=$('.building').val();
 		if(name!='-1' && area!='-1'){
-			$.post("roomInfo/findAllRoom.do",{"buildingNum":name},function(data){
+			$.post("../roomInfo/findAllRoom.do",{"buildingNum":name},function(data){
 				var options={
 					data:data,
 					width:'1000px',
@@ -98,13 +98,13 @@ $(function(){
 								var str="确定将"+stuName+"同学调换到"+susheid+"寝吗？";
 								$.messager.confirm('提示',str,function(r){
 									if (r){
-										$.post('roomInfo/updateStudentRoom.do',{"studentNum":stuNum,"roomNum":susheid},function(data){
+										$.post('../roomInfo/updateStudentRoom.do',{"studentNum":stuNum,"roomNum":susheid},function(data){
 											if(data.status==0){//失败
 												$.messager.alert("提示","调换失败，请重新操作","info");
 											}else if(data.status==1){
 												$.messager.alert("提示","操作成功","info");
 											    susheid=per_susheid;
-												$("#base_right").empty().load("super/s_ruzhu_xinxi.html");
+												$("#base_right").empty().load("s_ruzhu_xinxi.html");
 											}else{
 												$.messager.alert("提示","出现错误","info");
 											}

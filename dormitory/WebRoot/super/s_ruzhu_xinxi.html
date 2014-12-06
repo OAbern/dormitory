@@ -42,7 +42,7 @@ input[type='text'] {
 <script type="text/javascript">
 var ok_1=false;
 $('.return').click(function(){
-	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
+	 $("#base_right").empty().load("s_sushe_xinxi.html");
 	})
 $(function(){
 		$('.add input[type="hidden"]').attr('value',susheid);
@@ -54,7 +54,7 @@ $(function(){
 			}
 		});
 	//datagrid start
-	$.post("roomInfo/findAllPersonInRoom.do",{"roomNum":susheid},function(data){
+	$.post("../roomInfo/findAllPersonInRoom.do",{"roomNum":susheid},function(data){
 		person=data.total;
 		$('#student').datagrid({
 			data:data,
@@ -134,7 +134,7 @@ $(function(){
 			var stuNum=$('input[name="stuNum"]').val();
 			if(stuNum!=''){
 	
-				$.post("studentInfo/findStudentByStuNum.do",{"stuNum":stuNum},function(data){
+				$.post("../studentInfo/findStudentByStuNum.do",{"stuNum":stuNum},function(data){
 					if(data!=null){//有这个学生
 						$('input[name="name"]').attr("value",data.name);
 						ok_1=true;
@@ -160,7 +160,7 @@ $(function(){
 			$.messager.confirm('提示','确定退宿么?',function(r){
 				if (r){
 					var index=parseInt(getRowIndex(target));
-					$.post('studentInfo/updateStudentRoom.do',{"stuNum":stuNum,"roomNum":susheid},function(data){
+					$.post('../studentInfo/updateStudentRoom.do',{"stuNum":stuNum,"roomNum":susheid},function(data){
 						if(data.status==1){
 							$.messager.alert("提示","删除成功","info",function(){
 								$('#student').datagrid('deleteRow',index);
@@ -178,12 +178,12 @@ $(function(){
 	    }
 		$('input[type="button"]').click(function(){
 			if(ok_1){
-				$.post("roomInfo/changeOneRoom.do",$('.add').serialize(),function(data){
+				$.post("../roomInfo/changeOneRoom.do",$('.add').serialize(),function(data){
 					var status=data.status;
 					if(status==1){
 						$.messager.alert("提示","添加成功","info");
 						$('input[type="text"]').attr("value","");
-						$('#base_right').empty().load("super/s_ruzhu_xinxi.html");
+						$('#base_right').empty().load("s_ruzhu_xinxi.html");
 					}else if(status==0){
 						$.messager.alert("提示","添加失败：该学生性别与该寝室不符或者该寝室已满。","warning");
 						$('input[type="text"]').attr("value","");
@@ -226,14 +226,14 @@ $(function(){
 		}); */
 		function modify(){
 			  action="modifysushe";//修改单个宿舍信息
-			 $("#base_right").empty().load("super/s_sushe_detail.html");
+			 $("#base_right").empty().load("s_sushe_detail.html");
 			}
 		function deleteRows(){
 			if(person==0){
-				$.post("roomInfo/delRoom.do",{"roomNum":susheid},function(data){
+				$.post("./roomInfo/delRoom.do",{"roomNum":susheid},function(data){
 					if(data.status==1){
 						$.messager.alert("提示","删除成功","info",function(){
-							$("#base_right").empty().load("super/s_sushe_xinxi.html");
+							$("#base_right").empty().load("s_sushe_xinxi.html");
 						});
 						
 					}else if(data.status==0){
@@ -252,7 +252,7 @@ $(function(){
 			stuNum=tr.stuNum;
 			stuName=tr.name;
 			stuSex=tr.sex;
-			$("#base_right").empty().load("super/s_stu_sushe_change.html");
+			$("#base_right").empty().load("s_stu_sushe_change.html");
 			
         }
 </script>

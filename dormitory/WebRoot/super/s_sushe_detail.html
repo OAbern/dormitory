@@ -79,7 +79,7 @@ var url="";
 var param={};
 var info="";
 	$('.return').click(function(){
-	 	$("#base_right").empty().load("super/s_sushe_xinxi.html");
+	 	$("#base_right").empty().load("s_sushe_xinxi.html");
 	})
     $(function(){
 		$('#'+action).show();
@@ -88,7 +88,7 @@ var info="";
 		$('.susheid').append(susheid);
 		
 	});
-	$.post("roomInfo/findRoomCata.do",function(data){
+	$.post("../roomInfo/findRoomCata.do",function(data){
 		var str="";
 		var cata=data.cata;
 		for(i=0;i<cata.length;i++){
@@ -96,7 +96,7 @@ var info="";
 			}
 	    $('select[name="cata"]').append(str);
 	});
-	$.post("roomInfo/findRoomFee.do",function(data){
+	$.post("../roomInfo/findRoomFee.do",function(data){
 		var str="";
 		var fee=data.fee;
 		for(i=0;i<fee.length;i++){
@@ -113,7 +113,7 @@ var info="";
 		$.post(url,param,function(data){
 			if(data.status==1){
 			 $.messager.alert("提示",info+"成功","info",function(){
-			 	 $('#base_right').empty().load("super/s_sushe_xinxi.html");
+			 	 $('#base_right').empty().load("s_sushe_xinxi.html");
 			 }); 
 			}else if(data.status==0){
 				$.messager.alert("提示",info+"失败","info"); 
@@ -165,7 +165,7 @@ var info="";
 			$.post(url,param,function(data){
 				if(data.status==1){
 					$.messager.alert("提示",info+"成功","info"); 
-					$('#base_right').empty().load("super/s_sushe_xinxi.html");
+					$('#base_right').empty().load("s_sushe_xinxi.html");
 				}else if(data.status==0){
 					 $.messager.alert("提示",info+"失败","info"); 
 				}else{
@@ -179,7 +179,7 @@ var info="";
 	function getPostParam(action){
 		
 		if(action=="add"){
-			url="roomInfo/addRoom.do";//添加新寝室的地址
+			url="../roomInfo/addRoom.do";//添加新寝室的地址
 			param.buildingNum=buildingid;
 			param.floorNum=floorid;
 			param.cata=cata;
@@ -187,7 +187,7 @@ var info="";
 			info="添加";
 			}
 		if(action=="modifyfloor"){
-			url="roomInfo/updateFloor.do";//修改某层楼的宿舍信息
+			url="../roomInfo/updateFloor.do";//修改某层楼的宿舍信息
 			param.buildingNum=buildingid;
 			param.floorNum=floorid;
 			param.cata=cata;
@@ -195,7 +195,7 @@ var info="";
 			info="修改楼层";
 			}
 		if(action=="modifysushe"){
-			url="roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
+			url="../roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
 			param.roomNum=susheid;
 			param.cata=cata;
 			param.fee=fee;

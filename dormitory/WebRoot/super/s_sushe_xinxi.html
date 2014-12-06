@@ -16,7 +16,7 @@ $(".btm .rheader .pageName span.building").html(buildingid);
 $(function(){
 	/* $.post("json/get/s_sushe_xinxi.json",{"buildingid":buildingid},function(data){ */
 
-	$.getJSON("roomInfo/findAllRoom.do",{"buildingNum":buildingid},function(data){
+	$.getJSON("../roomInfo/findAllRoom.do",{"buildingNum":buildingid},function(data){
 		var options={
 		data:data,
 		width:'880px',
@@ -70,7 +70,7 @@ $(function(){
 				/* var p=str[1].indexOf("/"); */
 				person=parseInt(str[1].substring(1,str[1].length));
 				contains=parseInt(str[2]);
-				$("#base_right").load("super/s_ruzhu_xinxi.html");
+				$("#base_right").load("s_ruzhu_xinxi.html");
 			
 			}
 			
@@ -127,7 +127,7 @@ $(function(){
 				}else{
 				  floorid=names[0];
 				  action="add";
-				  $("#base_right").empty().load("super/s_sushe_detail.html");
+				  $("#base_right").empty().load("s_sushe_detail.html");
 					}	
 	}
 	function modify(){	
@@ -144,11 +144,11 @@ $(function(){
 				}else{
 				  floorid=names[0];
 				  action="modifyfloor";//修改整层宿舍信息
-				  $("#base_right").empty().load("super/s_sushe_detail.html");
+				  $("#base_right").empty().load("s_sushe_detail.html");
 					}	
 	}
 	function modifyBuilding	(){
-		 $("#base_right").empty().load("super/s_modifybuilding.html");
+		 $("#base_right").empty().load("s_modifybuilding.html");
 	}
 	function deleteRows(){
 			var checkedItems = $('#dormitory').datagrid('getSelections');	
@@ -162,7 +162,7 @@ $(function(){
 			}else{
 				$.messager.confirm("提示","确定删除所选内容么？",function(r){
 					if(r){  
-						$.post("roomInfo/delFloor.do",{"buildingNum":buildingid,"floorNum":floors},function(data){
+						$.post("../roomInfo/delFloor.do",{"buildingNum":buildingid,"floorNum":floors},function(data){
 							if(data.status==1){
 								$.messager.alert("提示","删除成功","info");
 								var rows=$('#dormitory').datagrid('getSelections');
