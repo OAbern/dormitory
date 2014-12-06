@@ -14,13 +14,13 @@
 	       if($("#num").val() == ""){
 				alert("请输入用户名");
 				return false;
-			} else if($("#pw").val() == ""){
+			}else if($("#pw").val() == ""){
 				alert("请输入用户密码");
 				return false;
-			} else if($("#level").val() == ""){
+			}else if($("#level").val() == ""){
 				alert("请选择身份信息");
 				return false;
-			} else {
+			}else{
 				 $.post("loginCheck.do",$("#loginForm").serialize(),function(data){
 			        if(data.status==1){
 			            if($("#level").val()==0){
@@ -30,12 +30,9 @@
 			             //admin
 			              location.href="index.html";
 			            }
-			            else if(data.statua==0){
-			              location.href="login.html";
+			        }else if(data.status==0){
 			              alert("用户名或密码错误");
-			            }
-			        }
-	    
+			             }
 	           });
 			}
 	    }); 
