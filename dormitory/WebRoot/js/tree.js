@@ -1,6 +1,6 @@
 // JavaScript Document
 
-$.getJSON("areaInfo/findAreaAndBuilding.do",function(data){
+$.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
 		var html="";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
@@ -28,11 +28,11 @@ $.getJSON("areaInfo/findAreaAndBuilding.do",function(data){
 			}else{
 				if($(this).find("a").attr("name")=="add"){
 					area=$(this).parent().prev().text()[0];
-					$("#base_right").empty().load("super/s_add_loudong.html");
+					$("#base_right").empty().load("s_add_loudong.html");
 					}else{
 						var tem=$(this).find("a").text();	
 						buildingid=tem.substring(0,tem.length-1);
-						$("#base_right").empty().load("super/s_sushe_xinxi.html");
+						$("#base_right").empty().load("s_sushe_xinxi.html");
 					}
 				}
 				
