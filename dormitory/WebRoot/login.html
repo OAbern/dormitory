@@ -25,14 +25,15 @@
 			        if(data.status==1){
 			            if($("#level").val()==0){
 			             //辅导员
-			             location.href="f_index.html";
+			             location.href="fu/f_index.html";
 			            }else if($("#level").val()==1){
 			             //admin
-			              location.href="index.html";
+			              location.href="super/index.html";
 			            }
 			        }else if(data.status==0){
+			              location.href="login.html"
 			              alert("用户名或密码错误");
-			             }
+			        }
 	           });
 			}
 	    }); 
