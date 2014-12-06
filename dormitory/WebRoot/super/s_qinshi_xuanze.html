@@ -80,7 +80,7 @@ $(function(){
 							    type:'POST',
 							    async:false,
 							    url:'roomInfo/distributeRoom.do',
-							    data:{"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"building":building},
+							    data:{"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"building":building,"livingStatus":3},
 							    dataType:'json',
 							    error:function(){
 							    	$.messager.alert("提示","分配失败！原因:"+data.info,"info");

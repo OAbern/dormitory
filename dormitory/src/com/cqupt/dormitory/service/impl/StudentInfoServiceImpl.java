@@ -92,7 +92,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public List<Student> findStudentCheckOutByCondition(Condition condition) {
-		condition.setLivingStatus(1);
+		condition.setLivingStatus(4);
 		return studentInfoDao.findStudentByCondition(condition);
 	}
 
@@ -138,7 +138,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		String[] a = new String[studentNums.size()];
 		studentNums.toArray(a);
 		if(a.length<1){
-			a[0] = "null";
+			a = new String[]{"null"};
 		}
 		this.updateOutOfRoom(a);
 	}

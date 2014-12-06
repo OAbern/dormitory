@@ -112,7 +112,7 @@ function deleterow() {
 			//var index=showTable.datagrid('getRowIndex',selections[i]);
 			//showTable.datagrid('deleteRow',index);
 		}
-		$.post('studentInfo/deleteStudentOutLiving',{'delRowsIdArray':delRowsIdArray},function(data){
+		$.post('studentInfo/deleteStudentOutLiving.do',{'delRowsIdArray':delRowsIdArray},function(data){
 			if(data.status=='0'){
 				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
