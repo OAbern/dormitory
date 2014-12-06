@@ -59,7 +59,7 @@ input[type='text'],input[type='password']{
                    <br />
                </p>
                <p class="item"><label>新密码:</label>
-                   <input  type="password" name="password" class="new">
+                   <input  type="password" name="password" class="new" onblur="checkPwd()"><span class="error" ></span>
                    <br /> 
                </p>
                <p class="item"><label>确认新密码:</label>
@@ -68,7 +68,7 @@ input[type='text'],input[type='password']{
                </p>
                <div class="help">
                    <input type="button" value="修改" id="modify">
-                   <input type="reset" value="重置">
+                   <input type="reset" value="重置" id="reset">
                </div>
           </form>
      </div>
@@ -79,7 +79,7 @@ input[type='text'],input[type='password']{
 		var tec_name="";
 		var tec_phone="";
 		var tec_sex="";
-		$.get("teacherInfo/findTeacher.do",function(data){
+		$.get("../teacherInfo/findTeacher.do",function(data){
 			tec_name=data.name;
 			tec_sex=data.sex;
 			tec_phone=data.phone;
@@ -97,7 +97,7 @@ input[type='text'],input[type='password']{
 			ok_n=false;
 			 return false;
 	  }else{
-	       $('input[name="name"]').next().html("<img src='images/reg_succ.png' />");
+	       $('input[name="name"]').next().html("<img src='../images/reg_succ.png' />");
 	       ok_n=true;
 	  }
 	}
@@ -109,7 +109,7 @@ input[type='text'],input[type='password']{
 		  ok_s=false;
 		  return false;
 	  }else{
-	       $('input[name="sex"]').next().html("<img src='images/reg_succ.png' />");
+	       $('input[name="sex"]').next().html("<img src='../images/reg_succ.png' />");
 	       ok_s=true;
 	  }
 	}
@@ -121,19 +121,19 @@ input[type='text'],input[type='password']{
 			$('input[name="phone"]').next().html(str1);
 			ok_p=false;
 		}else{
-			$('input[name="phone"]').next().html("<img src='images/reg_succ.png' />");
+			$('input[name="phone"]').next().html("<img src='../images/reg_succ.png' />");
 			ok_p=true;
 		}
 	}
 	function checkPwd(){
 	    var password= $(".old").val();
-		$.post("teacherInfo/checkPw.do",{"pw":password},function(data){
+		$.post("../teacherInfo/checkPw.do",{"pw":password},function(data){
 		   if(data.status==0){
 		       $(".old").attr("value","");
 		        ok_w=false;
 		       $('input[name="old"]').next().html(data.info);
 		   }else if(data.status==1){
-		       $('input[name="old"]').next().html("<img src='images/reg_succ.png' />");
+		       $('input[name="old"]').next().html("<img src='../images/reg_succ.png' />");
 			   ok_w=true;
 		   }
 		});
@@ -148,7 +148,7 @@ input[type='text'],input[type='password']{
 		   $('input[name="newagain"]').next().html("两次密码输入不一致");
 		}else if(key2==key1 && key2!=""){
 		   ok_i=true;
-		   $('input[name="newagain"]').next().html("<img src='images/reg_succ.png' />");
+		   $('input[name="newagain"]').next().html("<img src='../images/reg_succ.png' />");
 		}
 	}
 	$("#modify").click(function(){
@@ -157,16 +157,18 @@ input[type='text'],input[type='password']{
 		var sex=$(".sex").val();
 		var password =$(".new").val();
 		if(ok_n&&ok_s&&ok_p&&ok_w&&ok_i){
-		   $.post('teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
+		   $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
 		      if(data.status==1){
 				  $.messager.alert("提示","修改成功");
-				}else{
+				  $("#base_right").empty().load("f_modify.html",2000);
+				}else if(data.status==0){
+				  $(".error").html("");
 				  $.messager.alert("提示","修改失败");
-			  }
+				}
 		   });	
 	    }
 	    else{
-	       $.messager.alert("提示","信息未填写完全，不能修改","info");
+	       $.messager.alert("提示","信息填写有误，不能修改","info");
 	    }
 	});
 </script>

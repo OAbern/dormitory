@@ -4,7 +4,7 @@
 <div class="right_contain">
        <div class="editor" style="float:left;width:700px">
             <p>请上传您调整后的寝室调配情况:</p>
-            <form id="form1" method="post" enctype="multipart/form-data" action="excel/addExcel.do">
+            <form id="form1" method="post" enctype="multipart/form-data" action="../excel/addExcel.do">
                  <input name="file" type="file" size="35" onchange="fileChange(this);">
                  <input type="submit" id="sub" class="btn_grey" value="提交">
 	        </form>
@@ -93,7 +93,7 @@
 	   $(".table_two").datagrid({
 				width:'750px',
 				height:'330px',
-				url:'excel/findExcelInfoByTecNum.do',
+				url:'../excel/findExcelInfoByTecNum.do',
 				rownumbers:'true',
 				fitColumns:'true',
 				striped:'true',//斑马线

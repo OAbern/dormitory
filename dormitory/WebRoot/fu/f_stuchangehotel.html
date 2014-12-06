@@ -18,7 +18,7 @@
 		    width:'700px',
 		    height:'250px',
 			rownumbers:'true',
-			url:'studentInfo/findStudentDeploy.do',
+			url:'../studentInfo/findStudentDeploy.do',
 			striped:true,//斑马线
 			fitColumns:true,//适应宽度
 			nowrap:false,//自动换行 
@@ -44,7 +44,7 @@
 							if(row.room){
 								return row.room.roomNum;
 							}else{
-								return 'null';
+								return '无';
 							}
 				        }
 				}

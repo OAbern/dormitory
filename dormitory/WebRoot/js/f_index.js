@@ -6,16 +6,16 @@
 $(function(){ 
     var status=0;
 	$(".stu li:eq(0)").click(function(){
-		$("#base_right").empty().load("fu/f_modify.html");
+		$("#base_right").empty().load("f_modify.html");
 	});
 	$(".stu li:eq(1)").click(function(){
-		$("#base_right").empty().load("fu/f_studentmessage.html");
+		$("#base_right").empty().load("f_studentmessage.html");
 	});
     $(".stuqin li:eq(0)").click(function(){
-		$("#base_right").empty().load("fu/f_stuchangehotel.html");
+		$("#base_right").empty().load("f_stuchangehotel.html");
 	});
    $(".stuqin li:eq(1)").click(function(){
-		$("#base_right").empty().load("fu/f_modifystuchangehotel.html");
+		$("#base_right").empty().load("f_modifystuchangehotel.html");
 	});
 	$(".wait li:first-child").click(function(){
 		$("#base_right").empty();
