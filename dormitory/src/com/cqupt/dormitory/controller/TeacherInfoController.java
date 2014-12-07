@@ -39,6 +39,7 @@ public class TeacherInfoController {
 	@RequestMapping("/findTeacher")
 	public void findTeacher(HttpServletRequest request, HttpServletResponse response) {
 		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		teacher = teacherInfoService.findTeacherByTecNum(teacher.getTecNum());
 		JSONUtils.toJSON(teacher, response);
 	}
 	
