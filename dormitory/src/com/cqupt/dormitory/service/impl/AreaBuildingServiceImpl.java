@@ -295,4 +295,20 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 		}
 		
 	}
+
+	@Override
+	public boolean deleteBuilding(String building) {
+		try {
+			if(buildDao.isBuildingStayPerson(building)){
+				buildDao.deleteBuilding(building);
+			}else {
+				//有人 不能删除
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

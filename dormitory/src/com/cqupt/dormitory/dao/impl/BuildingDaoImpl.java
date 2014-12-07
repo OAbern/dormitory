@@ -39,6 +39,9 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 
 	@Override
 	public boolean isBuildingStayPerson(String buildingNum) {
+		if(buildingNum.length()<2){
+			buildingNum = "0"+buildingNum;
+		}
 		buildingNum += "%";
 		Integer num = getSqlSession().selectOne(Building.class.getName()+".find_building_person",buildingNum);
 		if(num<1){
@@ -95,6 +98,11 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 	@Override
 	public Building findBuildingByNum(String buildingNum) {
 		return getSqlSession().selectOne(Building.class.getName()+".find_building_by_building_name",buildingNum);
+	}
+
+	@Override
+	public void deleteBuilding(String building) {
+		getSqlSession().delete(Building.class.getName()+".delete_building_by_buildingnum",building);
 	}
 	
 }

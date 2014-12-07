@@ -80,6 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO `building` (`building_num`, `area_id`, `sex`) VALUES (#{buildingNum}, #{area.id}, #{sex})
 	</insert>
 	
+	<delete id="delete_building_by_buildingnum" parameterType="string">
+		DELETE FROM `building` WHERE building.`building_num` = #{building}
+	</delete>
 	
 	
 </mapper>

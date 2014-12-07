@@ -124,4 +124,14 @@ public interface AreaBuildingService {
 	 */
 	public ResultMessage addBuildingAndFloor(MultipartFile file);
 	
+	/**
+	 * deleteBuilding 删除楼栋
+	 * @param building
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean deleteBuilding(String building);
+	
 }

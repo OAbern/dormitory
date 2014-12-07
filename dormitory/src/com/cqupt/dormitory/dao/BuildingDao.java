@@ -117,4 +117,13 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	Building findBuildingByNum(String buildingNum);
+
+	/**
+	 * deleteBuilding 删除楼栋
+	 * @param building 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	void deleteBuilding(String building);
 }

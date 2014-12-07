@@ -134,4 +134,16 @@ public class AreaAndBulidingController {
 		JSONUtils.toJSON(map, response);
 	}
 
+	@RequestMapping("/delBuilding")
+	public void delBuilding(String buildingId,HttpServletResponse response){
+		boolean b = areaBuildingService.deleteBuilding(buildingId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(b){
+			map.put("status", 1);
+		}else {
+			map.put("status", 0);
+		}
+		JSONUtils.toJSON(map, response);
+	}
+	
 }
