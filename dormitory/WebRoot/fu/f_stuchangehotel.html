@@ -20,7 +20,6 @@
 			rownumbers:'true',
 			url:'../studentInfo/findStudentDeploy.do',
 			striped:true,//斑马线
-			fitColumns:true,//适应宽度
 			nowrap:false,//自动换行 
 			pagination:true,
 			columns:[[
@@ -54,7 +53,7 @@
 			},
 			onLoadSuccess:function(data){
 				if(data.rows.length==0){
-					$.messager.alert("提示","没有符合条件的数据，请重新选择筛选条件","warning");
+					$.messager.alert("提示","没有符合条件的数据","info");
 				}
 			}
 		});

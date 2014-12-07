@@ -37,7 +37,7 @@ input[type='text'],input[type='password']{
     <div class="right_top btm">
       <div class="rheader">
          <span class="pageName"><b>辅导员信息修改界面</b></span>
-         <span class="shuoming">您可以修改您的基本信息</span>
+         <span class="shuoming">您可以修改您的基本信息和密码，或者只修改您的基本信息</span>
       </div>
     </div>
     <div class="right_foot">
@@ -153,18 +153,30 @@ input[type='text'],input[type='password']{
 	    var name =$(".name").val();
 		var phone = $(".phone").val();
 		var sex=$(".sex").val();
+		var old=$(".old").val();
 		var password =$(".new").val();
 		if(ok_n&&ok_s&&ok_p&&ok_w&&ok_i){
 		   $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
 		      if(data.status==1){
-				  $.messager.alert("提示","修改成功");
+				  $.messager.alert("提示","个人信息及密码修改成功");
 				  $("#base_right").empty().load("f_modify.html",2000);
 				}else if(data.status==0){
 				  $("input[type='text']").attr("value","");
 				  $(".error").empty();
-				  $.messager.alert("提示","修改失败");
+				  $.messager.alert("提示","个人信息及密码修改失败");
 				}
 		   });	
+	    }else if(ok_n&&ok_s&&ok_p&&password==""&&old==""){
+	        $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone},function(data){
+		      if(data.status==1){
+				  $.messager.alert("提示","个人信息修改成功");
+				  $("#base_right").empty().load("f_modify.html",2000);
+				}else if(data.status==0){
+				  $("input[type='text']").attr("value","");
+				  $(".error").empty();
+				  $.messager.alert("提示","个人信息修改失败");
+				}
+		   });
 	    }
 	    else{
 	       $.messager.alert("提示","信息填写有误，不能修改","info");

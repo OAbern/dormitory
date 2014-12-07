@@ -71,10 +71,9 @@
 		  	var data=JSON.parse(d);
 		    if(data.status==0){
 					$.messager.alert('操作提示',data.info);
-				}else if(data.status==0){
+				}else if(ex.status==0){
 					$.messager.alert('操作提示','上传成功');
-					//清空文件框
-					$('input[name="file"]').val('');
+					$("#base_right").empty().load("f_modifystuchangehotel.html",2000);
 				}
 		  }
 		});
@@ -86,7 +85,7 @@
 			}else{
 				return true;
 			}
-		});
+	   });
 	   $(".table_two").datagrid({
 				width:'750px',
 				height:'330px',
@@ -129,7 +128,7 @@
 				},
 				onLoadSuccess:function(data){
 					if(data.rows.length==0){
-						$.messager.alert("提示","没有符合条件的数据","warning");
+						$.messager.alert("提示","没有符合条件的数据","info");
 					}
 				}
 			}); 

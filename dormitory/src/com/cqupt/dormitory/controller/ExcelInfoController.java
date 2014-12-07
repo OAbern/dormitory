@@ -50,7 +50,7 @@ public class ExcelInfoController {
 		ModelAndView modelAndView = new ModelAndView();
 		Teacher teacherInSession = (Teacher) request.getSession().getAttribute("teacher");
 		if(teacherInSession == null) {
-			modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
+			//modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
 			return modelAndView;
 		}
 		String originalFilename = file.getOriginalFilename();	//获取原始的文件名
@@ -77,7 +77,7 @@ public class ExcelInfoController {
 		if(result1) {
 			result2 = excelInfoService.addExcel(excelInfo);
 		}
-		modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
+		//modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
 		return modelAndView;
 	}
 	
