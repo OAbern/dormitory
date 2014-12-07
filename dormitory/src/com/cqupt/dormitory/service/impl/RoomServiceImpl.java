@@ -171,7 +171,11 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public boolean udpateRoom(Room r) {
 		try {
-			roomDao.updateRoom(r);
+			if(roomDao.isPersonInRoom(r.getRoomNum())){
+				roomDao.updateRoom(r);
+			}else{
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

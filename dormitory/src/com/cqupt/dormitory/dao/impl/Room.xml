@@ -101,4 +101,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_room_by_studentnum" parameterType="string" resultMap="roomResult">
 		SELECT * FROM student LEFT JOIN room ON (room.`room_id` = student.`room_id`) WHERE student.`stu_num` = #{studentNum}
 	</select>
+	
+	<select id="find_room_people_num" parameterType="string" resultType="int">
+		SELECT COUNT(student.`stu_id`) FROM student LEFT JOIN room ON student.`room_id` = room.`room_id` WHERE room.`room_num` =#{roomNum}
+	</select>
+	
 </mapper>

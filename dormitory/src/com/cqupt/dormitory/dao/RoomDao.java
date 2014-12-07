@@ -139,5 +139,15 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public List<Room> findRoomByAnyField(String sex, String buildingNum,String floorNum, String roomNum);
+
+	/**
+	 * isPersonInRoom 判断是否存在有人在房间里面
+	 * @param roomNum
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean isPersonInRoom(String roomNum);
 	
 }

@@ -112,4 +112,14 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		return getSqlSession().selectOne(Room.class.getName()+".find_room_by_studentnum",studentNum);
 	}
 
+	@Override
+	public boolean isPersonInRoom(String roomNum) {
+		Integer num = getSqlSession().selectOne(Room.class.getName()+".find_room_people_num",roomNum);
+		if(num<1){
+			//一个人都没有
+			return true;
+		}
+		return false;
+	}
+
 }
