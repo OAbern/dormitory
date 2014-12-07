@@ -100,14 +100,14 @@ public class TeacherInfoController {
 	}
 	
 	/**
-	 * 根据学院和年级查找教师信息
+	 * 根据学院查找教师信息
 	 * @param academy
 	 * @param garde
 	 * @param response
 	 */
 	@RequestMapping("/findTeacherByFactor")
-	public void findTeacherByaAcademyAndGrade(String academy, String grade, HttpServletResponse response) {
-		List<Teacher> teachers = teacherInfoService.findTeacherByAcademyAndGrade(academy, grade);
+	public void findTeacherByaAcademyAndGrade(int academy, HttpServletResponse response) {
+		List<Teacher> teachers = teacherInfoService.findTeacherByAcademy(academy);
 		int total = SystemContext.getTotal();
 		if(total <= 0) {
 			total = teachers.size();

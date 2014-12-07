@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/s_fenpei_right.js"></script>
+<script type="text/javascript" src="../js/s_fenpei_right.js"></script>
 <style type="text/css">
 #filter {
 	display:inline;
@@ -60,7 +60,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		showTable.datagrid({
 			width:'980px',
 			height:'330px',
-			url:'studentInfo/findStudentOutLiving.do',
+			url:'/dormitory/studentInfo/findStudentOutLiving.do',
 			rownumbers:'true',
 		  fitColumns:'true',
 		  striped:'true',
@@ -112,7 +112,7 @@ function deleterow() {
 			//var index=showTable.datagrid('getRowIndex',selections[i]);
 			//showTable.datagrid('deleteRow',index);
 		}
-		$.post('studentInfo/deleteStudentOutLiving.do',{'delRowsIdArray':delRowsIdArray},function(data){
+		$.post('/dormitory/studentInfo/deleteStudentOutLiving.do',{'delRowsIdArray':delRowsIdArray},function(data){
 			if(data.status=='0'){
 				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){

@@ -38,11 +38,11 @@ input[type='text'] {
 }
 </style>
 <div class="addxw">
-  <form id="addStudent" action="studentInfo/addStudentOutLiving.do">
+  <form id="addStudent" action="/dormitory/studentInfo/addStudentOutLiving.do">
     <div class="liform">
       <p class="item">
         <span class="preInfo">姓名:</span>
-        <input type="text" name="name">
+        <input type="text" name="stuName">
         <span class="validInfo"></span>
         <br />
       </p>
@@ -109,9 +109,9 @@ function inputValid(event) {
          //数据库验证
         if(event.data[2]==true){
             code=3;
-          $.post('vaildate/vaildateStuNumAndName.do',{
+          $.post('/dormitory/vaildate/vaildateStuNumAndName.do',{
 	          	stuNum:$('input[name="stuNum"]').val(),
-	          	name:$('input[name="name"]').val()
+	          	stuName:$('input[name="stuName"]').val()
 	          },
 	          function(data){
 	            if(data.status=='1'){

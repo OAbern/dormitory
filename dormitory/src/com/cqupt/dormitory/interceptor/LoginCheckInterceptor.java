@@ -47,6 +47,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		}else if(admin != null) {
 			return true;
 		}else {
+			response.sendRedirect("/dormitory/login.html");
 			return false;
 		}
 	}

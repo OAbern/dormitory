@@ -60,7 +60,7 @@ public interface TeacherInfoService {
 	 * @param grade
 	 * @return
 	 */
-	public List<Teacher> findTeacherByAcademyAndGrade(String academy,String grade);
+	public List<Teacher> findTeacherByAcademy(int academy);
 	
 	/**
 	 * 根据教工号删除教师信息

@@ -179,16 +179,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 改变学生的住宿状态 -->
-	<update id="changeLivingStatus" parameterType="map">
+	<update id="changeLivingStatus" parameterType="map" statementType="STATEMENT">
 		UPDATE `student`
 		<set>
-			`live_status` = #{status,jdbcType=Integer}
-			<if test="status=1">, `in_time` = '', `room_id` = ''</if>
-			<if test="status=2">, `out_time` = '', `out_address` = ''</if> 
+			`live_status` = ${status}
+			<if test="status=1">, `in_time` = NULL, `room_id` = NULL</if>
+			<if test="status=2">, `out_time` = NULL, `out_address` = NULL</if> 
 		</set>
 			WHERE `stu_num` IN (
 			<foreach collection="nums" item="i" separator=",">
-				#{i}
+				${i}
 			</foreach>
 			)
 	</update>

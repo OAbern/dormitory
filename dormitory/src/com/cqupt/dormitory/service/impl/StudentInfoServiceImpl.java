@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
-import com.cqupt.dormitory.model.Academy;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.StudentInfoService;
 import com.cqupt.dormitory.utils.ExcelUtils;
@@ -34,7 +31,10 @@ import com.cqupt.dormitory.vo.Condition;
 @Service
 public class StudentInfoServiceImpl implements StudentInfoService {
 	@Resource(name="studentInfoDaoImpl")
-	StudentInfoDao studentInfoDao;
+	private StudentInfoDao studentInfoDao;
+	
+	@Resource(name="excelUtils")
+	private ExcelUtils excelUtils;
 	
 	public void setStudentInfoDao(StudentInfoDao studentInfoDao) {
 		this.studentInfoDao = studentInfoDao;
@@ -92,7 +92,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public List<Student> findStudentCheckOutByCondition(Condition condition) {
-		condition.setLivingStatus(4);
+		condition.setLivingStatus(1);
 		return studentInfoDao.findStudentByCondition(condition);
 	}
 
@@ -115,7 +115,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public boolean deleteStudentOutLiving(List<String> stuNum) {
-		return studentInfoDao.changeLivingStatus(stuNum, 2);
+		return studentInfoDao.changeLivingStatus(stuNum, 3);
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 			List<Student> students = new ArrayList<Student>();
 			for(int j=1; j<=sheet1.getLastRowNum(); j++) {
-				Student student = ExcelUtils.toStudent(sheet1.getRow(j));
+				Student student = excelUtils.toStudent(sheet1.getRow(j));
 				if(student == null) {
 					return false;
 				}

@@ -50,14 +50,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 改变excel的状态 -->
-	<update id="changeExcelStatus" parameterType="Map">
+	<update id="changeExcelStatus" parameterType="Map" statementType="STATEMENT">
 		UPDATE `excel` 
-			SET `approved_admin_id` = #{adminId, jdbcType=INTEGER},
-				`status` = #{status, jdbcType=INTEGER}
-			WHERE `excel_id` IN 
+			SET `approved_admin_id` = ${adminId},
+				`status` = ${status}
+			WHERE `excel_id` IN (
 			<foreach collection="ids" item="i" separator=",">
-				#{i, jdbcType=Integer}
+				${i}
 			</foreach>
+			)
 	</update>
 	
 </mapper>

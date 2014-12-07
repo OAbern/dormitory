@@ -1,7 +1,10 @@
 package com.cqupt.dormitory.utils;
 
+import javax.annotation.Resource;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.stereotype.Component;
 
 import com.cqupt.dormitory.dao.AcademyDao;
 import com.cqupt.dormitory.dao.TeacherInfoDao;
@@ -16,16 +19,19 @@ import com.cqupt.dormitory.model.Teacher;
  * @author Bern
  *
  */
+@Component
 public class ExcelUtils {
-	private static AcademyDao academyDao = new AcademyDaoImpl();
-	private static TeacherInfoDao teacherInfoDao = new TeacherInfoDaoImpl();
+	@Resource(name="academyDaoImpl")
+	private AcademyDao academyDao = new AcademyDaoImpl();
+	@Resource(name="teacherInfoDaoImpl")
+	private TeacherInfoDao teacherInfoDao = new TeacherInfoDaoImpl();
 	
 	/**
 	 * 将一行Excel数据转换为student对象
 	 * @param row
 	 * @return
 	 */
-	public static Student toStudent(Row row) {
+	public Student toStudent(Row row) {
 		int i = 1;
 		Student student = new Student();
 		for(Cell cell : row) {
@@ -122,7 +128,7 @@ public class ExcelUtils {
 	 * @param row
 	 * @return
 	 */
-	public static Teacher toTeacher(Row row) {
+	public Teacher toTeacher(Row row) {
 		int i = 1;
 		Teacher teacher = new Teacher();
 		for(Cell cell : row) {

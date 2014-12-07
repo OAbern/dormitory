@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/s_fenpei_right.js"></script>
+<script type="text/javascript" src="../js/s_fenpei_right.js"></script>
 <!-- <div class="tb"> 
   tool bar 
   <span>
@@ -30,7 +30,7 @@
 				handler:noagree	
 			}],
 			nowrap : false,
-			url : 'excel/findAllExcel.do',
+			url : '/dormitory/excel/findAllExcel.do',
 			columns : [ [
 					{field : 'ck',align : 'center',checkbox : true},
 					{field:'tecNum',title:'教师号',width: 100,align:'center',
@@ -97,7 +97,7 @@
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
 						delRowsIdArray[i]=rows[i].id;
 					}
-					$.post('excel/approved.do',{"delRowsIdArray":delRowsIdArray},function(data){
+					$.post('/dormitory/excel/approved.do',{"delRowsIdArray":delRowsIdArray},function(data){
 								if(data.status=="1"){
 									for ( var i = 0; i < rows.length; i++) {
 										var index=$('.table_two').datagrid('getRowIndex', rows[i]);
@@ -123,7 +123,7 @@
 					for ( var i = 0; i < rows.length; i++) {//循环所选的行
 						delRowsIdArray[i]=rows[i].id;
 					}
-					$.post('excel/approved.do',{"delRowsIdArray":delRowsIdArray},function(data){
+					$.post('/dormitory/excel/approved.do',{"delRowsIdArray":delRowsIdArray},function(data){
 								if(data.status=="1"){
 									for ( var i = 0; i < rows.length; i++) {
 										var index=$('.table_two').datagrid('getRowIndex', rows[i]);

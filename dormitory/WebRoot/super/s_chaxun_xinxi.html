@@ -20,7 +20,7 @@
 <div class="right_contain"> 
   <!-- 添加数据 -->
   <div class="up">
-    <form  id="addData" method="post" action="teacherInfo/addTeacherByExcel.do"  enctype="multipart/form-data" >
+    <form  id="addData" method="post" action="/dormitory/teacherInfo/addTeacherByExcel.do"  enctype="multipart/form-data" >
       <p><span><b>批量添加:</b></span>请选择要上传的Excel:
         <input name="file" type="file" size="35" onchange="fileChange(this);">
         <input type="submit" id="sub" value="添加">
@@ -131,7 +131,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 	  showTable.datagrid({
 		  width:'710px',
 		  height:'330px',
-		  url:'teacherInfo/findTeacherByFactor.do',
+		  url:'/dormitory/teacherInfo/findTeacherByFactor.do',
 		  rownumbers:'true',
 		  fitColumns:'true',
 		  striped:'true',//斑马线
@@ -220,7 +220,7 @@ function saverow(target) {
   delete(row.editing);
 	$.ajax({ 
     type:"POST", 
-    url:"teacherInfo/updateTeacher.do", 
+    url:"/dormitory/teacherInfo/updateTeacher.do", 
     dataType:"json",      
     //contentType:"application/json",               
     data:JSON.stringify(row),
@@ -250,7 +250,7 @@ function deleterow() {
 			delRowsIdArray[i]=selections[i].id;//教师的逻辑主键
 		}
 		$.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (data) {
-			$.post('teacherInfo/deleteTeacher.do',{'delRowsIdArray':delRowsIdArray},function(data){
+			$.post('/dormitory/teacherInfo/deleteTeacher.do',{'delRowsIdArray':delRowsIdArray},function(data){
 				if(data.status=='0'){
 					$.messager.alert('操作提示', data.info);
 				}else if(data.status=='1'){

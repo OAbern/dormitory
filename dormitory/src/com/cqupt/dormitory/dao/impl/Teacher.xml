@@ -29,17 +29,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 添加教师信息 -->
 	<insert id="addTeacher" parameterType="com.cqupt.dormitory.model.Teacher">
 		INSERT INTO `teacher` (
-			`tec_num`, `tec_name`, `tec_sex`, `tec_phone`, `academy`, `password`
+			`tec_num`, `tec_name`, `tec_sex`, `tec_phone`, `academy_id`, `password`
 		) VALUES (
 			#{tecNum}, #{name}, #{sex}, #{phone}, #{academy.id,jdbcType=INTEGER}, '123'
 		)
 	</insert>
 	
 	<!-- 根据教师名字和学院id查找教师 -->
-	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult">
+	<select id="findTeacherByNameAndAcademyId" parameterType="map" resultMap="teacherResult" statementType="STATEMENT">
 		SELECT * FROM `teacher` t
 			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
-			WHERE t.`tec_name`=#{name} AND t.`academy_id`=#{academyId}
+			WHERE t.`tec_name`= '${name}' AND t.`academy_id`=${academyId}
 	</select>
 
 	<!-- 根据教师名字和密码查找教师 -->
@@ -81,17 +81,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE t.`tec_id` IN(SELECT tec_id FROM `student` s WHERE s.`class`= #{classNum})
 	</select>
 	
-	<!-- 根据学院和年级查找教师 -->
-	<select id="findTeacherByAcademyAndGrade" parameterType="Map" resultMap="teacherResult" statementType="STATEMENT">
+	<!-- 根据学院查找教师 -->
+	<select id="findTeacherByAcademy" parameterType="Integer" resultMap="teacherResult" statementType="STATEMENT">
 		SELECT * FROM `teacher` t
 		LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
-			WHERE t.`tec_id` IN (
-				SELECT DISTINCT(s.`tec_id`) FROM `student` s 
-				<where>
-					<if test="academy!=null and academy!=''">s.`academy_id` = ${academy}</if>
-					<if test="grade!=null and grade!=''">s.`grade` = '${grade}'</if>
-				</where>
-			)
+			<if test="_parameter!=0">
+				WHERE t.`academy_id` = ${_parameter}
+			</if>
 	</select>
 	
 	<!-- 根据教工号删除教师信息 -->

@@ -30,7 +30,7 @@ public class AcademyDaoImpl extends BaseDaoSupport implements AcademyDao {
 	public Academy findAcademyByName(String name) {
 		Academy academy = null;
 		try {
-			academy = getSqlSession().selectOne("findAcademyByName", name);
+			academy = getSqlSession().selectOne("com.cqupt.dormitory.model.Academy.findAcademyByName", name);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

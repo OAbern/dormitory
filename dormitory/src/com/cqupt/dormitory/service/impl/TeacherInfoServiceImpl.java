@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.dao.TeacherInfoDao;
-import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.TeacherInfoService;
 import com.cqupt.dormitory.utils.ExcelUtils;
@@ -29,6 +28,9 @@ import com.cqupt.dormitory.utils.ExcelUtils;
 public class TeacherInfoServiceImpl implements TeacherInfoService {
 	@Resource(name="teacherInfoDaoImpl")
 	TeacherInfoDao teacherInfoDao;
+	
+	@Resource(name="excelUtils")
+	private ExcelUtils excelUtils;
 	
 	@Override
 	public Teacher findTeacherByNameAndAcademyId(String name, int academyId) {
@@ -62,9 +64,8 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 	}
 
 	@Override
-	public List<Teacher> findTeacherByAcademyAndGrade(String academy,
-			String grade) {
-		return teacherInfoDao.findTeacherByAcademyAndGrade(academy, grade);
+	public List<Teacher> findTeacherByAcademy(int academy) {
+		return teacherInfoDao.findTeacherByAcademy(academy);
 	}
 
 	@Override
@@ -96,7 +97,7 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 
 			List<Teacher> teachers = new ArrayList<Teacher>();
 			for(int j=1; j<=sheet1.getLastRowNum(); j++) {
-				Teacher teacher = ExcelUtils.toTeacher(sheet1.getRow(j));
+				Teacher teacher = excelUtils.toTeacher(sheet1.getRow(j));
 				if(teacher == null) {
 					return false;
 				}

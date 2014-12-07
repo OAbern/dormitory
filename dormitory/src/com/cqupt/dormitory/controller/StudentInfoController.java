@@ -227,7 +227,7 @@ public class StudentInfoController {
 	}
 	
 	/**
-	 * 根据条件查找退宿的学生信息
+	 * 根据条件查找已经退宿的学生信息
 	 * @param condition
 	 * @param response
 	 */
@@ -277,7 +277,7 @@ public class StudentInfoController {
 	}
 	
 	/**
-	 * 删除校外住宿的学生（改状态）
+	 * 删除校外住宿的学生（改状态为未分配）
 	 * @param delRowsIdArray
 	 * @param response
 	 */
@@ -319,7 +319,7 @@ public class StudentInfoController {
 	}
 	
 	/**
-	 * 对学生做退宿处理（改状态）
+	 * 对已住学生做退宿处理（改状态为退宿）
 	 * @param delRowsIdArray
 	 * @param response
 	 */
