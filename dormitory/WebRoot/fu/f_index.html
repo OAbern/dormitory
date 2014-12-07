@@ -19,6 +19,13 @@
     <script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
     <script type="text/javascript" src="../js/jquery.uploadify.js"></script>
     <script type="text/javascript">
+    //获取登录辅导员的信息
+	$(document).ready(function(){
+		$.get("../teacherInfo/findTeacher.do",function(data){
+			var tec_name=data.name;
+			$('.name').append(tec_name);
+		});
+	});
 	//头部时间
 	function current(){
 		var d=new Date(),str='';
@@ -49,7 +56,7 @@
          <div id="top_right" style="color:#FFF">
             <p>欢迎您，<span style="color:#FFBF55;font-weight: bolder;">辅导员</span>
                <span class="space">|</span>
-			   <a href="logOut.do" style="color:#FFF;">退出</a></p>
+			   <a href="../logOut.do" style="color:#FFF;">退出</a></p>
             <div id="nowTime"></div> 
           </div>
           <div class="line"></div>
@@ -80,7 +87,11 @@
                 </ul>
             </div>
 		</div>
-        <div id="base_right"><h2 style="float:left;margin-left:100px;margin-top:100px;color:#2A3F55">您好，欢迎来到辅导员管理界面!!!</h2></div>
+        <div id="base_right">
+           <h2 style="float:left;margin-left:150px;margin-top:150px;color:#2A3F55">
+               <span class="name"></span>老师您好，欢迎来到辅导员管理界面!!!
+           </h2>
+       </div>
     </div>
 	<div id="foot">
         <div id="footer_text1"><p>重庆邮电大学&nbsp;教务处教学信息中心&nbsp;版权所有&nbsp;2014</p></div>

@@ -76,13 +76,10 @@ input[type='text'],input[type='password']{
 <script type="text/javascript">
     //获取登录辅导员的信息
 	$(document).ready(function(){
-		var tec_name="";
-		var tec_phone="";
-		var tec_sex="";
 		$.get("../teacherInfo/findTeacher.do",function(data){
-			tec_name=data.name;
-			tec_sex=data.sex;
-			tec_phone=data.phone;
+			var tec_name=data.name;
+			var tec_sex=data.sex;
+			var tec_phone=data.phone;
 			$('.name').attr("value",tec_name);
 		    $('.sex').attr("value",tec_sex);
 		    $('.phone').attr("value",tec_phone);
@@ -162,7 +159,7 @@ input[type='text'],input[type='password']{
 				  $.messager.alert("提示","修改成功");
 				  $("#base_right").empty().load("f_modify.html",2000);
 				}else if(data.status==0){
-				  $(".error").html("");
+				  $(".error").empty();
 				  $.messager.alert("提示","修改失败");
 				}
 		   });	
@@ -171,4 +168,7 @@ input[type='text'],input[type='password']{
 	       $.messager.alert("提示","信息填写有误，不能修改","info");
 	    }
 	});
+	$("#reset").click(function(){
+	   $(".error").empty();
+	})
 </script>
