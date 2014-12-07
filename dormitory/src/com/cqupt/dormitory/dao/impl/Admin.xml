@@ -36,9 +36,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateAdminInfo" parameterType="com.cqupt.dormitory.model.Admin">
 		UPDATE `admin` 
 		<set>
-			<if test="sex!=null and sex!=''">`sex` = #{sex}</if>
-			<if test="name!=null and name!=''">`admin_name` = #{name}</if>
-			<if test="post!=null and post!=''">`post` = #{post}</if>
+			<if test="sex!=null and sex!=''">`sex` = #{sex},</if>
+			<if test="name!=null and name!=''">`admin_name` = #{name},</if>
+			<if test="post!=null and post!=''">`post` = #{post},</if>
 			<if test="password!=null and password!=''">`password` = #{password}</if>
 		</set>
 			WHERE `admin_num` = #{adminNum}

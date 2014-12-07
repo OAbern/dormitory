@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.PUT;
-
 import org.springframework.stereotype.Repository;
 
 import com.cqupt.dormitory.dao.StudentInfoDao;
