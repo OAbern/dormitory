@@ -128,22 +128,20 @@ public class Student {
 	public void setOutAddress(String outAddress) {
 		this.outAddress = outAddress;
 	}
-	public String getBirth() {
-		return DataTypeUtils.formateDate(birth);
+	public Date getBirth() {
+		return birth;
 	}
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
 	public Date getInTime() {
 		return inTime;
-//		return DataTypeUtils.formateDate(inTime);
 	}
 	public void setInTime(Date inTime) {
 		this.inTime = inTime;
 	}
 	public Date getOutTime() {
 		return outTime;
-//		return DataTypeUtils.formateDate(outTime);
 	}
 	public void setOutTime(Date outTime) {
 		this.outTime = outTime;
