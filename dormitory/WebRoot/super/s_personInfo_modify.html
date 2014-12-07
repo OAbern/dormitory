@@ -171,8 +171,9 @@ $(function(){
 				} */
 		if(ok_1 && ok_2 && ok_3){//修改姓名和密码
 					var password= $(".old").val();
-					var newpassword= $(".new").val();console.log(newpassword);
-							$.post("../adminInfo/updateAdmin.do",{"pw":newpassword},function(data){
+					var name=$('input[name="adminName"]').val();
+					var newpassword= $(".new").val();
+							$.post("../adminInfo/updateAdmin.do",{"password":newpassword,"name":name},function(data){
 								if(data.status==1){
 									$.messager.alert("提示","修改成功");
 									$('#base_right').empty().load("s_personInfo_modify.html");

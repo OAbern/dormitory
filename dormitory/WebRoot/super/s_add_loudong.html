@@ -78,6 +78,7 @@
 		});
 $('#add').form({
   success:function(d){
+  console.log(d);
   	var data=JSON.parse(d);
     if(data.status=='0'){
 			$.messager.alert('操作提示',data.error,"info",function(){

@@ -185,7 +185,9 @@ $(function(){
 					if(data.status==0){
 						$.messager.alert("提示","删除失败,该楼栋中有学生入住,请先作退宿处理再删除","info");
 					}else{
-						$.messager.alert("提示","删除成功","info");
+						$.messager.alert("提示","删除成功","info",function(){
+							location.reload();
+						});
 					}
 				})
 			}
