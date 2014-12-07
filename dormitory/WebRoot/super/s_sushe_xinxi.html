@@ -181,7 +181,7 @@ $(function(){
 	function deleteBuilding(){
 		$.messager.confirm("提示","确定删除该楼栋么？",function(r){
 			if(r){
-				$.post("",{"buildingId":buildingid},function(data){
+				$.post("../areaInfo/delBuilding.do",{"buildingId":buildingid},function(data){
 					if(data.status==0){
 						$.messager.alert("提示","删除失败,该楼栋中有学生入住,请先作退宿处理再删除","info");
 					}else{
