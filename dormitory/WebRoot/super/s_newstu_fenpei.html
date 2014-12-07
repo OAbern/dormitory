@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/s_fenpei_right.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/s_fenpei_right.js" charset="utf-8"></script>
 <div class="right_top">
   <div class="rheader"> <span class="pageName"><b>新生寝室分配</b></span> <span class="shuoming">您可以导入新生表后为其分配寝室</span> </div>
   <ul class="right_ul right_ul_newfenpei">
@@ -108,7 +108,7 @@
 				$(".table_one").datagrid({
 					width : '835px',
 					height : '330px',
-					url : 'studentInfo/findStudentByCondition.do',
+					url : '../studentInfo/findStudentByCondition.do',
 					rownumbers:'true',
 					fitColumns:'true',
 					queryParams:{
@@ -171,7 +171,7 @@
 			}*/
 		if(sum_fenpei>0){//后台直接按照级联选择的条件确定分配的学生
 			//$.post('xuanzhederen', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex});
-			$("#base_right .right_contain").empty().load("super/s_qinshi_xuanze.html");
+			$("#base_right .right_contain").empty().load("s_qinshi_xuanze.html");
 			$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 		}else{
 			 $.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
@@ -223,7 +223,7 @@
 		}else if($('select[name="sex"]').val()=="-1"){
 			 $.messager.alert("警告","请选择性别!","warning");
 		}else{
-			$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"target":"major"},function(data){
+			$.post('../studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"target":"major"},function(data){
 				if(data.length){
 				fenpei['fenpei_major']=data;
 					for(var i=0;i<data.length;i++){
@@ -243,7 +243,7 @@
 		var str="";
 		str=$('select[name="major"] option:selected').val();
 		fenpei_sure.major=str;
-		$.post('studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"major":fenpei_sure.major,"target":"classNum"},function(data){
+		$.post('../studentInfo/findCascadingInfo.do',{"grade":fenpei_sure.grade,"education":fenpei_sure.education,"academy":fenpei_sure.academy,"major":fenpei_sure.major,"target":"classNum"},function(data){
 			if(data.length){
 				fenpei['fenpei_classNum']=data;
 				for(var i=0;i<data.length;i++){

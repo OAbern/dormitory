@@ -108,7 +108,7 @@
 				$(".table_one").datagrid({
 					width : '752px',
 					height : '250px',
-					url : 'studentInfo/findStudentByCondition.do',
+					url : '../studentInfo/findStudentByCondition.do',
 					queryParams:{
 						academy:diaohuan_sure.academy,
 						education:diaohuan_sure.education,
@@ -176,7 +176,7 @@
 		$(".nextStep").click(function() {
 			if (sum_diaohuan > 0) {//后台直接按照级联选择的条件确定分配的学生
 				//$.post('xuanzhederen', {"academy":academy,"education":education,"grade":grade,"major":major,"classNum":classNum,"sex":sex});
-						$("#base_right .right_contain").empty().load("super/s_atuo_qsxuanze.html");
+						$("#base_right .right_contain").empty().load("s_atuo_qsxuanze.html");
 						$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 			}else{
 				 $.messager.alert("提示","选择分配的人数为0，无法分配寝室，请重新选择要分配的人员！","info");
@@ -248,7 +248,7 @@
 		}else if($('select[name="sex"]').val()=="-1"){
 			 $.messager.alert("警告","请先选择性别!","warning");
 		}else{
-			 $.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"target":"major"},function(data){
+			 $.post('../studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"target":"major"},function(data){
 				if(data.length){
 					diaohuan['diaohuan_major']=data;
 					for(var i=0;i<data.length;i++){
@@ -268,7 +268,7 @@
 		var str="";
 		str=$('select[name="major"] option:selected').val();
 		diaohuan_sure.major=str;
-		$.post('studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"major":diaohuan_sure.major,"target":"classNum"},function(data){
+		$.post('../studentInfo/findCascadingInfo.do',{"grade":diaohuan_sure.grade,"education":diaohuan_sure.education,"academy":diaohuan_sure.academy,"major":diaohuan_sure.major,"target":"classNum"},function(data){
 			if(data.length){
 				diaohuan['diaohuan_classNum']=data;
 				for(var i=0;i<data.length;i++){

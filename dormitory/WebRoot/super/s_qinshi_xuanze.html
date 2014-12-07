@@ -15,7 +15,7 @@ $(function(){
 		$(".option_sum").html(sum_fenpei);
 		$(".xuanze_qinshi").bind("table_load",function(){//编写自定义事件
 			//打开文件，通过回掉函数处理获取的数据
-			$.post("areaInfo/findBuildingEmptyBed.do",{"sex":fenpei_sure.sex},function(data){			
+			$.post("../areaInfo/findBuildingEmptyBed.do",{"sex":fenpei_sure.sex},function(data){			
 				var html="<table>";
 				$.each(data.rows,function(index,item){
 				  html +="<tr><td class='area'>"+item["area"]+"</td>";
@@ -75,11 +75,11 @@ $(function(){
 									  
 								}
 							}); */
-							$('#base_right .right_contain').html('<img src="images/loading.gif" />');
+							$('#base_right .right_contain').html('<img src="../images/loading.gif" />');
 							$.ajax({
 							    type:'POST',
 							    async:false,
-							    url:'roomInfo/distributeRoom.do',
+							    url:'../roomInfo/distributeRoom.do',
 							    data:{"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"building":building,"livingStatus":3},
 							    dataType:'json',
 							    error:function(){
@@ -91,7 +91,7 @@ $(function(){
 												fenpei['fenpei_major']=[];
 												fenpei['fenpei_classes']=[];
 												//fenpei_sure={"academy" : "","education":"","grade":"","major" : "","classNum" : "","sex" : ""};//存放选择新生分配的条件  
-												$("#base_right .right_contain").empty().load("super/s_fenpei_finish.html");
+												$("#base_right .right_contain").empty().load("s_fenpei_finish.html");
 												$(".editornav").removeAttr("class").parent().next().find("a").addClass("editornav");
 											}else{
 												$.messager.alert("提示","分配失败！原因:"+data.info,"info");  

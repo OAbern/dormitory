@@ -7,7 +7,7 @@
 }
 </style>
 <div class="table_one"></div>
-<form action="roomInfo/downLoadExcel.do" method="post">
+<form action="../roomInfo/downLoadExcel.do" method="post">
 <input type="hidden" name="grade" />
 <input type="hidden" name="education" />
 <input type="hidden" name="sex" />
@@ -48,14 +48,15 @@
 		$(".table_one").datagrid({
 			width : '865px',
 			height : '330px',
-			url : 'studentInfo/findStudentByCondition.do',
+			url : '../studentInfo/findStudentByCondition.do',
 			queryParams:{
 						academy:academy,
 						education:education,
 						grade:grade,
 						major:major,
 						classNum:classNum,
-						sex:sex
+						sex:sex,
+						livingStatus:4
 					},
 			pagination : true,
 			nowrap : false,
