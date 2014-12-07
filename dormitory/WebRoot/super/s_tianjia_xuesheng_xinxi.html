@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/s_fenpei_right.js"></script>
+<script type="text/javascript" src="/dormitory/js/s_fenpei_right.js"></script>
 <style type="text/css">
 .item {
 	height:25px;
@@ -39,10 +39,13 @@ input[type='text'] {
   border-radius: 5px;
 }
 .status{
-  background-image:url("images/reg_succ.png");
+  background-image:url("/dormitory/images/reg_succ.png");
 }
 </style>
 <div class="right_top">
+  <div class="tecModelDown">
+    <p><b>学生信息表模板：</b><a href="/dormitory/download/批量添加教师信息样板.xlsx">教师信息Excel模板下载</a></p>
+  </div>
   <div class="rheader"> <span class="pageName"><b>添加学生信息</b></span> <span class="shuoming">您可以单独添加个人或者批量导入</span> </div>
   <ul class="right_ul right_ul_tianjia">
     <li><a href="#" class="editornav" >添加个人</a></li>
@@ -51,23 +54,23 @@ input[type='text'] {
 </div>
 <div class="right_contain"> 
   <!-- 添加单个学生信息 -->
-  <form id="addStudent" action="studentInfo/addStudent.do" method="post">
+  <form id="addStudent" action="/dormitory/studentInfo/addStudent.do" method="post">
     <div class="liform">
       <p class="item">
         <span class="preInfo">姓名:</span>
-        <input type="text" name="name">
+        <input type="text" name="name" class="form_input">
         <span class="validInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">学号:</span>
-        <input type="text" name="stuNum">
+        <input type="text" name="stuNum" class="form_input">
         <span class="validInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">年级:</span>
-        <select name="grade">
+        <select name="grade" class="form_select">
           <option value="-1" selected="selected">未选择</option>
         </select>
         <span class="validInfo"></span>
@@ -75,7 +78,7 @@ input[type='text'] {
       </p>
       <p class="item">
         <span class="preInfo">学历:</span>
-        <select name="education">
+        <select name="education" class="form_select">
           <option value="-1" selected="selected">未选择</option>
           <option value="本科在读">本科在读</option>
           <option value="研究生在读">研究生在读</option>
@@ -86,7 +89,7 @@ input[type='text'] {
       </p>
       <p class="item">
         <span class="preInfo">性别:</span>
-        <select name="sex">
+        <select name="sex" class="form_select">
           <option value="-1" selected="selected">未选择</option>
           <option value="男">男</option>
           <option value="女">女</option>
@@ -96,31 +99,31 @@ input[type='text'] {
       </p>
       <p class="item">
         <span class="preInfo">籍贯:</span>
-        <input type="text" name="birthplace">
+        <input type="text" name="birthplace" class="form_input">
         <span class="validInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">身份证:</span>
-        <input type="text" name="identity">
+        <input type="text" name="identity" class="form_input">
         <span class="validInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">出生年月:</span>
-        <input type="text" name="birth">
+        <input type="text" name="birth" class="form_input" id='form_datebox'>
         <span class="validInfo birthValidInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">民族:</span>
-        <input type="text" name="nation">
+        <input type="text" name="nation" class="form_input">
         <span class="validInfo"></span>
         <br />
       </p>
       <p class="item">
         <span class="preInfo">学院:</span>
-        <select type="text" name="academy.id" >
+        <select type="text" name="academy.id" class="form_select" >
           <option value="-1" selected="selected">未选择</option>
         </select>
         <span class="validInfo"></span>
@@ -128,7 +131,7 @@ input[type='text'] {
       </p>
       <p class="item">
         <span class="preInfo">专业:</span>
-        <select name="major">
+        <select name="major" class="form_select">
           <option value="-1" selected="selected">未选择</option>
         </select>
         <span class="validInfo"></span>
@@ -136,16 +139,16 @@ input[type='text'] {
       </p>
       <p class="item">
         <span class="preInfo">班级:</span>
-        <select name="classNum">
+        <select name="classNum" class="form_select">
           <option value="-1" selected="selected">未选择</option>
         </select>
         <span class="validInfo"></span>
         <br />
       </p>
       <div class="help">
-        <input type="submit" value="添加" id="submit">
+        <input type="submit" value="添加" id="sub">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="reset" value="重置">
+        <input type="reset" value="重置" id="reset">
       </div>
     </div>
   </form>
@@ -158,9 +161,9 @@ input[type='text'] {
       cla=$('select[name="classNum"]'),
       gra=$('select[name="grade"]'),
       edu=$('select[name="education"]');
-  var bir=$("input[name='birth']");
+  //var bir=$("input[name='birth']");
 	//出生年月日历设置
-	bir.datebox({
+	$('#form_datebox').datebox({
     required:true,
     onSelect: function(date){
         //$('.birthValidInfo').css('background-image','url("images/reg_succ.png")'); 
@@ -213,7 +216,7 @@ input[type='text'] {
            //数据库验证
           if(event.data[2]==true){
               code=3;
-            $.post('vaildate/stuNumIsExist.do',dataObj,function(data){
+            $.post('/dormitory/vaildate/stuNumIsExist.do',dataObj,function(data){
               if(data.status=='1'){
                 code=1;
               }else{
@@ -262,7 +265,7 @@ input[type='text'] {
       alert("请先选择年级和学历");
       academySelectedChanged();      
     }else if(val!=-1){
-      $.post('studentInfo/findCascadingInfo.do',{
+      $.post('/dormitory/studentInfo/findCascadingInfo.do',{
           target:'major',
           grade:graText,
           education:eduText,
@@ -285,7 +288,7 @@ input[type='text'] {
         eduText=edu.find('option:selected').text(),
         majText=maj.find('option:selected').text();
     if(majText!='未选择'){
-      $.post('studentInfo/findCascadingInfo.do',{
+      $.post('/dormitory/studentInfo/findCascadingInfo.do',{
           target:'classNum',
           grade:graText,
           education:eduText,
@@ -300,23 +303,27 @@ input[type='text'] {
       );
     }
   });
-  //表单提交
-  $('#submit').click(function(){
-    if(!bir.datebox('getValue')){
-      $('.birthValidInfo').removeClass('status');
+//表单提交
+$('#sub').click(function(){
+  if(!$('#form_datebox').datebox('getValue')){
+    $('.birthValidInfo').removeClass('status');
+  }
+  var success=true;
+  $('.validInfo').each(function(){
+    if($(this).css('background-image')=='none'){
+      success=false;
+      return;
     }
-    var success=true;
-    $('.validInfo').each(function(){
-      if($(this).css('background-image')=='none'){
-        success=false;
-        return;
-      }
-    });
-    if(success==false){
-      $.messager.alert('操作提示', '请完善表单');
-    }
-    return success;
   });
+  if(success==false){
+    $.messager.alert('操作提示', '请完善表单');
+  }
+  return success;
+});
+//reset===========
+$('#reset').click(function(){
+  $('.validInfo').removeClass('status').html('');
+});
 //学院框变为未选择
 function academySelectedChanged(){
   acad.find('option:selected').removeAttr('selected')
@@ -325,4 +332,23 @@ function academySelectedChanged(){
   maj.find('option:gt(0)').remove();
   cla.find('option:gt(0)').remove();
 }
+//表单提交回调函数
+$('#addStudent').form({
+  success:function(d){
+    var data=JSON.parse(d);
+    if(data.status=='0'){
+      $.messager.alert('操作提示',data.info);
+    }else if(data.status=='1'){
+      $.messager.alert('操作提示',data.info);
+      //清空文件框
+      $('.form_input').val('');
+      //选择框变为未选择
+      $('.form_select').val('');
+      //单独清空日历框
+      $('#form_datebox').datebox('setValue','');
+      //清空提示
+      $('.validInfo').removeClass('status').html('');
+    }
+  }
+});
 </script>

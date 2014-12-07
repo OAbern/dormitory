@@ -46,7 +46,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			width:'950px',
 			height:'330px',
 //			url:'json/get/s_chaxun_xuesheng_xinxi.json',
-			url:'studentInfo/findStudentByCondition.do',
+			url:'/dormitory/studentInfo/findStudentByCondition.do',
 			rownumbers:'true',
 			fitColumns:'true',
 			striped:'true',//斑马线
@@ -65,10 +65,10 @@ $("#filter").click(function(event) {//点击筛选展示数据
 			}],
 			columns:[[    
 				{field:'ck',checkbox:true},    
-				{field:'stuNum',title:'学号',width:100,align:'center'},    
+				{field:'stuNum',title:'学号',width:150,align:'center'},    
 				{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
 				{field:'sex',title:'性别',width: 60,align:'center'}, 
-				{field:'birth',title:'出生年月',width: 100,align:'center',editor:'datebox'},    
+				{field:'birth',title:'出生年月',width: 150,align:'center',editor:'datebox'},    
 				{field:'academy',title:'学院',width: 200,align:'center',
 					formatter:function(value,row){
 							if(row.academy){
@@ -156,9 +156,9 @@ function saverow(target) {
 	delete(row.editing);
 	$.ajax({ 
     type:"POST", 
-    url:"studentInfo/updateStudent.do", 
+    url:"/dormitory/studentInfo/updateStudent.do", 
     dataType:"json",      
-    contentType:"application/json",               
+    //contentType:"application/json",               
     data:JSON.stringify(row),
     success: function(data){
 	    if(data.status=='0'){
@@ -189,7 +189,7 @@ function deleterow() {
 		}
 		$.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (r) {
 			if(r){
-				$.post('studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
+				$.post('/dormitory/studentInfo/deleteStudent.do',{'delRowsIdArray':delRowsIdArray},function(data){
 					if(data.status=='0'){
 						$.messager.alert('操作提示', data.info);
 					}else if(data.status=='1'){
