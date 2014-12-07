@@ -5,14 +5,9 @@
 }
 .item span {
 	display:inline-block;
-	margin-right:10px;
-	text-align:right;
 	padding-right:0;
 	width:100px;
 }
-/* .item span{
-	display:block;
-} */
 .help {
 	margin-top:10px;
 }
@@ -33,9 +28,10 @@ input[type='text'], input[type='password']{
 	margin-left:80px;
 }
 .error{
+	margin-left:5px;
 	font-size:14px;
 	color:#F00;
-	margin-left:6px;
+	/* margin-left:6px; */
 	}
 </style>
 <div>
@@ -50,16 +46,20 @@ input[type='text'], input[type='password']{
              <input type="text" name="adminName" /><span class="error" ></span>
             <br />
           </p>
+          <p class="item"><span>职位:</span>
+             <input type="text" name="post" readonly="readonly"/><span class="error" ></span>
+            <br />
+          </p>
           <p class="item"><span>原密码:</span>
              <input  type="password" name="old" class="old" /><span class="error" ></span>
             <br />
           </p>
           <p class="item"><span>新密码:</span>
-             <input  type="password" name="new" class="new"  />
+             <input  type="password" name="new" class="new" disabled="disabled"  />
             <br />
           </p>
            <p class="item"><span>确认新密码:</span>
-             <input  type="password" name="newagain" onblur="check()" class="again" /><span class="error"></span>
+             <input  type="password" name="newagain" onblur="check()" disabled="disabled" class="again" /><span class="error"></span>
            <br />
           </p>
           </p>
@@ -71,36 +71,49 @@ input[type='text'], input[type='password']{
   		 </div>
 </div>
 <script type="text/javascript">
-var ok_1=false,ok_2=false,ok_3=false;
+var ok_1=false;
+var ok_2=false;
+var ok_3=false;
 var adminNum="";
 var name="";
+var post="";
 $(function(){
-	$.post("adminInfo/findAdmin.do",function(data){
+	$.post("../adminInfo/findAdmin.do",function(data){
 	    adminNum=data.adminNum;
 	    name=data.name;
-		$('input[type="text"]').attr("value",name);
+	    post=data.post;
+		$('input[name="adminName"]').attr("value",name);
+		$('input[name="post"]').attr("value",post);
 		},"json");
 })
-
 	function checkName(){
-		var value=$('input[type="text"]').val();
+		var value=$('input[name="adminName"]').val();
 		if(value==''){
 			 var str="姓名不能为空";
+			 ok_1=false;
 			 $('input[name="adminName"]').next().html(str);
 			}else{
 				ok_1=true;
-				$('input[name="adminName"]').next().html("");
+				$('input[name="adminName"]').next().html("<img src='../images/reg_succ.png' />");
 				}
 		}
 	function checkOldPassword(){  
 		var value=$('input[name="old"]').val();
 		if(value!=''){
-			$.post("adminInfo/checkPw.do",{"adminNum":adminNum,"pw":value},function(data){
+			$.post("../adminInfo/checkPw.do",{"adminNum":adminNum,"pw":value},function(data){
 				if(data.status==1){
 					ok_3=true;
-					$('input[name="old"]').next().html("");
+					$('input[type="password"]').removeAttr("disabled");
+					$('input[name="old"]').next().html("<img src='../images/reg_succ.png' />");
 				}else if(data.status==0){
 					var str="原密码不正确";
+					ok_3=false;
+					if(typeof($('input[type="password"]').attr('disabled'))=='undefined'){
+						$('input[name="new"]').val("");
+						$('input[name="newagain"]').val("");
+						$('input[name="new"]').attr('disabled','disabled');
+						$('input[name="newagain"]').attr('disabled','disabled');
+					}
 				 $('input[name="old"]').next().html(str);
 				}else{
 					$.messager.alert("提示",data.info,"info");
@@ -109,13 +122,13 @@ $(function(){
 		}else{}
 	}
 	
-	$('input[type="text"]').focusout(function(){
+	$('input[name="adminName"]').focusout(function(){
 		checkName();
+		
 	});
 	$('input[name="old"]').focusout(function(){
 		checkOldPassword();
 	});
-	
 	function check(){
 		var key1 = $(".new").val();
 		var key2 = $(".again").val();
@@ -123,18 +136,24 @@ $(function(){
 		  var str="两次密码不一致";
 		   $('.again').next().html(str);
 		   $(".again").html(""); 
+		   ok_2=false;
+		}else if(key1=='' && key2==''){
+		   var str="请输入新密码";
+		   $('.again').next().html(str);
+		   ok_2=false;
 		}else{
 			ok_2=true;
-			$('.again').next().html("");
+			$('.again').next().html("<img src='../images/reg_succ.png' />");
 			}
 	}
 	$('input[type="button"]').click(function(){
 		checkName();//检查姓名是否为空
 		checkOldPassword();//检查原密码是否正确
+		check();//检查两次密码是否一致
 		/* console.log(ok_1);console.log(ok_2);console.log(ok_3); */
 		var name=$('input[name="old"]').val();
 		var value=$('.new').val();
-		if(!ok_1){
+		/* if(!ok_1){
 			    $.messager.alert("提示","姓名不能为空","warning");
 			}else if(value==''){
 				 $.messager.alert("提示","请输入新密码","warning");
@@ -142,13 +161,28 @@ $(function(){
 				else if(ok_1 && ok_2 && ok_3){//修改姓名和密码
 					var password= $(".old").val();
 					var newpassword= $(".new").val();
-							$.post("adminInfo/updateAdmin.do",{"pw":newpassword},function(data){
+							$.post("../adminInfo/updateAdmin.do",{"pw":newpassword},function(data){
 								if(data.status==0){
 									$.messager.alert("提示","修改成功");
 									}else{
 										$.messager.alert("提示","修改失败");
 										}
 								});
-				}
+				} */
+		if(ok_1 && ok_2 && ok_3){//修改姓名和密码
+					var password= $(".old").val();
+					var newpassword= $(".new").val();console.log(newpassword);
+							$.post("../adminInfo/updateAdmin.do",{"pw":newpassword},function(data){
+								if(data.status==1){
+									$.messager.alert("提示","修改成功");
+									$('#base_right').empty().load("s_personInfo_modify.html");
+									}else{
+										$.messager.alert("提示","修改失败");
+										}
+								});
+		}else{
+			$.messager.alert("提示","请完善修改信息");
+		}
+		
 	});
 </script>

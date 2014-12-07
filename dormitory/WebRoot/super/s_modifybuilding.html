@@ -92,7 +92,7 @@ var url="";
 var param={};
 $(function(){
 	$('.buildingid').append(buildingid);
-	$.post("areaInfo/findAllArea.do",function(data){
+	$.post("../areaInfo/findAllArea.do",function(data){
 		var area="";
 		$.each(data,function(index,item){
 			 area+="<option value="+item+">"+item+"</option>";
@@ -102,7 +102,7 @@ $(function(){
 })
 
 $('.return').click(function(){
-	 $("#base_right").empty().load("super/s_sushe_xinxi.html");
+	 $("#base_right").empty().load("s_sushe_xinxi.html");
 	})
 
 	//校验
@@ -114,7 +114,7 @@ $('.return').click(function(){
 			$(this).next().html(str);
 			ok_c=false;
 			}else{
-				$(this).next().html("<img src='images/reg_succ.png' />");
+				$(this).next().html("<img src='../images/reg_succ.png' />");
 				ok_c=true;
 			}
 	});	
@@ -126,7 +126,7 @@ $('.return').click(function(){
 			$(this).next().html(str);
 			ok_f=false;
 			}else{
-				$(this).next().html("<img src='images/reg_succ.png' />");
+				$(this).next().html("<img src='../images/reg_succ.png' />");
 				ok_f=true;
 			}
 	});	
@@ -148,10 +148,10 @@ $('.return').click(function(){
 			param.area=$('.area').val();
 			param.cata=$('input[name="cata"]').val();
 			param.fee=$('input[name="fee"]').val();
-			$.post("areaInfo/updateBuilding.do",param,function(data){
+			$.post("../areaInfo/updateBuilding.do",param,function(data){
 				if(data.status==1){
 					$.messager.alert("提示","修改成功","info"); 
-					$('#base_right').empty().load("super/s_sushe_xinxi.html");
+					$('#base_right').empty().load("s_sushe_xinxi.html");
 				}else if(data.status==0){
 					 $.messager.alert("提示","修改失败,该楼栋中还有学生入住，不能修改。","error"); 
 				}else if(data.status==2){
