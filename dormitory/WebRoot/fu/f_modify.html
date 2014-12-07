@@ -59,11 +59,11 @@ input[type='text'],input[type='password']{
                    <br />
                </p>
                <p class="item"><label>新密码:</label>
-                   <input  type="password" name="password" class="new" onchange="checkNew()"><span class="error" ></span>
+                   <input  type="password" name="password" class="new"><span class="error" ></span>
                    <br /> 
                </p>
                <p class="item"><label>确认新密码:</label>
-                   <input  type="password" name="newagain" onchange="checkNew()" class="again"><span class="error" ></span>
+                   <input  type="password" name="newagain" onblur="checkNew()" class="again"><span class="error" ></span>
                    <br />
                </p>
                <div class="help">
@@ -85,7 +85,7 @@ input[type='text'],input[type='password']{
 		    $('.phone').attr("value",tec_phone);
 		});
 	});
-	var ok_n=false,ok_s=false,ok_p=false,ok_w=false,ok_i=false;
+	var ok_n=true,ok_s=true,ok_p=true,ok_w=false,ok_i=false;
 	function checkName(){
 	  var str2="该项不能为空";
 	  var name = $(".name").val();
@@ -128,7 +128,7 @@ input[type='text'],input[type='password']{
 		   if(data.status==0){
 		       $(".old").attr("value","");
 		        ok_w=false;
-		       $('input[name="old"]').next().html(data.info);
+		        $('input[name="old"]').next().html(data.info);
 		   }else if(data.status==1){
 		       $('input[name="old"]').next().html("<img src='../images/reg_succ.png' />");
 			   ok_w=true;
@@ -149,20 +149,11 @@ input[type='text'],input[type='password']{
 		}
 	}
 	$("#modify").click(function(){
+	    checkNew();
 	    var name =$(".name").val();
 		var phone = $(".phone").val();
 		var sex=$(".sex").val();
 		var password =$(".new").val();
-	    if(name != ""){
-		    $('input[name="name"]').next().html("<img src='../images/reg_succ.png' />");
-			ok_n=true;
-		}else if(sex != ""){
-		    $('input[name="sex"]').next().html("<img src='../images/reg_succ.png' />");
-		    ok_s=true;
-	    }else if(phone !=""){
-	        $('input[name="phone"]').next().html("<img src='../images/reg_succ.png' />");
-		    ok_p=true;
-	    }
 		if(ok_n&&ok_s&&ok_p&&ok_w&&ok_i){
 		   $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
 		      if(data.status==1){
