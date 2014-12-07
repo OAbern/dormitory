@@ -44,14 +44,16 @@ public class ExcelInfoController {
 	 * @param response
 	 */
 	@RequestMapping("/addExcel")
-	public ModelAndView addExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+	public void addExcel(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 		boolean result1 = false;
 		boolean	result2 = false;
-		ModelAndView modelAndView = new ModelAndView();
+		ResultMessage resultMessage = new ResultMessage();
 		Teacher teacherInSession = (Teacher) request.getSession().getAttribute("teacher");
 		if(teacherInSession == null) {
-			//modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
-			return modelAndView;
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("上传文件失败！");
+			JSONUtils.toJSON(resultMessage, response);
+			return;
 		}
 		String originalFilename = file.getOriginalFilename();	//获取原始的文件名
 		int i = originalFilename.lastIndexOf(".");
@@ -77,8 +79,14 @@ public class ExcelInfoController {
 		if(result1) {
 			result2 = excelInfoService.addExcel(excelInfo);
 		}
-		//modelAndView.setViewName("redirect:/fu/f_stuchangehotel");
-		return modelAndView;
+		if(result2) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("上传文件成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("上传文件失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
 	}
 	
 	/**

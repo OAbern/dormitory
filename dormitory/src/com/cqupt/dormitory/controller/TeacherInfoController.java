@@ -72,15 +72,14 @@ public class TeacherInfoController {
 	 */
 	@RequestMapping("/checkPw")
 	public void checkPw(String pw, HttpServletRequest request, HttpServletResponse response) {
-		String pwInSession = (String) request.getSession().getAttribute("teacherPw");
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		teacher = teacherInfoService.findTeacherByTecNum(teacher.getTecNum());
 		ResultMessage resultMessage = new ResultMessage();
 		resultMessage.setStatus(ResultMessage.FAILED);
 		resultMessage.setInfo("密码校验失败！");
-		if(pwInSession!=null && pw!=null) {
-			if(pw.equals(pwInSession)) {
-				resultMessage.setStatus(ResultMessage.SUCCESS);
-				resultMessage.setInfo("密码校验成功！");
-			}
+		if(pw.equals(teacher.getPassword())) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("密码校验成功！");
 		}
 		JSONUtils.toJSON(resultMessage, response);
 	}
