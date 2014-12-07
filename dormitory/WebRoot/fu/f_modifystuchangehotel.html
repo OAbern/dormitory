@@ -71,7 +71,8 @@
 		  	var data=JSON.parse(d);
 		    if(data.status==0){
 					$.messager.alert('操作提示',data.info);
-				}else if(data.status==0){
+					('input[name="file"]').val('');
+				}else if(data.status==1){
 					$.messager.alert('操作提示','上传成功');
 					$("#base_right").empty().load("f_modifystuchangehotel.html",2000);
 				}
