@@ -9,7 +9,7 @@
 <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function(){	
 	    $("#login").click(function(){
 	       if($("#num").val() == ""){
 				alert("请输入用户名");
@@ -37,9 +37,12 @@
 			}
 	    }); 
 	});
+	if (window != top) 
+		top.location.href = location.href;  
 </script>
 </head>
 <body>
+
 <div id="loginbox">
 	<div id="contain" class="radius">
 		<div class="left"></div>
