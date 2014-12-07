@@ -2,6 +2,7 @@ package com.cqupt.dormitory.service;
 
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cqupt.dormitory.model.Student;
@@ -162,4 +163,11 @@ public interface StudentInfoService {
 	 * @return
 	 */
 	public List<Student> findStudentByNumArray(List<String> nums);
+	
+	/**
+	 * 获取学生已进行住宿调配的结果(辅导员已登录)
+	 * @param tecNum
+	 * @return
+	 */
+	public HSSFWorkbook getExcelForStudentDeploy(String tecNum);
 }

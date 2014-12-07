@@ -1,5 +1,6 @@
 package com.cqupt.dormitory.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.StudentInfoService;
@@ -369,6 +371,29 @@ public class StudentInfoController {
 		}
 		List<Student> list = studentInfoService.findStudentDeploy(teacher.getTecNum());
 		this.formatAndWrite(list, response);
+	}
+	
+	/**
+	 * 下载学生已进行住宿调配的结果(辅导员已登录)
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("downLoadStudentDeploy")
+	public void downLoadStudentDeploy(HttpServletRequest request, HttpServletResponse response){
+		Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
+		if(teacher == null) {
+			return;
+		}
+		try {
+			response.setHeader("Content-Type", "application/vnd.ms-excel; charset=utf-8");
+		    String filename = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());  
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.toString().concat(".xls").getBytes(),"iso-8859-1"));  
+
+			studentInfoService.getExcelForStudentDeploy(teacher.getTecNum()).write(response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**

@@ -1,5 +1,8 @@
 package com.cqupt.dormitory.service.impl;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,9 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -198,6 +204,55 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	@Override
 	public List<Student> findStudentByNumArray(List<String> nums) {
 		return studentInfoDao.findStudentByNumArray(nums);
+	}
+
+	@Override
+	public HSSFWorkbook getExcelForStudentDeploy(String tecNum) {
+		List<Student> students = studentInfoDao.findStudentDeploy(tecNum);
+		HSSFWorkbook workbook = new HSSFWorkbook();                     // 创建工作簿对象  
+		HSSFSheet sheet = workbook.createSheet();                       // 创建工作表  
+		
+		HSSFRow row1 = sheet.createRow((short)0);               // 在索引0的位置创建行(最顶端的行)  
+		HSSFCell cell1 = null;                                  // 在索引0的位置创建单元格(左上
+		
+		String[] label = {"新寝室号", "旧寝室号", "学院", "专业", "班级", "学号", "姓名", "性别"};
+		for(int i = 0;i<label.length;i++){
+			cell1 = row1.createCell(i);     
+			cell1.setCellValue(label[i]);
+		}
+			
+		for(int i = 0;i<students.size();i++){
+			HSSFRow rows = sheet.createRow((short)i+1);
+			HSSFCell cells = null;
+			Student s = students.get(i);
+			for(int j = 0;j<label.length;j++){
+				cells = rows.createCell(j);     
+				cells.setCellValue(getCellValue(s,j));
+			}  
+		}
+				 
+		return workbook;
+	}
+	
+	public String getCellValue(Student s ,int i){
+		if(i == 0){
+			return s.getRoom().getRoomNum();
+		}else if(i == 1){
+			return s.getOldRoomNum();
+		}else if(i==2){
+			return s.getAcademy().getName();
+		}else if(i==3){
+			return s.getMajor();
+		}else if(i==4){
+			return s.getClassNum();
+		}else if(i==5){
+			return s.getStuNum();
+		}else if(i==6){
+			return s.getName();
+		}else if(i==7){
+			return s.getSex();
+		}else 
+			return "无";
 	}
 
 }
