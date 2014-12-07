@@ -134,14 +134,16 @@ public class Student {
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
-	public String getInTime() {
-		return DataTypeUtils.formateDate(inTime);
+	public Date getInTime() {
+		return inTime;
+//		return DataTypeUtils.formateDate(inTime);
 	}
 	public void setInTime(Date inTime) {
 		this.inTime = inTime;
 	}
-	public String getOutTime() {
-		return DataTypeUtils.formateDate(outTime);
+	public Date getOutTime() {
+		return outTime;
+//		return DataTypeUtils.formateDate(outTime);
 	}
 	public void setOutTime(Date outTime) {
 		this.outTime = outTime;

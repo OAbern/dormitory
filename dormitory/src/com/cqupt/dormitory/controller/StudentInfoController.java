@@ -344,6 +344,19 @@ public class StudentInfoController {
 	}
 	
 	/**
+	 * 根据学号数组查找学生
+	 */
+	@RequestMapping("/findStudentByNumArray")
+	public void findStudentByNumArray(@RequestParam("stuNum") String []stuNum, HttpServletResponse response) {
+		List<String> nums = new ArrayList<String>();
+		for(String num : stuNum) {
+			nums.add(num);
+		}
+		List<Student> students = studentInfoService.findStudentByNumArray(nums);
+		this.formatAndWrite(students, response);
+	}
+	
+	/**
 	 * 查看学生已进行住宿调配（辅导员已登录）
 	 * @param request
 	 * @param response

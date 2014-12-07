@@ -213,5 +213,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE s.`room_id` IS NOT NULL AND s.`old_roomNum` IS NOT NULL 
 				AND s.`live_status` = 4 AND t.`tec_num` = '${_parameter}'
 	</select>
+	
+	<!-- 根据学号数组查找学生 -->
+	<select id="findStudentByNumArray" parameterType="list" resultMap="studentResult">
+		SELECT * FROM `student` s
+			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
+			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
+			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
+			WHERE s.`stu_num` IN (
+			<foreach collection="list" item="i" separator=",">
+				#{i}
+			</foreach>
+			)
+	</select>
 		
 </mapper>

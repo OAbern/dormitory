@@ -195,4 +195,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		return studentInfoDao.findStudentDeploy(tecNum);
 	}
 
+	@Override
+	public List<Student> findStudentByNumArray(List<String> nums) {
+		return studentInfoDao.findStudentByNumArray(nums);
+	}
+
 }

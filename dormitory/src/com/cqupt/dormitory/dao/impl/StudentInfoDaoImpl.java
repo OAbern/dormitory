@@ -200,5 +200,16 @@ public class StudentInfoDaoImpl extends BaseDaoSupport implements StudentInfoDao
 		}
 		return students;
 	}
+
+	@Override
+	public List<Student> findStudentByNumArray(List<String> nums) {
+		List<Student> list = null;
+		try {
+			list = getSqlSession().selectList("findStudentByNumArray", nums);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 }

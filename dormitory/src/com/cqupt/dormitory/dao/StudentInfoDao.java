@@ -120,5 +120,12 @@ public interface StudentInfoDao {
 	 * @return
 	 */
 	public List<Student> findStudentDeploy(String tecNum);
+	
+	/**
+	 * 根据学号数组查找学生信息
+	 * @param nums
+	 * @return
+	 */
+	public List<Student> findStudentByNumArray(List<String> nums);
 
 }
