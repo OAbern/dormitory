@@ -253,13 +253,13 @@ public class RoomAndFloorController {
 	
 	@RequestMapping("/distributeRoom")
 	public void distributeRoom(@ModelAttribute Condition condition,@RequestParam("building[]")String[] buildingNum,HttpServletResponse response){
-		condition.setLivingStatus(3);
+		//condition.setLivingStatus(3);
 		List<Student> students = studentInfoService.findStudentByCondition(condition);
 		List<String> studentNums = new ArrayList<String>();
 		for(Student s:students){
 			studentNums.add(s.getStuNum());
 		}
-		studentInfoService.updateOutOfRoom(studentNums);
+		//studentInfoService.updateOutOfRoom(studentNums); 这个本来是想实现先退掉所有的学生再来分配的.但是后面如果直接空了,就没有新旧寝室了.
 		boolean b  =roomService.updateDistributeRoom(studentNums,buildingNum);
 		ResultMessage rm = new ResultMessage();
 		if(b){

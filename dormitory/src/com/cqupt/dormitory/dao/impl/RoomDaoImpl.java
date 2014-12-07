@@ -92,7 +92,7 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		if(r!=null){
 			map.put("oldRoomNum", r.getRoomNum());
 		}else{
-			map.put("oldRoomNum","无");
+			map.put("oldRoomNum",null);
 		}
 		getSqlSession().update(Room.class.getName()+".update_student_room_id",map);
 	}

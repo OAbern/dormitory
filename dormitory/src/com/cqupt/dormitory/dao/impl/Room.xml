@@ -86,7 +86,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="update_student_room_id" parameterType="map">
-		UPDATE `student` SET `room_id` = #{roomId} ,`live_status` = 4, old_roomnum=#{oldRoomNum},in_time=CURRENT_TIMESTAMP WHERE stu_num =#{studentNum}
+		UPDATE `student` SET `room_id` = #{roomId} ,`live_status` = 4 
+			<if test="oldRoomNum!=null">
+				,old_roomnum=#{oldRoomNum}
+			</if>
+		,in_time=CURRENT_TIMESTAMP WHERE stu_num =#{studentNum}
 	</update>
 	
 	<select id="find_room_by_many_field" parameterType="map" resultMap="roomResult">
