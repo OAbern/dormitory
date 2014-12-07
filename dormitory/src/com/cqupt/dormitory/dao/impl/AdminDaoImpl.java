@@ -39,4 +39,15 @@ public class AdminDaoImpl extends BaseDaoSupport implements AdminDao {
 		}
 	}
 
+	@Override
+	public Admin findAdminById(int id) {
+		Admin admin = null;
+		try {
+			admin = getSqlSession().selectOne("com.cqupt.dormitory.model.Admin.findAdminById", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return admin;
+	}
+
 }

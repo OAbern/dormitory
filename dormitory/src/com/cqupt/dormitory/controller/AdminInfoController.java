@@ -32,6 +32,7 @@ public class AdminInfoController {
 	@RequestMapping("/findAdmin")
 	public void findAdmin(HttpServletRequest request, HttpServletResponse response) {
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		admin = adminDao.findAdminById(admin.getId());
 		JSONUtils.toJSON(admin, response);
 	}
 	
@@ -43,15 +44,14 @@ public class AdminInfoController {
 	 */
 	@RequestMapping("/checkPw")
 	public void checkPw(String pw, HttpServletRequest request, HttpServletResponse response) {
-		String pwInSession = (String) request.getSession().getAttribute("adminPw");
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		admin = adminDao.findAdminById(admin.getId());
 		ResultMessage resultMessage = new ResultMessage();
 		resultMessage.setStatus(ResultMessage.FAILED);
 		resultMessage.setInfo("密码校验失败！");
-		if(pwInSession!=null && pw!=null) {
-			if(pw.equals(pwInSession)) {
-				resultMessage.setStatus(ResultMessage.SUCCESS);
-				resultMessage.setInfo("密码校验成功！");
-			}
+		if(pw.equals(admin.getPassword())) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("密码校验成功！");
 		}
 		JSONUtils.toJSON(resultMessage, response);
 	}

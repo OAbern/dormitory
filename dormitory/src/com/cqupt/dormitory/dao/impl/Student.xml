@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="inTime" column="in_time"/>
 		<result property="outTime" column="out_time"/>
 		<result property="education" column="education"/>
+		<result property="oldRoomNum" column="old_roomnum"/>
 		
 		<association property="academy" column="academy_id" resultMap="com.cqupt.dormitory.model.Academy.academyResult"></association>
 		<association property="teacher" column="tec_id" resultMap="com.cqupt.dormitory.model.Teacher.teacherResult"></association>

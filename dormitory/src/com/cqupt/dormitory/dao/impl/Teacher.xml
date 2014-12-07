@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 根据教工号查找教师信息 -->
-	<select id="findTeacherByTecNum" parameterType="String" resultMap="teacherResult">
+	<select id="findTeacherByTecNum" parameterType="String" resultMap="teacherResultFull">
 		SELECT * FROM `teacher` t
 			LEFT JOIN `academy` a ON t.`academy_id`=a.`academy_id`
 			WHERE t.`tec_num` = #{tecNum}

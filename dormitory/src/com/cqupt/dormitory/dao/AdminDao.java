@@ -22,4 +22,11 @@ public interface AdminDao {
 	 * @return
 	 */
 	public boolean updateAdminInfo(Admin admin);
+	
+	/**
+	 * 根据辅导员id查找辅导员
+	 * @param id
+	 * @return
+	 */
+	public Admin findAdminById(int id);
 }
