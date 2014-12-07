@@ -44,7 +44,7 @@ public class TeacherInfoController {
 	}
 	
 	/**
-	 * 更新教师信息
+	 * 更新教师信息(教师已登录)
 	 * @param teacher
 	 * @param response
 	 */
@@ -155,5 +155,25 @@ public class TeacherInfoController {
 		}
 		JSONUtils.toJSON(resultMessage, response);
 	}
+	
+	/**
+	 * 管理员修改教师信息
+	 * @param teacher
+	 * @param response
+	 */
+	@RequestMapping("/modifyTeacherInfo")
+	public void updateTeacherInfo(@ModelAttribute Teacher teacher, HttpServletResponse response) {
+		boolean result = teacherInfoService.updateTeacherInfo(teacher);
+		ResultMessage resultMessage = new ResultMessage();
+		if(result) {
+			resultMessage.setStatus(ResultMessage.SUCCESS);
+			resultMessage.setInfo("修改教师信息成功！");
+		}else {
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("修改教师信息失败！");
+		}
+		JSONUtils.toJSON(resultMessage, response);
+	}
+	
 	
 }
