@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.StudentInfoService;
@@ -40,8 +38,6 @@ import com.cqupt.dormitory.vo.ResultMessage;
 @Controller
 @RequestMapping("/studentInfo")
 public class StudentInfoController {
-	private static String ERRORINFO = "errorInfo";
-	
 	@Resource(name="studentInfoServiceImpl")
 	private StudentInfoService studentInfoService;
 	
@@ -54,31 +50,26 @@ public class StudentInfoController {
 	 * @return
 	 */
 	@RequestMapping("/addStudent")
-	public ModelAndView addStudent(@ModelAttribute("student")Student student) {
+	public void addStudent(@ModelAttribute("student")Student student, HttpServletResponse response) {
 		boolean result = false;
 		ResultMessage resultMessage = new ResultMessage();
-		/*检查辅导员是否存在*/
-		ModelAndView modelAndView = new ModelAndView();
 		//根据班级加载辅导员信息
 		Teacher teacher = teacherInfoService.findTeacherByClassNum(student.getClassNum());
 		if(teacher == null) {
 			resultMessage.setStatus(ResultMessage.FAILED);
 			resultMessage.setInfo("添加学生失败！");
 			resultMessage.setError("辅导员不存在！");
-			modelAndView.addObject(ERRORINFO, resultMessage);
-			modelAndView.setViewName("failed");
-			return modelAndView;
 		}
 		result = studentInfoService.addStudent(student);
 		
 		if(result) {
 			resultMessage.setStatus(ResultMessage.SUCCESS);
 			resultMessage.setInfo("添加学生成功！");
-			modelAndView.setViewName("success");
 		} else {
-			modelAndView.setViewName("failed");
+			resultMessage.setStatus(ResultMessage.FAILED);
+			resultMessage.setInfo("添加学生失败！");
 		}
-		return modelAndView;
+		JSONUtils.toJSON(resultMessage, response);
 	}
 	
 	/**

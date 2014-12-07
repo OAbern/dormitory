@@ -2,6 +2,8 @@ package com.cqupt.dormitory.model;
 
 import java.util.Date;
 
+import com.cqupt.dormitory.utils.DataTypeUtils;
+
 /**
  * 学生基本类
  * @author Bern
@@ -126,20 +128,20 @@ public class Student {
 	public void setOutAddress(String outAddress) {
 		this.outAddress = outAddress;
 	}
-	public Date getBirth() {
-		return birth;
+	public String getBirth() {
+		return DataTypeUtils.formateDate(birth);
 	}
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
-	public Date getInTime() {
-		return inTime;
+	public String getInTime() {
+		return DataTypeUtils.formateDate(inTime);
 	}
 	public void setInTime(Date inTime) {
 		this.inTime = inTime;
 	}
-	public Date getOutTime() {
-		return outTime;
+	public String getOutTime() {
+		return DataTypeUtils.formateDate(outTime);
 	}
 	public void setOutTime(Date outTime) {
 		this.outTime = outTime;
