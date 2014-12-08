@@ -216,14 +216,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 根据学号数组查找学生 -->
-	<select id="findStudentByNumArray" parameterType="list" resultMap="studentResult">
+	<select id="findStudentByNumArray" parameterType="list" resultMap="studentResult" statementType="STATEMENT">
 		SELECT * FROM `student` s
 			LEFT JOIN `academy` a ON s.`academy_id`=a.`academy_id`
 			LEFT JOIN `teacher` t ON s.`tec_id`=t.`tec_id`
 			LEFT JOIN `room` r ON s.`room_id`=r.`room_id`
 			WHERE s.`stu_num` IN (
 			<foreach collection="list" item="i" separator=",">
-				#{i}
+				'${i}'
 			</foreach>
 			)
 	</select>

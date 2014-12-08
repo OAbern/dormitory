@@ -349,7 +349,7 @@ public class StudentInfoController {
 	 * 根据学号数组查找学生
 	 */
 	@RequestMapping("/findStudentByNumArray")
-	public void findStudentByNumArray(@RequestParam("stuNum") String []stuNum, HttpServletResponse response) {
+	public void findStudentByNumArray(@RequestParam("stuNum[]") String []stuNum, HttpServletResponse response) {
 		List<String> nums = new ArrayList<String>();
 		for(String num : stuNum) {
 			nums.add(num);
