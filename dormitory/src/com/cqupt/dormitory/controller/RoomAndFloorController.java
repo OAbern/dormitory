@@ -282,7 +282,7 @@ public class RoomAndFloorController {
 			r.setInfo("修改成功");
 		}else{
 			r.setStatus(0);
-			r.setError("这个寝室里面有人不能修改");
+			r.setInfo("这个寝室里面有人不能修改");
 		}
 		JSONUtils.toJSON(r, response);
 	}
