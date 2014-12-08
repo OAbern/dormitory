@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StudentStatistics">
+	<resultMap type="com.cqupt.dormitory.vo.StudentBuildingDistribution" id="studentBuildingResult">
+		<result property="building" column="building"/>
+		<result property="num" column="num"/>
+	</resultMap>
+
+	
+	<!-- 查询各学院学生住宿分布 -->
+	<select id="distributionOfStudent" parameterType="com.cqupt.dormitory.vo.Condition" resultMap="studentBuildingResult">
+		SELECT COUNT(*) num, b.`building_num` building FROM `student` s
+			LEFT JOIN `room` r ON r.`room_id` = s.`room_id`
+			LEFT JOIN `floor` f ON f.`floor_id` = r.`floor_id`
+			LEFT JOIN `building` b ON b.`building_id` = f.`building_id`
+			<where>
+				<if test="academy!=null and academy!=''">s.`academy_id` = #{academy,jdbcType=INTEGER}</if>
+				<if test="grade!=null and grade!=''">AND s.`grade` = #{grade}</if> 
+				<if test="sex!=null and sex!=''">AND s.`stu_sex` = #{sex}</if>
+			</where> 
+			GROUP BY b.`building_num`
+	</select>
+
+</mapper>
