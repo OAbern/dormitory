@@ -48,18 +48,13 @@
 		$(".table_one").datagrid({
 			width : '865px',
 			height : '330px',
-			url : '../studentInfo/findStudentByCondition.do',
+			url : '../studentInfo/findStudentByNumArray.do',
+			rownumbers:'true',
+			fitColumns:'true',
 			queryParams:{
-						academy:academy,
-						education:education,
-						grade:grade,
-						major:major,
-						classNum:classNum,
-						sex:sex,
-						livingStatus:4
+						stuNum:stuNums
 					},
 			pagination : true,
-			nowrap : false,
 			columns : [ [
 			         {field : 'room',title : '寝室号',width : 80,align : 'center',
 						 formatter:function(value){

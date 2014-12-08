@@ -103,8 +103,13 @@
 	}
 	//找到符合条件的学生并展现
 	function showData(){
-		//$.post('studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"livingStatus":3}, function(data) {
-			//if(data){
+		stuNums=[];
+		$.post('../studentInfo/findStudentByCondition.do', {"academy":fenpei_sure.academy,"education":fenpei_sure.education,"grade":fenpei_sure.grade,"major":fenpei_sure.major,"classNum":fenpei_sure.classNum,"sex":fenpei_sure.sex,"livingStatus":3}, function(data) {
+			if(data){
+				$.each(data.rows, function(index, item){
+					stuNums.push(item.stuNum);
+				});
+			}});
 				$(".table_one").datagrid({
 					width : '835px',
 					height : '330px',
@@ -129,7 +134,7 @@
 					        }, 
 							{field : 'major',title : '专业',width : 150,align : 'center'},
 							{field : 'classNum',title : '班级',width : 100,align : 'center'}, 
-							{field : 'stuNum',title : '学号',width : 100,align : 'center'}, 
+							{field : 'stuNum',title : '学号',width : 100,align : 'center'},
 							{field : 'name',title : '姓名',width : 100,align : 'center'}, 
 							{field : 'sex',title : '性别',width : 60,align : 'center'}, 
 							{field : 'education',title : '学历',width : 120,align : 'center'}
@@ -143,7 +148,7 @@
 						}
 						sum_fenpei = data.total;//选择的人数总量
 						openSum();
-				},
+					},
 				});
 			//}else{
 			//	$.messager.alert("提示","未找到符合条件的学生，请重新选择","info");

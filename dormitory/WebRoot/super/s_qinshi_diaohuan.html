@@ -105,10 +105,20 @@
 	}
 	//找到符合条件的学生并展现
 	function showData(){
+		stuNums=[];
+		$.post('../studentInfo/findStudentByCondition.do', {"academy":diaohuan_sure.academy,"education":diaohuan_sure.education,"grade":diaohuan_sure.grade,"major":diaohuan_sure.major,"classNum":diaohuan_sure.classNum,"sex":diaohuan_sure.sex,"livingStatus":4}, function(data) {
+			if(data){
+				$.each(data.rows, function(index, item){
+					stuNums.push(item.stuNum);
+				});
+			}
+		});
 				$(".table_one").datagrid({
 					width : '752px',
 					height : '250px',
 					url : '../studentInfo/findStudentByCondition.do',
+					rownumbers:'true',
+					fitColumns:'true',
 					queryParams:{
 						academy:diaohuan_sure.academy,
 						education:diaohuan_sure.education,
