@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.ResultType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -162,7 +163,7 @@ public class TeacherInfoController {
 	 * @param response
 	 */
 	@RequestMapping("/modifyTeacherInfo")
-	public void updateTeacherInfo(@ModelAttribute Teacher teacher, HttpServletResponse response) {
+	public void updateTeacherInfo(@RequestBody Teacher teacher, HttpServletResponse response) {
 		boolean result = teacherInfoService.updateTeacherInfo(teacher);
 		ResultMessage resultMessage = new ResultMessage();
 		if(result) {
