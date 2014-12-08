@@ -163,8 +163,8 @@ public class ExcelInfoController {
 		//这一坨是用来导入excel表格的.如果出了问题 直接return false;
 		for(int excelId : list){
 			ExcelInfo e = excelInfoService.findExcelById(excelId);
-			String fileName = e.getName();
-			String path = request.getRealPath("/UploadFile");
+			String fileName = e.getPath();
+			String path = request.getRealPath("/");
 			fileName = path+"\\"+fileName;
 			boolean result = roomService.updateStudentRoomNumByExcel(fileName);
 			if(!result){

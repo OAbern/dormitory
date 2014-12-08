@@ -274,7 +274,6 @@ public class RoomAndFloorController {
 
 	@RequestMapping("/updateRoomCostAndFee")
 	public void updateRoomCostAndFee(@RequestBody Room room,HttpServletResponse response){
-		System.out.println(room);
 		boolean b= roomService.udpateRoom(room);
 		ResultMessage r = new ResultMessage();
 		if(b){
