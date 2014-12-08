@@ -98,7 +98,11 @@
 				{field:'stuNum',title:'学号',width:100,align:'center'}, 
 				{field:'name',title:'姓名',width:100,align:'center'}, 
 				{field:'sex',title:'性别',width:50,align:'center'},
-				{field:'birth',title:'出生年月',width:75,align:'center'},
+				{field:'birth',title:'出生年月',width:75,align:'center',
+				        formatter:function(value){
+						   return value.match(/^\d{4}-\d{2}-\d{2}/);
+						}
+			    },
 				{field:'birthplace',title:'籍贯',width:80,align:'center'},
 				{field:'room',title:'寝室号',width: 100,align:'center',
 						formatter:function(value,row){
