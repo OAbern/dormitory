@@ -35,8 +35,7 @@
         <property name="maxUploadSize" value="500000"/>  
     </bean>
  
-    <!-- 完成请求和注解POJO的映射 -->
-<!--     
+    <!-- 完成请求和注解POJO的映射 -->   
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
@@ -49,7 +48,7 @@
 
 	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" /> 
 	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
--->
+ 
 
     <!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
     <!-- 视图解释类 -->  

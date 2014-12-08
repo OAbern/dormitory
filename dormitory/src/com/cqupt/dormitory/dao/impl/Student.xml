@@ -198,8 +198,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="addStudentOutLiving" parameterType="com.cqupt.dormitory.model.Student">
 		UPDATE `student` 
 		<set>
-			`live_status` = 2, `in_time` = '', `romm_id` = ''  
-			<if test="outTime!=null and outTime!=''">, `out_time` = #{outTime,jdbcType=Date}</if>
+			`live_status` = 2, `in_time` = NULL, `room_id` = NULL  
+			<if test="outTime!=null and outTime!=''">, `out_time` = #{outTime,jdbcType=DATE}</if>
 			<if test="outAddress!=null and outAddress!=''">, `out_address` = #{outAddress}</if>
 		</set>
 			WHERE `stu_num` = #{stuNum}

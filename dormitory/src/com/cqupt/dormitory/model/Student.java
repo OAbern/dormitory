@@ -2,8 +2,6 @@ package com.cqupt.dormitory.model;
 
 import java.util.Date;
 
-import com.cqupt.dormitory.utils.DataTypeUtils;
-
 /**
  * 学生基本类
  * @author Bern
@@ -26,6 +24,7 @@ public class Student {
 	private String phone;	//电话
 	private String outAddress;	//外住地点
 	private String education;	//学历
+	private String oldRoomNum; //旧的住址   add  Dec.4 
 	
 	private Date birth;	//生日
 	private Date inTime;	//入住时间
@@ -35,132 +34,119 @@ public class Student {
 	private Teacher teacher;	//辅导员
 	private Room room;	//所住房间
 	
-	
-	private String oldRoomNum; //旧的住址   add  Dec.4 
-	
-	
 	@Override
 	public String toString() {
 		return "学生id："+id+",	学号："+stuNum+",		姓名："+name;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+
 	public int getLiveStatus() {
 		return liveStatus;
 	}
+
 	public void setLiveStatus(int liveStatus) {
 		this.liveStatus = liveStatus;
 	}
-	public Academy getAcademy() {
-		return academy;
+
+	public String getSex() {
+		return sex;
 	}
-	public void setAcademy(Academy academy) {
-		this.academy = academy;
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
+
 	public String getGrade() {
 		return grade;
 	}
+
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+
 	public String getClassNum() {
 		return classNum;
 	}
+
 	public void setClassNum(String classNum) {
 		this.classNum = classNum;
 	}
+
 	public String getMajor() {
 		return major;
 	}
+
 	public void setMajor(String major) {
 		this.major = major;
 	}
+
 	public String getStuNum() {
 		return stuNum;
 	}
+
 	public void setStuNum(String stuNum) {
 		this.stuNum = stuNum;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getBirthplace() {
 		return birthplace;
 	}
+
 	public void setBirthplace(String birthplace) {
 		this.birthplace = birthplace;
 	}
+
 	public String getNation() {
 		return nation;
 	}
+
 	public void setNation(String nation) {
 		this.nation = nation;
 	}
+
 	public String getIdentity() {
 		return identity;
 	}
+
 	public void setIdentity(String identity) {
 		this.identity = identity;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 	public String getOutAddress() {
 		return outAddress;
 	}
+
 	public void setOutAddress(String outAddress) {
 		this.outAddress = outAddress;
 	}
-	public Date getBirth() {
-		return birth;
-	}
-	public void setBirth(Date birth) {
-		this.birth = birth;
-	}
-	public Date getInTime() {
-		return inTime;
-	}
-	public void setInTime(Date inTime) {
-		this.inTime = inTime;
-	}
-	public Date getOutTime() {
-		return outTime;
-	}
-	public void setOutTime(Date outTime) {
-		this.outTime = outTime;
-	}
-	public Teacher getTeacher() {
-		return teacher;
-	}
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
-	}
-	public Room getRoom() {
-		return room;
-	}
-	public void setRoom(Room room) {
-		this.room = room;
-	}
+
 	public String getEducation() {
 		return education;
 	}
+
 	public void setEducation(String education) {
 		this.education = education;
 	}
@@ -172,5 +158,54 @@ public class Student {
 	public void setOldRoomNum(String oldRoomNum) {
 		this.oldRoomNum = oldRoomNum;
 	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+
+	public Date getInTime() {
+		return inTime;
+	}
+
+	public void setInTime(Date inTime) {
+		this.inTime = inTime;
+	}
+
+	public Date getOutTime() {
+		return outTime;
+	}
+
+	public void setOutTime(Date outTime) {
+		this.outTime = outTime;
+	}
+
+	public Academy getAcademy() {
+		return academy;
+	}
+
+	public void setAcademy(Academy academy) {
+		this.academy = academy;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
 	
 }
