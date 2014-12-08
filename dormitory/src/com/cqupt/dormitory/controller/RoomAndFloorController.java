@@ -274,14 +274,17 @@ public class RoomAndFloorController {
 
 	@RequestMapping("/updateRoomCostAndFee")
 	public void updateRoomCostAndFee(@RequestBody Room room,HttpServletResponse response){
-		
+		System.out.println(room);
 		boolean b= roomService.udpateRoom(room);
-		Map<String,Object> map = new HashMap<String,Object>();
+		ResultMessage r = new ResultMessage();
 		if(b){
-			map.put("status", 1);
-		}else {
-			map.put("status", 0);
+			r.setStatus(1);
+			r.setInfo("修改成功");
+		}else{
+			r.setStatus(0);
+			r.setError("这个寝室里面有人不能修改");
 		}
+		JSONUtils.toJSON(r, response);
 	}
 		
 	@RequestMapping("/changeOneRoom")
