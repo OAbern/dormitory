@@ -174,4 +174,16 @@ public interface RoomService {
 	 * @since  1.0.0
 	 */
 	public HSSFWorkbook getExcelForDistribute(List<Student> students);
+	
+	
+	/**
+	 * updateStudentRoomNumByExcel excel表格来导入数据.同时直接给我分配好寝室.
+	 * @param fileName
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public boolean updateStudentRoomNumByExcel(String fileName);
+	
 }

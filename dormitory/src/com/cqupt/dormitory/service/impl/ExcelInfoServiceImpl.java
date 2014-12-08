@@ -49,6 +49,18 @@ public class ExcelInfoServiceImpl implements ExcelInfoService {
 			int status) {
 		
 		return excelInfoDao.changeExcelStatus(ids, approvedAdminId, status);
+	}
+
+	@Override
+	public ExcelInfo findExcelById(int id) {
+		List<ExcelInfo> excels = this.findAllExcel();
+		ExcelInfo excel = null;
+		for(ExcelInfo e: excels){
+			if(e.getId() == id){
+				excel = e;
+			}
+		}
+		return excel;
 	}	
 
 }

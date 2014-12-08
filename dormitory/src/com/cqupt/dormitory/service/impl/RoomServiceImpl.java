@@ -1,20 +1,33 @@
 package com.cqupt.dormitory.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.cqupt.dormitory.dao.BuildingDao;
@@ -25,6 +38,7 @@ import com.cqupt.dormitory.model.Floor;
 import com.cqupt.dormitory.model.Room;
 import com.cqupt.dormitory.model.Student;
 import com.cqupt.dormitory.service.RoomService;
+import com.cqupt.dormitory.vo.ResultMessage;
 import com.cqupt.dormitory.vo.RoomInFloor;
 
 @Service("roomService")
@@ -37,6 +51,8 @@ public class RoomServiceImpl implements RoomService{
 	private BuildingDao buildDao;
 	@Resource
 	private StudentInfoDao studentInfoDao;
+	
+	
 	
 	@Override
 	public RoomInFloor findRoomInFloorForView(String buildingNum) {
@@ -376,5 +392,53 @@ public class RoomServiceImpl implements RoomService{
 			return s.getSex();
 		}else 
 			return "无";
+	}
+
+
+	@Override
+	public boolean updateStudentRoomNumByExcel(String fileName) {
+		
+	//	ResultMessage rm = new ResultMessage();
+		try {
+			File file = new File(fileName);
+			InputStream fs =  new FileInputStream(file);
+			String lastName= null;
+			Pattern pat = Pattern.compile("\\.[\\w]+");
+	 		Matcher m = pat.matcher(fileName);
+			while(m.find()){
+				lastName = m.group();
+			}
+			Workbook wb = null ;
+			if(lastName.equals(".xls")){
+				wb = new HSSFWorkbook(fs);
+			}else if(lastName.equals(".xlsx")){
+				OPCPackage docPackage = OPCPackage.open(fs);
+				wb = new XSSFWorkbook(docPackage);
+			}else{
+				throw  new RuntimeException();
+			}
+			
+			//第一个工作簿
+			Sheet sheet1 = wb.getSheetAt(0);
+			
+			for (int j=1;j<sheet1.getLastRowNum()+1;j++) {
+				Row row = sheet1.getRow(j);
+				String studentNum = null;
+				String roomNum = null;
+				for (Cell cell : row) {
+					CellReference cellRef = new CellReference(row.getRowNum(),cell.getColumnIndex());
+					switch(cellRef.getCol()){
+						case 0:roomNum = String.valueOf(Math.round(Double.parseDouble(cell.toString())));break;
+						case 4:studentNum = String.valueOf(Math.round(Double.parseDouble(cell.toString())));break;
+					}
+				}
+				roomDao.updateStudentRoom(studentNum,roomNum);
+				
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

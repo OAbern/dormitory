@@ -25,7 +25,7 @@ public class Room {
 	public void setTotalBed(int totalBed) {
 		this.totalBed = totalBed;
 	}
-	public void setTotalBed(String totalBed) {
+	public void setTotalBeds(String totalBed) {
 		try {
 			this.totalBed = Integer.parseInt(totalBed);
 		} catch (NumberFormatException e) {
@@ -39,7 +39,7 @@ public class Room {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	public void setCost(String cost){
+	public void setCosts(String cost){
 		try {
 			this.cost = Integer.parseInt(cost);
 		} catch (NumberFormatException e) {

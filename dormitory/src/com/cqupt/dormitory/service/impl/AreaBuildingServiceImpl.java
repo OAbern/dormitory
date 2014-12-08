@@ -226,7 +226,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 				throw  new RuntimeException();
 			}
 			
-			//第一行直接忽略
+			//第一个工作簿
 			Sheet sheet1 = wb.getSheetAt(0);
 			
 			for (int j=1;j<sheet1.getLastRowNum()+1;j++) {
@@ -254,8 +254,8 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 								}
 								break;
 							}
-					case 4:r.setTotalBed(cell.toString());break;
-					case 5:r.setCost(cell.toString());break;
+					case 4:r.setTotalBeds(cell.toString());break;
+					case 5:r.setCosts(cell.toString());break;
 					case 6:b.setSex(cell.toString());break;
 					}
 				}

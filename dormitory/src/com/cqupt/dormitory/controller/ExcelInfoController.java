@@ -21,6 +21,7 @@ import com.cqupt.dormitory.model.Admin;
 import com.cqupt.dormitory.model.ExcelInfo;
 import com.cqupt.dormitory.model.Teacher;
 import com.cqupt.dormitory.service.ExcelInfoService;
+import com.cqupt.dormitory.service.RoomService;
 import com.cqupt.dormitory.utils.JSONUtils;
 import com.cqupt.dormitory.utils.SystemContext;
 import com.cqupt.dormitory.utils.UploadFileUtils;
@@ -36,6 +37,8 @@ import com.cqupt.dormitory.vo.ResultMessage;
 public class ExcelInfoController {
 	@Resource(name="excelInfoServiceImpl")
 	private ExcelInfoService excelInfoService;
+	@Resource
+	private RoomService roomService;
 	
 	/**
 	 * 添加上传的文件
@@ -157,6 +160,22 @@ public class ExcelInfoController {
 			list.add(id);
 		}
 		
+		//这一坨是用来导入excel表格的.如果出了问题 直接return false;
+		for(int excelId : list){
+			ExcelInfo e = excelInfoService.findExcelById(excelId);
+			String fileName = e.getName();
+			String path = request.getRealPath("/UploadFile");
+			fileName = path+"\\"+fileName;
+			boolean result = roomService.updateStudentRoomNumByExcel(fileName);
+			if(!result){
+				ResultMessage resultMessage = new ResultMessage();
+				resultMessage.setStatus(ResultMessage.FAILED);
+				resultMessage.setInfo("审批失败,excel表格出了问题！");
+				JSONUtils.toJSON(resultMessage, response);
+				return;
+			}
+		}
+	
 		boolean result = excelInfoService.changeExcelStatus(list, admin.getId(), 2);
 		ResultMessage resultMessage = new ResultMessage();
 		if(result) {

@@ -43,4 +43,14 @@ public interface ExcelInfoService {
 	 * @return
 	 */
 	public boolean changeExcelStatus(List<Integer> ids, int approvedAdminId, int status);
+	
+	/**
+	 * findExcelById 根据某个id来找到相应的excelInfo
+	 * @param id
+	 * @return 
+	 *ExcelInfo
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public ExcelInfo findExcelById(int id);
 }

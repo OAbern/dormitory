@@ -12,7 +12,7 @@ import com.cqupt.dormitory.model.Student;
  */
 public interface RoomDao {
 	/**
-	 * 根据房间Id查找房间
+	 * 根据根据房间号来找
 	 * @param roomId 房间id(复合型)
 	 * @return	相应的房间
 	 */
@@ -149,5 +149,15 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public boolean isPersonInRoom(String roomNum);
+
+	/**
+	 * updateStudentRoom 重载方法
+	 * @param studentNum
+	 * @param roomNum 
+	 *void
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public void updateStudentRoom(String studentNum, String roomNum);
 	
 }

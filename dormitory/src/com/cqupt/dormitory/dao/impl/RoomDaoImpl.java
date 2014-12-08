@@ -122,4 +122,10 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		return false;
 	}
 
+	@Override
+	public void updateStudentRoom(String studentNum, String roomNum) {
+		Room r = this.findByRoomNum(roomNum);
+		this.updateStudentRoom(studentNum, r.getId());
+	}
+
 }
