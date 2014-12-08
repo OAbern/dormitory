@@ -232,6 +232,7 @@ function saverow(target) {
 	    if(data.status=='0'){
 				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
+				showTable.datagrid('reload');
 				$.messager.alert('操作提示',data.info);
 			}
 	  }

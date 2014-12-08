@@ -162,7 +162,7 @@ function saverow(target) {
     type:"POST", 
     url:"/dormitory/studentInfo/updateStudent.do", 
     dataType:"json",      
-    //contentType:"application/json",               
+    contentType:"application/json",               
     data:JSON.stringify(row),
     success: function(data){
 	    if(data.status=='0'){

@@ -74,7 +74,7 @@ bui.change(function(){
 	room.find('option:gt(1)').remove();
 	$.post('/dormitory/roomInfo/findFloorNumByBuildingNum.do',{
 			//target:'floor',
-			//sex:GLOBAL.getSex(),
+			sex:GLOBAL.getSex(),
 			building:GLOBAL.getBuilding()
 		},
 		function(data){
@@ -89,8 +89,8 @@ flo.change(function(){
 	room.find('option:gt(1)').remove();
 	$.post('/dormitory/roomInfo/findRoomNumByBuildingNumAndFloor.do',{
 			//target:'floor',
-			//sex:GLOBAL.getSex(),
-			//building:GLOBAL.getBuilding(),
+			sex:GLOBAL.getSex(),
+			building:GLOBAL.getBuilding(),
 			floor:GLOBAL.getFloor()
 		},
 		function(data){
@@ -203,7 +203,8 @@ function saverow(target) {
 	    if(data.status=='0'){
 				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
-
+				showTable.datagrid('reload');
+				$.messager.alert('操作提示',data.info);
 			}
 	  }
   });

@@ -42,7 +42,7 @@ input[type='text'] {
     <div class="liform">
       <p class="item">
         <span class="preInfo">姓名:</span>
-        <input type="text" name="stuName">
+        <input type="text" name="name">
         <span class="validInfo"></span>
         <br />
       </p>
@@ -81,7 +81,7 @@ bir.datebox({
       $('.birthValidInfo').addClass('status');
   }
 });
-$('input[name="stuName"]').blur(inputValid);
+$('input[name="name"]').blur(inputValid);
 $('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);
 $('input[name="outAddress"]').blur(inputValid);
 function inputValid(event) {
