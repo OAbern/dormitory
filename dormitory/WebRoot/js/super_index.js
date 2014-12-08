@@ -88,6 +88,20 @@ $(function(){
 	});
 	//-----------------------------tdg
 	//---------------------------luoqin
+	//-------------------zhangying
+	//左边统计跳转
+	$("#tongji li:first-child").click(function(){
+		$("#base_right").empty().load("s_xueyuan_xuesheng_fenbu.html");
+	});
+	$("#tongji li:nth-child(2)").click(function(){
+		$("#base_right").empty().load("s_empty_qinshi_tongji.html");
+	});
+	$("#tongji li:nth-child(3)").click(function(){
+		$("#base_right").empty().load("s_chuangwei_tongji.html");
+	});
+	$("#tongji li:nth-child(4)").click(function(){
+		$("#base_right").empty().load("s_qinshi_leixing_tongji.html");
+	});
 	//左边宿舍分配与调整管理模块跳转
 	$(".fenpyutiaozh li:first-child").click(function(){
 		$("#base_right").empty().load("s_newstu_fenpei.html");
