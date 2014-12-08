@@ -22,7 +22,7 @@
 	margin-top:10px;
 }
 .status{
-  background-image:url("images/reg_succ.png");
+  background-image:url("/dormitory/images/reg_succ.png");
 }
 input[type='submit'] {
 	margin-left:150px;
@@ -38,7 +38,7 @@ input[type='text'] {
 }
 </style>
 <div class="addxw">
-  <form id="addStudent" action="/dormitory/studentInfo/addStudentOutLiving.do">
+  <form id="addStudent" action="/dormitory/studentInfo/addStudentOutLiving.do" method="post">
     <div class="liform">
       <p class="item">
         <span class="preInfo">姓名:</span>
@@ -66,7 +66,7 @@ input[type='text'] {
       </p>
     </div>
     <div class="help">
-      <input type="submit" value="添加" id="submit">
+      <input type="submit" value="添加" id="sub">
       <input type="reset" value="重置">
     </div>
   </form>
@@ -81,7 +81,7 @@ bir.datebox({
       $('.birthValidInfo').addClass('status');
   }
 });
-$('input[name="name"]').blur(inputValid);
+$('input[name="stuName"]').blur(inputValid);
 $('input[name="stuNum"]').blur([/^\d{10}/,'学号为十位',true],inputValid);
 $('input[name="outAddress"]').blur(inputValid);
 function inputValid(event) {
@@ -142,7 +142,7 @@ function inputValid(event) {
   }
 }
 //表单提交
-$('#submit').click(function(){
+$('#sub').click(function(){
   if(!bir.datebox('getValue')){
     $('.birthValidInfo').removeClass('status');
   }
@@ -157,5 +157,22 @@ $('#submit').click(function(){
     $.messager.alert('操作提示', '请完善表单');
   }
   return success;
+});
+//表单提交回调函数
+$('#addStudent').form({
+  success:function(d){
+    var data=JSON.parse(d);
+    if(data.status=='0'){
+      $.messager.alert('操作提示',data.info);
+    }else if(data.status=='1'){
+      $.messager.alert('操作提示',data.info);
+      //清空文件框
+      $('.form_input').val('');
+      //单独清空日历框
+      $('#form_datebox').datebox('setValue','');
+      //清空提示
+      $('.validInfo').removeClass('status').html('');
+    }
+  }
 });
 </script>

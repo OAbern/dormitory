@@ -57,7 +57,7 @@ sex.change(function(){
 	bui.find('option:gt(1)').remove();
 	flo.find('option:gt(1)').remove();
 	room.find('option:gt(1)').remove();
-	$.post('areaInfo/findBuildingNumBySex.do',{
+	$.post('/dormitory/areaInfo/findBuildingNumBySex.do',{
 			//target:'building',
 			sex:GLOBAL.getSex()
 		},
@@ -72,7 +72,7 @@ sex.change(function(){
 bui.change(function(){
 	flo.find('option:gt(1)').remove();
 	room.find('option:gt(1)').remove();
-	$.post('roomInfo/findFloorNumByBuildingNum.do',{
+	$.post('/dormitory/roomInfo/findFloorNumByBuildingNum.do',{
 			//target:'floor',
 			//sex:GLOBAL.getSex(),
 			building:GLOBAL.getBuilding()
@@ -87,7 +87,7 @@ bui.change(function(){
 //楼层改变
 flo.change(function(){
 	room.find('option:gt(1)').remove();
-	$.post('roomInfo/findRoomNumByBuildingNumAndFloor.do',{
+	$.post('/dormitory/roomInfo/findRoomNumByBuildingNumAndFloor.do',{
 			//target:'floor',
 			//sex:GLOBAL.getSex(),
 			//building:GLOBAL.getBuilding(),
@@ -105,7 +105,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 		showTable.datagrid({
 			width:'700px',
 			height:'330px',
-			url:'roomInfo/findRoomDetail.do',
+			url:'/dormitory/roomInfo/findRoomDetail.do',
 			rownumbers:'true',
 		  fitColumns:'true',
 		  striped:'true',
@@ -195,7 +195,7 @@ function saverow(target) {
 	$.ajax({ 
     type:"POST", 
     contentType:'application/json',  
-    url:"roomInfo/updateRoomCostAndFee.do", 
+    url:"/dormitory/roomInfo/updateRoomCostAndFee.do", 
     dataType:"json",      
     //contentType:"application/json",               
     data:JSON.stringify(row),

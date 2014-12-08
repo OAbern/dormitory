@@ -72,7 +72,7 @@ bui.focus(function(){
 	if(GLOBAL.getSex()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getAcademy()=='-1'||GLOBAL.getEducation()=='-1'){
 		$.messager.alert('操作提示','请先选择前面的选择框');
 	}else{
-		$.post('areaInfo/findBuildingByManyField.do',{
+		$.post('/dormitory/areaInfo/findBuildingByManyField.do',{
 				target:'building',
 				sex:GLOBAL.getSex(),
 				grade:GLOBAL.getGrade(),
@@ -138,7 +138,11 @@ $("#filter").click(function(event) {//点击筛选展示数据
 						}
 			    }
 				},    
-				{field:'inTime',title:'入住时间',width:200,align:'center'}
+				{field:'inTime',title:'入住时间',width:200,align:'center',
+					formatter:function(value){
+						return value.match(/^\d{4}-\d{2}-\d{2}/);
+			    }
+				}
 			]]
 		}); 
 		showTable.datagrid('autoSizeColumn');//自动调整列宽度以适应内容

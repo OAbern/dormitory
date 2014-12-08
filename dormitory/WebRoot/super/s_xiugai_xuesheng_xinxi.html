@@ -68,7 +68,11 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'stuNum',title:'学号',width:150,align:'center'},    
 				{field:'name',title:'姓名',width:100,align:'center',editor:'text'},
 				{field:'sex',title:'性别',width: 60,align:'center'}, 
-				{field:'birth',title:'出生年月',width: 150,align:'center',editor:'datebox'},    
+				{field:'birth',title:'出生年月',width: 150,align:'center',editor:'datebox',
+					formatter:function(value){
+						return value.match(/^\d{4}-\d{2}-\d{2}/);
+			    }
+				},    
 				{field:'academy',title:'学院',width: 200,align:'center',
 					formatter:function(value,row){
 							if(row.academy){
@@ -164,7 +168,8 @@ function saverow(target) {
 	    if(data.status=='0'){
 				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
-
+				showTable.datagrid('reload');
+				$.messager.alert('操作提示',data.info);
 			}
 	  }
   });

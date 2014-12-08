@@ -65,7 +65,7 @@ $(function () {
 	var y=[];//y轴要展示的数据
 	$('#filter').click(function(){
 		var name=$("#academy option:selected").html();//要展示的学院的名字
-		$.getJSON('json/get/s_xueyuan_xuesheng_fenbu.json',{academy:name},function(data){
+		$.getJSON('/dormitory/json/get/s_xueyuan_xuesheng_fenbu.json',{academy:name},function(data){
 			var record=data['data'];
 			$.each(record,function(i,val) {
 				 x.push(val['building']);

@@ -224,15 +224,15 @@ function saverow(target) {
   delete(row.editing);
 	$.ajax({ 
     type:"POST", 
-    url:"/dormitory/teacherInfo/updateTeacher.do", 
+    url:"/dormitory/teacherInfo/modifyTeacherInfo.do", 
     dataType:"json",      
-    //contentType:"application/json",               
+    contentType:"application/json",               
     data:JSON.stringify(row),
     success: function(data){
 	    if(data.status=='0'){
-				alert(data.info);
+				$.messager.alert('操作提示',data.info);
 			}else if(data.status=='1'){
-
+				$.messager.alert('操作提示',data.info);
 			}
 	  }
   }); 

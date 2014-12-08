@@ -1,4 +1,4 @@
-<script type="text/javascript" src="../js/s_fenpei_right.js"></script>
+<script type="text/javascript" src="/dormitory/js/s_fenpei_right.js"></script>
 <style type="text/css">
 #filter {
 	display:inline;
@@ -89,7 +89,11 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'stuNum',title:'学号',width:100,align:'center'},    
 				{field:'classNum',title:'班级',width:100,align:'center'},    
 				{field:'sex',title:'性别',width:60,align:'center'},
-				{field:'outTime',title:'外出住宿时间',width:120,align:'center'}, 
+				{field:'outTime',title:'外出住宿时间',width:120,align:'center',
+					formatter:function(value){
+						return value.match(/^\d{4}-\d{2}-\d{2}/);
+			    }
+				}, 
 				{field:'outAddress',title:'校外住宿地址',width:200,align:'center'}
 			]]
 		}); 
