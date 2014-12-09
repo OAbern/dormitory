@@ -68,7 +68,7 @@ var y=[];//y轴要展示的数据
 $("#filter").click(function() {
 	$.ajaxSettings.async = false;
 	if(GLOBAL.notSelected()){
-		$.post('',{
+		$.post('/dormitory/areaInfo/getBuildingTotalBed.do',{
 				area:GLOBAL.getArea()
 			},
 			function(data){
@@ -77,8 +77,8 @@ $("#filter").click(function() {
 					$.messager.alert('提示','无对应数据');
 				}else{
 					$.each(record,function(i,val) {
-					 x.push(val['building']);
-					 y.push(val['num']);
+					 x.push(val['buildingNum']);
+					 y.push(val['emptyBed']);
 					});
 					//动态设置图标数据
 					options.xAxis.categories=x;
