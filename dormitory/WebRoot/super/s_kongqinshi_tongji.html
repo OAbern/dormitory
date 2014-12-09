@@ -14,42 +14,37 @@
 } */
 </style>
 <div class="right_top btm">
-  <div class="rheader"><span class="pageName"><b>各学院学生分布</b></span><span class="shuoming">您可以查看各学院的学生分布统计图</span></div>
+  <div class="rheader"><span class="pageName"><b>空寝室统计</b></span><span class="shuoming">您可以查看各片区楼栋空寝室剩余数量</span></div>
 </div>
 <div class="right_contain"> 
   <!-- 筛选框 -->
 	<div id="searchBar">
-		学院:
-		<select name="academy.id" id="academy">
-			<option value="-1">未选择</option>
-		</select>
-		年级:
-    <select name="grade" id="grade">
-      <option value="-1" selected="selected">未选择</option>
-      <option value="">全部</option>
-    </select>
-		性别：
+    <!-- 性别：
     <select name="sex">
       <option value="-1" selected="selected">未选择</option>
       <option value="">全部</option>
       <option value="男">男</option>
       <option value="女">女</option>
-    </select>
+    </select> -->
+		片区:
+		<select name="area" id="area">
+			<option value="-1" selected="selected">未选择</option>
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+		</select>	
 		<input type="button" value="确定" id="filter">
 	</div>
-  <div id="chartDisplay"></div>
+   <div id="chartDisplay"></div>
 <script>
-//加载学院选项
-GLOBAL.showAcademy();
-//展示年级选项
-GLOBAL.showGrade();
 var options={
     chart: {
         renderTo: 'chartDisplay',
         type: 'column'
     },
     title: {
-        text: '学院学生分布'
+        text: '楼栋空寝室剩余数量统计'
     },
     xAxis: {
         //categories: ['Apples', 'Bananas', 'Oranges']
@@ -59,7 +54,7 @@ var options={
     },
     yAxis: {
         title: {
-            text: '人数'
+            text: '空寝室数'
         }
     },
     credits:{
@@ -75,10 +70,8 @@ var y=[];//y轴要展示的数据
 $("#filter").click(function() {
 	$.ajaxSettings.async = false;
 	if(GLOBAL.notSelected()){
-		$.post('/dormitory/StudentStatistics/distributionOfStudent.do',{
-				sex:GLOBAL.getSex(),
-				academy:GLOBAL.getAcademy(),
-				grade:GLOBAL.getGrade()
+		$.post('',{
+				
 			},
 			function(data){
 				var record=data['data'];
@@ -91,7 +84,7 @@ $("#filter").click(function() {
 					});
 					//动态设置图标数据
 					options.xAxis.categories=x;
-					options.series[0]['name']=$('select[name="academy.id"]').find('option:selected').html();
+					options.series[0]['name']='片区'+$('select[name="area"]').val();
 					options.series[0]['data']=y;
 					var chart1 = new Highcharts.Chart(options);//展示
 					//清空x,y

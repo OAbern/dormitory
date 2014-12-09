@@ -32,7 +32,7 @@ GLOBAL.showGrade=function(){
 }
 //用于判断筛选条件是否选择
 GLOBAL.notSelected=function(){
-	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'||GLOBAL.getFloor()=='-1'||GLOBAL.getRoom()=='-1'){
+	if(GLOBAL.getAcademy()=='-1'||GLOBAL.getGrade()=='-1'||GLOBAL.getSex()=='-1'||GLOBAL.getBuilding()=='-1'||GLOBAL.getEducation()=='-1'||GLOBAL.getFloor()=='-1'||GLOBAL.getRoom()=='-1'||GLOBAL.getArea()=='-1'){
 		$.messager.alert("提示","请完善选择框！","warning");
 		return false;
 	}else{
@@ -67,6 +67,10 @@ GLOBAL.getFloor=function(){
 GLOBAL.getRoom=function(){
 	return $('select[name="room"]').val();
 };
+//获取片区选择框的value
+GLOBAL.getArea=function(){
+	return $('select[name="area"]').val();
+}
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("s_tianjia_xuesheng_xinxi.html");
@@ -94,14 +98,14 @@ $(function(){
 		$("#base_right").empty().load("s_xueyuan_xuesheng_fenbu.html");
 	});
 	$("#tongji li:nth-child(2)").click(function(){
-		$("#base_right").empty().load("s_empty_qinshi_tongji.html");
+		$("#base_right").empty().load("s_kongqinshi_tongji.html");
 	});
 	$("#tongji li:nth-child(3)").click(function(){
 		$("#base_right").empty().load("s_chuangwei_tongji.html");
 	});
-	$("#tongji li:nth-child(4)").click(function(){
+	/*$("#tongji li:nth-child(4)").click(function(){
 		$("#base_right").empty().load("s_qinshi_leixing_tongji.html");
-	});
+	});*/
 	//左边宿舍分配与调整管理模块跳转
 	$(".fenpyutiaozh li:first-child").click(function(){
 		$("#base_right").empty().load("s_newstu_fenpei.html");
