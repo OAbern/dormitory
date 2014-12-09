@@ -71,7 +71,7 @@ $("#filter").click(function() {
 	$.ajaxSettings.async = false;
 	if(GLOBAL.notSelected()){
 		$.post('',{
-				
+				area:GLOBAL.getArea()
 			},
 			function(data){
 				var record=data['data'];
