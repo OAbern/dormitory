@@ -24,11 +24,11 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="driverUrl">
-			 <!--  <value>jdbc:mysql://172.22.4.128:3306/dormitory</value> -->
-			 <value>jdbc:mysql://localhost:3306/dormitory</value> 
+			<value>jdbc:mysql://172.22.4.128:3306/dormitory</value>
+			<!-- <value>jdbc:mysql://localhost:3306/dormitory</value>--> 
 		</property>
-		<property name="user" value="root" />
-		<property name="password" value="root" />
+		<property name="user" value="dormitory" />
+		<property name="password" value="123" />
 		<property name="alias" value="Pool_dbname" />
 		<property name="maximumActiveTime" value="300000" />
 		<property name="prototypeCount" value="3" />
