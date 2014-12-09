@@ -126,4 +126,14 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	void deleteBuilding(String building);
+
+	/**
+	 * findBuildingTotalBed 查找建筑的所有房间.
+	 * @param id
+	 * @return 
+	 *int
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	int findBuildingTotalBed(int id);
 }

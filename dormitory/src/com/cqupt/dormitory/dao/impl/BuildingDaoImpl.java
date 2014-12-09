@@ -104,5 +104,14 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 	public void deleteBuilding(String building) {
 		getSqlSession().delete(Building.class.getName()+".delete_building_by_buildingnum",building);
 	}
+
+	@Override
+	public int findBuildingTotalBed(int buildingId) {
+		Integer totalBed = getSqlSession().selectOne(Building.class.getName()+".find_all_building_totalbed",buildingId);
+		if(totalBed ==null){
+			totalBed = 0;
+		}
+		return totalBed;
+	}
 	
 }

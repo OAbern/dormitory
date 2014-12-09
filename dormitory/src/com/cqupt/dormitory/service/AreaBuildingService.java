@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cqupt.dormitory.model.Area;
 import com.cqupt.dormitory.model.Building;
 import com.cqupt.dormitory.vo.AreaBuilding;
+import com.cqupt.dormitory.vo.BuildingEmptyBed;
 import com.cqupt.dormitory.vo.ResultMessage;
 
 public interface AreaBuildingService {
@@ -133,5 +134,17 @@ public interface AreaBuildingService {
 	 * @since  1.0.0
 	 */
 	public boolean deleteBuilding(String building);
+
+	/**
+	 * getBuildingBed 
+	 * 			status true 查找空房间, 如果status 为false 查找 所有房间
+	 * @param area
+	 * @param status
+	 * @return 
+	 *List<BuildingEmptyBed>
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	List<BuildingEmptyBed> getBuildingBed(String area, boolean status);
 	
 }

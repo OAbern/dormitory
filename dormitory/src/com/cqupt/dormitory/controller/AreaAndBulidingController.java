@@ -146,4 +146,25 @@ public class AreaAndBulidingController {
 		JSONUtils.toJSON(map, response);
 	}
 	
+	@RequestMapping("/getBuildingTotalBed")
+	public void getBuildingTotalBed(String area,HttpServletResponse response){
+		if(area==null || "".equals(area)){
+			area = "%";
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("data", areaBuildingService.getBuildingBed(area, false));
+		JSONUtils.toJSON(map, response);
+	}
+	
+	
+	@RequestMapping("/getBuildingEmptyBed")
+	public void getBuildingEmptyBed(String area,HttpServletResponse response){
+		if(area==null || "".equals(area)){
+			area = "%";
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("data", areaBuildingService.getBuildingBed(area, true));
+		JSONUtils.toJSON(map, response);
+	}
+	
 }

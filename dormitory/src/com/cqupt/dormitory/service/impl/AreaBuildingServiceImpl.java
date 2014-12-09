@@ -57,7 +57,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 	}
 
 	@Override
-	public List<Building> findBuildByAreaName(String areaName) {
+	public List<Building> findBuildByAreaName(String  areaName) {
 		return buildDao.findBuildByAreaName(areaName);
 	}
 
@@ -311,4 +311,27 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 		}
 		return true;
 	}
+	
+	
+	
+	@Override
+	public List<BuildingEmptyBed> getBuildingBed(String area,boolean status){
+		List<Building> bList = this.findBuildByAreaName(area);
+		List<BuildingEmptyBed> be = new ArrayList<BuildingEmptyBed>();
+		for(Building building : bList){
+			BuildingEmptyBed b = new BuildingEmptyBed();
+			b.setBuildingNum(building.getBuildingNum());
+			if(status){
+				b.setEmptyBed(buildDao.findBuildingEmptyBed(building.getId()));
+			}else {
+				b.setEmptyBed(buildDao.findBuildingTotalBed(building.getId()));
+			}
+			be.add(b);
+		}
+		return be;
+	}
+
+
+
+
 }
