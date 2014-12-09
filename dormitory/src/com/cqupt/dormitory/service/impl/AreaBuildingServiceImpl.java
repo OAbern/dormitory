@@ -322,7 +322,7 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 			BuildingEmptyBed b = new BuildingEmptyBed();
 			b.setBuildingNum(building.getBuildingNum());
 			if(status){
-				b.setEmptyBed(buildDao.findBuildingEmptyBed(building.getId()));
+				b.setEmptyBed(roomDao.findBuildingEmptyRoom(building.getBuildingNum()));
 			}else {
 				b.setEmptyBed(buildDao.findBuildingTotalBed(building.getId()));
 			}

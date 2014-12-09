@@ -128,4 +128,16 @@ public class RoomDaoImpl extends BaseDaoSupport implements RoomDao {
 		this.updateStudentRoom(studentNum, r.getId());
 	}
 
+	@Override
+	public int findBuildingEmptyRoom(String buildingNum) {
+		List<Room> roomList = this.findAllRoomByBuildingNumAndFloor(buildingNum, "%");
+		int sum = 0;
+		for(Room r : roomList){
+			if(r.getAlreadyStay()==0){
+				sum++;
+			}
+		}
+		return sum;
+	}
+
 }

@@ -159,5 +159,14 @@ public interface RoomDao {
 	 * @since  1.0.0
 	 */
 	public void updateStudentRoom(String studentNum, String roomNum);
-	
+
+	/**
+	 * findBuildingEmptyRoom 查找空寝室统计
+	 * @param buildingNum
+	 * @return 
+	 *int
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public int findBuildingEmptyRoom(String buildingNum);
 }
