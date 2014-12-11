@@ -50,36 +50,34 @@
     	<div id="base_left">
           	<div class="st_tree">
                 <ul >
-                    <li><a href="#" >学生信息</a></li>
-                    <ul id="studentInfo">
+                    <li><a href="#" >人员信息</a></li>
+                    <ul id="personInfo">
                         <li><a href="#">添加学生信息</a></li>
                         <li><a href="#">查询学生信息</a></li>
-                        <li><a href="#">修改学生信息</a></li>
-                       <!--  <li><a href="#">各学院学生分布</a></li> -->
+                        <li><a href="#">添加管理员信息</a></li>
+                        <li><a href="#">查询管理员信息</a></li>
+                        <li><a href="#">个人信息修改</a></li>
                     </ul>
-                    <li><a href="#">管理员信息</a></li>
-                    <ul id="managerInfo">
-                       <li><a href="#">辅导员信息</a>
-                       <li><a href="#">个人信息</a>
-                    </ul>
-                     <li><a href="#">统计信息</a></li>
-                    <ul id="tongji">
-                       <li><a href="#">各学院学生分布</a>
-                       <li><a href="#">空寝室统计</a>
-                       <li><a href="#">床位数量统计</a>
-                       <!-- <li><a href="#">寝室类型统计</a> -->
-                    </ul>
+                   
 					<li><a href="#">宿舍分配与调整管理</a></li>
 				    <ul class="fenpyutiaozh">
 						<li><a href="#">新生寝室分配</a></li>
-						<li><a href="#">寝室调换</a></li>
+						<li><a href="#">寝室批量调换</a></li>
 						<li><a href="#">校外住宿管理</a></li>
-						<li><a href="#">退宿管理</a></li>
-						<li><a href="#">宿舍信息查询</a></li>
+						<li><a href="#">批量退宿管理</a></li>
+						<!-- <li><a href="#">宿舍信息查询</a></li> -->
+						
 				    </ul>
-                    <li><a href="#">宿舍基本信息管理</a></li>
+                    <li><a href="#">楼栋详细信息管理</a></li>
                     <ul id="sushe">
                     	
+                    </ul>
+                    <li><a href="#">统计信息</a></li>
+                    <ul id="tongji">
+                       <li><a href="#">各学院学生分布</a>
+                       <li><a href="#">楼栋入住统计</a>
+                       <li><a href="#">床位数量统计</a>
+                       <!-- <li><a href="#">寝室类型统计</a> -->
                     </ul>
                 </ul>
             </div>
@@ -106,13 +104,13 @@
 	});
 	function addTree(){
 		$.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
-		var html="";
+		var html="<li class='folder'><a href='#' haschild='true'>基本信息</a></li><ul ><li><a href='#' name='base_info'>宿舍基本信息</a><li><a href='#' name='add'>添加楼栋</a></ul>";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
 			$.each(item.buildingid,function(index,i){
 				html+="<li><a href='#'>"+i+"栋</a></li>";
 			});
-			html+="<li><a href='#' name='add'>添加楼栋</a></li></ul>";
+			html+="</ul>";
 		});
 		html+="</ul>";
 		$("#sushe").append(html);
@@ -134,6 +132,8 @@
 				if($(this).find("a").attr("name")=="add"){
 					area=$(this).parent().prev().text()[0];
 					$("#base_right").empty().load("s_add_loudong.html");
+					}else if($(this).find("a").attr("name")=="base_info"){
+					$("#base_right").empty().load("s_sushe_xinxi_chaxun.html");
 					}else{
 						var tem=$(this).find("a").text();	
 						buildingid=tem.substring(0,tem.length-1);

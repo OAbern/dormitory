@@ -1,13 +1,13 @@
 // JavaScript Document
 
 $.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
-		var html="";
+		var html="<li><a href='#'>基本信息</a></li><ul id='base_info'><li><a href='#'>宿舍基本信息</a><li><a href='#'>添加楼栋</a></ul>";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
 			$.each(item.buildingid,function(index,i){
-				html+="<li><a href='#'>"+i+"栋</a></li>";
+				html+="<li><a href='#'>"+i+"err栋</a></li>";
 			});
-			html+="<li><a href='#' name='add'>添加楼栋</a></li></ul>";
+			html+="</ul>";
 		});
 		html+="</ul>";
 		$("#sushe").append(html);
