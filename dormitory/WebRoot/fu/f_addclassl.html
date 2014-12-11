@@ -1,0 +1,129 @@
+<style type="text/css">
+.right_contain{
+	width:750px;
+	float:left;
+}
+.selectab1{
+	margin-bottom:10px;
+	float:left;
+	width:750px;
+}
+#tab1{
+    margin-left:30px;
+    margin-top:20px;
+	width:100%;
+	float:left;
+	display:none;
+}
+#sure{
+	margin-top:10px;
+}
+input {
+    width: 100px;
+    height: 25px;
+    margin:5px;
+}
+</style>
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>添加负责班级界面</b></span><span class="shuoming">您可以增加负责的班级</span></div>
+</div>
+<div class="right_contain">
+          <div class="selectab1">
+            <span class="jilian">
+              <label for="major">专业:</label>
+                  <select class="select major" name="major">
+                    <option value='-1'>请选择</option>
+                    <option value=''>全部</option>
+                  </select>
+             <input name="ok" type="button"  value="确定" id="sure"/>
+            </span>
+         </div>
+         <br />
+         <div id="tab1">
+             <h3>请选择您所负责的班级：</h3>
+	         <table>
+		        <!-- 第一行 -->
+		        <tr>
+		            <!-- 第一列 -->
+		            <td rowspan="4"><select multiple="multiple" style="height: 300px; width: 150px;" id="leftsel" class="select classNum" name="classNum"></select></td>
+		            <!-- 第二列 -->
+		            <td><input onclick="move('add+')" type="button" value="add+"></td>
+		            <!-- 第三列 -->
+		            <td rowspan="4"><select multiple="multiple"  style="height: 300px; width: 150px;" id="rightsel"></select></td>
+		        </tr>
+		        <!-- 第二行 -->
+		        <tr>
+		            <td><input onclick="move('addall++')" type="button" value="addall++"></td>
+		        </tr>
+		        <!-- 第三行 -->
+		        <tr>
+		            <td><input onclick="move('-delete')" type="button" value="-delete"></td>
+		        </tr>
+		        <!-- 第四行 -->
+		        <tr>
+		            <td><input onclick="move('--deleteall')" type="button" value="--deleteall"></td>
+		        </tr>
+	        </table>
+	        <br/>
+	        <input name="add" type="button"  value="提交" id="add"/>
+       </div>
+</div>
+<script type="text/javascript">  
+      var major = $('select[name="major"]').val();
+	  /* var classNum = $('select[name="classNum"]').val(); */
+    //加载页面时，发送请求获取专业信息
+	$(document).ready(function(){
+		$('select[name="major"]','select[name="classNum"]').empty();
+		$('select[name="major"]','select[name="classNum"]').append("<option value='-1'>未选择</option><option value=''>全部</option>");
+		$.post('../teacherInfo/findMajor.do',function(row){
+				for(var i=0;i<row.length;i++){
+					$('select[name="major"]').append("<option value='" + row[i] + "'>" + row[i] + "</option>");
+				}
+		});
+	});
+	//选择专业，请求班级
+	$('select[name="major"]').change(function(){
+		$('select[name="classNum"]').empty();
+		major=$('select[name="major"] option:selected').val();
+		$.post('../studentInfo/findCascadingInfo.do',{"major":major,"target":"classNum"},function(data){
+			for(var i=0;i<data.length;i++){
+				$('select[name="classNum"]').append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+			}
+		});
+	});
+    $("#sure").click(function(event) {//点击筛选展示数据
+	   if(major=="-1"){
+			$.messager.alert("提示","请选择专业!","info");
+		}else{
+			$("#tab1").show();
+		}
+	});
+	function move(opertion) {
+        var leftselect = window.document.getElementById("leftsel");
+        var rightselect = window.document.getElementById("rightsel");
+        if (opertion == "addall++") {
+            while (leftselect.options.length > 0) {
+                var delElem = leftselect.removeChild(leftselect.options[0]);
+                rightselect.appendChild(delElem);
+            }
+        } else if (opertion == "--deleteall") {
+            while (rightselect.options.length > 0) {
+                rightselect.removeChild(rightselect.options[0]);
+            }
+        } else if (opertion == "add+") {
+            while (leftselect.selectedIndex != -1) {
+                var delElem = leftselect.removeChild(leftselect.options[leftselect.selectedIndex]);
+                rightselect.appendChild(delElem);
+            }
+        } else{
+            while (rightselect.selectedIndex != -1) {
+                rightselect.removeChild(rightselect.options[rightselect.selectedIndex]);
+            }
+        }
+ 
+    }
+    $("#add").click(function(){
+       $.post('url',$("#rightsel").serizal(),function(data){
+       });
+    });
+</script>

@@ -42,10 +42,6 @@ input[type='text'],input[type='password']{
     </div>
     <div class="right_foot">
           <form id="form1">
-              <p class="item"><label>姓    名:</label>
-                 <input type="text" name="name" class="name" onchange="checkName()"><span class="error" ></span>
-                 <br />
-              </p>
               <p class="item"><label>性    别:</label>
                  <input type="text" name="sex" class="sex" onchange="checkSex()"><span class="error" ></span>
                  <br />
@@ -77,27 +73,13 @@ input[type='text'],input[type='password']{
     //获取登录辅导员的信息
 	$(document).ready(function(){
 		$.get("../teacherInfo/findTeacher.do",function(data){
-			var tec_name=data.name;
 			var tec_sex=data.sex;
 			var tec_phone=data.phone;
-			$('.name').attr("value",tec_name);
 		    $('.sex').attr("value",tec_sex);
 		    $('.phone').attr("value",tec_phone);
 		});
 	});
-	var ok_n=true,ok_s=true,ok_p=true,ok_w=false,ok_i=false;
-	function checkName(){
-	  var str2="该项不能为空";
-	  var name = $(".name").val();
-	  if(name == ""){
-			$('input[name="name"]').next().html(str2);
-			ok_n=false;
-			 return false;
-	  }else{
-	       $('input[name="name"]').next().html("<img src='../images/reg_succ.png' />");
-	       ok_n=true;
-	  }
-	}
+	var ok_s=true,ok_p=true,ok_w=false,ok_i=false;
 	function checkSex(){
 	  var str3="请输入'男'或'女'";
 	  var sex = $(".sex").val();
@@ -150,13 +132,12 @@ input[type='text'],input[type='password']{
 	}
 	$("#modify").click(function(){
 	    checkNew();
-	    var name =$(".name").val();
 		var phone = $(".phone").val();
 		var sex=$(".sex").val();
 		var old=$(".old").val();
 		var password =$(".new").val();
-		if(ok_n&&ok_s&&ok_p&&ok_w&&ok_i){
-		   $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone,"password":password},function(data){
+		if(ok_s&&ok_p&&ok_w&&ok_i){
+		   $.post('../teacherInfo/updateTeacher.do',{"sex":sex,"phone":phone,"password":password},function(data){
 		      if(data.status==1){
 				  $.messager.alert("提示","个人信息及密码修改成功");
 				  $("#base_right").empty().load("f_modify.html",2000);
@@ -166,8 +147,8 @@ input[type='text'],input[type='password']{
 				  $.messager.alert("提示","个人信息及密码修改失败");
 				}
 		   });	
-	    }else if(ok_n&&ok_s&&ok_p&&password==""&&old==""){
-	        $.post('../teacherInfo/updateTeacher.do',{"name":name,"sex":sex,"phone":phone},function(data){
+	    }else if(ok_s&&ok_p&&password==""&&old==""){
+	        $.post('../teacherInfo/updateTeacher.do',{"sex":sex,"phone":phone},function(data){
 		      if(data.status==1){
 				  $.messager.alert("提示","个人信息修改成功");
 				  $("#base_right").empty().load("f_modify.html",2000);
@@ -184,5 +165,5 @@ input[type='text'],input[type='password']{
 	});
 	$("#reset").click(function(){
 	   $(".error").empty();
-	})
+	});
 </script>

@@ -1,0 +1,58 @@
+<div class="right_top btm">
+  <div class="rheader"><span class="pageName"><b>查看负责班级界面</b></span><span class="shuoming">您可以查看并删除负责的班级</span></div>
+</div>
+<div class="right_contain">
+       <div id="tab1"></div>
+       <div class="hid" style="display:none;">
+          <p style="float:left;font-size:13px;color:#FF7F00;">温馨提示：若您想增加所负责的班级，请点击增加负责班级信息界面。</p>        
+       </div>
+</div>
+<script type="text/javascript">
+    //获取登录辅导员的信息
+	$(document).ready(function(){
+	     $("#tab1").datagrid({
+		    width:'700px',
+		    height:'250px',
+			rownumbers:'true',
+			url:url,
+			striped:true,//斑马线
+			nowrap:false,//自动换行 
+			pagination:true,
+			columns:[[
+			    {field : 'academy',title : '学院',width : 200,align : 'center',
+		        	formatter:function(value){
+					 	return value.name;
+					 }
+		        },
+		        {field:'teacher',title:'辅导员',width:100,align:'center',
+		            formatter:function(value){
+					 	return value.name;
+					 }
+			     },
+		        {field:'classNum',title:'班级',width:100,align:'center'},
+		        {field:'stuNum',title:'学号',width:100,align:'center'},
+		        {field:'name',title:'姓名',width:100,align:'center'},
+		        {field:'sex',title:'性别',width:80,align:'center'},     
+				{field:'oldRoomNum',title:'旧寝室号',width:100,align:'center'},
+				{field:'room',title:'新寝室号',width: 100,align:'center',
+						formatter:function(value,row){
+							if(row.room){
+								return row.room.roomNum;
+							}else{
+								return '无';
+							}
+				        }
+				}
+			]],
+			onLoadError:function(){
+					$.messager.alert("提示","载入远程数据出错！请刷新重试。","warning");			
+			},
+			onLoadSuccess:function(data){
+				if(data.rows.length==0){
+					$.messager.alert("提示","没有符合条件的数据","info");
+				}
+			}
+		});
+	   $(".hid").show();
+});
+</script>
