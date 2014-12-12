@@ -71,6 +71,98 @@ GLOBAL.getRoom=function(){
 GLOBAL.getArea=function(){
 	return $('select[name="area"]').val();
 }
+//获得请求的url和参数
+function getPostParam(action){
+	var cata=$('input[name="cata"]').val();
+	var fee=$('input[name="fee"]').val();
+	if(action=="添加新寝室"){
+		url="../roomInfo/addRoom.do";//添加新寝室的地址
+		param.buildingNum=buildingid;
+		param.floorNum=floorid;
+		param.cata=cata;
+		param.fee=fee;
+		info="添加";
+		}
+	if(action=="修改楼层"){
+		url="../roomInfo/updateFloor.do";//修改某层楼的宿舍信息
+		param.buildingNum=buildingid;
+		param.floorNum=floorid;
+		param.cata=cata;
+		param.fee=fee;
+		info="有人入住，修改楼层";
+		}
+	if(action=="修改楼栋"){
+		url="../areaInfo/updateBuilding.do";//修改楼栋的宿舍信息
+		param.buildingNum=buildingid;
+		param.sex=$('select').val();
+		param.area=$('.area').val();
+		param.cata=cata;
+		param.fee=fee;
+		info="修改楼栋";
+		}
+	if(action=="修改宿舍"){
+		url="../roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
+		param.roomNum=susheid;
+		param.cata=cata;
+		param.fee=fee;
+		info="修改宿舍";
+		}
+}
+//清空表单
+function clear(){
+	$(':input,#form').not(':button, :submit, :reset, :hidden').val('');
+	$('select').html('');
+	$('.check').html('');
+	}
+//展示dialog--zhangying
+function showDailog(form){
+	$(form).show();
+	$('#dgl').dialog({   
+		title: action,   
+	    width: 400,   
+	    height: 300,   
+	    closed: false,   
+	    cache: false,   
+	    modal: true,
+	    buttons:[{  
+        text:'提交',   
+        handler:function(){ 
+        	if(ok_c && ok_f){
+        		getPostParam(action);
+        		$.post(url,param,function(data){
+        			if(data.status==1){
+        				$.messager.alert("提示",info+"成功","info",function(){
+        					$("#dgl").dialog("close");	
+        					if(action=="修改宿舍"){
+        						$('#student').datagrid({ url:"../roomInfo/findAllPersonInRoom.do",queryParams:{roomNum:susheid},method:"post"});
+        					}else{
+        						$('#dormitory').datagrid({ url:"../roomInfo/findAllRoom.do",queryParams:{buildingNum:buildingid},method:"post"});
+        					}
+        					
+        					clear();
+        				}); 
+        			}else if(data.status==0){
+        				$.messager.alert("提示",info+"失败","info"); 
+        				clear();
+        			}else{
+        				$.messager.alert("提示","发生错误","info"); 
+        			}
+        		});
+        	}else{
+        		$.messager.alert("提示","请完善表单","error"); 
+        		clear();
+        	}
+        }
+	    }]
+	
+	}); 	
+	$('#dgl').window({
+		onBeforeClose: function (){
+			$(form).hide();
+			clear();
+		}
+	});
+}
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("s_tianjia_xuesheng_xinxi.html");

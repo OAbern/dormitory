@@ -1,11 +1,11 @@
 // JavaScript Document
 
 $.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
-		var html="<li><a href='#'>基本信息</a></li><ul id='base_info'><li><a href='#'>宿舍基本信息</a><li><a href='#'>添加楼栋</a></ul>";
+	var html="<li class='folder'><a href='#' haschild='true'>基本信息</a></li><ul ><li><a href='#' name='base_info'>宿舍基本信息</a><li><a href='#' name='add'>添加楼栋</a></ul>";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
 			$.each(item.buildingid,function(index,i){
-				html+="<li><a href='#'>"+i+"err栋</a></li>";
+				html+="<li><a href='#'>"+i+"栋</a></li>";
 			});
 			html+="</ul>";
 		});
@@ -29,12 +29,14 @@ $.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
 				if($(this).find("a").attr("name")=="add"){
 					area=$(this).parent().prev().text()[0];
 					$("#base_right").empty().load("s_add_loudong.html");
+					}else if($(this).find("a").attr("name")=="base_info"){
+					$("#base_right").empty().load("s_sushe_xinxi_chaxun.html");
 					}else{
 						var tem=$(this).find("a").text();	
 						buildingid=tem.substring(0,tem.length-1);
 						$("#base_right").empty().load("s_sushe_xinxi.html");
 					}
-				}
+			}
 				
 			
 		});
