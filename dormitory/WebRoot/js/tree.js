@@ -1,6 +1,6 @@
 // JavaScript Document
-
-$.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
+function addTree(){
+	$.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
 	var html="<li class='folder'><a href='#' haschild='true'>基本信息</a></li><ul ><li><a href='#' name='base_info'>宿舍基本信息</a><li><a href='#' name='add'>添加楼栋</a></ul>";
 		$.each(data.rows,function(index,item){
 			html+="<li class='folder'><a href='#' haschild='true'>"+item.area+" 区</a></li><ul>";
@@ -10,7 +10,7 @@ $.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
 			html+="</ul>";
 		});
 		html+="</ul>";
-		$("#sushe").append(html);
+		$("#sushe").empty().append(html);
 		$("#sushe").find("li").click(function(){
 			
 			if($(this).find("a").attr("haschild")=="true"){
@@ -41,3 +41,4 @@ $.getJSON("../areaInfo/findAreaAndBuilding.do",function(data){
 			
 		});
 	});
+}

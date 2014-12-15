@@ -2,7 +2,7 @@
 input[type='submit'], input[type='botton'] {
 	margin-left:20px;
 }
-input[type='text'] {
+.add input[type='text'] {
 	margin-right:30px;
 	border:#CCC solid 1px;
 	border-radius: 5px;
@@ -10,6 +10,16 @@ input[type='text'] {
 .add {
 	margin-bottom:5px;
 	
+}
+.check {
+	color:#F00;
+	font-size:14px;
+	margin-left:8px;
+}
+#modify_sushe {
+	margin-top:30px;
+	margin-left:30px;
+	display:none;
 }
 .error{
 	height:20px;
@@ -35,12 +45,29 @@ input[type='text'] {
       <input type="reset"  value="重置" />
     </form>
   </div>
-  <div  class="error"></div>
+<div id="dgl3" >
+ <form id="modify_sushe">
+      <p><b></b></p>
+      寝室类型:
+      <input type="text" name="cata"  class="sushe_cata"/>
+      人间<span class="check"></span><br />
+      <br />
+      寝室资费:
+      <input type="text" name="fee" class="sushe_fee"/>
+      元/年<span class="check" ></span><br />
+      <br />
+  </form>   
+ </div>
  <!--  <div id="tb"> <span> <a href="javascript:void(0)" class="modify">修改寝室信息</a>&nbsp; <a href="javascript:void(0)" class="delete">删除寝室</a>&nbsp; </span> </div> -->
   <div id="student"></div>
 </div>
 <script type="text/javascript">
 var ok_1=false;
+var ok_c=false;
+var ok_f=false;
+var url="";
+var param={};
+var info="";
 $('.return').click(function(){
 	 $("#base_right").empty().load("s_sushe_xinxi.html");
 	})
@@ -49,7 +76,8 @@ $(function(){
 	});
 	$('input[type="text"]').focus(function(){
 		if(person==contains){
-			$('.add input[type="text"]').attr("disabled","disabled");	
+			$('input[name="stuNum"]').attr("disabled","disabled");	
+			$('input[name="name"]').attr("disabled","disabled");	
 			$.messager.alert("提示","该宿舍床位已满，不能添加学生","info");
 			}
 		});
@@ -117,11 +145,7 @@ $(function(){
 		onLoadError:function(){
 			$.messager.alert("error","远程加载数据出错","warning");
 		}
-	/* 	pagination:true,
-		pageNumber:1,
-		pageSize:5,
-		pageList:[3,5,7] */
-		
+	
 		});//datagrid end
 	});
 		var pager = $('#student').datagrid().datagrid('getPager');// get the pager of datagrid
@@ -195,38 +219,13 @@ $(function(){
 				$.messager.alert("提示","请输入正确学号","warning");
 			}
 		});
-/* 		$('input[type="button"]').click(function(){
-			var str="";
-			stuName=$('input[name="name"]').val();
-			stuNum=$('input[name="stuNum"]').val();
-			susheid=$('input[name="room"]').val();
-			var reg = /^[0-9]*$/;
-			
-			if(stuName==''|| stuName==''){
-				str="请输入完整信息";
-				$('.error').html(str);
-				}else{
-					if(!reg.test(stuNum)){
-						str="请输入正确学号";
-						$('.error').html(str);
-						}else{
-							$('.error').html("");
-							$.post("json/post/add_student_to_sushe.json",$('.add').serialize(),function(data){
-								var status=data.status;
-								if(status==1){
-									$.messager.alert("提示","添加成功","info");
-									}	
-									else if(status==0){
-										$.messager.alert("提示",data.errorInfo,"info");
-										}
-								});
-					
-							}
-					}
-		}); */
 		function modify(){
-			  action="modifysushe";//修改单个宿舍信息
-			 $("#base_right").empty().load("s_sushe_detail.html");
+			  action="修改宿舍";//修改单个宿舍信息
+			  var title="您将要修改的寝室为 "+susheid;
+			  $('#modify_sushe').find('b').html(title);
+			  var form=$('#modify_sushe');
+			  var dgl=$('#dgl3');
+	          showDailog(dgl,form);	
 			}
 		function deleteRows(){
 			if(person==0){
@@ -255,4 +254,32 @@ $(function(){
 			$("#base_right").empty().load("s_stu_sushe_change.html");
 			
         }
+        
+    //校验
+    $('input[name="cata"]').focusout(function(){
+		var s=$(this).val();
+		var reg = /^[0-9]*$/;
+		if(s=='' || !reg.test(s)){
+			var str="请输入数字";
+			$(this).next().html(str);
+			ok_c=false;
+			}else{
+				$(this).next().html("<img src='../images/reg_succ.png' />");
+			/* 	$(this).next().html(""); */
+				ok_c=true;
+			}
+	});	
+	  $('input[name="fee"]').focusout(function(){
+		var s=$(this).val();
+		var reg = /^[0-9]*$/;
+		if(s=='' || !reg.test(s)){
+			var str="请输入数字";
+			$(this).next().html(str);
+			ok_f=false;
+			}else{
+				$(this).next().html("<img src='../images/reg_succ.png' />");
+				ok_f=true;
+			}
+	});	
+	
 </script>

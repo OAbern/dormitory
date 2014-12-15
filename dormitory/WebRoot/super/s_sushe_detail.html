@@ -23,16 +23,7 @@ h3 span {
 .message{
 	display:none;
 }
-/*.checkcata {
-	color:#F00;
-	font-size:14px;
-	margin-left:8px;
-}
-.checkfee {
-	color:#F00;
-	font-size:14px;
-	margin-left:8px;
-}*/
+
 </style>
 <div class="right_top btm">
   <div class="rheader"><span class="pageName"><b>宿舍添加或修改</b></span><span class="shuoming">您可以添加或修改宿舍。若寝室内有学生入住，则不能修改宿舍类型和所住学生性别。</span><span class="fanhui"><a class="return" href="javascript:void(0)">返回»</a></span></div>
@@ -150,58 +141,6 @@ var info="";
 			}
 	});	
 	
-	$('.new').click(function(){	
-		 cata= $('input[name="cata"]').val();
-		 fee= $('input[name="fee"]').val();
-		var str="请输入数字";
-		if(cata==''){
-			$('input[name="cata"]').next().html(str);
-			}
-		if(fee==''){
-			$('input[name="fee"]').next().html(str);
-			}
-		if(ok_c && ok_f){
-			getPostParam(action);
-			$.post(url,param,function(data){
-				if(data.status==1){
-					$.messager.alert("提示",info+"成功","info",function(){
-			 	 		$('#base_right').empty().load("s_sushe_xinxi.html");
-			 		}); 
-				}else if(data.status==0){
-					 $.messager.alert("提示",info+"失败","info"); 
-				}else{
-					 $.messager.alert("提示","发生错误","info"); 
-				}
-			 });
-	     }/* else{
-			 $.messager.alert("提示","请输入正确的信息","info");
-			 } */
-	});
-	function getPostParam(action){
-		
-		if(action=="add"){
-			url="../roomInfo/addRoom.do";//添加新寝室的地址
-			param.buildingNum=buildingid;
-			param.floorNum=floorid;
-			param.cata=cata;
-			param.fee=fee;
-			info="添加";
-			}
-		if(action=="modifyfloor"){
-			url="../roomInfo/updateFloor.do";//修改某层楼的宿舍信息
-			param.buildingNum=buildingid;
-			param.floorNum=floorid;
-			param.cata=cata;
-			param.fee=fee;
-			info="修改楼层";
-			}
-		if(action=="modifysushe"){
-			url="../roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
-			param.roomNum=susheid;
-			param.cata=cata;
-			param.fee=fee;
-			info="修改宿舍";
-			}
-		}
+	
 	
 </script>

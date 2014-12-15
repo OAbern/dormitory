@@ -73,56 +73,61 @@ GLOBAL.getArea=function(){
 }
 //获得请求的url和参数
 function getPostParam(action){
-	var cata=$('input[name="cata"]').val();
-	var fee=$('input[name="fee"]').val();
 	if(action=="添加新寝室"){
 		url="../roomInfo/addRoom.do";//添加新寝室的地址
-		param.buildingNum=buildingid;
+		param.buildingId=buildingid;
 		param.floorNum=floorid;
-		param.cata=cata;
-		param.fee=fee;
+		param.cata=$('.cata').val();
+		param.fee=$('.fee').val();
 		info="添加";
 		}
 	if(action=="修改楼层"){
 		url="../roomInfo/updateFloor.do";//修改某层楼的宿舍信息
 		param.buildingNum=buildingid;
 		param.floorNum=floorid;
-		param.cata=cata;
-		param.fee=fee;
-		info="有人入住，修改楼层";
+		param.cata=$('.cata').val();
+		param.fee=$('.fee').val();
+		info="修改楼层";
 		}
 	if(action=="修改楼栋"){
 		url="../areaInfo/updateBuilding.do";//修改楼栋的宿舍信息
-		param.buildingNum=buildingid;
+		param.buildingId=buildingid;
 		param.sex=$('select').val();
 		param.area=$('.area').val();
-		param.cata=cata;
-		param.fee=fee;
+		param.cata=$('.building_cata').val();
+		param.fee=$('.building_fee').val();
 		info="修改楼栋";
 		}
 	if(action=="修改宿舍"){
 		url="../roomInfo/updateRoom.do";//修改单个寝室的宿舍信息
 		param.roomNum=susheid;
-		param.cata=cata;
-		param.fee=fee;
+		param.cata=$('.sushe_cata').val();
+		param.fee=$('.sushe_fee').val();
 		info="修改宿舍";
 		}
 }
-//清空表单
+//清空表单和传递参数
 function clear(){
-	$(':input,#form').not(':button, :submit, :reset, :hidden').val('');
-	$('select').html('');
+	$('input[type="text"]').val('');
+	$('.area').html('');
 	$('.check').html('');
+	url="";
+	param={};
+	info="";
 	}
 //展示dialog--zhangying
-function showDailog(form){
+function showDailog(dgl,form){
+	clear();
 	$(form).show();
-	$('#dgl').dialog({   
+	$(dgl).dialog({   
 		title: action,   
 	    width: 400,   
 	    height: 300,   
-	    closed: false,   
-	    cache: false,   
+	    closed: false,
+	   /*  onClose : function() {
+            $(dgl).dialog('close');
+        }, */
+        cache: false,   
 	    modal: true,
 	    buttons:[{  
         text:'提交',   
@@ -132,37 +137,45 @@ function showDailog(form){
         		$.post(url,param,function(data){
         			if(data.status==1){
         				$.messager.alert("提示",info+"成功","info",function(){
-        					$("#dgl").dialog("close");	
+        					//$(form).hide();
+        					$(dgl).dialog("close");	
         					if(action=="修改宿舍"){
         						$('#student').datagrid({ url:"../roomInfo/findAllPersonInRoom.do",queryParams:{roomNum:susheid},method:"post"});
-        					}else{
+        					}else if(action=="修改楼栋"){
+        						addTree();
         						$('#dormitory').datagrid({ url:"../roomInfo/findAllRoom.do",queryParams:{buildingNum:buildingid},method:"post"});
         					}
-        					
-        					clear();
+        					else{
+        						$('#dormitory').datagrid({ url:"../roomInfo/findAllRoom.do",queryParams:{buildingNum:buildingid},method:"post"});
+        					}
+        				/*	clear();*/
         				}); 
         			}else if(data.status==0){
-        				$.messager.alert("提示",info+"失败","info"); 
-        				clear();
+        				if(action=="添加寝室"){
+        					$.messager.alert("提示",info+"失败","info"); $("#dgl").dialog("close");	
+        				}else{
+        					$.messager.alert("提示",+"有人入住，"+info+"失败","info"); $("#dgl").dialog("close");	
+        				}
+        				/*clear();*/
+        			}else if(data.status==2){
+    					$.messager.alert("提示","由于改楼栋有学生入住，只修改了该收费的收费标准和所属片区。","info",function(){
+    						$(dgl).dialog("close");	
+    					}); 
         			}else{
         				$.messager.alert("提示","发生错误","info"); 
+        				$(dgl).dialog("close");
         			}
         		});
         	}else{
         		$.messager.alert("提示","请完善表单","error"); 
-        		clear();
+        		
         	}
         }
 	    }]
 	
 	}); 	
-	$('#dgl').window({
-		onBeforeClose: function (){
-			$(form).hide();
-			clear();
-		}
-	});
 }
+
 $(function(){
 	$("#studentInfo li:eq(0)").click(function(event) {
 		$("#base_right").empty().load("s_tianjia_xuesheng_xinxi.html");
