@@ -149,13 +149,13 @@ $('.return').click(function(){
 		if(success){
 			var param={};
 			param.sex=$('select').val();
-			param.area=$('.area').val();
-			param.cata=$('input[name="cata"]').val();
-			param.fee=$('input[name="fee"]').val();
-			param.susheAccount=$('input[name="susheAccount"]').val();
-			param.floorAccount=$('input[name="floorAccount"]').val();
+			param.areaName=$('.area').val();
+			param.totalBed=$('input[name="cata"]').val();
+			param.cost=$('input[name="fee"]').val();
+			param.roomCount=$('input[name="susheAccount"]').val();
+			param.floorCount=$('input[name="floorAccount"]').val();
 			
-			$.post("../areaInfo/updateBuilding.do",param,function(data){
+			$.post("../areaInfo/addBuilding.do",param,function(data){
 				if(data.status==1){
 					$.messager.alert("提示","添加成功","info"); 
 				}else if(data.status==0){

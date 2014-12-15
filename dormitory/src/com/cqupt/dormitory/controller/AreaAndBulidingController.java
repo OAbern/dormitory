@@ -101,6 +101,18 @@ public class AreaAndBulidingController {
 		JSONUtils.toJSON(areaBuildingService.addBuildingAndFloor(file), response);
 	}
 
+	@RequestMapping("/addBuilding")
+	public void addBuilding(String areaName,String sex,int roomCount,int floorCount,int totalBed,int cost,HttpServletResponse response) { 
+		boolean result = areaBuildingService.addBuildingAndFloor(areaName,sex,roomCount,floorCount,totalBed,cost);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(result){
+			map.put("status", 1);
+		}else{
+			map.put("status", 0);
+		}
+		JSONUtils.toJSON(map, response);
+	}
+	
 	
 	/**
 	 * updateBuilding 修改整栋楼的资费

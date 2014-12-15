@@ -146,5 +146,22 @@ public interface AreaBuildingService {
 	 * @since  1.0.0
 	 */
 	List<BuildingEmptyBed> getBuildingBed(String area, boolean status);
+
+	/**
+	 * addBuildingAndFloor 妈的!又要改!改什么改!真心无聊.
+	 * @param areaName
+	 * @param sex
+	 * @param roomCount
+	 * @param floorCount
+	 * @param totalBed
+	 * @param cost
+	 * @return 
+	 *boolean
+	 * @exception 
+	 * @since  1.0.0
+	 * @author hhy
+	 */
+	public boolean addBuildingAndFloor(String areaName, String sex,
+			int roomCount, int floorCount, int totalBed, int cost);
 	
 }

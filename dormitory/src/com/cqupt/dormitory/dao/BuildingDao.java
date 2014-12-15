@@ -136,4 +136,13 @@ public interface BuildingDao {
 	 * @since  1.0.0
 	 */
 	int findBuildingTotalBed(int id);
+	
+	/**
+	 * findMaxBuildingNum 查找最大的楼栋号.实现自动编号
+	 * @return 
+	 *int
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	int findMaxBuildingNum();
 }

@@ -84,5 +84,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM `building` WHERE building.`building_num` = #{building}
 	</delete>
 	
+	<select id="find_max_buildingnum" resultType="int">
+		SELECT MAX(CONVERT(building_num,SIGNED)) FROM building 
+	</select>
 	
 </mapper>

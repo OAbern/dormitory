@@ -331,7 +331,36 @@ public class AreaBuildingServiceImpl implements AreaBuildingService {
 		return be;
 	}
 
-
-
-
+	@Override
+	public boolean addBuildingAndFloor(String areaName, String sex,int roomCount, int floorCount, int totalBed, int cost) {
+		try {
+			Area a = new Area();
+			a.setName(areaName);
+			Area a2 = areaDao.addArea(a);
+			Building b = new Building();
+			b.setArea(a2);
+			b.setSex(sex);
+			b.setBuildingNum(buildDao.findMaxBuildingNum()+1+"");
+			Building b2 = buildDao.addBuilding(b);
+			
+			for(int i=0;i<floorCount;i++){
+				Floor f = new Floor();
+				f.setBuilding(b2);
+				f.setFloorNum(i+1+"");
+				floorDao.addFloor(f);
+				for(int j=0;j<roomCount;j++){
+					if(!roomService.addRoom(b.getBuildingNum(), f.getFloorNum(),totalBed,cost)){
+						throw new RuntimeException();
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+		
+	}
 }

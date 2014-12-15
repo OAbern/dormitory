@@ -113,5 +113,15 @@ public class BuildingDaoImpl extends BaseDaoSupport implements BuildingDao {
 		}
 		return totalBed;
 	}
+
+	@Override
+	public int findMaxBuildingNum() {
+		Integer maxBuilding = getSqlSession().selectOne(Building.class.getName()+".find_max_buildingnum");
+		if(maxBuilding == null){
+			maxBuilding = 0;
+		}
+		return maxBuilding;
+		
+	}
 	
 }
