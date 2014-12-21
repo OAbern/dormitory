@@ -189,10 +189,10 @@ $(function(){
 	$("#studentInfo li:eq(3)").click(function(event) {
 		$("#base_right").empty().load("s_xueyuan_xuesheng_fenbu.html");
 	});
-	$("#managerInfo li:eq(0)").click(function(event) {
+	$("#studentInfo li:eq(4)").click(function(event) {
 		$("#base_right").empty().load("s_chaxun_xinxi.html");
 	});
-	$("#managerInfo li:eq(1)").click(function(event) {
+	$("#studentInfo li:eq(5)").click(function(event) {
 		$("#base_right").empty().load("s_personInfo_modify.html");
 	});
 	//-----------------------------tdg
