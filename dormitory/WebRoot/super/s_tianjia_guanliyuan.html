@@ -1,0 +1,135 @@
+<script type="text/javascript" src="/dormitory/js/s_fenpei_right.js"></script>
+<style type="text/css">
+.item {
+	height:25px;
+}
+.preInfo{
+	display:inline-block;
+	margin-right:10px;
+	text-align:right;
+	padding-right:0;
+	width:70px;
+}
+.validInfo{
+  display:inline-block;
+  width: 200px;
+  height: 20px;
+  color: red;
+  /* background: red; */
+  /* background-image: url('images/reg_succ.png') ; */
+  background-repeat: no-repeat;
+}
+.help {
+	margin-top:10px;
+}
+form select{
+  width: 206px;
+  height: 25px;
+}
+input[type='submit'] {
+	margin-left:100px;
+}
+input[type='reset'] {
+	margin-left:30px;
+}
+input[type='text'] {
+	width:200px;
+	height:20px;
+  border:#CCC solid 1px;
+  border-radius: 5px;
+}
+.status{
+  background-image:url("/dormitory/images/reg_succ.png");
+}
+</style>
+<div class="right_top">
+  <div class="rheader"> <span class="pageName"><b>添加管理员信息</b></span> <span class="shuoming">您可以单独添加个人或者批量导入</span> </div>
+  <ul class="right_ul right_ul_tianjia_guanliyuan">
+    <li><a href="#" class="editornav" >添加个人</a></li>
+    <li><a href="#">批量导入</a></li>
+  </ul>
+</div>
+<div class="right_contain"> 
+  <!-- 添加单个管理员信息 -->
+  <form id="addManager" action="/dormitory/studentInfo/addManager.do" method="post">
+    <div class="liform">
+      <p class="item">
+        <span class="preInfo">姓名:</span>
+        <input type="text" name="name" class="form_input">
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">教职工号:</span>
+        <input type="text" name="tecNum" class="form_input">
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">学院:</span>
+        <select type="text" name="academy.id" class="form_select" >
+          <option value="-1" selected="selected">未选择</option>
+        </select>
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">性别:</span>
+        <select name="sex" class="form_select">
+          <option value="-1" selected="selected">未选择</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
+        </select>
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">手机号:</span>
+        <input type="text" name="phone" class="form_input">
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">密码:</span>
+        <input type="text" name="password" class="form_input">
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <p class="item">
+        <span class="preInfo">确认密码:</span>
+        <input type="text" name="confirm_password" class="form_input">
+        <span class="validInfo"></span>
+        <br />
+      </p>
+      <div class="help">
+        <input type="submit" value="添加" id="sub">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="reset" value="重置" id="reset">
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  /* //ajax同步，验证学号需使用
+  $.ajaxSettings.async = false; */
+//加载学院
+GLOBAL.showAcademy();
+//表单提交回调函数
+$('#addStudent').form({
+  success:function(d){
+    var data=JSON.parse(d);
+    if(data.status=='0'){
+      $.messager.alert('操作提示',data.info);
+    }else if(data.status=='1'){
+      $.messager.alert('操作提示',data.info);
+      //清空文件框
+      $('.form_input').val('');
+      //选择框变为未选择
+      $('.form_select').find('option:selected').removeAttr('selected');
+      $('.form_select').find('option:eq(0)').attr('selected','selected');
+      //清空提示
+      $('.validInfo').removeClass('status').html('');
+    }
+  }
+});
+</script>

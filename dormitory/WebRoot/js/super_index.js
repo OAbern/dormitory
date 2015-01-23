@@ -181,18 +181,15 @@ $(function(){
 		$("#base_right").empty().load("s_tianjia_xuesheng_xinxi.html");
 	});
 	$("#studentInfo li:eq(1)").click(function(event) {
-		$("#base_right").empty().load("s_chaxun_xuesheng_xinxi.html");
-	});
-	$("#studentInfo li:eq(2)").click(function(event) {
 		$("#base_right").empty().load("s_xiugai_xuesheng_xinxi.html");
 	});
-	$("#studentInfo li:eq(3)").click(function(event) {
-		$("#base_right").empty().load("s_xueyuan_xuesheng_fenbu.html");
+	$("#studentInfo li:eq(2)").click(function(event) {
+		$("#base_right").empty().load("s_tianjia_guanliyuan.html");
 	});
-	$("#studentInfo li:eq(4)").click(function(event) {
+	$("#studentInfo li:eq(3)").click(function(event) {
 		$("#base_right").empty().load("s_chaxun_xinxi.html");
 	});
-	$("#studentInfo li:eq(5)").click(function(event) {
+	$("#studentInfo li:eq(4)").click(function(event) {
 		$("#base_right").empty().load("s_personInfo_modify.html");
 	});
 	//-----------------------------tdg

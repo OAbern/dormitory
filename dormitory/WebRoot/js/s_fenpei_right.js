@@ -55,6 +55,15 @@ $(".right_ul_diaohuan li:first-child").click(function(){
 		$(".right_contain").empty().load("s_piliang_daoru.html");
 		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
 	});
+//	超级管理员添加管理员信息模块跳转--tdg
+	$(".right_ul_tianjia_guanliyuan li:first-child").click(function(){//添加管理员
+		$("#base_right").empty().load("s_tianjia_guanliyuan.html");
+		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
+	});
+	$(".right_ul_tianjia_guanliyuan li:nth-child(2)").click(function(){//批量添加管理员
+		$(".right_contain").empty().load("s_piliang_daoru_guanliyuan.html");
+		$(this).find("a").addClass("editornav").parent().siblings().find("a").removeAttr("class");
+	});
 //	校外住宿管理模块跳转
 	$(".right_ul_xiaowai li:first-child").click(function(){//校外住宿管理跳转
 		$("#base_right").empty().load("s_xiaowai_zhusu_guanli.html");

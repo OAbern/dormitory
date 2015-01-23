@@ -4,6 +4,9 @@
 	margin-right:20px;
 	margin-bottom:30px;
 }
+#tb{
+	display:none;
+}
 </style>
 <div class="right_top btm">
   <div class="rheader"><span class="pageName"><b>修改学生信息</b></span><span class="shuoming">您可以修改学生的部分信息</span></div>
@@ -30,6 +33,10 @@
     </select>
     <input type="button" value="筛选" name="filter" id="filter">
   </div>
+  <div id="tb">
+  	<a href="javascript:void(0)" onclick="deleteRows()" data-options="iconCls:'icon-remove'">批量删除</a>
+  	<input>
+  </div>
   <!-- 展示数据的表格 -->
   <div id="showTable"></div>
 </div>
@@ -39,13 +46,17 @@ GLOBAL.showAcademy();
 //展示年级选项
 GLOBAL.showGrade();
 var showTable=$('#showTable');//定义一个全局变量，指向要操作的table
-
+//表格筛选框
+$('#tb input').searchbox({
+	prompt:'请输入要查询的姓名',
+	searcher:function(value){showTable.datagrid('load',{stuName:value});}
+});
 $("#filter").click(function(event) {//点击筛选展示数据
 	if(GLOBAL.notSelected()){
+		$('#tb').show();
 		showTable.datagrid({
 			width:'950px',
 			height:'330px',
-//			url:'json/get/s_chaxun_xuesheng_xinxi.json',
 			url:'/dormitory/studentInfo/findStudentByCondition.do',
 			rownumbers:'true',
 			fitColumns:'true',
@@ -57,12 +68,12 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				education:GLOBAL.getEducation()
 			},
 			pagination:'true',
-			toolbar:[{
+			/* toolbar:[{
 				id:'deleteRows',
 				text:'批量删除',
 				iconCls:'icon-remove',
 				handler:deleterow		
-			}],
+			}], */
 			columns:[[    
 				{field:'ck',checkbox:true},    
 				{field:'stuNum',title:'学号',width:150,align:'center'},    
@@ -87,7 +98,7 @@ $("#filter").click(function(event) {//点击筛选展示数据
 				{field:'classNum',title:'班级',width: 100,align:'center'},    
 				{field:'birthplace',title:'籍贯',width: 100,align:'center',editor:'text'},
 				{field:'nation',title:'民族',width: 60,align:'center'},
-				{field:'education',title:'学历',width: 120,align:'center'},    
+				{field:'education',title:'学生类型',width: 120,align:'center'},    
 				{field:'room',title:'寝室号',width: 100,align:'center',
 					formatter:function(value,row){
 						if(row.room){
